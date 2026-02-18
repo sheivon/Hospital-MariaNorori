@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Marc-André Cournoyer | Code, lifting &amp; loops</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Marc-André Cournoyer" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Code, lifting &amp; loops" />
+<meta property="og:description" content="Code, lifting &amp; loops" />
+<link rel="canonical" href="http://macournoyer.com/" />
+<meta property="og:url" content="http://macournoyer.com/" />
+<meta property="og:site_name" content="Marc-André Cournoyer" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Marc-André Cournoyer" />
+<meta name="twitter:site" content="@macournoyer" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","description":"Code, lifting &amp; loops","headline":"Marc-André Cournoyer","name":"Marc-André Cournoyer","url":"http://macournoyer.com/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y" crossorigin="anonymous">
+
+  <link type="application/atom+xml" rel="alternate" href="http://macournoyer.com/feed.xml" title="Marc-André Cournoyer" /><!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Merriweather:300,700|Oswald:300,400,700" rel="stylesheet">
+</head>
+
+<body id="">
+<nav id="bar">
+  <div class="container">
+    <a class="brand" href="/">macournoyer.com</a>
+
+    <ul class="site-nav">
+      <li><a href="/about">About</a></li>
+      <li><a href="/products">Products</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <div class="container">
+    <div class="home"><ul class="post-list"><li>
+        <h3>
+          <a class="post-link" href="/blog/2019/03/19/rust/">Rust</a>
+          <span class="post-meta">&mdash; Mar 19, 2019</span>
+        </h3>
+        <p>I must admit, the first few times I saw some <a href="https://www.rust-lang.org/">Rust</a> code I thought it was too complex, that the learning curve, versus the rewards it claimed, was too high. I thought it would never pick up and become a popular programming language.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2013/08/22/strength/">Strength Training</a>
+          <span class="post-meta">&mdash; Aug 22, 2013</span>
+        </h3>
+        <p>So you’re sitting at a computer all day packing on the pounds? Thinking about signing up to the gym to keep in shape? But hey! Most of us have been there. Sign-up for a few months and give up after a few weeks right? I’ve been there many times. But for the last two years and a half I did manage to keep in good shape by going to the gym. So I would like to share with you what worked for me.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2013/06/25/event-loop/">Rebuilding Node&#39;s Event Loop</a>
+          <span class="post-meta">&mdash; Jun 25, 2013</span>
+        </h3>
+        <p>I am a big believer in mastering your tools to become a better developer. And the best way to master your tools is to understand how they are made.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2013/06/14/great-coders/">Good coders copy, great coders steal</a>
+          <span class="post-meta">&mdash; Jun 14, 2013</span>
+        </h3>
+        <blockquote>
+  <p>Good artists copy, great artists steal. <em>- Pablo Picasso</em></p>
+</blockquote>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2013/04/10/two-years-ago/">Two Years Ago and A Quarter Million Dollar Later</a>
+          <span class="post-meta">&mdash; Apr 10, 2013</span>
+        </h3>
+        <p>Two years ago, I left my job with a very ambitious goal: never work for anyone else but me. This included contract work.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2011/12/06/if/">My experience with intermittent fasting</a>
+          <span class="post-meta">&mdash; Dec 6, 2011</span>
+        </h3>
+        <p>I’m surely not the first programmer to mention the side effects of being in front of a computer all day. Right after getting a job, I started packing on pounds and my health kept degrading.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2011/11/21/proglang/">How Your Code Is Executed</a>
+          <span class="post-meta">&mdash; Nov 21, 2011</span>
+        </h3>
+        <p>I remember as a kid I was so excited when something broke in the house, a phone, the TV or the Nintendo. That meant I got to open the thing and look at how it worked. Of course I had to nag my parents for it and they sometimes questioned if I was the one who broke it in the first place simply to crack it open. Maybe once… but not more, I swear!</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2011/10/18/creativity/">Three ways to stimulate your creativity</a>
+          <span class="post-meta">&mdash; Oct 18, 2011</span>
+        </h3>
+        <p>Is there something more depression than having zero creativity? You know you want to create something but don’t know what. Or perhaps you have a problem, but can’t find the proper solution. Sometimes your brain is just not in full power. You see all those people on the internets creating amazing things. Why can’t you create stuff like that?</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2011/07/26/free-time/">Free Time</a>
+          <span class="post-meta">&mdash; Jul 26, 2011</span>
+        </h3>
+        <p>One question I get all the time when I release something is: <em>how do you find the time?</em> Although this is false, you don’t find free time, you make it. Because as soon as your time becomes free you fill it with an activity: playing, reading, sleeping, thinking. This is <a href="http://en.wikipedia.org/wiki/Parkinson's_Law:">Parkinson’s Law</a> your daily activities expand to fill the time available.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2011/07/12/copywriting/">Why Geeks Don’t Believe in Copywriting</a>
+          <span class="post-meta">&mdash; Jul 12, 2011</span>
+        </h3>
+        <p>Copywriting is the art/science of selling with words. Most geeks do not believe in copywriting. Long copy can’t sell, right? Who reads a single sentence in Apple’s copy? All you need is a fancy product name and an incredible list of features, right?</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2011/05/17/faster-ab-testing/">Faster A/B Testing</a>
+          <span class="post-meta">&mdash; May 17, 2011</span>
+        </h3>
+        <p>We’ve all read about A/B testing. How it can help you increase conversion four quadrillion percent, twice. The problem is you need a few (a lot actually) conversions to be able to make a choice. So for example, when I run an A/B test on my <a href="http://createyourproglang.com/">ebook sales page</a>, I let it run for a fews weeks until I get a few conversions (sales).</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2011/05/02/working-for-me/">Working for Me: First Month Report</a>
+          <span class="post-meta">&mdash; May 2, 2011</span>
+        </h3>
+        <p>In early April, I left my job with a very ambitious goal in mind: <em>never work for anyone else but me</em>. This includes contract work.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2011/04/27/owningrails/">Owning Rails: an Online Master Class</a>
+          <span class="post-meta">&mdash; Apr 27, 2011</span>
+        </h3>
+        <p>I initially learned Rails with the book <a href="http://www.pragprog.com/titles/rails2/agile-web-development-with-rails">Agile Web development with Rails</a>, but the thing that made Rails click for me was not building a sample app, it was seeing all the <a href="http://en.wikipedia.org/wiki/Design_pattern_(computer_science)">design patterns</a> I studied long and hard before being applied and playing well together. It didn’t take me long to pick up Rails and master it. And I know this is because the architecture and design choices behind it made so much sense to me.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2011/04/18/rmc-new-home/">RefactorMyCode new home</a>
+          <span class="post-meta">&mdash; Apr 18, 2011</span>
+        </h3>
+        <p>Holy cow wow! <a href="http://refactormycode.com">RefactorMyCode</a> has found a new home. But mostly, a new team working on it and giving it the love it deserve.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2011/02/25/rmc/">RefactorMyCode.com</a>
+          <span class="post-meta">&mdash; Feb 25, 2011</span>
+        </h3>
+        <p>On September 26<sup>th</sup> 2007, I announced RefactorMyCode.com, a side project of mine. It became very popular very quickly.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2011/01/05/dresssed-survey-results/">Dresssed Survey Results</a>
+          <span class="post-meta">&mdash; Jan 5, 2011</span>
+        </h3>
+        <p>As you might have guessed from the landing page on <a href="http://dresssed.com">dresssed.com</a>, there’s not much to see for now. I’m still validating the idea and some of my assumptions about it. This is the second step for me in my process to validate the idea after talking to a few people and building a fake buy page and driving traffic to it with AdWords <a href="http://macournoyer.com/blog/2010/03/01/promote-cyopl/">like I did for my ebook</a>.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2011/01/04/dresssed/">Announcing Dresssed.com</a>
+          <span class="post-meta">&mdash; Jan 4, 2011</span>
+        </h3>
+        <p>Imagine making a Rails app, diving straight into code and launching with a jaw-dropping design in just a few days. Forget about the scaffold stylesheet. <a href="http://dresssed.com/">Dresssed</a> is my new project giving everyone access to high quality Rails themes made by a talented designers.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2010/08/10/market-research/">The Zero Dollar, 5 Minutes Market Research</a>
+          <span class="post-meta">&mdash; Aug 10, 2010</span>
+        </h3>
+        <p>A common subject on <a href="http://news.ycombinator.com/">Hacker News</a> and other <a href="http://groups.google.com/group/lean-startup-circle">entrepreneur communities</a> is how to find business ideas. There’s the usual:</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2010/06/23/feed-subscribers-without-feedburner/">Feed Subscribers Without Feedburner</a>
+          <span class="post-meta">&mdash; Jun 23, 2010</span>
+        </h3>
+        <p>Here’s how to show the number of feed subscribers on your blog without going through FeedBurner or any other service, all in javascript.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2010/06/03/make-money/">How to Make Money Online</a>
+          <span class="post-meta">&mdash; Jun 3, 2010</span>
+        </h3>
+        <p>Making money online has been one of my goals for quite some time. Not just for the sake of making money. I think convincing someone to give your their hard-earned dollars is a rewarding and valuable experience. I don’t think that’s a good way to get rich. But a way to create a passive income? Perhaps!</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2010/03/23/goals/">Goals</a>
+          <span class="post-meta">&mdash; Mar 23, 2010</span>
+        </h3>
+        <p>A couple years ago I saw this somewhere:</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2010/03/19/mindmap/">Mind Maps</a>
+          <span class="post-meta">&mdash; Mar 19, 2010</span>
+        </h3>
+        <p>I’m brainstorming using <a href="http://en.wikipedia.org/wiki/Mind_map">Mind Maps</a> these days and loving it.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2010/03/01/promote-cyopl/">How I Made $6K With My eBook</a>
+          <span class="post-meta">&mdash; Mar 1, 2010</span>
+        </h3>
+        <p>For those that don’t know, I’ve written <a href="http://createyourproglang.com/">an ebook</a> a couple months ago and decided to sell it online, as an experiment. It did pretty well. My expectations were very low and it was the first time I tried selling something online, so it ended up being a big success for me.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2010/02/23/how-to-apply-to-a-job/">How to Apply to a Job</a>
+          <span class="post-meta">&mdash; Feb 23, 2010</span>
+        </h3>
+        <p>Here’s the cover letter I sent for applying to my previous job.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2010/02/18/make-me-a-server/">Hey Yo Marc, Make Me A Server</a>
+          <span class="post-meta">&mdash; Feb 18, 2010</span>
+        </h3>
+        <p>As some of you might know, we started doing consultancy at my company, <a href="http://sauteapps.com/">Sauté</a>, to finance our startup, <a href="http://talkerapp.com/">Talker</a>. Things are going great at Talker, but the route to profitability is a long one. Since we’re bootstrapping this, we have to find other sources of revenues.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2010/02/14/snowboarding/">What Snowboarding Taught Me About Life and The Secret Of Pushing Yourself</a>
+          <span class="post-meta">&mdash; Feb 14, 2010</span>
+        </h3>
+        <p>About 10 years ago I was addicted to snowboarding. I was convinced I’d became a professional snowboarder. I read every magazine and watched every video I could find. Meticulously inspecting each images as if it was going to teach me the secrets of spinning 720 degrees in mid-air. I was very serious about it.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2009/09/29/leaving-and-starting/">Leaving Standout Jobs &amp; Starting My Own Thing</a>
+          <span class="post-meta">&mdash; Sep 29, 2009</span>
+        </h3>
+        <p>Yes, I’ve been at <a href="http://standoutjobs.com/">Standout Jobs</a> for about two years now and things aren’t going great in the HR space. Although I think the product we built is great and the team is amazing, things are slowing down and we’re not needed anymore. I’ll be leaving on the October 6<sup>th</sup>.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2009/06/04/pusher-and-async-with-thin/">Pusher &amp; Async With Thin</a>
+          <span class="post-meta">&mdash; Jun 4, 2009</span>
+        </h3>
+        <p>I’ve been playing around with <a href="http://www.orbited.org/">Orbited</a>, <a href="http://www.ape-project.org/">APE</a> and the like, but they all have lots of code and kind of reinvent the wheels in some ways (reimplementing an HTTP server, daemon, etc). So just for fun, I’ve hacked <a href="http://github.com/macournoyer/pusher">a simple AJAX push server</a> (aka Comet) on top of Thin using the new Async Response feature.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2009/03/20/tinyrb-tinier-and-bigger/">tinyrb: Tinier &amp; Bigger</a>
+          <span class="post-meta">&mdash; Mar 20, 2009</span>
+        </h3>
+        <p>When I first announced tinyrb there was no Float, no Module, no Proc or Bloc, no Array, Hash, IO, Range, Metaclass. Frankly it was not really Ruby. But now, most of those are in, except Float and IO, and Proc is halfway there (see proc branch). Lets just say that it’s running a <a href="http://github.com/macournoyer/tinyrb/tree/master/test">lot more code</a>.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2009/02/27/tinyrb-interview/">tinyrb Interview</a>
+          <span class="post-meta">&mdash; Feb 27, 2009</span>
+        </h3>
+        <p>Pat Eyler, of On Ruby, <a href="http://on-ruby.blogspot.com/2009/02/tinyrb-interview.html">interviewed me about tinyrb</a>.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2009/02/12/tinyrb/">tinyrb</a>
+          <span class="post-meta">&mdash; Feb 12, 2009</span>
+        </h3>
+        <p>Yes, yes, finally a Ruby VM that fits in your backpocket, <a href="http://code.macournoyer.com/tinyrb/">it’s there, it’s here</a>. I mean, yay!</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2009/01/23/presenting-at-montreal-rb/">Presenting at montreal.rb</a>
+          <span class="post-meta">&mdash; Jan 23, 2009</span>
+        </h3>
+        <p>About a year ago, I discovered a passion for VM and language design and red lots of code, research papers and coded my own <a href="http://github.com/macournoyer/tinyrb">Ruby VM</a> and <a href="http://github.com/macournoyer/min">language</a>.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2009/01/14/to-self-or-not-to-self/">To Self or Not to Self</a>
+          <span class="post-meta">&mdash; Jan 14, 2009</span>
+        </h3>
+        <p>A piece of Ruby code I often see in ActiveRecord code is this:</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2009/01/09/io/">Io Gives You Super Disco Nuclear Powers with Rubber Handles</a>
+          <span class="post-meta">&mdash; Jan 9, 2009</span>
+        </h3>
+        <p><a href="http://www.iolanguage.com/">Io</a> is an amazing language. It’s powerful, yet simple. Minimalism is its core principle. And not so far and dark if you’re a Ruby coder, believe me.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2008/12/11/rack/">A Collection of Rack middlewares</a>
+          <span class="post-meta">&mdash; Dec 11, 2008</span>
+        </h3>
+        <p><em>This article is <a href="http://advent2008.hackruby.com/past/2008/12/15/a_collection_of_rack_middlewares">crossposted on Ruby Advent</a> .</em></p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2008/12/09/orange/">Build your own compiler in Ruby with LLVM</a>
+          <span class="post-meta">&mdash; Dec 9, 2008</span>
+        </h3>
+        <p>I’ve been reading and playing with VMs for a couple months now. I’ve silently created my own <a href="http://github.com/macournoyer/tinyrb">Ruby VM in C</a>, running YARV bytecode. But that was an excuse to better understand the internals of Ruby, since it doesn’t have a parser, emitter and GC yet. I might blog about some of my findings later but today I want to write about another experiment I’ve been working on.</p>
+
+
+      </li><li>
+        <h3>
+          <a class="post-link" href="/blog/2008/12/08/new-site/">New Site</a>
+          <span class="post-meta">&mdash; Dec 8, 2008</span>
+        </h3>
+        <p>I was getting tired of my <a href="http://macournoyer.wordpress.com">old blog</a> and wanted to play with CSS and code a lil’ bit. So here’s the result. I must say, I’m pretty happy with the result. 3 new tools, I’ve never (heavily) used before, helped me with that. The code is <a href="http://github.com/macournoyer/macournoyer.com">here</a>.</p>
+
+
+      </li></ul></div>
+
+  </div>
+</main>
+
+
+
+<footer>
+  <div class="container">
+    &copy; 2025 &mdash;
+    <a href="mailto:macournoyer@gmail.com">Marc-André Cournoyer</a>
+  </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+</html>

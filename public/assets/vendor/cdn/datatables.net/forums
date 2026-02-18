@@ -1,0 +1,692 @@
+<!doctype html>
+<html>
+  <head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	
+	<link rel="shortcut icon" type="image/ico" href="/media/images/favicon.png">
+	<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://www.datatables.net/rss.xml">
+	
+	<script src="/media/js/mode.js?_=f10546e0dccc3766285b628d211ee760"></script>
+	<script type="text/javascript" src="/media/js/site.js?_=f10546e0dccc3766285b628d211ee760" data-domain="datatables.net" data-api="https://analytics.datatables.net/api/event"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+	<title>Recent Discussions — DataTables forums</title>
+  <link rel="alternate" type="application/rss+xml" title="Recent Discussions — DataTables forums" href="https://datatables.net/forums/discussions/feed.rss" />
+  <link rel="next" href="/forums/discussions/p2" />
+  <link rel="stylesheet" href="/forums/applications/dashboard/design/style.css?v=2.4.201" media="all" />
+  <link rel="stylesheet" href="https://datatables.net/forums/applications/dashboard/design/style-compat.css?v=2.6.4" media="all" />
+  <link rel="stylesheet" href="/forums/resources/design/vanillicon.css?v=2.6.4" media="all" />
+  <link rel="stylesheet" href="/forums/plugins/editor/design/editor.css?v=1.8.1" media="all" />
+  <link rel="stylesheet" href="/forums/applications/vanilla/design/tag.css?v=2.4.201" media="all" />
+  <link rel="stylesheet" href="/forums/themes/DataTables/design/custom.css?v=2.6.4" media="all" />
+  <link rel="stylesheet" href="/forums/applications/vanilla/design/spoilers.css?v=2.4.201" media="all" />
+  <link rel="canonical" href="https://datatables.net/forums/discussions" />
+  <meta property="og:site_name" content="DataTables forums" />
+  <meta name="twitter:title" property="og:title" content="Recent Discussions" />
+  <meta property="og:url" content="https://datatables.net/forums/discussions" />
+  <script>gdn=window.gdn||{};gdn.meta={"editorVersion":"1.8.1","editorPluginAssets":"\/forums\/plugins\/editor","fileUpload-remove":"Remove file","fileUpload-reattach":"Click to re-attach","fileUpload-inserted":"Inserted","fileUpload-insertedTooltip":"This image has been inserted into the body of text.","wysiwygHelpText":"You are using <a href=\"https:\/\/en.wikipedia.org\/wiki\/WYSIWYG\" target=\"_new\">WYSIWYG<\/a> in your post.","bbcodeHelpText":"You can use <a href=\"http:\/\/en.wikipedia.org\/wiki\/BBCode\" target=\"_new\">BBCode<\/a> in your post.","htmlHelpText":"You can use <a href=\"http:\/\/htmlguide.drgrog.com\/cheatsheet.php\" target=\"_new\">Simple HTML<\/a> in your post.","markdownHelpText":"You can use <a href=\"http:\/\/en.wikipedia.org\/wiki\/Markdown\" target=\"_new\">Markdown<\/a> in your post.","textHelpText":"You are using plain text in your post.","editorWysiwygCSS":"\/forums\/plugins\/editor\/design\/wysiwyg.css","canUpload":false,"fileErrorSize":"File size is too large.","fileErrorFormat":"File format is not allowed.","fileErrorSizeFormat":"File size is too large and format is not allowed.","maxUploadSize":52428800,"editorFileInputName":"editorupload","allowedImageExtensions":"{\"1\":\"jpg\",\"2\":\"jpeg\",\"3\":\"gif\",\"4\":\"png\",\"5\":\"bmp\",\"6\":\"tiff\"}","allowedFileExtensions":"[\"txt\",\"jpg\",\"jpeg\",\"gif\",\"png\",\"bmp\",\"tiff\",\"ico\",\"zip\",\"gz\",\"tar.gz\",\"tgz\",\"psd\",\"ai\",\"fla\",\"swf\",\"pdf\",\"doc\",\"xls\",\"ppt\",\"docx\",\"xlsx\",\"log\",\"rar\",\"7z\",\"dll\",\"cshtml\",\"cs\",\"htm\",\"html\",\"php\",\"jscss\",\"scss\",\"js\",\"css\"]","maxFileUploads":"20","Spoiler":"Spoiler","show":"show","hide":"hide","AnalyticsTask":"tick","RedirectTo":"","RedirectUrl":"","TransportError":"A fatal error occurred while processing the request.<br \/>The server returned the following response: %s","TransientKey":false,"WebRoot":"https:\/\/datatables.net\/forums","UrlFormat":"\/forums\/{Path}","Path":"discussions","Args":"","ResolvedPath":"vanilla\/discussions\/index","ResolvedArgs":{"Page":false},"SignedIn":0,"ConfirmHeading":"Confirm","ConfirmText":"Are you sure you want to do that?","Okay":"Okay","Cancel":"Cancel","Search":"Search","basePath":"\/forums","assetPath":"\/forums","title":"DataTables forums"};</script>
+  <script src="/forums/js/library/jquery.form.js?v=2.6.4"></script>
+  <script src="/forums/js/library/jquery.popup.js?v=2.6.4"></script>
+  <script src="/forums/js/library/jquery.popin.js?v=2.6.4"></script>
+  <script src="/forums/js/library/jquery.gardenhandleajaxform.js?v=2.6.4"></script>
+  <script src="/forums/js/library/jquery.atwho.js?v=2.6.4"></script>
+  <script src="/forums/js/global.js?v=2.6.4"></script>
+  <script src="/forums/applications/vanilla/js/discussions.js?v=2.4.201"></script>
+  <script src="/forums/plugins/editor/js/editor.js?v=1.8.1"></script>
+  <script src="/forums/plugins/editor/js/jquery.ui.widget.js?v=1.8.1"></script>
+  <script src="/forums/plugins/editor/js/jquery.iframe-transport.js?v=1.8.1"></script>
+  <script src="/forums/plugins/editor/js/jquery.fileupload.js?v=1.8.1"></script>
+  <script src="/forums/applications/vanilla/js/spoilers.js?v=2.4.201"></script>
+  <script src="/forums/applications/vanilla/js/tagging.js?v=2.4.201"></script>
+  <script src="/forums/js/library/jquery.tokeninput.js?v=2.6.4"></script>
+	<link rel="stylesheet" type="text/css" href="/media/css/site.css?_=bf68d7d03f8ce1ceec930756f27d40591">
+
+	<script type="text/javascript">
+		window.forumJquery = jQuery;
+	</script>
+	<script src="/media/js/dynamic.php"></script>
+	<script defer async src="https://media.ethicalads.io/media/client/ethicalads.min.js" onload="window.dtAds()" onerror="window.dtAds()"></script>
+	<script defer class="init">
+		dt_demo.init();
+	</script>
+  </head>
+  <body id="vanilla_discussions_index" class="Vanilla Discussions isDesktop index  Section-DiscussionList">
+	<a name="top"></a>
+
+		<div class="fw-background">
+			<div>
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+		</div>
+
+		<div class="fw-container">
+			<div class="fw-header">
+				<div class="nav-wrapper">
+					<div class="nav-master">
+						<div class="nav-item active">
+							<a href="/">
+								<span class="icon-dt"></span>
+								<span>DataTables</span>
+								<div class="nav-explain">
+									Advanced interaction<br>features for your tables.
+								</div>
+							</a>
+						</div>
+						<div class="nav-item">
+							<a href="https://editor.datatables.net">
+								<span class="icon-e"></span>
+								<span>Editor</span>
+								<div class="nav-explain">
+									Comprehensive editing<br>library for DataTables.
+								</div>
+							</a>
+						</div>
+					</div>
+
+
+					<div class="nav-search">
+						<div class="nav-item i-manual">
+							<a href="/manual">Manual</a>
+						</div>
+						<div class="nav-item i-download">
+							<a href="/download">Download</a>
+						</div>
+						<div class="nav-item i-user">
+							<div class="account"></div>
+						</div>
+						<div class="nav-item search">
+							<form action="/q/" method="GET">
+								<input type="text" name="q" placeholder="Search . . ." autocomplete="off">
+							</form>
+						</div>
+						<div class="nav-item dt-demo-options"></div>
+					</div>
+				</div>
+				<div class="nav-ad">
+					<div data-ea-publisher="datatablesnet" data-ea-type="image" data-ea-manual="true"></div>
+				</div>
+			</div>
+
+	  <div class="fw-nav">
+		<div class="nav-main">
+		  <ul>
+			<li class=" sub"><a href="/examples/index">Examples</a></li>
+			<li class=" sub"><a href="/manual/index">Manual</a></li>
+			<li class=" sub"><a href="/reference/index">Reference</a></li>
+			<li class=" sub"><a href="/extensions/index">Extensions</a></li>
+			<li class=" sub"><a href="/plug-ins/index">Plug-ins</a></li>
+			<li class=""><a href="/blog/index">Blog</a></li>
+			<li class="active">
+				<a href="/forums/index">Forums</a>
+				<ul class="SiteMenu">
+				 
+				 <li><a href="/forums/discussions" class="Selected">Discussions</a></li>
+				 
+				 
+				 
+				 <li><a href="/forums/entry/signin" rel="nofollow" class="SignInPopup">Sign In</a></li>
+				</ul>
+			</li>
+			<li class=""><a href="/support/index">Support</a></li>
+			<li class=""><a href="/faqs/index">FAQs</a></li>
+			<li class=""><a href="/download/index">Download</a></li>
+			<li class=""><a href="/purchase/index">Purchase</a></li>
+		  </ul>
+		</div>
+
+		<div class="mobile-show">
+			<a>&#8801; <i>Show site navigation</i></a>
+		</div>
+	  </div>
+
+	  <div class="fw-body">
+		<div class="content">
+			<h1>Recent Discussions</h1>
+
+  <div id="Frame">
+	<div id="Head">
+	  <div class="Row">
+	  </div>
+	</div>
+	<div id="Body">
+		<h1 class="H HomepageTitle">Recent Discussions </h1><div class="dt-links"><a href="/forums/rules">Forum rules</a><span class="separator">•</span><a href="/forums/no-replies">No replies?</a><span class="separator">•</span><a href="/faqs">FAQs</a></div><div class="PageControls Top"><span class="PagerNub">&#160;</span><div  id="PagerBefore" class="Pager NumberedPager"><span class="Previous">«</span><a href="/forums/discussions/" class="Highlight p-1 FirstPage">1</a><a href="/forums/discussions/p2" class=" p-2" rel="next">2</a><a href="/forums/discussions/p3" class=" p-3">3</a><a href="/forums/discussions/p4" class=" p-4">4</a><a href="/forums/discussions/p5" class=" p-5">5</a><a href="/forums/discussions/p6" class=" p-6">6</a><a href="/forums/discussions/p7" class=" p-7">7</a><span class="Ellipsis">&#8230;</span><a href="/forums/discussions/p100" class=" p-100 LastPage">100</a><a href="/forums/discussions/p2" class="Next" rel="next">»</a></div></div>    <h2 class="sr-only">Discussion List</h2>
+    <ul class="DataList Discussions">
+                <li id="Discussion_230" class="Item Announcement Announcement-Everywhere Unread ItemDiscussion">
+                        <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/230/how-are-you-using-datatables">How are you using DataTables?</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag Tag-Announcement" title="Announcement">Announcement</span>                     <span class="MItem MCount ViewCount"><span title="173,839 views" class="Number">173.8K</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="398 comments" class="Number">398</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/norajohnson">norajohnson</a></span>  <span class="MItem LastCommentDate"><time title="July 28, 2025  5:27AM" datetime="2025-07-28T05:27:11+00:00">July 28</time></span><span class="MItem Category Category-free-community-support"><a href="https://datatables.net/forums/categories/free-community-support">Free community support</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_12899" class="Item Alt Announcement Announcement-Everywhere Closed Read ItemDiscussion">
+                        <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/12899/post-test-cases-when-asking-for-help-please-read">Post test cases when asking for help - Please read</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag Tag-Announcement" title="Announcement">Announcement</span>  <span class="Tag Tag-Closed" title="Closed">Closed</span>                     <span class="MItem MCount ViewCount"><span title="93,140 views" class="Number">93.1K</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="7 comments" class="Number">7</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/allan">allan</a></span>  <span class="MItem LastCommentDate"><time title="April 12, 2013  7:26AM" datetime="2013-04-12T07:26:56+00:00">April 2013</time></span><span class="MItem Category Category-announcements"><a href="https://datatables.net/forums/categories/announcements">Announcements</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81502" class="Item Unread ItemDiscussion">
+                        <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81502/column-control-and-fixed-header-bug">Column Control and fixed Header bug?</a>                </div>
+                <div class="Meta Meta-Discussion">
+                                        <span class="MItem MCount ViewCount"><span title="17 views" class="Number">17</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="1 comment" class="Number">1</span> comment</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/allan">allan</a></span>  <span class="MItem LastCommentDate"><time title="November  7, 2025  4:57PM" datetime="2025-11-07T16:57:32+00:00">November 7</time></span><span class="MItem Category Category-free-community-support"><a href="https://datatables.net/forums/categories/free-community-support">Free community support</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81499" class="Item Alt Unread ItemDiscussion">
+                        <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81499/pagination-jump-scrolling-and-accessibility">Pagination jump scrolling and accessibility</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Answered">Answered</span>                     <span class="MItem MCount ViewCount"><span title="23 views" class="Number">23</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="3 comments" class="Number">3</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/allan">allan</a></span>  <span class="MItem LastCommentDate"><time title="November  7, 2025  4:55PM" datetime="2025-11-07T16:55:16+00:00">November 7</time></span><span class="MItem Category Category-free-community-support"><a href="https://datatables.net/forums/categories/free-community-support">Free community support</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81501" class="Item Unread ItemDiscussion">
+                        <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81501/datatable-shows-incorrect-or-duplicated-data-after-updating-rows-in-responsive-mode">DataTable shows incorrect or duplicated data after updating rows in responsive mode</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Answered">Answered</span>                     <span class="MItem MCount ViewCount"><span title="15 views" class="Number">15</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="2 comments" class="Number">2</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/Long%20Lundy">Long Lundy</a></span>  <span class="MItem LastCommentDate"><time title="November  7, 2025 10:51AM" datetime="2025-11-07T10:51:43+00:00">November 7</time></span><span class="MItem Category Category-free-community-support"><a href="https://datatables.net/forums/categories/free-community-support">Free community support</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81500" class="Item Alt Unread ItemDiscussion">
+            <div class="DTStatus_Editor" title="Editor licensee"></div>            <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81500/not-seeing-the-childrow-dt-event-triggered">Not seeing the 'childRow.dt' event triggered.</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Accepted" title="This question's answer has been accepted.">Answered ✓</span>                     <span class="MItem MCount ViewCount"><span title="16 views" class="Number">16</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="2 comments" class="Number">2</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/michael_657">michael_657</a></span>  <span class="MItem LastCommentDate"><time title="November  6, 2025  8:32PM" datetime="2025-11-06T20:32:37+00:00">November 6</time></span><span class="MItem Category Category-bug-reports"><a href="https://datatables.net/forums/categories/bug-reports">Bug reports</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81498" class="Item Unread ItemDiscussion">
+                        <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81498/pagination-start-post-variable-always-0">Pagination start post variable always 0</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Accepted" title="This question's answer has been accepted.">Answered ✓</span>                     <span class="MItem MCount ViewCount"><span title="22 views" class="Number">22</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="6 comments" class="Number">6</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/allan">allan</a></span>  <span class="MItem LastCommentDate"><time title="November  6, 2025  5:01PM" datetime="2025-11-06T17:01:58+00:00">November 6</time></span><span class="MItem Category Category-free-community-support"><a href="https://datatables.net/forums/categories/free-community-support">Free community support</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81496" class="Item Alt Unread ItemDiscussion">
+            <div class="DTStatus_Editor" title="Editor licensee"></div>            <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81496/follow-up-to-datatables-defaults-on-datatable-fields-in-editor">Follow up to "Datatables defaults on datatable fields in Editor"</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Accepted" title="This question's answer has been accepted.">Answered ✓</span>                     <span class="MItem MCount ViewCount"><span title="42 views" class="Number">42</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="11 comments" class="Number">11</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/rf1234">rf1234</a></span>  <span class="MItem LastCommentDate"><time title="November  6, 2025 12:02AM" datetime="2025-11-06T00:02:11+00:00">November 6</time></span><span class="MItem Category Category-editor"><a href="https://datatables.net/forums/categories/editor">Editor</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81393" class="Item Unread ItemDiscussion">
+            <div class="DTStatus_Editor" title="Editor licensee"></div>            <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81393/editor-datetime-input-is-malformed">Editor datetime input is malformed</a>                </div>
+                <div class="Meta Meta-Discussion">
+                                        <span class="MItem MCount ViewCount"><span title="96 views" class="Number">96</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="11 comments" class="Number">11</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/harkirat.singh">harkirat.singh</a></span>  <span class="MItem LastCommentDate"><time title="November  5, 2025  7:11PM" datetime="2025-11-05T19:11:10+00:00">November 5</time></span><span class="MItem Category Category-datetime"><a href="https://datatables.net/forums/categories/datetime">DateTime</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81497" class="Item Alt Unread ItemDiscussion">
+            <div class="DTStatus_Editor" title="Editor licensee"></div>            <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81497/loading-and-saving-sates-to-from-a-mariadb-sql-database-take-2">Loading and Saving Sates to / from a Mariadb SQL database Take 2</a>                </div>
+                <div class="Meta Meta-Discussion">
+                                        <span class="MItem MCount ViewCount"><span title="25 views" class="Number">25</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="4 comments" class="Number">4</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/rf1234">rf1234</a></span>  <span class="MItem LastCommentDate"><time title="November  5, 2025 11:07AM" datetime="2025-11-05T11:07:25+00:00">November 5</time></span><span class="MItem Category Category-general"><a href="https://datatables.net/forums/categories/general">General</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81495" class="Item Unread ItemDiscussion">
+            <div class="DTStatus_Editor" title="Editor licensee"></div>            <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81495/datatables-defaults-on-datatable-fields-in-editor">Datatables defaults on datatable fields in Editor</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Accepted" title="This question's answer has been accepted.">Answered ✓</span>                     <span class="MItem MCount ViewCount"><span title="27 views" class="Number">27</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="4 comments" class="Number">4</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/BjornHa">BjornHa</a></span>  <span class="MItem LastCommentDate"><time title="November  4, 2025  8:43PM" datetime="2025-11-04T20:43:09+00:00">November 4</time></span><span class="MItem Category Category-editor"><a href="https://datatables.net/forums/categories/editor">Editor</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81451" class="Item Alt Unread ItemDiscussion">
+            <div class="DTStatus_Editor" title="Editor licensee"></div>            <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81451/datetime-display-as-an-option">DateTime display() as an option</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Accepted" title="This question's answer has been accepted.">Answered ✓</span>                     <span class="MItem MCount ViewCount"><span title="63 views" class="Number">63</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="6 comments" class="Number">6</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/Loren%20Maxwell">Loren Maxwell</a></span>  <span class="MItem LastCommentDate"><time title="November  4, 2025 12:08PM" datetime="2025-11-04T12:08:23+00:00">November 4</time></span><span class="MItem Category Category-datetime"><a href="https://datatables.net/forums/categories/datetime">DateTime</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81477" class="Item Unread ItemDiscussion">
+            <div class="DTStatus_Editor" title="Editor licensee"></div>            <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81477/way-to-batch-importing-to-stay-under-the-max-input-vars">way to batch importing to stay under the max_input_vars</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Answered">Answered</span>                     <span class="MItem MCount ViewCount"><span title="85 views" class="Number">85</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="13 comments" class="Number">13</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/allan">allan</a></span>  <span class="MItem LastCommentDate"><time title="November  4, 2025  9:33AM" datetime="2025-11-04T09:33:46+00:00">November 4</time></span><span class="MItem Category Category-free-community-support"><a href="https://datatables.net/forums/categories/free-community-support">Free community support</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81492" class="Item Alt Unread ItemDiscussion">
+            <div class="DTStatus_Editor" title="Editor licensee"></div>            <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81492/unable-to-find-an-exact-date-using-fixedcolumns-component-and-calendar-with-data-in-datetime-format">Unable to find an exact date using FixedColumns component and calendar with data in DateTime format</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Answered">Answered</span>                     <span class="MItem MCount ViewCount"><span title="29 views" class="Number">29</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="4 comments" class="Number">4</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/slolo">slolo</a></span>  <span class="MItem LastCommentDate"><time title="November  4, 2025  8:15AM" datetime="2025-11-04T08:15:14+00:00">November 4</time></span><span class="MItem Category Category-fixedcolumns"><a href="https://datatables.net/forums/categories/fixedcolumns">FixedColumns</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81482" class="Item Unread ItemDiscussion">
+                        <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81482/ability-for-the-responsive-extension-toggle-arrow-to-be-on-a-different-column-than-the-first-one">Ability for the Responsive extension toggle arrow to be on a different column than the first one</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Accepted" title="This question's answer has been accepted.">Answered ✓</span>                     <span class="MItem MCount ViewCount"><span title="44 views" class="Number">44</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="10 comments" class="Number">10</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/Emberfire">Emberfire</a></span>  <span class="MItem LastCommentDate"><time title="November  3, 2025  2:58PM" datetime="2025-11-03T14:58:27+00:00">November 3</time></span><span class="MItem Category Category-free-community-support"><a href="https://datatables.net/forums/categories/free-community-support">Free community support</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81454" class="Item Alt Unread ItemDiscussion">
+                        <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81454/feature-request-visual-indicator-for-active-column-filters-columncontrol">Feature Request: Visual Indicator for Active Column Filters (ColumnControl)</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Accepted" title="This question's answer has been accepted.">Answered ✓</span>                     <span class="MItem MCount ViewCount"><span title="119 views" class="Number">119</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="12 comments" class="Number">12</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/allan">allan</a></span>  <span class="MItem LastCommentDate"><time title="November  3, 2025  2:50PM" datetime="2025-11-03T14:50:17+00:00">November 3</time></span><span class="MItem Category Category-free-community-support"><a href="https://datatables.net/forums/categories/free-community-support">Free community support</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81493" class="Item Unread ItemDiscussion">
+            <div class="DTStatus_Editor" title="Editor licensee"></div>            <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81493/formating-a-rendered-number-of-a-column">Formating a rendered number of a column</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Accepted" title="This question's answer has been accepted.">Answered ✓</span>                     <span class="MItem MCount ViewCount"><span title="28 views" class="Number">28</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="3 comments" class="Number">3</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/carrarachristophe">carrarachristophe</a></span>  <span class="MItem LastCommentDate"><time title="November  3, 2025 12:19PM" datetime="2025-11-03T12:19:41+00:00">November 3</time></span><span class="MItem Category Category-datatables-2"><a href="https://datatables.net/forums/categories/datatables-2">DataTables 2</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81476" class="Item Alt Unread ItemDiscussion">
+                        <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81476/horizontal-scrolling-and-the-fixedheader-briefly-losing-alignment">Horizontal scrolling and the Fixedheader briefly losing alignment</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Accepted" title="This question's answer has been accepted.">Answered ✓</span>                     <span class="MItem MCount ViewCount"><span title="65 views" class="Number">65</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="7 comments" class="Number">7</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/palkitt">palkitt</a></span>  <span class="MItem LastCommentDate"><time title="October 31, 2025  4:45PM" datetime="2025-10-31T16:45:23+00:00">October 31</time></span><span class="MItem Category Category-free-community-support"><a href="https://datatables.net/forums/categories/free-community-support">Free community support</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81489" class="Item Unread ItemDiscussion">
+            <div class="DTStatus_Editor" title="Editor licensee"></div>            <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81489/selectize-on-editor-form">selectize on editor form</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Answered">Answered</span>                     <span class="MItem MCount ViewCount"><span title="36 views" class="Number">36</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="4 comments" class="Number">4</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/kthorngren">kthorngren</a></span>  <span class="MItem LastCommentDate"><time title="October 31, 2025  1:42PM" datetime="2025-10-31T13:42:14+00:00">October 31</time></span><span class="MItem Category Category-free-community-support"><a href="https://datatables.net/forums/categories/free-community-support">Free community support</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81481" class="Item Alt Unread ItemDiscussion">
+            <div class="DTStatus_Editor" title="Editor licensee"></div><div class="DTStatus_Support" title="Priority support"></div>            <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81481/presubmit-not-cancelling-when-returning-false-from-an-async-await-handler">preSubmit not cancelling when returning false from an async/await handler</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Accepted" title="This question's answer has been accepted.">Answered ✓</span>                     <span class="MItem MCount ViewCount"><span title="31 views" class="Number">31</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="4 comments" class="Number">4</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/geometry">geometry</a></span>  <span class="MItem LastCommentDate"><time title="October 31, 2025 12:44AM" datetime="2025-10-31T00:44:37+00:00">October 31</time></span><span class="MItem Category Category-editor"><a href="https://datatables.net/forums/categories/editor">Editor</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81491" class="Item Unread ItemDiscussion">
+            <div class="DTStatus_Editor" title="Editor licensee"></div>            <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81491/dependent-show-hide-disable-enable">dependent show/hide/disable/enable</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Answered">Answered</span>                     <span class="MItem MCount ViewCount"><span title="17 views" class="Number">17</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="2 comments" class="Number">2</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/allan">allan</a></span>  <span class="MItem LastCommentDate"><time title="October 30, 2025  5:28PM" datetime="2025-10-30T17:28:53+00:00">October 30</time></span><span class="MItem Category Category-editor"><a href="https://datatables.net/forums/categories/editor">Editor</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81471" class="Item Alt Unread ItemDiscussion">
+            <div class="DTStatus_Editor" title="Editor licensee"></div><div class="DTStatus_Support" title="Priority support"></div>            <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81471/full-row-edit-works-but-inline-edit-does-not-on-setup-with-per-row-field-type-and-local-data">Full row edit works, but inline edit does not, on setup with per-row Field type and local data</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Accepted" title="This question's answer has been accepted.">Answered ✓</span>                     <span class="MItem MCount ViewCount"><span title="56 views" class="Number">56</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="16 comments" class="Number">16</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/allan">allan</a></span>  <span class="MItem LastCommentDate"><time title="October 30, 2025  5:28PM" datetime="2025-10-30T17:28:32+00:00">October 30</time></span><span class="MItem Category Category-free-community-support"><a href="https://datatables.net/forums/categories/free-community-support">Free community support</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81490" class="Item Unread ItemDiscussion">
+            <div class="DTStatus_Editor" title="Editor licensee"></div>            <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81490/different-behavior-with-reorder-button-and-move-to-the-left-right-menu">Different behavior with reorder button and "Move to the Left / Right" menu</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Question">Question</span>                     <span class="MItem MCount ViewCount"><span title="17 views" class="Number">17</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="0 comments" class="Number">0</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Started by <a href="/forums/profile/slolo">slolo</a></span>  <span class="MItem LastCommentDate"><time title="October 30, 2025  3:37PM" datetime="2025-10-30T15:37:30+00:00">October 30</time></span> <span class="MItem Category Category-colreorder"><a href="https://datatables.net/forums/categories/colreorder">ColReorder</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81487" class="Item Alt Unread ItemDiscussion">
+                        <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81487/is-there-a-way-toi-hide-a-hidden-value-in-the-csv-file">Is there a way toi hide a hidden value in the CSV file</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Answered">Answered</span>                     <span class="MItem MCount ViewCount"><span title="15 views" class="Number">15</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="1 comment" class="Number">1</span> comment</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/allan">allan</a></span>  <span class="MItem LastCommentDate"><time title="October 30, 2025  9:20AM" datetime="2025-10-30T09:20:31+00:00">October 30</time></span><span class="MItem Category Category-free-community-support"><a href="https://datatables.net/forums/categories/free-community-support">Free community support</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81486" class="Item Unread ItemDiscussion">
+                        <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81486/datatable-stuck-on-processing-even-if-ajax-response-is-fine-it-only-shows-the-loading-icon">DataTable stuck on processing even if AJAX response is fine. It only shows the loading icon.</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Answered">Answered</span>                     <span class="MItem MCount ViewCount"><span title="21 views" class="Number">21</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="1 comment" class="Number">1</span> comment</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/kthorngren">kthorngren</a></span>  <span class="MItem LastCommentDate"><time title="October 30, 2025  1:40AM" datetime="2025-10-30T01:40:54+00:00">October 30</time></span><span class="MItem Category Category-free-community-support"><a href="https://datatables.net/forums/categories/free-community-support">Free community support</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81485" class="Item Alt Unread ItemDiscussion">
+                        <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81485/have-a-button-to-clear-all-data">Have a button to clear all data</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Answered">Answered</span>                     <span class="MItem MCount ViewCount"><span title="37 views" class="Number">37</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="4 comments" class="Number">4</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/kthorngren">kthorngren</a></span>  <span class="MItem LastCommentDate"><time title="October 29, 2025 10:43PM" datetime="2025-10-29T22:43:13+00:00">October 29</time></span><span class="MItem Category Category-free-community-support"><a href="https://datatables.net/forums/categories/free-community-support">Free community support</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81484" class="Item Unread ItemDiscussion">
+            <div class="DTStatus_Editor" title="Editor licensee"></div>            <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81484/rowreorder-has-started-adding-extra-rows">rowReorder has started adding extra rows</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Answered">Answered</span>                     <span class="MItem MCount ViewCount"><span title="29 views" class="Number">29</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="6 comments" class="Number">6</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/kthorngren">kthorngren</a></span>  <span class="MItem LastCommentDate"><time title="October 29, 2025  7:36PM" datetime="2025-10-29T19:36:24+00:00">October 29</time></span><span class="MItem Category Category-datatables"><a href="https://datatables.net/forums/categories/datatables">DataTables</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81478" class="Item Alt Unread ItemDiscussion">
+            <div class="DTStatus_Editor" title="Editor licensee"></div>            <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81478/using-editor-to-upload-multiple-records-approx-10-not-saving-no-errors">Using editor to upload multiple records (approx 10), not saving, no errors</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Accepted" title="This question's answer has been accepted.">Answered ✓</span>                     <span class="MItem MCount ViewCount"><span title="44 views" class="Number">44</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="8 comments" class="Number">8</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/crcucb">crcucb</a></span>  <span class="MItem LastCommentDate"><time title="October 28, 2025  6:09PM" datetime="2025-10-28T18:09:43+00:00">October 28</time></span><span class="MItem Category Category-free-community-support"><a href="https://datatables.net/forums/categories/free-community-support">Free community support</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81345" class="Item Unread ItemDiscussion">
+                        <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81345/bug-when-combining-fixedheader-4-0-3-and-fixedcolumns">Bug when combining FixedHeader 4.0.3 and FixedColumns</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Answered">Answered</span>                     <span class="MItem MCount ViewCount"><span title="75 views" class="Number">75</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="1 comment" class="Number">1</span> comment</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/allan">allan</a></span>  <span class="MItem LastCommentDate"><time title="October 28, 2025  1:06PM" datetime="2025-10-28T13:06:53+00:00">October 28</time></span><span class="MItem Category Category-free-community-support"><a href="https://datatables.net/forums/categories/free-community-support">Free community support</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81480" class="Item Alt Unread ItemDiscussion">
+                        <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81480/how-to-have-buttons-along-with-entries-per-page">How to have Buttons along with Entries Per Page?</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Answered">Answered</span>                     <span class="MItem MCount ViewCount"><span title="23 views" class="Number">23</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="2 comments" class="Number">2</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/allan">allan</a></span>  <span class="MItem LastCommentDate"><time title="October 28, 2025 11:32AM" datetime="2025-10-28T11:32:09+00:00">October 28</time></span><span class="MItem Category Category-free-community-support"><a href="https://datatables.net/forums/categories/free-community-support">Free community support</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81472" class="Item Unread ItemDiscussion">
+                        <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81472/use-server-side-pagination-but-use-angular-components-to-display-data">Use server side pagination but use angular components to display data</a>                </div>
+                <div class="Meta Meta-Discussion">
+                     <span class="Tag QnA-Tag-Answered">Answered</span>                     <span class="MItem MCount ViewCount"><span title="34 views" class="Number">34</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="1 comment" class="Number">1</span> comment</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/kthorngren">kthorngren</a></span>  <span class="MItem LastCommentDate"><time title="October 28, 2025 10:33AM" datetime="2025-10-28T10:33:24+00:00">October 28</time></span><span class="MItem Category Category-free-community-support"><a href="https://datatables.net/forums/categories/free-community-support">Free community support</a></span>                </div>
+            </div>
+                    </li>
+            <li id="Discussion_81479" class="Item Alt Unread ItemDiscussion">
+                        <span class="Options">
+         </span>
+
+            <div class="ItemContent Discussion">
+                <div class="Title" role="heading" aria-level="3">
+                    <a href="https://datatables.net/forums/discussion/81479/search-delay-in-the-columncontrol-extension-utilizing-the-already-available-searchdelay-option">Search delay in the ColumnControl extension, utilizing the already available searchDelay option</a>                </div>
+                <div class="Meta Meta-Discussion">
+                                        <span class="MItem MCount ViewCount"><span title="34 views" class="Number">34</span> views</span>
+         <span class="MItem MCount CommentCount"><span title="2 comments" class="Number">2</span> comments</span>
+         <span class="MItem MCount DiscussionScore Hidden"><span title="0 points" class="Number">0</span> points</span>
+                     <span class="MItem LastCommentBy">Most recent by <a href="/forums/profile/Emberfire">Emberfire</a></span>  <span class="MItem LastCommentDate"><time title="October 28, 2025 10:15AM" datetime="2025-10-28T10:15:14+00:00">October 28</time></span><span class="MItem Category Category-free-community-support"><a href="https://datatables.net/forums/categories/free-community-support">Free community support</a></span>                </div>
+            </div>
+                    </li>
+        </ul>
+    <div class="PageControls Bottom"><span class="PagerNub">&#160;</span><div  id="PagerAfter" class="Pager NumberedPager"><span class="Previous">«</span><a href="/forums/discussions/" class="Highlight p-1 FirstPage">1</a><a href="/forums/discussions/p2" class=" p-2" rel="next">2</a><a href="/forums/discussions/p3" class=" p-3">3</a><a href="/forums/discussions/p4" class=" p-4">4</a><a href="/forums/discussions/p5" class=" p-5">5</a><a href="/forums/discussions/p6" class=" p-6">6</a><a href="/forums/discussions/p7" class=" p-7">7</a><span class="Ellipsis">&#8230;</span><a href="/forums/discussions/p100" class=" p-100 LastPage">100</a><a href="/forums/discussions/p2" class="Next" rel="next">»</a></div></div>
+	</div>
+  </div>
+
+		</div>
+	  </div>
+
+		<div class="fw-sidebar">
+			<div class="sidebar">
+				<div class="Column PanelColumn" id="Panel">
+				   <div class="MeBox MeBox-SignIn"><div class="SignInLinks"><a href="/forums/entry/signin?Target=discussions" class=" SignInPopup" rel="nofollow">Sign In</a> <span class="Bullet">&middot;</span> <a href="/forums/entry/register?Target=discussions" class="ApplyButton" rel="nofollow">Register</a> </div> <div class="SignInIcons"></div></div>
+				   <div class="Box GuestBox">
+    <h4>Howdy, Stranger!</h4>
+
+    <p>It looks like you're new here. If you want to get involved, click one of these buttons!</p>
+
+    <p></p>
+
+    <div class="P"><a href="/forums/entry/signin?Target=discussions" class="Button Primary SignInPopup" rel="nofollow">Sign In</a> <a href="/forums/entry/register?Target=discussions" class="Button ApplyButton" rel="nofollow">Register</a></div>    </div>
+<div class="BoxFilter BoxDiscussionFilter">
+    <span class="sr-only BoxFilter-HeadingWrap">
+        <h2 class="BoxFilter-Heading">
+            Quick Links        </h2>
+    </span>
+    <ul role="nav" class="FilterMenu">
+        <li class="AllCategories"><a href="/forums/categories"><span aria-hidden="true" class="Sprite SpAllCategories"></span> Categories</a></li>         <li class="Discussions Active"><a href="/forums/discussions" class="Selected"><span aria-hidden="true" class="Sprite SpDiscussions"></span> Recent Discussions</a></li>
+                <li class="QnA-UnansweredQuestions "><a href="/forums/discussions/unanswered" class="UnansweredQuestions"><span aria-hidden="true" class="Sprite SpUnansweredQuestions"></span> Unanswered <span class="Aside"><span class="Popin Count" rel="/discussions/unansweredcount"></span></a></li>    </ul>
+</div>
+    <div class="Box BoxCategories">
+        <h4 aria-level="2">Categories</h4>        <ul class="PanelInfo PanelCategories">
+            <li><a href="/forums/categories" class="ItemLink"><span class="Aside"><span class="Count"><span title="75,429 discussions" class="Number">75.4K</span></span></span> All Categories</a></li><li class="ClearFix Depth1 Category-priority-support" ><a href="https://datatables.net/forums/categories/priority-support" class="ItemLink"><span class="Aside"><span class="Count"><span title="57 discussions" class="Number">57</span></span></span> Priority support</a></li>
+<li class="ClearFix Depth1 Category-free-community-support" ><a href="https://datatables.net/forums/categories/free-community-support" class="ItemLink"><span class="Aside"><span class="Count"><span title="24,903 discussions" class="Number">24.9K</span></span></span> Free community support</a></li>
+<li class="ClearFix Depth1 Category-general" ><a href="https://datatables.net/forums/categories/general" class="ItemLink"><span class="Aside"><span class="Count"><span title="1,012 discussions" class="Number">1K</span></span></span> General</a></li>
+<li class="ClearFix Depth1 Category-announcements" ><a href="https://datatables.net/forums/categories/announcements" class="ItemLink"><span class="Aside"><span class="Count"><span title="15 discussions" class="Number">15</span></span></span> Announcements</a></li>
+<li class="ClearFix Depth1 Category-datatables" ><a href="https://datatables.net/forums/categories/datatables" class="ItemLink"><span class="Aside"><span class="Count"><span title="2,631 discussions" class="Number">2.6K</span></span></span> DataTables</a></li>
+<li class="ClearFix Depth2 Category-datatables-2" ><a href="https://datatables.net/forums/categories/datatables-2" class="ItemLink"><span class="Aside"><span class="Count"><span title="152 discussions" class="Number">152</span></span></span> DataTables 2</a></li>
+<li class="ClearFix Depth2 Category-datatables-1-10" ><a href="https://datatables.net/forums/categories/datatables-1-10" class="ItemLink"><span class="Aside"><span class="Count"><span title="1,344 discussions" class="Number">1.3K</span></span></span> DataTables 1.10</a></li>
+<li class="ClearFix Depth2 Category-datatables-1-9" ><a href="https://datatables.net/forums/categories/datatables-1-9" class="ItemLink"><span class="Aside"><span class="Count"><span title="94 discussions" class="Number">94</span></span></span> DataTables 1.9</a></li>
+<li class="ClearFix Depth2 Category-datatables-1.8" ><a href="https://datatables.net/forums/categories/datatables-1.8" class="ItemLink"><span class="Aside"><span class="Count"><span title="35 discussions" class="Number">35</span></span></span> DataTables 1.8</a></li>
+<li class="ClearFix Depth1 Category-cloudtables" ><a href="https://datatables.net/forums/categories/cloudtables" class="ItemLink"><span class="Aside"><span class="Count"><span title="9 discussions" class="Number">9</span></span></span> CloudTables</a></li>
+<li class="ClearFix Depth1 Category-editor" ><a href="https://datatables.net/forums/categories/editor" class="ItemLink"><span class="Aside"><span class="Count"><span title="2,286 discussions" class="Number">2.3K</span></span></span> Editor</a></li>
+<li class="ClearFix Depth1 Category-extensions" ><a href="https://datatables.net/forums/categories/extensions" class="ItemLink"><span class="Aside"><span class="Count"><span title="2,855 discussions" class="Number">2.9K</span></span></span> Extensions</a></li>
+<li class="ClearFix Depth2 Category-autofill" ><a href="https://datatables.net/forums/categories/autofill" class="ItemLink"><span class="Aside"><span class="Count"><span title="22 discussions" class="Number">22</span></span></span> AutoFill</a></li>
+<li class="ClearFix Depth2 Category-buttons" ><a href="https://datatables.net/forums/categories/buttons" class="ItemLink"><span class="Aside"><span class="Count"><span title="315 discussions" class="Number">315</span></span></span> Buttons</a></li>
+<li class="ClearFix Depth2 Category-colreorder" ><a href="https://datatables.net/forums/categories/colreorder" class="ItemLink"><span class="Aside"><span class="Count"><span title="36 discussions" class="Number">36</span></span></span> ColReorder</a></li>
+<li class="ClearFix Depth2 Category-columncontrol" ><a href="https://datatables.net/forums/categories/columncontrol" class="ItemLink"><span class="Aside"><span class="Count"><span title="14 discussions" class="Number">14</span></span></span> ColumnControl</a></li>
+<li class="ClearFix Depth2 Category-datetime" ><a href="https://datatables.net/forums/categories/datetime" class="ItemLink"><span class="Aside"><span class="Count"><span title="37 discussions" class="Number">37</span></span></span> DateTime</a></li>
+<li class="ClearFix Depth2 Category-fixedcolumns" ><a href="https://datatables.net/forums/categories/fixedcolumns" class="ItemLink"><span class="Aside"><span class="Count"><span title="70 discussions" class="Number">70</span></span></span> FixedColumns</a></li>
+<li class="ClearFix Depth2 Category-fixedheader" ><a href="https://datatables.net/forums/categories/fixedheader" class="ItemLink"><span class="Aside"><span class="Count"><span title="51 discussions" class="Number">51</span></span></span> FixedHeader</a></li>
+<li class="ClearFix Depth2 Category-keytable" ><a href="https://datatables.net/forums/categories/keytable" class="ItemLink"><span class="Aside"><span class="Count"><span title="31 discussions" class="Number">31</span></span></span> KeyTable</a></li>
+<li class="ClearFix Depth2 Category-responsive" ><a href="https://datatables.net/forums/categories/responsive" class="ItemLink"><span class="Aside"><span class="Count"><span title="106 discussions" class="Number">106</span></span></span> Responsive</a></li>
+<li class="ClearFix Depth2 Category-rowreorder" ><a href="https://datatables.net/forums/categories/rowreorder" class="ItemLink"><span class="Aside"><span class="Count"><span title="24 discussions" class="Number">24</span></span></span> RowReorder</a></li>
+<li class="ClearFix Depth2 Category-scroller" ><a href="https://datatables.net/forums/categories/scroller" class="ItemLink"><span class="Aside"><span class="Count"><span title="43 discussions" class="Number">43</span></span></span> Scroller</a></li>
+<li class="ClearFix Depth2 Category-searchbuilder" ><a href="https://datatables.net/forums/categories/searchbuilder" class="ItemLink"><span class="Aside"><span class="Count"><span title="171 discussions" class="Number">171</span></span></span> SearchBuilder</a></li>
+<li class="ClearFix Depth2 Category-searchpanes" ><a href="https://datatables.net/forums/categories/searchpanes" class="ItemLink"><span class="Aside"><span class="Count"><span title="202 discussions" class="Number">202</span></span></span> SearchPanes</a></li>
+<li class="ClearFix Depth2 Category-select" ><a href="https://datatables.net/forums/categories/select" class="ItemLink"><span class="Aside"><span class="Count"><span title="109 discussions" class="Number">109</span></span></span> Select</a></li>
+<li class="ClearFix Depth2 Category-staterestore" ><a href="https://datatables.net/forums/categories/staterestore" class="ItemLink"><span class="Aside"><span class="Count"><span title="28 discussions" class="Number">28</span></span></span> StateRestore</a></li>
+<li class="ClearFix Depth1 Category-bug-reports" ><a href="https://datatables.net/forums/categories/bug-reports" class="ItemLink"><span class="Aside"><span class="Count"><span title="224 discussions" class="Number">224</span></span></span> Bug reports</a></li>
+<li class="ClearFix Depth1 Category-feature-requests" ><a href="https://datatables.net/forums/categories/feature-requests" class="ItemLink"><span class="Aside"><span class="Count"><span title="68 discussions" class="Number">68</span></span></span> Feature requests</a></li>
+<li class="ClearFix Depth1 Category-plug-ins" ><a href="https://datatables.net/forums/categories/plug-ins" class="ItemLink"><span class="Aside"><span class="Count"><span title="102 discussions" class="Number">102</span></span></span> Plug-ins</a></li>
+<li class="ClearFix Depth1 Category-blog" ><a href="https://datatables.net/forums/categories/blog" class="ItemLink"><span class="Aside"><span class="Count"><span title="11 discussions" class="Number">11</span></span></span> Blog</a></li>
+<li class="ClearFix Depth1 Category-web-site" ><a href="https://datatables.net/forums/categories/web-site" class="ItemLink"><span class="Aside"><span class="Count"><span title="74 discussions" class="Number">74</span></span></span> Web-site</a></li>
+        </ul>
+    </div>
+
+				</div>
+			</div>
+		</div>
+  
+	</div>
+	<div class="fw-footer">
+		<div class="copyright">
+			
+			<h4>DataTables</h4>
+			<p>
+				DataTables designed and created by <a href="//sprymedia.co.uk">SpryMedia Ltd</a>.<br>
+				&copy; 2007-2025 <a href="/license/mit">MIT licensed</a>. <a href="/privacy">Privacy policy</a>. <a href="/supporters">Supporters</a>.<br>
+				SpryMedia Ltd is registered in Scotland, company no. SC456502.
+			</p>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,390 @@
+
+<!doctype html>
+
+<!--[if IEMobile 7 ]> <html lang="fr-FR"class="no-js iem7"> <![endif]-->
+<!--[if lt IE 7 ]> <html lang="fr-FR" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="fr-FR" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="fr-FR" class="no-js ie8"> <![endif]-->
+<!--[if (gte IE 9)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html lang="fr-FR" class="no-js"><!--<![endif]-->
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Le Guide du Crédit Immobilier: Tout savoir sur le prêt immobilier</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  		<link rel="pingback" href="https://le-guide-du-credit-immobilier.fr/wp/xmlrpc.php">
+
+        <link href="/app/themes/wordpress-bootstrap/assets/css/navbar-fixed-side.css" rel="stylesheet" />
+
+
+        <!-- wordpress head functions -->
+		
+	<!-- This site is optimized with the Yoast SEO plugin v15.0 - https://yoast.com/wordpress/plugins/seo/ -->
+	<meta name="description" content="Trouvez le prêt immobilier le plus adapté à votre besoin avec le Guide du Crédit Immobilier parmi les différents types de crédits immobiliers existants." />
+	<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+	<link rel="canonical" href="https://le-guide-du-credit-immobilier.fr/" />
+	<meta property="og:locale" content="fr_FR" />
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="Le Guide du Crédit Immobilier: Tout savoir sur le prêt immobilier" />
+	<meta property="og:description" content="Trouvez le prêt immobilier le plus adapté à votre besoin avec le Guide du Crédit Immobilier parmi les différents types de crédits immobiliers existants." />
+	<meta property="og:url" content="https://le-guide-du-credit-immobilier.fr/" />
+	<meta property="og:site_name" content="Le Guide du Credit Immobilier" />
+	<meta property="article:modified_time" content="2024-11-11T10:42:03+00:00" />
+	<meta name="twitter:card" content="summary" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://le-guide-du-credit-immobilier.fr/#website","url":"https://le-guide-du-credit-immobilier.fr/","name":"Le Guide du Credit Immobilier","description":"","potentialAction":[{"@type":"SearchAction","target":"https://le-guide-du-credit-immobilier.fr/?s={search_term_string}","query-input":"required name=search_term_string"}],"inLanguage":"fr-FR"},{"@type":"WebPage","@id":"https://le-guide-du-credit-immobilier.fr/#webpage","url":"https://le-guide-du-credit-immobilier.fr/","name":"Le Guide du Cr\u00e9dit Immobilier: Tout savoir sur le pr\u00eat immobilier","isPartOf":{"@id":"https://le-guide-du-credit-immobilier.fr/#website"},"datePublished":"2017-04-12T16:18:13+00:00","dateModified":"2024-11-11T10:42:03+00:00","description":"Trouvez le pr\u00eat immobilier le plus adapt\u00e9 \u00e0 votre besoin avec le Guide du Cr\u00e9dit Immobilier parmi les diff\u00e9rents types de cr\u00e9dits immobiliers existants.","inLanguage":"fr-FR","potentialAction":[{"@type":"ReadAction","target":["https://le-guide-du-credit-immobilier.fr/"]}]}]}</script>
+	<meta name="msvalidate.01" content="6DBDF34DDE8D0FDFF025C576131C3430" />
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='//s.w.org' />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.0.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.0.0\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/le-guide-du-credit-immobilier.fr\/wp\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.5.1"}};
+			!function(e,a,t){var r,n,o,i,p=a.createElement("canvas"),s=p.getContext&&p.getContext("2d");function c(e,t){var a=String.fromCharCode;s.clearRect(0,0,p.width,p.height),s.fillText(a.apply(this,e),0,0);var r=p.toDataURL();return s.clearRect(0,0,p.width,p.height),s.fillText(a.apply(this,t),0,0),r===p.toDataURL()}function l(e){if(!s||!s.fillText)return!1;switch(s.textBaseline="top",s.font="600 32px Arial",e){case"flag":return!c([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])&&(!c([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!c([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]));case"emoji":return!c([55357,56424,8205,55356,57212],[55357,56424,8203,55356,57212])}return!1}function d(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(i=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},o=0;o<i.length;o++)t.supports[i[o]]=l(i[o]),t.supports.everything=t.supports.everything&&t.supports[i[o]],"flag"!==i[o]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[i[o]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(r=t.source||{}).concatemoji?d(r.concatemoji):r.wpemoji&&r.twemoji&&(d(r.twemoji),d(r.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='wp-block-library-css'  href='https://le-guide-du-credit-immobilier.fr/wp/wp-includes/css/dist/block-library/style.min.css?ver=5.5.1' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='https://le-guide-du-credit-immobilier.fr/app/plugins/contact-form-7/includes/css/styles.css?ver=5.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='site.min-css'  href='https://le-guide-du-credit-immobilier.fr/app/themes/wordpress-bootstrap/assets/css/site.min.css?ver=1.2' type='text/css' media='all' />
+<script type='text/javascript' src='https://le-guide-du-credit-immobilier.fr/wp/wp-includes/js/jquery/jquery.js?ver=1.12.4-wp' id='jquery-core-js'></script>
+<script type='text/javascript' src='https://le-guide-du-credit-immobilier.fr/app/themes/wordpress-bootstrap/assets/bower_components/jquery/dist/jquery.min.js?ver=1.0' id='jquery2-js'></script>
+<script type='text/javascript' src='https://le-guide-du-credit-immobilier.fr/app/themes/wordpress-bootstrap/assets/bower_components/bootstrap/dist/js/bootstrap.min.js?ver=1.0' id='bootstrap-js'></script>
+<script type='text/javascript' src='https://le-guide-du-credit-immobilier.fr/app/themes/wordpress-bootstrap/assets/bower_components/stk.js/stk.js?ver=1.0' id='stk-js'></script>
+<script type='text/javascript' src='https://le-guide-du-credit-immobilier.fr/app/themes/wordpress-bootstrap/assets/bower_components/widget-simulation/widget.js?ver=2.0' id='widgetsimu-js'></script>
+<script type='text/javascript' src='https://le-guide-du-credit-immobilier.fr/app/themes/wordpress-bootstrap/assets/widget-simu/js/widgetrules.js?ver=2.0' id='widgetrules-js'></script>
+<script type='text/javascript' src='https://le-guide-du-credit-immobilier.fr/app/themes/wordpress-bootstrap/assets/bower_components/modernizer/modernizr.js?ver=1.0' id='modernizr-js'></script>
+<script type='text/javascript' src='https://le-guide-du-credit-immobilier.fr/app/themes/wordpress-bootstrap/assets/js/master.min.js?ver=1.0' id='master.min-js'></script>
+<link rel="https://api.w.org/" href="https://le-guide-du-credit-immobilier.fr/wp-json/" /><link rel="alternate" type="application/json" href="https://le-guide-du-credit-immobilier.fr/wp-json/wp/v2/pages/2" /><link rel='shortlink' href='https://le-guide-du-credit-immobilier.fr/' />
+<link rel="alternate" type="application/json+oembed" href="https://le-guide-du-credit-immobilier.fr/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fle-guide-du-credit-immobilier.fr%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://le-guide-du-credit-immobilier.fr/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fle-guide-du-credit-immobilier.fr%2F&#038;format=xml" />
+<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>		<!-- end of wordpress head -->
+		<!-- IE8 fallback moved below head to work properly. Added respond as well. Tested to work. -->
+			<!-- media-queries.js (fallback) -->
+		<!--[if lt IE 9]>
+			<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+		<![endif]-->
+
+		<!-- html5.js -->
+		<!--[if lt IE 9]>
+			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+
+        <script src="/app/themes/wordpress-bootstrap/assets/bower_components/jquery/dist/jquery.min.js"></script>
+
+
+
+			<!-- respond.js -->
+		<!--[if lt IE 9]>
+		          <script type='text/javascript' src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+		<![endif]-->
+
+    </head>
+
+	<body class="home page-template page-template-page-homepage page-template-page-homepage-php page page-id-2 wp-custom-logo">
+
+    <div id="wrapper" class="container-fluid active">
+        <div class="row">
+            <div class="col-sm-3 col-lg-2 tablet-clickable">
+                <nav class="navbar navbar-default navbar-fixed-side gci-nav">
+                    <div class="container">
+                        <button type="button" data-target="#gci-navbar-collapse" data-toggle="collapse" class="navbar-toggle hidden-md-up gci-nav-hamburger">
+
+                            <span class="glyphicon glyphicon-menu-hamburger"></span>
+
+                        </button>
+                        <button type="button" data-target="#gci-navbar-collapse" data-toggle="collapse" class="navbar-toggle hidden gci-navbar-fleche"><span class="glyphicon glyphicon-chevron-left gci-glyph-color gci-glyph-large"></span></button>
+                        <div class="collapse navbar-collapse" id="gci-navbar-collapse">
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a href="/"><div class="gci-glyph-home"></div></a>
+                                </li>
+                                <div class="empty"></div>
+                                    <li id="menu-item-328" class="gci-nav__liCat menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-328"><a href="#">Crédits classiques <span class="glyphicon glyphicon-triangle-bottom"></span></a>
+<ul class="sub-menu">
+	<li id="menu-item-73" class="gci-nav__li menu-item menu-item-type-post_type menu-item-object-page menu-item-73"><a href="https://le-guide-du-credit-immobilier.fr/credit-immobilier/">Crédit immobilier</a></li>
+	<li id="menu-item-45" class="gci-nav__li menu-item menu-item-type-post_type menu-item-object-page menu-item-45"><a href="https://le-guide-du-credit-immobilier.fr/pret-relais/">Prêt Relais</a></li>
+	<li id="menu-item-44" class="gci-nav__li menu-item menu-item-type-post_type menu-item-object-page menu-item-44"><a href="https://le-guide-du-credit-immobilier.fr/pret-hypothecaire/">Prêt Hypothécaire</a></li>
+	<li id="menu-item-55" class="gci-nav__li menu-item menu-item-type-post_type menu-item-object-page menu-item-55"><a href="https://le-guide-du-credit-immobilier.fr/pret-lisse/">Prêt lissé</a></li>
+	<li id="menu-item-47" class="gci-nav__li menu-item menu-item-type-post_type menu-item-object-page menu-item-47"><a href="https://le-guide-du-credit-immobilier.fr/pret-in-fine/">Prêt In Fine</a></li>
+</ul>
+</li>
+<li id="menu-item-329" class="gci-nav__liCat menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-329"><a href="#">Crédits encadrés par l&rsquo;Etat <span class="glyphicon glyphicon-triangle-bottom"></span></a>
+<ul class="sub-menu">
+	<li id="menu-item-50" class="gci-nav__li menu-item menu-item-type-post_type menu-item-object-page menu-item-50"><a href="https://le-guide-du-credit-immobilier.fr/pret-conventionne/">Prêt Conventionné</a></li>
+	<li id="menu-item-54" class="gci-nav__li menu-item menu-item-type-post_type menu-item-object-page menu-item-54"><a href="https://le-guide-du-credit-immobilier.fr/pret-ptz/">Prêt à Taux Zéro</a></li>
+	<li id="menu-item-53" class="gci-nav__li menu-item menu-item-type-post_type menu-item-object-page menu-item-53"><a href="https://le-guide-du-credit-immobilier.fr/pret-pas/">Prêt d&rsquo;Accession Sociale (PAS)</a></li>
+	<li id="menu-item-51" class="gci-nav__li menu-item menu-item-type-post_type menu-item-object-page menu-item-51"><a href="https://le-guide-du-credit-immobilier.fr/pret-cel/">Compte Epargne Logement (CEL)</a></li>
+	<li id="menu-item-49" class="gci-nav__li menu-item menu-item-type-post_type menu-item-object-page menu-item-49"><a href="https://le-guide-du-credit-immobilier.fr/pret-pel/">Plan Epargne Logement (PEL)</a></li>
+	<li id="menu-item-46" class="gci-nav__li menu-item menu-item-type-post_type menu-item-object-page menu-item-46"><a href="https://le-guide-du-credit-immobilier.fr/pret-paris-logement/">Prêt Paris logement 0%</a></li>
+</ul>
+</li>
+<li id="menu-item-330" class="gci-nav__liCat menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-330"><a href="#">Crédits complémentaires <span class="glyphicon glyphicon-triangle-bottom"></span></a>
+<ul class="sub-menu">
+	<li id="menu-item-52" class="gci-nav__li menu-item menu-item-type-post_type menu-item-object-page menu-item-52"><a href="https://le-guide-du-credit-immobilier.fr/pret-action-logement/">Prêt Action Logement</a></li>
+	<li id="menu-item-48" class="gci-nav__li menu-item menu-item-type-post_type menu-item-object-page menu-item-48"><a href="https://le-guide-du-credit-immobilier.fr/pret-fonctionnaire/">Prêt Fonctionnaire</a></li>
+</ul>
+</li>
+<li id="menu-item-43" class="gci-nav__liAutre menu-item menu-item-type-post_type menu-item-object-page menu-item-43"><a href="https://le-guide-du-credit-immobilier.fr/simulation-pret-immobilier/">Simulation crédit immobilier</a></li>
+<li id="menu-item-41" class="gci-nav__liAutre menu-item menu-item-type-post_type menu-item-object-page menu-item-41"><a href="https://le-guide-du-credit-immobilier.fr/lexique/">Lexique du crédit immobilier</a></li>
+<li id="menu-item-42" class="gci-nav__liAutre menu-item menu-item-type-post_type menu-item-object-page menu-item-42"><a href="https://le-guide-du-credit-immobilier.fr/faq/">FAQ</a></li>
+<li id="menu-item-443" class="gci-nav__liAutre menu-item menu-item-type-post_type menu-item-object-page menu-item-443"><a href="https://le-guide-du-credit-immobilier.fr/pret-immobilier-quoi-sattendre-2022/">Prêt immobilier en 2024</a></li>
+                            </ul>
+                        </div>
+
+                        <button type="button" id="burger1"  class="hidden-sm-down gci-nav-mainhamburger"></button>
+                    </div>
+                </nav>
+
+            </div>
+            <div class="col-sm-9 col-lg-10 gci-content">
+
+
+                <header role="banner">
+
+            <a class="gci-header-link" href="/"><div class="gci-header hidden-sm-down"><h1 class="gci-header__text">le guide du crédit immobilier.fr</h1><img src="https://le-guide-du-credit-immobilier.fr/app/uploads/2017/08/cropped-LogoHP-1.png" alt="Le Guide du Credit Immobilier"/></div></a><a class="gci-header-link" href="/"><div class="gci-header-mobile hidden-sm-up"><img src="https://le-guide-du-credit-immobilier.fr/app/uploads/2017/08/cropped-LogoHP-1.png" alt="Le Guide du Credit Immobilier"/><h1 class="gci-header-mobile__text">le guide du crédit<br/> immobilier.fr</h1></div></a>		</header> <!-- end header -->
+
+
+
+		<div class="container-fluid">
+			
+			<div id="content" class="clearfix row ">
+			
+				<div id="main" class="col-sm-12 clearfix gci-homepage__content" role="main">
+
+                    
+                        <article id="post-2" class="clearfix post-2 page type-page status-publish hentry" role="article">
+
+                            <section class="post_content">
+                                <p><strong>Le guide du crédit immobilier</strong> vous aide à prendre connaissance, comparer et sélectionner le type de crédit immobilier <b>adapté à votre besoin</b>. Vous trouverez y des notices explicatives propres à chacun d&rsquo;eux, comportant les informations synthétiques, avantages et démarches spécifiques.</p>
+
+                                <div class="hidden-xs gci-homepage-buttons">
+                                    <button id="tous" class="gci-homepage-button"><h2>Tous les crédits</h2></button>
+                                    <button id="classique" class="gci-homepage-button"><h2>Crédits classiques</h2></button>
+                                    <button id="pretEtat" class="gci-homepage-button"><h2>Crédits encadrés par l'état</h2></button>
+                                    <button id="pretCompl" class="gci-homepage-button"><h2>Crédits complémentaires</h2></button>
+                                    <ul class="gci-homepage-buttonmenu">
+                                        <li>Outils pratiques <span class="glyphicon glyphicon-triangle-bottom"></span>
+
+                                            <ul class="gci-homepage-outils">
+                                                <li><a href="/lexique/">Lexique</a></li>
+                                                <li><a href="/faq/">FAQ</a></li>
+                                                <li><a href="/simulation-pret-immobilier/">Simulateur</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="visible-xs-block">
+                                    <select class="gci-homepage-buttonmenu_xs">
+                                        <option value="tous" selected>Tous les crédits</option>
+                                        <option value="classique">Crédits classiques</option>
+                                        <option value="pretEtat">Prêts encadrés par l'état</option>
+                                        <option value="pretCompl">Prêts complémentaires</option>
+                                        <option value="lexique">Lexique</option>
+                                        <option value="faq">FAQ</option>
+                                        <option value="simulation-pret-immobilier">Simulation Prêt</option>
+                                    </select>
+
+                                </div>
+
+                                <div class="gci-homepage-widget">
+                                <div class="gci-div__textimg">
+                                    <div  class="col-xs-12 col-sm-6 col-md-8">
+                                        <div id="credit-immobilier" class="gci-homepage__bloc gci-homepage__creditImmo"><!---->
+                                            <div class="homepage-img__creditImmo"></div>
+                                            <div class="homepage-content__creditImmo">
+                                                <span class="glyphicon glyphicon-home gci-glyph-large gci-glyph-widget"></span>
+                                                <span class="gci-homepage-bloctitle">Crédit Immobilier</span>
+                                                <p class="metabox-content1">Le <strong><a href="/credit-immobilier/">crédit immobilier</a></strong> sert à financer quatre actions immobilières : l’achat de logements visant à être habiter, souscrire à des actions de sociétés souhaitant acquérir des biens immobiliers, investir dans des terrains constructibles ou bien financer des travaux de réparation, de mises aux normes des biens (à condition que ceux-ci n’excède pas 75 000€).</p>                                            </div>
+                                        </div>
+                                    </div>
+                                    <div  class="col-xs-12 col-sm-6 col-md-4">
+                                        <div id="pret-action-logement" class="gci-homepage__bloc">
+                                            <span class="glyphicon glyphicon-home gci-glyph-large gci-glyph-widget"></span>
+                                            <span class="gci-homepage-bloctitle">Prêt Action Logement</span>
+                                            <p class="metabox-content2">Le <strong><a href="/pret-action-logement/">prêt action logement</a></strong> ou prêt employeur, ce type de prêt est réservé aux salariés du secteur privé (10 salariés et plus) hors secteur primaire ; dont les entreprises sont adhérentes au Comité Interprofessionnel du Logement (CIL). Le prêt délivré par Action Logement finance la construction ou l’achat de logement neufs ou anciens avec un financement pouvant atteindre 40 000 euros.
+</p>                                        </div>
+                                     </div>
+                                </div>
+
+                                <div class="gci-div__textimg div-separe">
+                                    <div id="pret-lisseParent" class="col-xs-12 col-md-4">
+                                        <div id="pret-lisse" class="gci-homepage__blocDeux">
+                                            <span class="glyphicon glyphicon-home gci-glyph-large gci-glyph-widget"></span>
+                                            <span class="gci-homepage-bloctitle">Prêt Lissé</span>
+                                            <p class="metabox-content3">Le montant des échéances du <strong><a href="/pret-lisse/">prêt à paliers ou prêt lissé</a></strong> dépend de périodes prédéterminées ce qui permet de lisser ces échéances. L’emprunteur détermine ces périodes ainsi que le montant des périodes, de ce fait, le prêt lissé s’adapte à tous.</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-md-8">
+                                        <div  style="margin-top:0;" class="gci-div__textimg">
+                                            <div class="ptzAlign col-xs-12 col-sm-6 col-md-6">
+                                                <div id="pret-ptz" class="gci-homepage__bloc">
+                                                    <span class="glyphicon glyphicon-home gci-glyph-large gci-glyph-widget"></span>
+                                                    <span class="gci-homepage-bloctitle">PTZ +</span>
+                                                    <p class="metabox-content4">Le <strong><a href="/pret-ptz/">Prêt à Taux Zéro Plus (PTZ+)</a></strong> permet à toute personne n’ayant pas été propriétaire d’une résidence principale au cours des deux dernières années d’emprunter pour acheter un logement neuf ou ancien. Les  bénéficiaires ne subissent pas les intérêts d’emprunt.</p>
+
+                                                </div>
+                                            </div>
+                                            <div class="pasAlign col-xs-12 col-sm-6 col-md-6">
+                                                <div id="pret-pas" class="gci-homepage__blocDeux gci-homepage__pretPas">
+                                                    <div class="homepage-img__pretPas"></div>
+                                                    <div class="homepage-content__pretPas">
+                                                        <span class="glyphicon glyphicon-home gci-glyph-large gci-glyph-widget"></span>
+                                                        <span class="gci-homepage-bloctitle">Prêt PAS</span>
+                                                        <p class="metabox-content5">Le <strong><a href="/pret-pas/">Prêt d’Accession Sociale (PAS)</a></strong> cible les ménages les plus modestes afin de les aider à accéder à la propriété. Il permet de financer l’intégralité de l’opération immobilière des personnes dont les revenus de l’avant-dernière année sont inférieurs aux plafonds fixés. Ceux-ci sont déterminés en fonction de la localisation du bien immobilier.</p>                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="celAlign col-md-12">
+
+                                            <div id="pret-cel" style="height:49%;" class="gci-homepage__bloc gci-homepage__pretCel">
+                                                <div class="homepage-img__pretCel"></div>
+                                                <div class="homepage-content__pretCel">
+                                                <span class="glyphicon glyphicon-home gci-glyph-large gci-glyph-widget"></span>
+                                                <span class="gci-homepage-bloctitle">Prêt CEL</span>
+                                                <p class="metabox-content6">Le <strong><a href="/pret-cel/">compte épargne logement (CEL)</a></strong> met à disposition des épargnants une manne financière disponible sans perdre le bénéfice de la rémunération prévue dans le contrat. De plus ils bénéficient d’un prêt à taux idéal pour réaliser des travaux ou investir dans  l’immobilier.</p>                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="gci-div__textimg">
+                                    <div class="col-xs-12 col-sm-6 col-md-4">
+                                        <div id="pret-conventionne" class="gci-homepage__bloc">
+                                            <span class="glyphicon glyphicon-home gci-glyph-large gci-glyph-widget"></span>
+                                            <span class="gci-homepage-bloctitle">Prêt Conventionné</span>
+                                            <p class="metabox-content7">Accordé par une banque après accords de l’Etat, le <strong><a href="pret-conventionne/">prêt conventionné</a></strong> finance jusqu’à la totalité de la construction ou de l’achat d’un bien immobilier. Il peut également, à certaines conditions, faire bénéficier d’APL à ses souscripteurs.</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="pelAlign col-xs-12 col-sm-6 col-md-4">
+                                        <div id="pret-pel" class="gci-homepage__bloc gci-homepage__pretPel">
+                                            <div class="homepage-img__pretPel"></div>
+                                            <div class="homepage-content__pretPel">
+                                            <span class="glyphicon glyphicon-home gci-glyph-large gci-glyph-widget"></span>
+                                            <span class="gci-homepage-bloctitle">Prêt PEL</span>
+                                            <p class="metabox-content8">Le <strong><a href="/pret-pel/">Plan Epargne Logement (PEL)</a></strong> est une épargne bloquée pendant une durée minimale de 4 ans qui peut être utilisé de plusieurs manières différentes ; notamment disposer d’un crédit immobilier. Tout bénéficiaire peut modifier le montant de son PEL comme bon lui semble.</p>                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="fonctAlign col-xs-12 col-md-4">
+                                        <div id="pret-fonctionnaire" class="gci-homepage__blocDeux">
+                                            <span class="glyphicon glyphicon-home gci-glyph-large gci-glyph-widget"></span>
+                                            <span class="gci-homepage-bloctitle">Prêt Fonctionnaire</span>
+                                            <p class="metabox-content9">Les agents de la fonction publique peuvent demander un <strong><a href="/pret-fonctionnaire/">prêt fonctionnaire</a></strong>. La somme accordée dépend de la zone géographique ainsi que de l’opération immobilière dont il s’agit. Le montant du prêt est limité à 35 % du prix d'achat, selon les plafonds en vigueur. Le taux de ce prêt est de 7% mais le fonctionnaire bénéficiaire peut disposer d’un remboursement différé pendant les quatre premières années.</p>                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="gci-div__textimg">
+                                    <div class="col-xs-12 col-sm-6 col-md-4">
+                                        <div id="pret-in-fine" class="gci-homepage__bloc gci-homepage__pretInfine">
+                                            <div class="homepage-img__pretInfine"></div>
+                                            <div class="homepage-content__pretInfine">
+                                            <span class="glyphicon glyphicon-home gci-glyph-large gci-glyph-widget"></span>
+                                            <span class="gci-homepage-bloctitle">Prêt In Fine</span>
+                                            <p class="metabox-content10">Le <strong><a href="/pret-in-fine/">prêt in fine</a></strong> est remboursable, comme son nom l’indique, à la fin du prêt, lors de la dernière échéance. Les seules charges à payer pendant cet emprunt sont les frais d’assurance et les intérêts.</p>                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="pelAlign col-xs-12 col-sm-6 col-md-8">
+                                        <div id="pret-paris-logement" class="gci-homepage__blocDeux">
+                                            <span class="glyphicon glyphicon-home gci-glyph-large gci-glyph-widget"></span>
+                                            <span class="gci-homepage-bloctitle">Prêt Paris Logement 0%</span>
+                                            <p class="metabox-content11">Le <strong><a href="/pret-paris-logement/">Prêt Paris Logement</a></strong> est un prêt à taux zéro spécifique à la ville de Paris qui a été mis en place en mai 2004 afin de permettre aux ménages modestes d’accéder à la propriété. Il est cumulable avec le Prêt à Taux Zéro Plus.</p>                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="gci-div__textimg">
+                                    <div class="col-xs-12 col-sm-6 col-md-8">
+                                        <div id="pret-relais" class="gci-homepage__blocDeux">
+                                            <span class="glyphicon glyphicon-home gci-glyph-large gci-glyph-widget"></span>
+                                            <span class="gci-homepage-bloctitle">Prêt Relais</span>
+                                            <p class="metabox-content12">Le <strong><a href="/pret-relais/">prêt relais</a></strong> permet de financer sur deux ans, une partie de l’achat d’un bien immobilier supplémentaire alors que l’emprunteur dispose toujours de son logement.</p>                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-6 col-md-4">
+                                        <div id="pret-hypothecaire" class="gci-homepage__bloc gci-homepage__pretHypo">
+                                            <div class="homepage-img__pretHypo"></div>
+                                            <div class="homepage-content__pretHypo">
+                                            <span class="glyphicon glyphicon-home gci-glyph-large gci-glyph-widget"></span>
+                                            <span class="gci-homepage-bloctitle">Prêt Hypothécaire</span>
+                                            <p class="metabox-content13">Le <strong><a href="/pret-hypothecaire/">prêt viager hypothécaire</a></strong> mets en place le versement d’une rente pour l’emprunteur, en échange, celui-ci met en gage son bien immobilier. Le prêteur remboursera son investissement au moment de la vente du logement, du déménagement du futur propriétaire ou bien lors de son décès.</p>                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+
+
+                            </section> <!-- end article section -->
+
+                        </article> <!-- end article -->
+
+                        
+<!-- You can start editing here. -->
+
+
+
+
+                    
+                    
+
+                    
+
+                </div> <!-- end #main -->
+    
+				    
+			</div> <!-- end #content -->
+
+			<footer role="contentinfo">
+			
+				<div id="inner-footer" class="clearfix">
+		          <hr />
+		          <div id="widget-footer" class="clearfix row">
+		            		            		            		            		            		            		          </div>
+					
+					<nav class="clearfix">
+											</nav>
+
+					<p class="attribution">&copy; Le Guide du Credit Immobilier | <a class="gci-gcu" href="/cgu/">CGU</a> | <a href="/contact/">Contact</a></p>
+				
+				</div> <!-- end #inner-footer -->
+				
+			</footer> <!-- end footer -->
+		
+		</div> <!-- end #container -->
+
+            </div>
+            </div>
+            </div>
+				
+		<!--[if lt IE 7 ]>
+  			<script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+  			<script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+		<![endif]-->
+		
+		<script type='text/javascript' id='contact-form-7-js-extra'>
+/* <![CDATA[ */
+var wpcf7 = {"apiSettings":{"root":"https:\/\/le-guide-du-credit-immobilier.fr\/wp-json\/contact-form-7\/v1","namespace":"contact-form-7\/v1"}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://le-guide-du-credit-immobilier.fr/app/plugins/contact-form-7/includes/js/scripts.js?ver=5.2.2' id='contact-form-7-js'></script>
+<script type='text/javascript' src='https://le-guide-du-credit-immobilier.fr/wp/wp-includes/js/wp-embed.min.js?ver=5.5.1' id='wp-embed-js'></script>
+
+
+	</body>
+
+</html>

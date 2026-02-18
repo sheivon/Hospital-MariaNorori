@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Promises/A+</title>
+
+    
+
+    <script>
+      "use strict";
+      if (location.href.indexOf("github.io") !== -1) {
+        location.href = "https://promisesaplus.com/";
+      }
+    </script>
+
+    <link rel="stylesheet" href="assets/stylesheet.css" />
+    <link rel="shortcut icon" href="assets/favicon.ico" />
+
+    <link rel="canonical" href="https://promisesaplus.com/" />
+  </head>
+
+  <body class="spec">
+    <h1 id="promisesa">Promises/A+</h1>
+
+<p><strong>An open standard for sound, interoperable JavaScript promises—by implementers, for implementers.</strong></p>
+
+<p>A <em>promise</em> represents the eventual result of an asynchronous operation. The primary way of interacting with a promise is through its <code class="highlighter-rouge">then</code> method, which registers callbacks to receive either a promise’s eventual value or the reason why the promise cannot be fulfilled.</p>
+
+<p>This specification details the behavior of the <code class="highlighter-rouge">then</code> method, providing an interoperable base which all Promises/A+ conformant promise implementations can be depended on to provide. As such, the specification should be considered very stable. Although the Promises/A+ organization may occasionally revise this specification with minor backward-compatible changes to address newly-discovered corner cases, we will integrate large or backward-incompatible changes only after careful consideration, discussion, and testing.</p>
+
+<p>Historically, Promises/A+ clarifies the behavioral clauses of the earlier <a href="http://wiki.commonjs.org/wiki/Promises/A">Promises/A proposal</a>, extending it to cover <em>de facto</em> behaviors and omitting parts that are underspecified or problematic.</p>
+
+<p>Finally, the core Promises/A+ specification does not deal with how to create, fulfill, or reject promises, choosing instead to focus on providing an interoperable <code class="highlighter-rouge">then</code> method. Future work in companion specifications may touch on these subjects.</p>
+
+<h2 id="terminology">Terminology</h2>
+
+<ol>
+  <li>“promise” is an object or function with a <code class="highlighter-rouge">then</code> method whose behavior conforms to this specification.</li>
+  <li>“thenable” is an object or function that defines a <code class="highlighter-rouge">then</code> method.</li>
+  <li>“value” is any legal JavaScript value (including <code class="highlighter-rouge">undefined</code>, a thenable, or a promise).</li>
+  <li>“exception” is a value that is thrown using the <code class="highlighter-rouge">throw</code> statement.</li>
+  <li>“reason” is a value that indicates why a promise was rejected.</li>
+</ol>
+
+<h2 id="requirements">Requirements</h2>
+
+<h3 id="promise-states">Promise States</h3>
+
+<p>A promise must be in one of three states: pending, fulfilled, or rejected.</p>
+
+<ol>
+  <li>When pending, a promise:
+    <ol>
+      <li>may transition to either the fulfilled or rejected state.</li>
+    </ol>
+  </li>
+  <li>When fulfilled, a promise:
+    <ol>
+      <li>must not transition to any other state.</li>
+      <li>must have a value, which must not change.</li>
+    </ol>
+  </li>
+  <li>When rejected, a promise:
+    <ol>
+      <li>must not transition to any other state.</li>
+      <li>must have a reason, which must not change.</li>
+    </ol>
+  </li>
+</ol>
+
+<p>Here, “must not change” means immutable identity (i.e. <code class="highlighter-rouge">===</code>), but does not imply deep immutability.</p>
+
+<h3 id="the-then-method">The <code class="highlighter-rouge">then</code> Method</h3>
+
+<p>A promise must provide a <code class="highlighter-rouge">then</code> method to access its current or eventual value or reason.</p>
+
+<p>A promise’s <code class="highlighter-rouge">then</code> method accepts two arguments:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">promise</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">onFulfilled</span><span class="p">,</span> <span class="nx">onRejected</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ol>
+  <li>Both <code class="highlighter-rouge">onFulfilled</code> and <code class="highlighter-rouge">onRejected</code> are optional arguments:
+    <ol>
+      <li>If <code class="highlighter-rouge">onFulfilled</code> is not a function, it must be ignored.</li>
+      <li>If <code class="highlighter-rouge">onRejected</code> is not a function, it must be ignored.</li>
+    </ol>
+  </li>
+  <li>If <code class="highlighter-rouge">onFulfilled</code> is a function:
+    <ol>
+      <li>it must be called after <code class="highlighter-rouge">promise</code> is fulfilled, with <code class="highlighter-rouge">promise</code>’s value as its first argument.</li>
+      <li>it must not be called before <code class="highlighter-rouge">promise</code> is fulfilled.</li>
+      <li>it must not be called more than once.</li>
+    </ol>
+  </li>
+  <li>If <code class="highlighter-rouge">onRejected</code> is a function,
+    <ol>
+      <li>it must be called after <code class="highlighter-rouge">promise</code> is rejected, with <code class="highlighter-rouge">promise</code>’s reason as its first argument.</li>
+      <li>it must not be called before <code class="highlighter-rouge">promise</code> is rejected.</li>
+      <li>it must not be called more than once.</li>
+    </ol>
+  </li>
+  <li><code class="highlighter-rouge">onFulfilled</code> or <code class="highlighter-rouge">onRejected</code> must not be called until the <a href="https://es5.github.io/#x10.3">execution context</a> stack contains only platform code. [<a href="#notes">3.1</a>].</li>
+  <li><code class="highlighter-rouge">onFulfilled</code> and <code class="highlighter-rouge">onRejected</code> must be called as functions (i.e. with no <code class="highlighter-rouge">this</code> value). [<a href="#notes">3.2</a>]</li>
+  <li><code class="highlighter-rouge">then</code> may be called multiple times on the same promise.
+    <ol>
+      <li>If/when <code class="highlighter-rouge">promise</code> is fulfilled, all respective <code class="highlighter-rouge">onFulfilled</code> callbacks must execute in the order of their originating calls to <code class="highlighter-rouge">then</code>.</li>
+      <li>If/when <code class="highlighter-rouge">promise</code> is rejected, all respective <code class="highlighter-rouge">onRejected</code> callbacks must execute in the order of their originating calls to <code class="highlighter-rouge">then</code>.</li>
+    </ol>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">then</code> must return a promise [<a href="#notes">3.3</a>].</p>
+
+    <div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nx">promise2</span> <span class="o">=</span> <span class="nx">promise1</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">onFulfilled</span><span class="p">,</span> <span class="nx">onRejected</span><span class="p">);</span>
+</code></pre></div>    </div>
+
+    <ol>
+      <li>If either <code class="highlighter-rouge">onFulfilled</code> or <code class="highlighter-rouge">onRejected</code> returns a value <code class="highlighter-rouge">x</code>, run the Promise Resolution Procedure <code class="highlighter-rouge">[[Resolve]](promise2, x)</code>.</li>
+      <li>If either <code class="highlighter-rouge">onFulfilled</code> or <code class="highlighter-rouge">onRejected</code> throws an exception <code class="highlighter-rouge">e</code>, <code class="highlighter-rouge">promise2</code> must be rejected with <code class="highlighter-rouge">e</code> as the reason.</li>
+      <li>If <code class="highlighter-rouge">onFulfilled</code> is not a function and <code class="highlighter-rouge">promise1</code> is fulfilled, <code class="highlighter-rouge">promise2</code> must be fulfilled with the same value as <code class="highlighter-rouge">promise1</code>.</li>
+      <li>If <code class="highlighter-rouge">onRejected</code> is not a function and <code class="highlighter-rouge">promise1</code> is rejected, <code class="highlighter-rouge">promise2</code> must be rejected with the same reason as <code class="highlighter-rouge">promise1</code>.</li>
+    </ol>
+  </li>
+</ol>
+
+<h3 id="the-promise-resolution-procedure">The Promise Resolution Procedure</h3>
+
+<p>The <strong>promise resolution procedure</strong> is an abstract operation taking as input a promise and a value, which we denote as <code class="highlighter-rouge">[[Resolve]](promise, x)</code>. If <code class="highlighter-rouge">x</code> is a thenable, it attempts to make <code class="highlighter-rouge">promise</code> adopt the state of <code class="highlighter-rouge">x</code>, under the assumption that <code class="highlighter-rouge">x</code> behaves at least somewhat like a promise. Otherwise, it fulfills <code class="highlighter-rouge">promise</code> with the value <code class="highlighter-rouge">x</code>.</p>
+
+<p>This treatment of thenables allows promise implementations to interoperate, as long as they expose a Promises/A+-compliant <code class="highlighter-rouge">then</code> method. It also allows Promises/A+ implementations to “assimilate” nonconformant implementations with reasonable <code class="highlighter-rouge">then</code> methods.</p>
+
+<p>To run <code class="highlighter-rouge">[[Resolve]](promise, x)</code>, perform the following steps:</p>
+
+<ol>
+  <li>If <code class="highlighter-rouge">promise</code> and <code class="highlighter-rouge">x</code> refer to the same object, reject <code class="highlighter-rouge">promise</code> with a <code class="highlighter-rouge">TypeError</code> as the reason.</li>
+  <li>If <code class="highlighter-rouge">x</code> is a promise, adopt its state [<a href="#notes">3.4</a>]:
+    <ol>
+      <li>If <code class="highlighter-rouge">x</code> is pending, <code class="highlighter-rouge">promise</code> must remain pending until <code class="highlighter-rouge">x</code> is fulfilled or rejected.</li>
+      <li>If/when <code class="highlighter-rouge">x</code> is fulfilled, fulfill <code class="highlighter-rouge">promise</code> with the same value.</li>
+      <li>If/when <code class="highlighter-rouge">x</code> is rejected, reject <code class="highlighter-rouge">promise</code> with the same reason.</li>
+    </ol>
+  </li>
+  <li>Otherwise, if <code class="highlighter-rouge">x</code> is an object or function,
+    <ol>
+      <li>Let <code class="highlighter-rouge">then</code> be <code class="highlighter-rouge">x.then</code>. [<a href="#notes">3.5</a>]</li>
+      <li>If retrieving the property <code class="highlighter-rouge">x.then</code> results in a thrown exception <code class="highlighter-rouge">e</code>, reject <code class="highlighter-rouge">promise</code> with <code class="highlighter-rouge">e</code> as the reason.</li>
+      <li>If <code class="highlighter-rouge">then</code> is a function, call it with <code class="highlighter-rouge">x</code> as <code class="highlighter-rouge">this</code>, first argument <code class="highlighter-rouge">resolvePromise</code>, and second argument <code class="highlighter-rouge">rejectPromise</code>, where:
+        <ol>
+          <li>If/when <code class="highlighter-rouge">resolvePromise</code> is called with a value <code class="highlighter-rouge">y</code>, run <code class="highlighter-rouge">[[Resolve]](promise, y)</code>.</li>
+          <li>If/when <code class="highlighter-rouge">rejectPromise</code> is called with a reason <code class="highlighter-rouge">r</code>, reject <code class="highlighter-rouge">promise</code> with <code class="highlighter-rouge">r</code>.</li>
+          <li>If both <code class="highlighter-rouge">resolvePromise</code> and <code class="highlighter-rouge">rejectPromise</code> are called, or multiple calls to the same argument are made, the first call takes precedence, and any further calls are ignored.</li>
+          <li>If calling <code class="highlighter-rouge">then</code> throws an exception <code class="highlighter-rouge">e</code>,
+            <ol>
+              <li>If <code class="highlighter-rouge">resolvePromise</code> or <code class="highlighter-rouge">rejectPromise</code> have been called, ignore it.</li>
+              <li>Otherwise, reject <code class="highlighter-rouge">promise</code> with <code class="highlighter-rouge">e</code> as the reason.</li>
+            </ol>
+          </li>
+        </ol>
+      </li>
+      <li>If <code class="highlighter-rouge">then</code> is not a function, fulfill <code class="highlighter-rouge">promise</code> with <code class="highlighter-rouge">x</code>.</li>
+    </ol>
+  </li>
+  <li>If <code class="highlighter-rouge">x</code> is not an object or function, fulfill <code class="highlighter-rouge">promise</code> with <code class="highlighter-rouge">x</code>.</li>
+</ol>
+
+<p>If a promise is resolved with a thenable that participates in a circular thenable chain, such that the recursive nature of <code class="highlighter-rouge">[[Resolve]](promise, thenable)</code> eventually causes <code class="highlighter-rouge">[[Resolve]](promise, thenable)</code> to be called again, following the above algorithm will lead to infinite recursion. Implementations are encouraged, but not required, to detect such recursion and reject <code class="highlighter-rouge">promise</code> with an informative <code class="highlighter-rouge">TypeError</code> as the reason. [<a href="#notes">3.6</a>]</p>
+
+<h2 id="notes">Notes</h2>
+
+<ol>
+  <li>
+    <p>Here “platform code” means engine, environment, and promise implementation code. In practice, this requirement ensures that <code class="highlighter-rouge">onFulfilled</code> and <code class="highlighter-rouge">onRejected</code> execute asynchronously, after the event loop turn in which <code class="highlighter-rouge">then</code> is called, and with a fresh stack. This can be implemented with either a “macro-task” mechanism such as <a href="https://html.spec.whatwg.org/multipage/webappapis.html#timers"><code class="highlighter-rouge">setTimeout</code></a> or <a href="https://dvcs.w3.org/hg/webperf/raw-file/tip/specs/setImmediate/Overview.html#processingmodel"><code class="highlighter-rouge">setImmediate</code></a>, or with a “micro-task” mechanism such as <a href="https://dom.spec.whatwg.org/#interface-mutationobserver"><code class="highlighter-rouge">MutationObserver</code></a> or <a href="http://nodejs.org/api/process.html#process_process_nexttick_callback"><code class="highlighter-rouge">process.nextTick</code></a>. Since the promise implementation is considered platform code, it may itself contain a task-scheduling queue or “trampoline” in which the handlers are called.</p>
+  </li>
+  <li>
+    <p>That is, in strict mode <code class="highlighter-rouge">this</code> will be <code class="highlighter-rouge">undefined</code> inside of them; in sloppy mode, it will be the global object.</p>
+  </li>
+  <li>
+    <p>Implementations may allow <code class="highlighter-rouge">promise2 === promise1</code>, provided the implementation meets all requirements. Each implementation should document whether it can produce <code class="highlighter-rouge">promise2 === promise1</code> and under what conditions.</p>
+  </li>
+  <li>
+    <p>Generally, it will only be known that <code class="highlighter-rouge">x</code> is a true promise if it comes from the current implementation. This clause allows the use of implementation-specific means to adopt the state of known-conformant promises.</p>
+  </li>
+  <li>
+    <p>This procedure of first storing a reference to <code class="highlighter-rouge">x.then</code>, then testing that reference, and then calling that reference, avoids multiple accesses to the <code class="highlighter-rouge">x.then</code> property. Such precautions are important for ensuring consistency in the face of an accessor property, whose value could change between retrievals.</p>
+  </li>
+  <li>
+    <p>Implementations should <em>not</em> set arbitrary limits on the depth of thenable chains, and assume that beyond that arbitrary limit the recursion will be infinite. Only true cycles should lead to a <code class="highlighter-rouge">TypeError</code>; if an infinite chain of distinct thenables is encountered, recursing forever is the correct behavior.</p>
+  </li>
+</ol>
+
+<hr />
+
+<p xmlns:dct="http://purl.org/dc/terms/" xmlns:vcard="http://www.w3.org/2001/vcard-rdf/3.0#">
+  <a rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/">
+    <img src="https://i.creativecommons.org/p/zero/1.0/88x31.png" style="border-style: none;" alt="CC0" />
+  </a>
+  <br />
+  To the extent possible under law,
+  <a rel="dct:publisher" href="https://github.com/promises-aplus">
+    <span property="dct:title">the Promises/A+ organization</span></a>
+  has waived all copyright and related or neighboring rights to
+  <span property="dct:title">Promises/A+ Promise Specification</span>.
+This work is published from:
+<span property="vcard:Country" datatype="dct:ISO3166" content="US" about="https://github.com/promises-aplus">
+  United States</span>.
+</p>
+
+
+    <footer>
+      <a href="/">Specification</a>
+      <a href="/changelog">Changelog</a>
+      <a href="/credits">Credits</a>
+      <a href="/differences-from-promises-a">Differences from Promises/A</a>
+      <a href="/implementations">Implementations</a>
+      <a href="https://github.com/promises-aplus/promises-tests">Compliance Tests</a>
+      <a href="https://github.com/promises-aplus">GitHub organization</a>
+    </footer>
+    <script src="assets/linker.js"></script>
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"fa9256cc7ce5491d9c76413786499b61","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>

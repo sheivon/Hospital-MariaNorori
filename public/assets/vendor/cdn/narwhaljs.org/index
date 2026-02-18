@@ -1,0 +1,205 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <title>narwhal - introduction</title>
+    <link rel="stylesheet" type="text/css" media="all" href="/css/libraries.css">
+    <link rel="stylesheet" type="text/css" media="all" href="/css/template.css">
+    <!--<link rel="stylesheet" type="text/css" media="all"  href="css/template_debug.css" />-->
+    <link rel="stylesheet" type="text/css" media="all" href="/css/grids.css">
+    <link rel="stylesheet" type="text/css" media="all" href="/css/content.css">
+    <link rel="stylesheet" type="text/css" media="all" href="/css/disqus.css">
+    <script type="text/javascript" charset="utf-8" src="/js/misc.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1"/></head>
+<body>
+
+    <!--<h1>introduction</h1>-->
+    <div class="page">
+        <!--<div class="head"></div>-->
+        <div class="body">
+            <h1 id="narwhal"><a href="/index.html">narwhaljs.org</a></h1><br>
+            <!--<div class="leftCol"></div>-->
+            <div class="rightCol">
+                <h1>Blog</h1>
+                <ul>
+                    <li>&#187; <a href="/2009/07/29/hello-0-1.html">hello 0.1</a></li>
+                </ul>
+                <h1>Documentation</h1>
+                <ul>
+                    <li><a href="/available-packages.html">available packages</a></li>
+                    <li><a href="/browser-api-plan.html">browser api plan</a></li>
+                    <li><a href="/browser-api.html">browser api</a></li>
+                    <li><a href="/browser-deployment.html">browser deployment</a></li>
+                    <li><a href="/catalog.html">catalog</a></li>
+                    <li><a href="/download.html">download</a></li>
+                    <li><a href="/engines.html">engines</a></li>
+                    <li><a href="/index.html">introduction</a></li>
+                    <li><a href="/json-tool.html">json tool</a></li>
+                    <li><a href="/lib/binary.html">lib / binary</a></li>
+                    <li><a href="/lib/file.html">lib / file</a></li>
+                    <li><a href="/lib/system.html">lib / system</a></li>
+                    <li><a href="/modules-advanced.html">modules advanced</a></li>
+                    <li><a href="/modules.html">modules</a></li>
+                    <li><a href="/narwhal/json.html">narwhal / json</a></li>
+                    <li><a href="/narwhal.html">narwhaljs.org</a></li>
+                    <li><a href="/packages-howto.html">packages howto</a></li>
+                    <li><a href="/packages-using.html">packages using</a></li>
+                    <li><a href="/packages.html">packages</a></li>
+                    <li><a href="/platforms.html">platforms</a></li>
+                    <li><a href="/quick-start.html">quick start</a></li>
+                    <li><a href="/sea.html">sea</a></li>
+                    <li><a href="/test.html">test</a></li>
+                </ul>
+            </div>
+            <div class="main">
+                <script>
+                    function addEvent(obj, evType, fn) {
+                        if (obj.addEventListener) {
+                            obj.addEventListener(evType, fn, false);
+                            return true;
+                        } else if (obj.attachEvent) {
+                            var r = obj.attachEvent("on" + evType, fn);
+                            return r;
+                        } else {
+                            return false;
+                        }
+                    }
+                    addEvent(window, 'load',
+                        function () {
+                            document.getElementById('github_notice').style.display = 'none';
+                        }
+                    );
+                </script>
+                <h2 id="a_general_purpose_javascript_platform">A general purpose JavaScript platform</h2>
+                <p>Narwhal is a cross-platform, multi-interpreter, general purpose JavaScript platform. It aims to provide a solid foundation for building JavaScript applications, primarily outside the web browser. Narwhal includes a package manager, module system, and standard library for multiple JavaScript interpreters. Currently Narwhal&#8217;s Rhino support is the most complete, but <a href="/engines.html">other engines</a> are available too.</p>
+                <p>Narwhal&#8217;s standard library conforms to the CommonJS standard. It is designed to work with multiple JavaScript interpreters, and to be easy to add support for new interpreters. Wherever possible, it is implemented in pure JavaScript to maximize reuse of code among engines.</p>
+                <p>Combined with Jack, a Rack-like JSGI compatible library, Narwhal provides a platform for creating server-side JavaScript web applications and frameworks such as Nitro.</p>
+                <h3 id="homepage">Homepage:</h3>
+                <ul>
+                    <li><a href="/index.html">http://narwhaljs.org/</a></li>
+                </ul>
+                <h2 id="documentation">Documentation</h2>
+                <div id="github_notice">
+                    <strong>Note:</strong> If you are viewing this on GitHub, the links below will
+                    not work. Find the pages listed below in the <strong>docs/</strong> directory
+                    of this repository.
+                </div>
+                <ul>
+                    <li><a href="/quick-start.html">Quick Start</a></li>
+                    <li><a href="/packages.html">Packages</a></li>
+                    <li><a href="/packages.html">How to Install Packages</a></li>
+                    <li><a href="/packages-howto.html">How to Build Packages</a></li>
+                    <li><a href="/modules.html">Modules</a></li>
+                    <li><a href="/sea.html">Virtual Environments / Seas</a></li>
+                    <li><a href="/engines.html">How to Build Engines</a></li>
+                    <li><a href="/narwhal.html">How Narwhal Works</a></li>
+                </ul>
+                <h3 id="quick_start">Quick Start</h3>
+                <p>Download Narwhal.</p>
+                <ul>
+                    <li>download and extract the zip or tar archive, or</li>
+                    <li><code>git clone git://github.com/280north/narwhal.git</code></li>
+                </ul>
+                <p>Put Narwhal on your <code>PATH</code> environment variable.</p>
+                <ul>
+                    <li><code>export PATH=$PATH:~/narwhal/bin</code>, or</li>
+                    <li><code>source narwhal/bin/activate</code></li>
+                </ul>
+                <p>Run <code>narwhal</code> or <code>js</code> (they are equivalent).</p>
+                <ul>
+                    <li><code>js narwhal/examples/hello</code></li>
+                </ul>
+                <p>Look at the options for Narwhal.</p>
+                <ul>
+                    <li><code>js --help</code></li>
+                </ul>
+                <p>And for Tusk, the package manager and virtual environment tool.</p>
+                <ul>
+                    <li><code>tusk help</code></li>
+                </ul>
+                <h3 id="my_first_web_server">My First Web Server</h3>
+                <p>Create a project &#8220;hello-web&#8221;.</p>
+<pre><code>tusk init hello-web
+cd hello-web</code></pre>
+                <p>Enter your project as a &#8220;virtual environment&#8221; using <code>activate</code> or <code>sea</code> so that its libraries, binaries, and packages get automatically installed when you run Narwhal.</p>
+<pre><code>source bin/activate</code></pre>
+                <p>or</p>
+<pre><code>bin/sea</code></pre>
+                <p>Install some packages you will need, like Jack, the JSGI standard library for interoperable web services.</p>
+<pre><code>tusk install jack</code></pre>
+                <p>Tusk gets downloaded and installed at &#8220;hello-web/packages/jack&#8221;.</p>
+                <p>Create your <code>jackconfig.js</code>.</p>
+<pre><code>exports.app = function(env) {
+    var text = "Hello, Web!";
+    return {
+        status : 200,
+        headers : {
+            "Content-Type" : "text/plain",
+            "Content-Length" : String(text.length)
+        },
+        body : [text]
+    };
+};</code></pre>
+                <p>Run it!</p>
+<pre><code>jackup</code></pre>
+                <p><code>jackup</code> looks for a file called <code>jackconfig.js</code> in the current directory, or you can specify a path to a Jack application.</p>
+                <p>Open http://localhost:8080/ in your web browser.</p>
+                <h3 id="module_system_basics">Module System Basics</h3>
+                <p>Narwhal &#8220;scripts&#8221; are CommonJS compatible modules, much like Python or Ruby modules. You do not have to use module pattern boilerplate; every module has its own local scope. You can get the exports object of another module by calling <code>require</code>.</p>
+<pre><code>var FS = require("file");
+FS.isFile("foo.txt");</code></pre>
+                <p>Module identifiers for <code>require</code> come in three flavors: &#8220;top-level&#8221;, &#8220;relative&#8221;, and &#8220;absolute&#8221;. In the above case, <code>file</code> is a &#8220;top-level&#8221; identifier, so it will load any module called <code>file.js</code> in the <code>lib</code> directory of whichever package comes first in the load path. Relative identifiers have <code>.</code> or <code>..</code> as their first term, and terms are delimited with <code>/</code>. So, in the <code>foo/bar</code> module, <code>require('./baz')</code> will load <code>foo/baz</code>. Absolute module identifiers should not be used directly, but are produced when you execute a program module outside the module path. The module is identified by its fully-qualified path, starting with <code>/</code>.</p>
+                <p>You can export an object by assigning it to <code>exports</code>.</p>
+<pre><code>exports.foo = function () {
+    return "Hello";
+};</code></pre>
+                <p>In a module, you also get a <code>module</code> object that has <code>module.id</code> and <code>module.path</code> properties so you can inspect your own top-level module identifier, and the path of your own module file. You also get a <code>require.main</code> property that tells you the top-level module identifier of the module that started the program.</p>
+<pre><code>if (require.main == module)
+    main();
+var settings = require(require.main);
+var FS = require("file");
+var path = FS.path(module.path);
+var indexHtml = path.resolve("./template/index.html").read();</code></pre>
+                <p>Beyond the CommonJS specification, you also get the <code>print</code> function and the <code>system</code> module object for free. The <code>print</code> function accepts variadic arguments and writes a single line containing the arguments delimited by spaces to standard output and flushes. The <code>system</code> module can be explicitly required with <code>require("system")</code> as is encouraged since it is necessary for CommonJS compliance. Do not use <code>print</code> or <code>system</code> in standard libraries.</p>
+                <h3 id="summary_of_included_modules">Summary of Included Modules</h3>
+                <ul>
+                    <li><code>system</code>: <code>args</code>, <code>env</code>, <code>stdin</code>, <code>stdout</code>, <code>stderr</code></li>
+                    <li><code>io</code>: <code>ByteIO</code> (<code>read</code>, <code>write</code>, <code>toByteString</code>, <code>toString</code>), <code>StringIO</code> (<code>read</code>, <code>write</code>, <code>copy</code>, <code>flush</code>, <code>iterator</code>, <code>forEach</code>, <code>readLine</code>, <code>readLines</code>, <code>next</code>, <code>print</code>, <code>toString</code>, <code>substring</code>, <code>slice</code>, <code>substr</code>), <code>IO</code> (<code>read</code>, <code>write</code>, <code>copy</code>, <code>flush</code>, <code>close</code>, <code>isatty</code>), <code>TextInputStream</code> (<code>raw</code>, <code>readLine</code>, <code>next</code>, <code>iterator</code>, <code>forEach</code>, <code>close</code>), <code>TextOutputStream</code> (<code>write</code>, <code>writeLine</code>, <code>writeLines</code>, <code>print</code>, <code>flush</code>, <code>close</code>)</li>
+                    <li><code>file</code>: <code>open</code>, <code>read</code>, <code>write</code>, <code>copy</code>, <code>link</code>, <code>symlink</code>, <code>rename</code>, <code>move</code>, <code>remove</code>, <code>mkdir</code>, <code>mkdirs</code>, <code>rmdir</code>, <code>rmtree</code>, <code>touch</code>, <code>chmod</code>, <code>chown</code>, <code>list</code>, <code>listTree</code>, <code>listDirectoryTree</code>, <code>copyTree</code>, <code>isAbsolute</code>, <code>isRelative</code>, <code>isDrive</code>, <code>isReadable</code>, <code>isWritable</code>, <code>glob</code>, <code>globPaths</code>, <code>fnmatch</code>, <code>match</code>, <code>cwd</code>, <code>cwdPath</code>, <code>join</code>, <code>split</code>, <code>resolve</code>, <code>relative</code>, <code>absolute</code>, <code>normal</code>, <code>canonical</code>, <code>root</code>, <code>dirname</code>, <code>basename</code>, <code>extension</code>, <code>path</code>, <code>new Path</code> (<code>to</code>, <code>from</code>, &#8230;)</li>
+                    <li><code>os</code>: <code>exit</code>, <code>sleep</code>, <code>popen</code> (<code>wait</code>, <code>stdin</code>, <code>stdout</code>, <code>stderr</code>, <code>communicate</code> (<code>status</code>, <code>stdin</code>, <code>stdout</code>, <code>stderr</code>)), <code>system</code>, <code>command</code>, <code>status</code>, <code>enquote</code></li>
+                    <li><code>binary</code>: <code>Binary</code> (<code>toArray</code>, <code>toByteArray</code>, <code>toByteString</code>, <code>indexOf</code>, <code>lastIndexOf</code>, <code>valueOf</code>), <code>ByteString</code> (<code>length</code>, <code>toString</code>, <code>split</code>, <code>slice</code>, <code>substr</code>, <code>substring</code>, <code>toSource</code>), <code>ByteArray</code> (<code>toString</code>, <code>pop</code>, <code>push</code>, <code>extendRight</code>, <code>unshift</code>, <code>extendLeft</code>, <code>reverse</code>, <code>slice</code>, <code>splice</code>, <code>split</code>, <code>forEach</code>, <code>every</code>, <code>some</code>, <code>map</code>, <code>reduce</code>, <code>reduceRight</code>, <code>displace</code>, <code>toSource</code>)</li>
+                    <li><code>assert</code>: <code>AssertionError</code>, <code>fail</code>, <code>ok</code>, <code>equal</code>, <code>notEqual</code>, <code>deepEqual</code>, <code>notDeepEqual</code>, <code>strictEqual</code>, <code>notStrictEqual</code>, <code>throws</code>, <code>Assert</code> (<code>pass</code>, <code>error</code>, <code>section</code>)</li>
+                    <li><code>test</code>: <code>run</code>, <code>Log</code> (<code>flush</code>, <code>pass</code>, <code>fail</code>, <code>error</code>, <code>begin</code>, <code>end</code>, <code>report</code>, <code>print</code>, <code>section</code>, <code>Assert</code>), <code>Section</code> (<code>print</code>)</li>
+                    <li><code>util</code>: <code>operator</code>, <code>no</code>, <code>object</code>, <code>array</code>, <code>string</code>, <code>apply</code>, <code>copy</code>, <code>deepCopy</code>, <code>repr</code>, <code>keys</code>, <code>values</code>, <code>items</code>, <code>len</code>, <code>has</code>, <code>get</code>, <code>set</code>, <code>getset</code>, <code>cut</code>, <code>put</code>, <code>first</code>, <code>last</code>, <code>update</code>, <code>deepUpdate</code>, <code>complete</code>, <code>deepComplete</code>, <code>remove</code>, <code>range</code>, <code>forEach</code>, <code>forEachApply</code>, <code>map</code>, <code>mapApply</code>, <code>every</code>, <code>some</code>, <code>all</code>, <code>any</code>, <code>reduce</code>, <code>reduceRight</code>, <code>zip</code>, <code>transpose</code>, <code>enumerate</code>, <code>is</code>, <code>eq</code>, <code>ne</code>, <code>lt</code>, <code>gt</code>, <code>le</code>, <code>ge</code>, <code>mul</code>, <code>by</code>, <code>compare</code>, <code>sort</code>, <code>sorted</code>, <code>reverse</code>, <code>reversed</code>, <code>hash</code>, <code>unique</code>, <code>escape</code>, <code>enquote</code>, <code>expand</code>, <code>trim</code>, <code>trimBegin</code>, <code>trimEnd</code>, <code>padBegin</code>, <code>padEnd</code>, <code>splitName</code>, <code>joinName</code>, <code>lower</code>, <code>upper</code>, <code>camel</code>, <code>title</code></li>
+                    <li><code>http</code>: <code>open</code>, <code>read</code></li>
+                    <li><code>sha</code>, <code>sha256</code>, <code>md5</code>, <code>md4</code>, <code>crc32</code>: <code>hash</code></li>
+                    <li><code>utf8</code>, <code>base64</code>, <code>base16</code>: <code>encode</code>, <code>decode</code></li>
+                    <li><code>jsmin</code>: <code>encode</code></li>
+                    <li><code>jsonpath</code>: <code>resolve</code></li>
+                    <li><code>logger</code>: <code>Logger</code> (<code>add</code>, <code>format</code>)</li>
+                    <li><code>args</code>: <code>Parser</code> (<code>parse</code>, <code>option</code>, (<code>_</code>, <code>__</code>, <code>name</code>, <code>displayName</code>, <code>getName</code>, <code>getDisplayName</code>, <code>action</code>, <code>set</code>, <code>push</code>, <code>inc</code>, <code>dec</code>, <code>choices</code>, <code>def</code>, <code>validate</code>, <code>input</code>, <code>output</code>, <code>number</code>, <code>oct</code>, <code>hex</code>, <code>integer</code>, <code>natural</code>, <code>whole</code>, <code>bool</code>, <code>todo</code>, <code>inverse</code>, <code>help</code>, <code>halt</code>, <code>hidden</code>), <code>group</code> (<code>option</code>), <code>def</code>, <code>reset</code>, <code>command</code>, <code>arg</code>, <code>args</code>, <code>act</code>, <code>action</code>, <code>helpful</code>, <code>usage</code>, <code>help</code>, <code>printHelp</code>, <code>printUsage</code>, <code>printCommands</code>, <code>printOption</code>, <code>printOptions</code>, <code>error</code>, <code>exit</code>, <code>print</code>, <code>check</code>), <code>UsageError</code>, <code>ConfigurationError</code></li>
+                    <li><code>term</code>: <code>Stream</code> (<code>enable</code>, <code>disable</code>, <code>writeCode</code>, <code>print</code>, <code>printError</code>, <code>write</code>, <code>update</code>, <code>moveTo</code>, <code>moveBy</code>, <code>home</code>, <code>clear</code>, <code>clearUp</code>, <code>clearDown</code>, <code>clearLine</code>, <code>clearRight</code>, <code>error</code> (<code>print</code>, <code>write</code>)), <code>colors</code>, <code>stream</code></li>
+                    <li><code>uuid</code>: <code>uuid</code></li>
+                    <li><code>mime</code>: <code>bestMatch</code>, <code>parseMimeType</code>, <code>parseMediaRange</code>, <code>fitnessAndQualityParsed</code>, <code>qualityParsed</code>, <code>quality</code></li>
+                    <li><code>html</code>: <code>escapeHTML</code>, <code>stripTags</code></li>
+                    <li><code>ref-send</code>, <code>promise</code>, <code>events</code>: <code>when</code>, <code>defer</code> (<code>resolve</code>, <code>reject</code>, <code>promise</code>),</li>
+                    <li><code>event-loop</code>: <code>enqueue</code></li>
+                    <li><code>printf</code>: <code>printf</code>, <code>fprintf</code>, <code>sprintf</code></li>
+                    <li><code>querystring</code>: <code>unescape</code>, <code>escape</code>, <code>stringify</code>, <code>parseQuery</code></li>
+                    <li><code>sandbox</code>: <code>Sandbox</code></li>
+                    <li><code>loader</code>: <code>Loader</code> (<code>resolve</code>, <code>resolvePkg</code>, <code>find</code>, <code>fetch</code>, <code>load</code>, <code>reload</code>, <code>isLoaded</code>, <code>hasChanged</code>, <code>paths</code>, <code>extensions</code>), <code>resolve</code>, <code>resolvePkg</code></li>
+                    <li><code>packages</code>: <code>order</code>, <code>catalog</code></li>
+                    <li><code>interpreter</code>: <code>Context</code> (<code>eval</code>, <code>importScript</code>, <code>importScripts</code>, <code>Module</code>, <code>Function</code>)</li>
+                    <li><code>zip</code>: <code>unzip</code>, <code>Unzip</code> (<code>iterator</code>, <code>forEach</code>, <code>close</code>), <code>Entry</code> (<code>getName</code>, <code>isDirectory</code>, <code>open</code>, <code>read</code>, <code>copy</code>)</li>
+                </ul>
+
+                <footer>
+                    <hr>
+                    &#160;&#160;&#169; Copyright <script>document.write(new Date().getFullYear());</script>. Narwhaljs. All Rights Reserved. <a href="/terms.html">Terms</a> | <a href="/sitemap.html">Site Map</a>
+                    <hr>
+                </footer>
+            </div>
+        </div>
+        <!--<div class="foot"></div>-->
+    </div>
+</body>
+</html>

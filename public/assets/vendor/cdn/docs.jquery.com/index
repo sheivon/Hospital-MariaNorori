@@ -1,0 +1,238 @@
+<!doctype html>
+<html class="no-js" lang="en-US">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<title>jQuery Learning Center</title>
+
+	<meta name="author" content="OpenJS Foundation - openjsf.org">
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width">
+
+	<link rel="shortcut icon" href="https://learn.jquery.com/wp-content/themes/learn.jquery.com/i/favicon.ico">
+	<link rel="stylesheet" href="https://learn.jquery.com/wp-content/themes/jquery/lib/typesense-minibar/typesense-minibar.css?v=c5fa9b9a">
+	<link rel="stylesheet" href="https://learn.jquery.com/wp-content/themes/jquery/css/base.css?v=5499e3ad">
+	<link rel="stylesheet" href="https://learn.jquery.com/wp-content/themes/learn.jquery.com/style.css?v=9d2b6959">
+
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script src="https://learn.jquery.com/wp-content/themes/jquery/js/main.js?v=10baaffd"></script>
+<meta name='robots' content='max-image-preview:large' />
+<link rel="https://api.w.org/" href="https://learn.jquery.com/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://learn.jquery.com/wp-json/wp/v2/pages/18" /><meta name="generator" content="WordPress 6.8.3" />
+<link rel="canonical" href="https://learn.jquery.com/" />
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="https://learn.jquery.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Flearn.jquery.com%2F" />
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="https://learn.jquery.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Flearn.jquery.com%2F&#038;format=xml" />
+</head>
+<body class="jquery-learn home wp-singular page-template page-template-home page-template-home-php page page-id-18 wp-theme-jquery wp-child-theme-learnjquerycom page-slug-index single-author singular">
+
+
+<header>
+	<section id="global-nav">
+		<nav>
+			<div class="constrain">
+				<ul class="projects">
+					<li class="project jquery"><a href="https://jquery.com/" title="jQuery">jQuery</a></li>
+					<li class="project jquery-ui"><a href="https://jqueryui.com/" title="jQuery UI">jQuery UI</a></li>
+					<li class="project jquery-mobile"><a href="https://jquerymobile.com/" title="jQuery Mobile">jQuery Mobile</a></li>
+					<li class="project sizzlejs"><a href="https://sizzlejs.com/" title="Sizzle">Sizzle</a></li>
+					<li class="project qunitjs"><a href="https://qunitjs.com/" title="QUnit">QUnit</a></li>
+				</ul>
+				<ul class="links">
+					<li><a href="https://plugins.jquery.com/">Plugins</a></li>
+					<li class="dropdown"><a href="https://contribute.jquery.org/">Contribute</a>
+						<ul>
+							<li><a href="https://cla.openjsf.org/">CLA</a></li>
+							<li><a href="https://contribute.jquery.org/style-guide/">Style Guides</a></li>
+							<li><a href="https://contribute.jquery.org/triage/">Bug Triage</a></li>
+							<li><a href="https://contribute.jquery.org/code/">Code</a></li>
+							<li><a href="https://contribute.jquery.org/documentation/">Documentation</a></li>
+							<li><a href="https://contribute.jquery.org/web-sites/">Web Sites</a></li>
+						</ul>
+					</li>
+					<li class="dropdown"><a href="https://events.jquery.org/">Events</a>
+						<ul class="wide">
+						</ul>
+					</li>
+					<li class="dropdown"><a href="https://jquery.com/support/">Support</a>
+						<ul>
+							<li><a href="https://learn.jquery.com/">Learning Center</a></li>
+							<li><a href="https://jquery.com/support/">Chat</a></li>
+							<li><a href="https://stackoverflow.com/tags/jquery/info">Stack Overflow</a></li>
+							<li><a href="https://contribute.jquery.org/bug-reports/">Report a bug</a></li>
+						</ul>
+					</li>
+					<li class="dropdown"><a href="https://openjsf.org/">OpenJS Foundation</a>
+						<ul>
+							<li><a href="https://openjsf.org/join">Join</a></li>
+							<li><a href="https://openjsf.org/members">Members</a></li>
+							<li><a href="https://jquery.com/team">jQuery Team</a></li>
+							<li><a href="https://openjsf.org/governance">Governance</a></li>
+							<li><a href="https://code-of-conduct.openjsf.org/">Conduct</a></li>
+							<li><a href="https://openjsf.org/projects">Projects</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</section>
+</header>
+
+<div id="container">
+	<div id="logo-events" class="constrain clearfix">
+		<h2 class="logo"><a href="/" title="jQuery Learning Center">jQuery Learning Center</a></h2>
+
+		<aside id="broadcast"></aside>
+	</div>
+
+	<nav id="main" class="constrain clearfix">
+		<div class="menu-top-container">
+	<button hidden id="menu-trigger" class="button menu-trigger" aria-expanded="false" aria-haspopup="menu">Navigation</button>
+	<ul id="menu-top" class="menu" role="menu" aria-labelledby="menu-trigger">
+<li class="menu-item"><a href="https://learn.jquery.com">Home</a></li>
+<li class="menu-item"><a href="https://learn.jquery.com/about/">About</a></li>
+<li class="menu-item"><a href="https://learn.jquery.com/contributing/">Contributing</a></li>
+<li class="menu-item"><a href="https://learn.jquery.com/style-guide/">Style Guide</a></li>
+	</ul>
+</div>
+
+		<typesense-minibar>
+	<form role="search" class="searchform" action="https://learn.jquery.com/" method="get">
+	<input type="search" name="s" aria-label="Search jQuery Learning Center" value="" placeholder="Search" autocomplete="off">
+	<button type="submit" class="visuallyhidden"></button>
+</form>
+</typesense-minibar>
+	</nav>
+
+	<div id="content-wrapper" class="clearfix row">
+
+<!-- body -->
+<div class="content-full full-width twelve columns">
+
+<!-- inner -->
+	<div id="content">
+
+		
+		<div id="post-18" class="post-18 page type-page status-publish hentry">
+
+			<div id="banner-secondary" class="large-banner">
+	<h1>Learning Center</h1>
+
+	<div class="row">
+		<aside class="six columns" id="for-users">
+			<h2>Users</h2>
+			<p>There's a lot more to learn about building web sites and applications with jQuery than can fit in API documentation. If you're looking for explanations of the basics, workarounds for common problems, best practices, and how-tos, you're in the right place!</p>
+		</aside>
+
+		<aside class="six columns" id="for-authors">
+			<h2>Authors</h2>
+			<p>Too much good information is spread across corners of the web, languishing in blog and forum posts, often just out of reach of people who need it, while the same questionable advice is duplicated across even more questionable sites. Help us stem the tide and educate today's — and tomorrow's — web developers.</p>
+		</aside>
+	</div>
+</div>
+			<div id="home-features" class="row">
+				<aside id="chapter-list" class="four columns">
+					<h3>Chapters</h3>
+					<ul>
+																			<li><a href="https://learn.jquery.com/about-jquery/">About jQuery</a></li>
+													<li><a href="https://learn.jquery.com/using-jquery-core/">Using jQuery Core</a></li>
+													<li><a href="https://learn.jquery.com/events/">Events</a></li>
+													<li><a href="https://learn.jquery.com/effects/">Effects</a></li>
+													<li><a href="https://learn.jquery.com/ajax/">Ajax</a></li>
+													<li><a href="https://learn.jquery.com/plugins/">Plugins</a></li>
+													<li><a href="https://learn.jquery.com/performance/">Performance</a></li>
+													<li><a href="https://learn.jquery.com/code-organization/">Code Organization</a></li>
+													<li><a href="https://learn.jquery.com/jquery-ui/">jQuery UI</a></li>
+													<li><a href="https://learn.jquery.com/jquery-mobile/">jQuery Mobile</a></li>
+											</ul>
+				</aside>
+
+				<aside id="recent-updates" class="four columns">
+					<h3>Recently Updated</h3>
+										<ul>
+													<li><a href="https://learn.jquery.com/using-jquery-core/faq/how-do-i-test-whether-an-element-has-a-particular-class/">How do I test whether an element has a particular class?</a></li>
+													<li><a href="https://learn.jquery.com/using-jquery-core/faq/how-do-i-test-whether-an-element-exists/">How do I test whether an element exists?</a></li>
+													<li><a href="https://learn.jquery.com/using-jquery-core/faq/how-do-i-select-elements-when-i-already-have-a-dom-element/">How do I select elements when I already have a DOM element?</a></li>
+													<li><a href="https://learn.jquery.com/using-jquery-core/faq/how-do-i-select-an-item-using-class-or-id/">How do I select an item using class or ID?</a></li>
+													<li><a href="https://learn.jquery.com/using-jquery-core/faq/how-do-i-select-an-element-by-an-id-that-has-characters-used-in-css-notation/">How do I select an element by an ID that has characters used in CSS notation?</a></li>
+													<li><a href="https://learn.jquery.com/using-jquery-core/faq/how-do-i-replace-text-from-the-3rd-element-of-a-list-of-10-items/">How do I replace text from the 3rd element of a list of 10 items?</a></li>
+													<li><a href="https://learn.jquery.com/using-jquery-core/faq/how-do-i-pull-a-native-dom-element-from-a-jquery-object/">How do I pull a native DOM element from a jQuery object?</a></li>
+													<li><a href="https://learn.jquery.com/using-jquery-core/faq/how-do-i-get-the-text-value-of-a-selected-option/">How do I get the text value of a selected option?</a></li>
+													<li><a href="https://learn.jquery.com/using-jquery-core/faq/how-do-i-disable-enable-a-form-element/">How do I disable/enable a form element?</a></li>
+													<li><a href="https://learn.jquery.com/using-jquery-core/faq/how-do-i-check-uncheck-a-checkbox-input-or-radio-button/">How do I check/uncheck a checkbox input or radio button?</a></li>
+											</ul>
+				</aside>
+
+				<aside id="open-source-content" class="four columns">
+					<h3>Open Source Content</h3>
+					<p>
+					All of the content in this site is completely open source, and we welcome your contribution.
+					Whether you notice a small improvement that should be made, or want to write entirely new articles, this is one area where feature requests are encouraged!
+					</p>
+					<a class="button dark" href="https://github.com/jquery/learn.jquery.com"><i class="icon-github"></i>  Open an Issue or Submit a Pull Request</a>
+					<p class="clearfix">Each of our articles has a link to the raw content on GitHub, and we urge everyone to fork, edit, and help improve this community resource!</p>
+				</aside>
+			</div>
+		</div><!-- #post-18 -->
+
+	</div>
+<!-- /inner -->
+
+</div>
+<!-- /body -->
+
+	</div>
+</div>
+
+<footer class="clearfix simple">
+	<div class="constrain">
+		<div class="row">
+			<div class="six columns centered">
+				<h3><span>Books</span></h3>
+				<ul class="books">
+					<li>
+						<a href="https://www.packtpub.com/en-us/product/learning-jquery-fourth-edition-9781782163152">
+							<img src="https://learn.jquery.com/wp-content/themes/jquery/content/books/learning-jquery-4th-ed.jpg" alt="Learning jQuery 4th Edition by Karl Swedberg and Jonathan Chaffer" width="92" height="114" loading="lazy">
+							Learning jQuery Fourth Edition
+							<cite>Karl Swedberg and Jonathan Chaffer</cite>
+						</a>
+					</li>
+					<li>
+						<a href="https://www.manning.com/books/jquery-in-action-third-edition">
+							<img src="https://learn.jquery.com/wp-content/themes/jquery/content/books/jquery-in-action.jpg" alt="jQuery in Action by Bear Bibeault, Yehuda Katz, and Aurelio De Rosa" width="92" height="114" loading="lazy">
+							jQuery in Action
+							<cite>Bear Bibeault, Yehuda Katz, and Aurelio De Rosa</cite>
+						</a>
+					</li>
+					<li>
+						<a href="https://www.syncfusion.com/ebooks/jquery">
+							<img src="https://learn.jquery.com/wp-content/themes/jquery/content/books/jquery-succinctly.jpg" alt="jQuery Succinctly by Cody Lindley" width="92" height="114" loading="lazy">
+							jQuery Succinctly
+							<cite>Cody Lindley</cite>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		
+<div id="legal" class="legal">
+	<ul class="footer-site-links">
+			<li><a class="icon-pencil" href="https://learn.jquery.com/">Learning Center</a></li>
+			<li><a class="icon-comments" href="https://jquery.com/support/">Chat</a></li>
+			<li><a class="icon-twitter" href="https://twitter.com/jquery">Twitter</a></li>
+			<li><a class="icon-github" href="https://github.com/jquery">GitHub</a></li>
+	</ul>
+	<p class="copyright">
+		Copyright 2025 <a href="https://openjsf.org/">OpenJS Foundation</a> and jQuery contributors. All rights reserved. See <a href="https://jquery.com/license/">jQuery License</a> for more information. The <a href="https://openjsf.org/">OpenJS Foundation</a> has registered trademarks and uses trademarks. For a list of trademarks of the <a href="https://openjsf.org/">OpenJS Foundation</a>, please see our <a href="https://trademark-policy.openjsf.org/">Trademark Policy</a> and <a href="https://trademark-list.openjsf.org/">Trademark List</a>. Trademarks and logos not indicated on the <a href="https://trademark-list.openjsf.org/">list of OpenJS Foundation trademarks</a> are trademarks™ or registered® trademarks of their respective holders. Use of them does not imply any affiliation with or endorsement by them. OpenJS Foundation <a href="https://terms-of-use.openjsf.org/">Terms of Use</a>, <a href="https://privacy-policy.openjsf.org/">Privacy</a>, and <a href="https://www.linuxfoundation.org/cookies">Cookie</a> Policies also apply.
+	</p>
+	<p><a href="https://www.digitalocean.com" class="do-link">Web hosting by Digital Ocean</a> | <a href="https://www.fastly.com/">CDN by Fastly</a> | <a href="https://wordpress.org/" class="wp-link">Powered by WordPress</a></p>
+</div>
+
+	</div>
+</footer>
+
+<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"\/*"},{"not":{"href_matches":["\/wp-*.php","\/wp-admin\/*","\/wp-content\/uploads\/*","\/wp-content\/*","\/wp-content\/plugins\/*","\/wp-content\/themes\/learn.jquery.com\/*","\/wp-content\/themes\/jquery\/*","\/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+</body>
+</html>

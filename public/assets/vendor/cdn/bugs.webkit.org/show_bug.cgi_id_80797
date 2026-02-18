@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>80797 &ndash; Argument length limited to 65536</title>
+
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes, viewport-fit=cover">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="hsl(203.6, 100%, 12%)" />
+    
+    <meta property="og:site_name" content="WebKit Bugzilla" />
+    <meta property="og:title" content="80797 &ndash; Argument length limited to 65536">
+    <meta property="og:type" content="object">
+
+    <meta name="twitter:site" content="@webkit">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-180x180.png">
+    
+    <link rel="stylesheet" href="https://www.apple.com/wss/fonts?families=SF+Pro,v1" type="text/css">
+    <link rel="stylesheet" href="https://www.apple.com/wss/fonts?families=SF+Mono,v2" type="text/css">
+
+<link href="data/assets/dd5f96b099325196444b7ebd518a7152.css?1761681011" rel="stylesheet" type="text/css">
+
+<link href="data/assets/c9b5acf1f7a2164f8dcb33e49e4ede0a.css?1761681006" rel="stylesheet" type="text/css">
+
+    
+<script type="text/javascript" src="data/assets/a7c2f3a028f17a9aa60f56dc9d6e732d.js?1731713409"></script>
+
+    <script type="text/javascript">
+    <!--
+        document.addEventListener('DOMContentLoaded', () => {
+          [...document.getElementsByClassName("tolocaledatetime")].forEach(element => {
+            let currentDateTime = new Date(element.textContent);
+            element.innerHTML = currentDateTime.toLocaleDateString(undefined, {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            }) + " " + currentDateTime.toLocaleTimeString(undefined, { timeZoneName: "short" });
+          });
+
+        });
+    
+        YAHOO.namespace('bugzilla');
+        YAHOO.util.Event.addListener = function (el, sType, fn, obj, overrideContext) {
+               if ( ("onpagehide" in window || YAHOO.env.ua.gecko) && sType === "unload") { sType = "pagehide"; };
+               var capture = ((sType == "focusin" || sType == "focusout") && !YAHOO.env.ua.ie) ? true : false;
+               return this._addListener(el, this._getType(sType), fn, obj, overrideContext, capture);
+         };
+        if ( "onpagehide" in window || YAHOO.env.ua.gecko) {
+            YAHOO.util.Event._simpleRemove(window, "unload", 
+                                           YAHOO.util.Event._unload);
+        }
+        
+        function unhide_language_selector() { 
+            YAHOO.util.Dom.removeClass(
+                'lang_links_container', 'bz_default_hidden'
+            ); 
+        } 
+        YAHOO.util.Event.onDOMReady(unhide_language_selector);
+
+        
+        var BUGZILLA = {
+            param: {
+                cookiepath: '\/',
+                maxusermatches: 1000
+            },
+            constant: {
+                COMMENT_COLS: 80
+            },
+            string: {
+                
+
+                attach_desc_required:
+                    "You must enter a Description for this attachment.",
+                component_required:
+                    "You must select a Component for this bug.",
+                description_required:
+                    "You must enter a Description for this bug.",
+                short_desc_required:
+                    "You must enter a Summary for this bug.",
+                version_required:
+                    "You must select a Version for this bug."
+            }
+              , api_token: ''
+        };
+
+    if (history && history.replaceState) {
+      if(!document.location.href.match(/show_bug\.cgi/)) {
+        history.replaceState( null,
+                             "80797 – Argument length limited to 65536",
+                             "show_bug.cgi?id=80797" );
+        document.title = "80797 – Argument length limited to 65536";
+      }
+      if (document.location.href.match(/show_bug\.cgi\?.*list_id=/)) {
+        var href = document.location.href;
+        href = href.replace(/[\?&]+list_id=(\d+|cookie)/, '');
+        history.replaceState(null, "80797 – Argument length limited to 65536", href);
+      }
+    }
+    YAHOO.util.Event.onDOMReady(function() {
+      initDirtyFieldTracking();
+
+    });
+    // -->
+    </script>
+<script type="text/javascript" src="data/assets/daf5e0fb6826e6a35280e622913f0c4a.js?1731713409"></script>
+
+
+    
+
+
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+                       title="Bugzilla" href="./search_plugin.cgi">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  </head>
+
+  <body 
+        class="bugs-webkit-org 
+                 bz_bug 
+                 bz_status_RESOLVED 
+                 bz_product_WebKit 
+                 bz_component_JavaScriptCore 
+                 bz_bug_80797 80797-&amp;ndash;-argument-length-limited-to-65536 yui-skin-sam">
+
+
+  <div id="header">
+
+    
+
+
+    <div id="titles">
+
+      <a id="title" href="./"> WebKit Bugzilla</a>
+
+
+
+    </div>
+
+
+<!-- 
+
+        <div id="bug_title">Bug&nbsp;80797: Argument length limited to 65536</div>
+
+-->
+
+    <div id="common_links"><ul class="links">
+  <li class="new-bug"><a href="enter_bug.cgi">New</a></li>
+  <li class="browse-bugs"><a href="describecomponents.cgi">Browse</a></li>
+  <li class="advanced-search"><a href="query.cgi?format=advanced">Search+</a></li>
+
+
+    
+      
+      <li id="mini_login_container_top">
+  <button id="login_link_top" href="show_bug.cgi?id=80797&amp;GoAheadAndLogIn=1" onclick="document.getElementById('login-dialog').showModal()">Log In</button>
+  
+  <dialog id="login-dialog">
+  <div class="close">
+  <a href="#" onclick="document.getElementById('mini_login_top').classList.remove('bz_default_hidden'); document.getElementById('forgot_form_top').classList.add('bz_default_hidden'); document.getElementById('login-dialog').close(); return false;" class="close">&times;</a>
+  </div>
+<span id="github_mini_login_top" class="bz_default_hidden mini_login_top"></span>
+    <form method="post" action="https://bugs.webkit.org/github.cgi">
+    <input type="hidden" name="github_secret" value="sGMoFN8CF6XDZXTk">
+    <input type="hidden" name="target_uri" value="https://bugs.webkit.org/show_bug.cgi?id=80797">
+    <button name="githubauth" value="Log in with GitHub" class="button github">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="currentColor" d="M39.9827068,2.06038715 C26.6986914,5.02206928 15.8101542,12.3827204 8.31884067,23.5325825 C-4.79095805,43.1755033 -2.17770913,69.5257633 14.5470839,86.3376647 C19.555811,91.3899459 27.1777871,96.2680106 32.9269346,98.140839 L33.5416202,98.3377883 C35.0307543,98.8014854 35.3836071,98.7742569 36.1347271,98.2821121 L36.4598332,98.0622568 C37.3310229,97.448652 37.3694578,97.0097509 37.3694578,92.304583 L37.3694578,87.1651935 L33.5366926,87.3829642 C29.0506155,87.600735 25.5662834,86.8167603 23.4756844,85.0310402 C22.778818,84.4571503 21.4646582,82.5715118 20.4773008,80.7539572 L19.8536874,79.5760386 C18.4740582,77.0427807 17.242091,75.5874553 14.4744392,73.1058792 L13.6695472,72.3890342 C12.8932319,71.6859889 12.9407045,71.5933044 13.6324468,71.0937126 C15.5052752,69.6999799 19.2944861,71.0501586 21.6899643,73.9247323 L22.7390371,75.1881495 C26.1616492,79.2523919 27.6940317,80.4168625 29.8781443,80.8933961 C32.0122976,81.3289376 33.9722341,81.154721 36.9339163,80.283638 C37.3259036,80.1529756 37.8485535,79.2383385 38.1098784,78.1930389 C38.3712031,77.1912935 39.0680696,75.6668983 39.6342734,74.8393695 L40.679573,73.3149743 L37.151687,72.6181078 C29.7474817,71.0937126 25.1742961,68.4369096 22.1690599,63.9072782 C19.3815944,59.72608 18.4669573,56.1110856 18.4234031,49.3601926 L18.4324675,48.1749454 C18.51876,42.850272 19.2446323,40.3337894 21.6049861,37.1593877 L22.2503793,36.3059336 C23.050648,35.2082945 23.1611069,34.7274879 22.9223171,34.0121113 L22.8659263,33.8549157 C22.2126141,32.2869662 22.3868307,25.6667358 23.083697,23.6632448 C23.649901,22.1824037 23.95478,21.921079 25.1307419,21.7904164 C27.0906787,21.5726457 30.7492273,22.835716 34.4513298,24.9263151 L37.6307827,26.7555895 L40.4182483,26.1022773 C44.3816758,25.1876401 56.2719582,25.2311943 59.8433984,26.1022773 L62.5437556,26.7991435 L65.0698962,25.2747485 C68.4235657,23.2712575 72.6918723,21.7033083 74.8260256,21.7033083 L75.3880613,21.7095181 C76.535526,21.7482235 76.6117457,22.02452 77.2215036,23.968124 C77.9207898,26.395058 78.0761866,30.6867545 77.5409306,33.027357 L77.4392744,33.4193742 C77.0908413,34.7259987 77.1779497,35.117986 78.1361408,36.3810563 C82.8835429,42.6528537 83.4061928,53.0622951 79.3992112,61.5989084 C76.698854,67.2173935 70.9932605,71.1372668 63.3277305,72.5745536 L59.6691819,73.2714201 L61.0193606,75.6668983 L62.4130932,78.1059306 L62.5437556,87.8185058 L62.7179722,97.5310809 L63.8068259,98.2279473 C64.7558478,98.8468746 65.0012471,98.8794498 66.8020229,98.2516071 L67.1169411,98.140839 C70.6012732,96.9648769 76.5681916,93.74187 79.8347527,91.2592835 C99.2599028,76.7121978 105.5317,50.6232629 94.7738257,28.9332968 C88.4584741,16.1719313 76.5246374,6.37224799 62.8486347,2.71369941 C56.8817163,1.14574994 45.6447461,0.797316839 39.9827068,2.06038715 Z"/></svg>Sign in with GitHub</button>
+    </form>
+  
+  <p class="divider">or</p>
+  
+  <form action="show_bug.cgi?id=80797" method="POST"
+        id="mini_login_top" class="mini_login dialog-grid">
+        
+    <input id="Bugzilla_login_top" required autofocus
+           name="Bugzilla_login" class="bz_login"
+        type="email" placeholder="Email Address">
+    <input class="bz_password" name="Bugzilla_password" type="password"
+           id="Bugzilla_password_top" required
+           placeholder="Password">
+    <input type="hidden" name="Bugzilla_login_token"
+           value="">
+    <input type="submit" name="GoAheadAndLogIn" value="Log in"
+            id="log_in_top">
+                
+      <label for="Bugzilla_remember_top"><input type="checkbox" id="Bugzilla_remember_top" 
+             name="Bugzilla_remember" value="on" class="bz_remember"
+             > Remember my login</label>
+    
+    <div class="links">
+    <a id="create_account_link_top" href="/createaccount.cgi">Create Account</a> 
+    
+    &middot;
+              
+    <a id="forgot_link_top" href="show_bug.cgi?id=80797&amp;GoAheadAndLogIn=1#forgot"
+       onclick="document.getElementById('mini_login_top').classList.toggle('bz_default_hidden');
+                document.getElementById('forgot_form_top').classList.toggle('bz_default_hidden');
+                return false;">Forgot Password</a>
+    </div>
+  </form>
+  
+    <form action="token.cgi" method="post" id="forgot_form_top"
+          class="mini_forgot dialog-grid bz_default_hidden">
+      <h2>Forgotten password account recovery</h2>
+      <input name="loginname" size="20" id="login_top" required
+          type="email" placeholder="Your Email Address">
+      <input id="forgot_button_top" value="Reset Password" type="submit">
+      <input type="hidden" name="a" value="reqpw">
+      <input type="hidden" id="token_top" name="token"
+             value="1762651294-lF7TqtF9CSKPU3WRZ79yfTL8jyUMNqHWcClShUph5Pw">
+    </form>
+  
+  </dialog>
+  
+
+</li>
+    
+    <li class="quicksearch">
+    <form action="buglist.cgi" method="get"
+        onsubmit="if (this.quicksearch.value == '') { document.location.assign('/query.cgi'); return false; } else return true;">
+    <input type="hidden" id="no_redirect_top" name="no_redirect" value="0">
+    <script type="text/javascript">
+      if (history && history.replaceState) {
+        var no_redirect = document.getElementById("no_redirect_top");
+        no_redirect.value = 1;
+      }
+    </script>
+    <input class="search-input" type="search" id="quicksearch_top" name="quicksearch" 
+           title="Quick Search" value="">
+    <!-- <input class="btn" type="submit" value="Search" 
+           id="find_top"> --></form></li>
+  </ul>
+    </div>
+  </div>
+
+
+  <main id="bugzilla-body">
+    <section>
+
+
+<script type="text/javascript">
+<!--
+
+//-->
+</script>
+
+<form name="changeform" id="changeform" method="post" action="process_bug.cgi">
+<div class="mobile-button-positioning mobile-hidden">
+  <div class="mobile-save-overlay">
+  <input type="submit" value="Save Changes" 
+         id="mobile-commit">
+  </div>
+</div>
+
+  <input type="hidden" name="delta_ts" value="2021-09-11 10:58:33">
+  <input type="hidden" name="id" value="80797">
+  <input type="hidden" name="token" value="1762651294-hvVT6Vmj32hplCks0w1x0IdeS9b8MXDkX_UnvquwEmU">
+<div class="bz_short_desc_container edit_form">
+     <div id="bug-id-status">
+     <span class="bug-status status-resolved">RESOLVED
+          INVALID</span><a href="show_bug.cgi?id=80797" class="bug_id">80797</a>
+     </div>
+     <style>
+     a.bug_id::before {
+       content: "Bug ";
+       -webkit-user-select: none;
+       user-select: none;
+     }
+     </style>
+     <span id="summary_container" class="bz_default_hidden">
+      <span id="short_desc_nonedit_display">Argument length limited to 65536 <pre id="commit-urls">https://bugs.webkit.org/show_bug.cgi?id=80797</pre></span>
+     </span>
+    <div id="summary_input"><span class="field_label "
+    id="field_label_short_desc">
+
+
+  <a 
+      title="The bug summary is a short sentence which succinctly describes what the bug is about."
+      class="field_help_link field-label"
+      href="page.cgi?id=fields.html#short_desc"
+  >Summary</a>
+
+</span>Argument length limited to 65536
+    </div>
+  </div>
+  <script type="text/javascript"> 
+    const container = document.getElementById('summary_container')
+    const input = document.getElementById('summary_input');
+    const editButton = document.getElementById('summary_edit_action');
+    
+    container.classList.remove('bz_default_hidden');
+    input.classList.add('bz_default_hidden');
+    editButton.addEventListener('click', () => {
+      container.classList.toggle('bz_default_hidden');
+      input.classList.toggle('bz_default_hidden');
+      document.querySelectorAll('.mobile-hidden').forEach(element => {
+        element.classList.toggle('mobile-hidden');
+      });
+    });
+    
+    function selectText(node) {    
+        if (document.body.createTextRange) {
+            const range = document.body.createTextRange();
+            range.moveToElementText(node);
+            range.select();
+        } else if (window.getSelection) {
+            const selection = window.getSelection();
+            const range = document.createRange();
+            range.selectNodeContents(node);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+    }
+    
+    let copyCommitlogElement = document.getElementById('copy-commitlog');
+    copyCommitlogElement.addEventListener('click', (e) => {
+      e.preventDefault();
+      let text = document.getElementById('short_desc').value + "\n" + document.getElementById('commit-urls').textContent;
+      navigator.clipboard.writeText(text).then(function() {
+        copyCommitlogElement.classList.add('clicked');
+        setTimeout(function () {
+          copyCommitlogElement.classList.remove('clicked');  
+        }, 3000);
+      });
+    });
+    
+    // Add Radar URL
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('#comments .bz_comment').forEach((comment) => {
+          let email = comment.querySelector('.bz_comment_user .email');
+          if (email && email.getAttribute('href') != 'mailto:webkit-bug-importer@group.apple.com')
+            return;
+          let commentText = comment.querySelector('.bz_comment_text');
+          let rdar = commentText.textContent.match(/rdar:\/\/.*?\d+/)
+          let commit_urls = document.getElementById('commit-urls');
+          if (rdar?.length > 0)
+            commit_urls.innerHTML += "\n" + rdar.toString().replace('/problem','');
+      });
+    });
+    
+  </script>
+  
+  <section class="comments-section">
+    
+    
+    <div id="comments"><script src="js/comments.js?1761680866" type="text/javascript"></script>
+
+<script type="text/javascript">
+<!--
+  /* Adds the reply text to the 'comment' textarea */
+  function replyToComment(id, real_id, name) {
+      var prefix = "(In reply to " + name + " from comment #" + id + ")\n";
+      var replytext = "";
+        /* pre id="comment_name_N" */
+        var text_elem = document.getElementById('comment_text_'+id);
+        var text = getText(text_elem);
+        replytext = prefix + wrapReplyText(text);
+
+
+      /* <textarea id="comment"> */
+      var textarea = document.getElementById('comment');
+      if (textarea.value != replytext) {
+          textarea.value += replytext;
+      }
+
+      textarea.focus();
+  } 
+//-->
+</script>
+
+
+<!-- This auto-sizes the comments and positions the collapse/expand links 
+     to the right. -->
+<div class="bz_comment_table">
+<div id="c0" class="bz_comment bz_first_comment">
+
+      <div class="bz_first_comment_head">
+        <div class="bz_comment_user">
+          <span class="vcard"><span class="fn">Matthew Caruana Galizia</span>
+</span>
+          
+          
+          <span class="bz_comment_user_images">
+          </span>
+
+        </div>
+
+
+        <div class="bz_comment_meta">
+          <a href="show_bug.cgi?id=80797#c0">Reported</a>
+          <span class="bz_comment_time torelativedatetime" data-ts="2012-03-11 16:45:05">2012-03-11 16:45:05 PDT</span>
+          
+        </div>
+
+      </div>
+
+
+
+
+<div class="bz_comment_text">Attempting to call a function with more than 65536 arguments results in a RangeError being thrown.
+
+How to reproduce:
+
+var i, l, a, s;
+for (i = 0, l = 65537, a = []; i &lt; l; i++) a.push(60);
+s = String.fromCharCode.apply(String, a);
+
+Expected result:
+
+The arguments are applied to the method.
+
+Actual result:
+
+The following error is thrown: &quot;RangeError: Maximum call stack size exceeded.&quot;</div>
+    </div>
+    
+    
+
+        
+        
+        <script src="js/status-bubble.js?1761680866"></script>
+<script type="text/javascript">
+<!--
+window.addEventListener('message', handleStatusBubbleMessage, false);
+
+function toggle_display(link) {
+    var table = document.getElementById("attachment_table");
+    var view_all = document.getElementById("view_all");
+    var hide_obsolete_url_parameter = "&hide_obsolete=1";
+    // Store current height for scrolling later
+    var originalHeight = table.offsetHeight;
+    var rows = YAHOO.util.Dom.getElementsByClassName(
+        'bz_tr_obsolete', 'tr', table);
+
+    for (var i = 0; i < rows.length; i++) {
+        bz_toggleClass(rows[i], 'bz_default_hidden');
+    }
+
+    if (YAHOO.util.Dom.hasClass(rows[0], 'bz_default_hidden')) {
+        link.innerHTML = "Show Obsolete";
+        view_all.href = view_all.href + hide_obsolete_url_parameter 
+    }
+    else {
+        link.innerHTML = "Hide Obsolete";
+        view_all.href = view_all.href.replace(hide_obsolete_url_parameter,"");
+    }
+
+    var newHeight = table.offsetHeight;
+    // This scrolling makes the window appear to not move at all.
+    window.scrollBy(0, newHeight - originalHeight);
+
+    return false;
+}
+//-->
+</script>
+
+<table id="attachment_table">
+  <tr id="a0">
+    <th colspan="3" class="left">
+      Attachments
+    </th>
+  </tr>
+
+
+
+  <tr class="bz_attach_footer">
+    <td colspan="3">
+        <a class="small button" href="attachment.cgi?bugid=80797&amp;action=enter">Add attachment</a>
+        <em>proposed patch, testcase, etc.</em>
+    </td>
+  </tr>
+</table>
+        
+        
+        
+          
+    
+
+
+    <div id="c1" class="bz_comment">
+
+      <div class="bz_comment_head">
+        <div class="bz_comment_user">
+          <span class="vcard"><span class="fn">Gavin Barraclough</span>
+</span>
+          
+          
+          <span class="bz_comment_user_images">
+          </span>
+
+        </div>
+
+
+        <div class="bz_comment_meta">
+          <a href="show_bug.cgi?id=80797#c1">Comment 1</a>
+          <span class="bz_comment_time torelativedatetime" data-ts="2012-03-11 22:13:48">2012-03-11 22:13:48 PDT</span>
+          
+        </div>
+
+      </div>
+
+
+
+
+<div class="bz_comment_text">This is a restriction we place on code to enforce reasonable resource allocation, and to avoid the need for otherwise unnecessary timeout checking in argument copying loops in the VM.  This isn't something that's likely to change any time soon.
+
+The maximum number of arguments you can pass to a function is always going to be physically limited by the size of the stack.  We do artificially cap the argument count below this right now, and we could reasonably raise the hard limit to around 2^31 or 2^32, but (1) this would still be an arbitrary limit and (2) the stack size limit would never let you get there anyway.
+
+Stack size is finite, and 0xFFFF seems as good an arbitrary limit as any other would be. :-)
+
+Any patch to change this will have to be careful not to introduce integer overflow, I think we may steal a couple of bits from the arguments count in either CodeBlock or Executable, and I think we may mix use of uint32t &amp; int32t in our handling of argument counts.
+
+Do you have a specific web compatibility concern here?</div>
+    </div>
+    
+
+
+    <div id="c2" class="bz_comment">
+
+      <div class="bz_comment_head">
+        <div class="bz_comment_user">
+          <span class="vcard"><span class="fn">Matthew Caruana Galizia</span>
+</span>
+          
+          
+          <span class="bz_comment_user_images">
+          </span>
+
+        </div>
+
+
+        <div class="bz_comment_meta">
+          <a href="show_bug.cgi?id=80797#c2">Comment 2</a>
+          <span class="bz_comment_time torelativedatetime" data-ts="2012-03-12 05:37:36">2012-03-12 05:37:36 PDT</span>
+          
+        </div>
+
+      </div>
+
+
+
+
+<div class="bz_comment_text">Thank you for explaining. There is a web compatibility concern in that many developers seem to have written implementations of `pack` or other utilities that perform binary operations that rely on `String.fromCharCode.apply` to perform the final transformation, because in some test cases it's faster than calling it on every iteration of a per-character loop.
+
+See for example:
+
+<a rel="nofollow" href="http://stackoverflow.com/questions/3195865/javascript-html-converting-byte-array-to-string">http://stackoverflow.com/questions/3195865/javascript-html-converting-byte-array-to-string</a>
+<a rel="nofollow" href="http://codereview.stackexchange.com/questions/3569/pack-and-unpack-bytes-to-strings">http://codereview.stackexchange.com/questions/3569/pack-and-unpack-bytes-to-strings</a>
+<a rel="nofollow" href="http://stackoverflow.com/questions/5636812/sorting-strings-in-reverse-order-with-backbone-js/5639070">http://stackoverflow.com/questions/5636812/sorting-strings-in-reverse-order-with-backbone-js/5639070</a>
+
+It seems like this won't be trivial to fix in JavaScriptCore, and I understand why it's actually better to have a hard limit than allow developers to write code that performs badly. So perhaps it would be better to warn web developers of this issue at least for now. A warning has been added to Mozilla's docs at <a rel="nofollow" href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/apply">https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/apply</a>.</div>
+    </div>
+    
+
+
+    <div id="c3" class="bz_comment">
+
+      <div class="bz_comment_head">
+        <div class="bz_comment_user">
+          <span class="vcard"><span class="fn">Gavin Barraclough</span>
+</span>
+          
+          
+          <span class="bz_comment_user_images">
+          </span>
+
+        </div>
+
+
+        <div class="bz_comment_meta">
+          <a href="show_bug.cgi?id=80797#c3">Comment 3</a>
+          <span class="bz_comment_time torelativedatetime" data-ts="2012-03-12 10:03:25">2012-03-12 10:03:25 PDT</span>
+          
+        </div>
+
+      </div>
+
+
+
+
+<div class="bz_comment_text">Ah, thanks for the examples, &amp; the comment in the docs looks good!
+
+cheers, G.</div>
+    </div>
+    
+
+
+    <div id="c4" class="bz_comment">
+
+      <div class="bz_comment_head">
+        <div class="bz_comment_user">
+          <span class="vcard"><span class="fn">Elijah Lynn</span>
+</span>
+          
+          
+          <span class="bz_comment_user_images">
+          </span>
+
+        </div>
+
+
+        <div class="bz_comment_meta">
+          <a href="show_bug.cgi?id=80797#c4">Comment 4</a>
+          <span class="bz_comment_time torelativedatetime" data-ts="2014-02-20 04:44:55">2014-02-20 04:44:55 PST</span>
+          
+        </div>
+
+      </div>
+
+
+
+
+<div class="bz_comment_text">The original code sample works in Chrome Version 32.0.1700.107 on Ubuntu. I have 10GB memory if it makes any difference.
+
+This: 
+var i, l, a, s;
+for (i = 0, l = 65537, a = []; i &lt; l; i++) a.push(60);
+s = String.fromCharCode.apply(String, a);
+
+Produces: 
+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;...</div>
+    </div>
+    
+
+
+    <div id="c5" class="bz_comment">
+
+      <div class="bz_comment_head">
+        <div class="bz_comment_user">
+          <span class="vcard"><span class="fn">Mathias Bynens</span>
+</span>
+          
+          
+          <span class="bz_comment_user_images">
+          </span>
+
+        </div>
+
+
+        <div class="bz_comment_meta">
+          <a href="show_bug.cgi?id=80797#c5">Comment 5</a>
+          <span class="bz_comment_time torelativedatetime" data-ts="2014-02-20 04:47:58">2014-02-20 04:47:58 PST</span>
+          
+        </div>
+
+      </div>
+
+
+
+
+<div class="bz_comment_text">(In reply to <a href="show_bug.cgi?id=80797#c4">comment #4</a>)
+<span class="quote">&gt; The original code sample works in Chrome Version 32.0.1700.107 on Ubuntu. I have 10GB memory if it makes any difference.</span >
+
+This is the WebKit bug tracker, not Chromium’s. The snippet you posted still throws an error in WebKit/JavaScriptCore.</div>
+    </div>
+    
+
+
+    <div id="c6" class="bz_comment">
+
+      <div class="bz_comment_head">
+        <div class="bz_comment_user">
+          <span class="vcard"><span class="fn">Mathias Bynens</span>
+</span>
+          
+          
+          <span class="bz_comment_user_images">
+          </span>
+
+        </div>
+
+
+        <div class="bz_comment_meta">
+          <a href="show_bug.cgi?id=80797#c6">Comment 6</a>
+          <span class="bz_comment_time torelativedatetime" data-ts="2014-02-20 04:49:21">2014-02-20 04:49:21 PST</span>
+          
+        </div>
+
+      </div>
+
+
+
+
+<div class="bz_comment_text">There are different argument count limits, depending on how you test: <a rel="nofollow" href="http://mathiasbynens.be/demo/javascript-argument-count">http://mathiasbynens.be/demo/javascript-argument-count</a></div>
+    </div>
+    
+
+
+    <div id="c7" class="bz_comment">
+
+      <div class="bz_comment_head">
+        <div class="bz_comment_user">
+          <span class="vcard"><span class="fn">Oliver Hunt</span>
+</span>
+          
+          
+          <span class="bz_comment_user_images">
+          </span>
+
+        </div>
+
+
+        <div class="bz_comment_meta">
+          <a href="show_bug.cgi?id=80797#c7">Comment 7</a>
+          <span class="bz_comment_time torelativedatetime" data-ts="2014-02-20 10:23:15">2014-02-20 10:23:15 PST</span>
+          
+        </div>
+
+      </div>
+
+
+
+
+<div class="bz_comment_text">not a webkit bug, but also the semantics of [[call]] allow an implementation to throw a stack overflow at any call it feels like</div>
+    </div>
+    
+
+
+    <div id="c8" class="bz_comment">
+
+      <div class="bz_comment_head">
+        <div class="bz_comment_user">
+          <span class="vcard"><span class="fn">Kyle Simpson</span>
+</span>
+          
+          
+          <span class="bz_comment_user_images">
+          </span>
+
+        </div>
+
+
+        <div class="bz_comment_meta">
+          <a href="show_bug.cgi?id=80797#c8">Comment 8</a>
+          <span class="bz_comment_time torelativedatetime" data-ts="2014-06-18 06:05:04">2014-06-18 06:05:04 PDT</span>
+          
+        </div>
+
+      </div>
+
+
+
+
+<div class="bz_comment_text">Just noting another use-case (specifically around performance) where this limitation is... unfortunate.
+
+If I have two arrays and I want to merge them together, there's these options:
+
+  A = A.concat(B)
+
+vs
+
+  A.push.apply(A,B)
+
+
+The former is obviously more idiomatic, but it also has the unfortunate side-effect of creating a new merged array rather than adding onto the existing one. So, if you have a &quot;big&quot; array A, you end up duplicating the A, and then GC throwing away the previous one.
+
+In those cases, the `A.push.apply(A,B)` would be more ideal since it modifies A in place, which prevents the memory duplication and prevents the GC'ing.
+
+But now, obviously, the size of B is limited to ~65k items.
+
+That still is sorta OK if A is &quot;big&quot; but B is, relatively speaking, &quot;small&quot;. But it is still highly unfortunate that code would have to know implementation-dependent limits on such things.
+
+I wonder if it would be possible for an implementation to detect such an push.apply(..) case and handle it more gracefully to work-around the limitation of how many params can be passed. It could see &quot;wow, B is really big, we can't pass it in all at once, but we can rewrite it internally to the rough equivalent of...&quot;
+
+A.push.apply(A,B) --&gt;
+
+for (var len=B.length, s = 0, m; s&lt;len; ) {
+   m = Math.min(s+65000,len);
+   A.push.apply(A,B.slice(s,m));
+   s = m;
+}
+
+
+
+------
+
+I see this as similar to the restriction on call-stack size when using recursion. If I write a recursive algorithm that should be TCO, but it runs in a browser that doesn't have that capability, it could fail. It's unfortunate that I have to know and guard against such things.
+
+That's why seeing ES6 mandate TCO (they are still doing that, right!?) was so nice, because it signals a time in the future when there's a very valid programming technique which will no longer be susceptible to arbitrary, implementation-dependent limitations.</div>
+    </div>
+    
+
+
+    <div id="c9" class="bz_comment">
+
+      <div class="bz_comment_head">
+        <div class="bz_comment_user">
+          <span class="vcard"><span class="fn">Oliver Hunt</span>
+</span>
+          
+          
+          <span class="bz_comment_user_images">
+          </span>
+
+        </div>
+
+
+        <div class="bz_comment_meta">
+          <a href="show_bug.cgi?id=80797#c9">Comment 9</a>
+          <span class="bz_comment_time torelativedatetime" data-ts="2014-06-18 10:08:28">2014-06-18 10:08:28 PDT</span>
+          
+        </div>
+
+      </div>
+
+
+
+
+<div class="bz_comment_text">You can't expect arbitrarily large argument lists in any implementation - generally that's not the purpose of .apply (you could use spread as well).  We also can't detect the call to push in advance as we don't know we're in push until after we've already called it, and that means we have to have already copied your argument array onto the stack.
+
+<span class="quote">&gt; Just noting another use-case (specifically around performance) where this limitation is... unfortunate.
+&gt; 
+&gt; If I have two arrays and I want to merge them together, there's these options:
+&gt; 
+&gt;   A = A.concat(B)
+&gt; 
+&gt; vs
+&gt; 
+&gt;   A.push.apply(A,B)
+&gt; 
+&gt; 
+&gt; The former is obviously more idiomatic, but it also has the unfortunate side-effect of creating a new merged array rather than adding onto the existing one. So, if you have a &quot;big&quot; array A, you end up duplicating the A, and then GC throwing away the previous one.
+&gt; 
+&gt; In those cases, the `A.push.apply(A,B)` would be more ideal since it modifies A in place, which prevents the memory duplication and prevents the GC'ing.
+&gt; 
+&gt; But now, obviously, the size of B is limited to ~65k items.
+&gt; 
+&gt; That still is sorta OK if A is &quot;big&quot; but B is, relatively speaking, &quot;small&quot;. But it is still highly unfortunate that code would have to know implementation-dependent limits on such things.
+&gt; 
+&gt; I wonder if it would be possible for an implementation to detect such an push.apply(..) case and handle it more gracefully to work-around the limitation of how many params can be passed. It could see &quot;wow, B is really big, we can't pass it in all at once, but we can rewrite it internally to the rough equivalent of...&quot;
+&gt; 
+&gt; A.push.apply(A,B) --&gt;
+&gt; 
+&gt; for (var len=B.length, s = 0, m; s&lt;len; ) {
+&gt;    m = Math.min(s+65000,len);
+&gt;    A.push.apply(A,B.slice(s,m));
+&gt;    s = m;
+&gt; }
+&gt; 
+&gt; 
+&gt; 
+&gt; ------
+&gt; 
+&gt; I see this as similar to the restriction on call-stack size when using recursion. If I write a recursive algorithm that should be TCO, but it runs in a browser that doesn't have that capability, it could fail. It's unfortunate that I have to know and guard against such things.
+&gt; 
+&gt; That's why seeing ES6 mandate TCO (they are still doing that, right!?) was so nice, because it signals a time in the future when there's a very valid programming technique which will no longer be susceptible to arbitrary, implementation-dependent limitations.</span ></div>
+    </div>
+    
+
+  <div id="add_comment" class="bz_section_additional_comments">
+    <fieldset class="note">
+      <legend>Note</legend>
+      You need to
+      <a href="show_bug.cgi?id=80797&amp;GoAheadAndLogIn=1">log in</a>
+      before you can comment on or make changes to this bug.
+    </fieldset>
+  </div>
+
+
+  
+
+</div>
+    </div>
+    
+  </section>
+  <aside id="bug_details" class="edit_form mobile-hidden">
+
+    <div class="section-status"><div id="status"><div class="field-container"><th class="field_label "
+    id="field_label_bug_status">
+
+
+  <a 
+      title="A bug may be in any of a number of states."
+      class="field_help_link field-label"
+      href="page.cgi?id=fields.html#bug_status"
+  >Status</a>
+
+</th>
+  <span class="field_value "
+      id="field_container_bug_status" >RESOLVED
+
+</span>
+</div>
+
+    <noscript><br>resolved&nbsp;as&nbsp;</noscript>
+
+  <span id="resolution_settings"><div class="field-container"><th class="field_label "
+    id="field_label_resolution">
+
+
+  <a 
+      title="If a bug is in a resolved state, then one of these reasons will be given for its resolution."
+      class="field_help_link field-label"
+      href="page.cgi?id=fields.html#resolution"
+  >Resolution</a>
+
+</th>
+  <span class="field_value "
+      id="field_container_resolution" >INVALID
+
+</span>
+</div>
+  </span>
+
+</div>
+
+<script type="text/javascript">
+  var close_status_array = [
+      'RESOLVED'
+  ];
+  YAHOO.util.Dom.removeClass('dup_id_discoverable', 'bz_default_hidden');
+  hideEditableField( "dup_id_container", "dup_id", 'dup_id_edit_action',
+                     'dup_id', '' )
+  showHideStatusItems( "",  ['',
+                             'RESOLVED']);
+  YAHOO.util.Event.addListener( 'bug_status', "change", showHideStatusItems,
+                                ['',
+                                 'RESOLVED']);
+  YAHOO.util.Event.addListener( 'resolution', "change", showDuplicateItem);
+  YAHOO.util.Event.addListener( 'dup_id_discoverable_action',
+                                'click',
+                                setResolutionToDuplicate,
+                                'RESOLVED');
+  YAHOO.util.Event.addListener( window, 'load',  showHideStatusItems,
+                              ['',
+                               'RESOLVED'] );
+
+</script>
+  </div>
+    
+    <div class="section-priority">
+      <span class="severity"><div class="field-container"><th class="field_label "
+    id="field_label_priority">
+
+
+  <a 
+      title="Engineers prioritize their bugs using this field."
+      class="field_help_link field-label"
+      href="page.cgi?id=fields.html#priority"
+  >Priority</a>
+
+</th>
+  <span class="field_value "
+      id="field_container_priority" >P3
+
+</span>
+</div>
+       <div class="field-container"><th class="field_label "
+    id="field_label_bug_severity">
+
+
+  <a 
+      title="How severe the bug is, or whether it's an enhancement."
+      class="field_help_link field-label"
+      href="page.cgi?id=fields.html#bug_severity"
+  >Severity</a>
+
+</th>
+  <span class="field_value "
+      id="field_container_bug_severity" >Minor
+
+</span>
+</div>
+      </span>
+    </div>
+
+    <div class="section-classification bz_default_hidden"><div class="field-container"><th class="field_label "
+    id="field_label_classification">
+
+
+  <a 
+      title="Bugs are categorised into Classifications, Products and Components. classifications is the top-level categorisation."
+      class="field_help_link field-label"
+      href="page.cgi?id=fields.html#classification"
+  >Classification</a>
+
+</th>
+  <span class="field_value "
+      id="field_container_classification" >Unclassified
+
+</span>
+</div>
+    </div>
+    <div class="section-version">
+<th class="field_label "
+    id="field_label_version">
+
+
+  <a 
+      title="The version field defines the version of the software the bug was found in."
+      class="field_help_link field-label"
+      href="page.cgi?id=fields.html#version"
+  >Version</a>
+
+</th>
+<td>528+ (Nightly build)
+  </td>
+
+    </div>
+        
+    
+        
+    <div class="section-platform"><div class="field-container"><th class="field_label "
+    id="field_label_rep_platform">
+
+
+  <a 
+      title="The hardware platform the bug was observed on. Note: When searching, selecting the option &quot;All&quot; only finds bugs whose value for this field is literally the word &quot;All&quot;."
+      class="field_help_link field-label"
+      href="page.cgi?id=fields.html#rep_platform"
+  >Hardware</a>
+
+</th>
+  <span class="field_value "
+      id="field_container_rep_platform" >Mac (Intel)
+
+</span>
+</div>
+        <div class="field-container"><th class="field_label "
+    id="field_label_op_sys">
+
+
+  <a 
+      title="The operating system the bug was observed on. Note: When searching, selecting the option &quot;All&quot; only finds bugs whose value for this field is literally the word &quot;All&quot;."
+      class="field_help_link field-label"
+      href="page.cgi?id=fields.html#op_sys"
+  >OS</a>
+
+</th>
+  <span class="field_value "
+      id="field_container_op_sys" >OS X 10.6
+
+</span>
+</div>
+    </div>
+
+    
+    
+    
+    <div class="section-product"><div class="field-container"><th class="field_label "
+    id="field_label_product">
+
+
+  <a 
+      title="Bugs are categorised into Products and Components."
+      class="field_help_link field-label"
+      href="describecomponents.cgi"
+  >Product</a>
+
+</th>
+  <span class="field_value "
+      id="field_container_product" >WebKit
+
+</span>
+</div>
+    </div>
+        
+    
+    
+    <div class="section-component"><div class="field-container"><th class="field_label "
+    id="field_label_component">
+
+
+  <a 
+      title="Components are second-level categories; each belongs to a particular Product. Select a Product to narrow down this list."
+      class="field_help_link field-label"
+      href="describecomponents.cgi?product=WebKit"
+  >Component</a>
+
+</th>
+  <span class="field_value "
+      id="field_container_component" >JavaScriptCore
+
+</span>
+</div>
+    </div>
+    
+        <div class="section-people"><th class="field_label "
+    id="field_label_assigned_to">
+
+
+  <a 
+      title="The person in charge of resolving the bug."
+      class="field_help_link field-label"
+      href="page.cgi?id=fields.html#assigned_to"
+  >Assignee</a>
+
+</th>
+      <div><span class="vcard"><span class="fn">Nobody</span>
+</span>
+      </div>
+    </div>
+
+
+    <script type="text/javascript">
+      assignToDefaultOnChange(['product'],
+        'webkit-unassigned\x40lists.webkit.org',
+        '');
+    </script>
+    
+    <div class="section-reported">
+    <label class="field_label">
+      Reported
+    </label>
+    <div>2012-03-11 16:45 PDT
+    </div>
+  </div>
+  
+  <div class="section-modified">
+    <label class="field_label">
+      Modified
+    </label>
+    <div>2021-09-11 10:58 PDT
+      <a href="show_activity.cgi?id=80797" class="button small">History</a>
+    </div>
+  
+  </div>
+    <div class="section-cclist">
+      <label  class="field_label"  accesskey="a">
+        CC List
+      </label>
+      <div>
+        <div>7 
+          users
+          <span id="cc_edit_area_showhide_container" class="bz_default_hidden">
+            <a href="#" id="cc_edit_area_showhide" class="button small">Show</a>
+          </span>
+        </div>
+        <div id="cc_edit_area">
+            <select id="cc" multiple="multiple" size="5" >
+                <option value="ap">ap</option>
+                <option value="barraclough">barraclough</option>
+                <option value="getify">getify</option>
+                <option value="healthyelijah">healthyelijah</option>
+                <option value="mathias">mathias</option>
+                <option value="mehmetgelisin">mehmetgelisin</option>
+                <option value="oliver">oliver</option>
+            </select>
+        </div>
+          <script type="text/javascript">
+            hideEditableField( 'cc_edit_area_showhide_container', 
+                               'cc_edit_area', 
+                               'cc_edit_area_showhide', 
+                               '', 
+                               '');  
+          </script>
+      </div>
+    </div>
+        <div class="section-url"><th class="field_label "
+    id="field_label_bug_file_loc">
+
+
+  <a 
+      title="Bugs can have a URL associated with them - for example, a pointer to a web site where the problem is seen."
+      class="field_help_link field-label"
+      href="page.cgi?id=fields.html#bug_file_loc"
+  >URL</a>
+
+</th>
+    <div>
+      <div id="bz_url_input_area"><td>  
+  </td>
+      </div>
+    </div>
+  </div>
+
+
+    <div class="section-keywords"><div class="field-container"><th class="field_label "
+    id="field_label_keywords">
+
+
+  <a 
+      title="You can add keywords from a defined list to bugs, in order to easily identify and group them."
+      class="field_help_link field-label"
+      href="describekeywords.cgi"
+  >Keywords</a>
+
+</th>
+  <span class="field_value "
+      id="field_container_keywords" >
+
+</span>
+</div>
+    </div>
+    
+    
+    <div class="section-dependson"><th class="field_label "
+    id="field_label_dependson">
+
+
+  <a 
+      title="The bugs listed here must be resolved before this bug can be resolved."
+      class="field_help_link field-label"
+      href="page.cgi?id=fields.html#dependson"
+  >Depends on</a>
+
+</th>
+
+  <div class="dependencies-block">
+    <span id="dependson_input_area">
+    </span>
+
+  </div>
+  </div>
+  
+  <div class="section-blocks"><th class="field_label "
+    id="field_label_blocked">
+
+
+  <a 
+      title="This bug must be resolved before the bugs listed in this field can be resolved."
+      class="field_help_link field-label"
+      href="page.cgi?id=fields.html#blocked"
+  >Blocks</a>
+
+</th>
+
+  <div class="dependencies-block">
+    <span id="blocked_input_area">
+    </span>
+
+  </div>
+  </div>
+    <div class="section-see-also"><div class="field-container"><th class="field_label "
+    id="field_label_see_also">
+
+
+  <a 
+      title="This allows you to refer to bugs in other installations. You can enter a URL to a bug in the 'Add Bug URLs' field to note that that bug is related to this one. You can enter multiple URLs at once by separating them with whitespace. You should normally use this field to refer to bugs in other installations. For bugs in this installation, it is better to use the Depends on and Blocks fields."
+      class="field_help_link field-label"
+      href="page.cgi?id=fields.html#see_also"
+  >See Also</a>
+
+</th>
+  <span class="field_value "
+      id="field_container_see_also" >
+
+</span>
+</div>
+    </div> 
+    
+    
+    
+    <div class="section-aliases"><th class="field_label "
+    id="field_label_alias">
+
+
+  <a 
+      title="A short, unique name assigned to a bug in order to assist with looking it up and referring to it in other places in Bugzilla."
+      class="field_help_link field-label"
+      href="page.cgi?id=fields.html#alias"
+  >Alias</a>
+
+</th>
+    <div>
+        <span class="none">None</span>
+    </div>
+  </div>
+   
+  </aside>
+
+</form>
+
+<hr>
+<ul class="related_actions">
+    <li><a href="#" class="button small">Top of Page </a></li>
+    <li><a href="show_bug.cgi?format=multiple&amp;id=80797" class="button small">Format For Printing</a></li>
+    <li><a href="show_bug.cgi?ctype=xml&amp;id=80797" class="button small">XML</a></li>
+    <li><a href="enter_bug.cgi?cloned_bug_id=80797" class="button small">Clone This Bug</a></li>
+    
+    </ul>
+
+<br>
+</section>
+    </main>
+
+    <div id="footer">
+      <div class="intro"></div>
+<ul id="useful-links">
+  <li id="links-actions"><ul class="links">
+  <li class="new-bug"><a href="enter_bug.cgi">New</a></li>
+  <li class="browse-bugs"><a href="describecomponents.cgi">Browse</a></li>
+  <li class="advanced-search"><a href="query.cgi?format=advanced">Search+</a></li>
+
+
+  <li><a href="report.cgi">Reports</a></li>
+
+  <li>
+      
+        <a href="request.cgi">Requests</a></li>
+  </ul>
+  </li>
+
+  
+
+
+
+
+  
+</ul>
+
+      <div class="outro"></div>
+    </div>
+
+    <!-- WEBKIT_CHANGES -->
+    <script defer src="/committers-autocomplete.js"></script>
+  </body>
+</html>

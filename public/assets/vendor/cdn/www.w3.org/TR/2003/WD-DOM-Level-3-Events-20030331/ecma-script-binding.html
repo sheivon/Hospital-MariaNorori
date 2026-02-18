@@ -1,0 +1,851 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+ Generated: Mon Mar 31 16:54:00 EST 2003 jfouffa.w3.org
+ -->
+<html lang='en-US' xml:lang="en-US" xmlns=
+"http://www.w3.org/1999/xhtml">
+<head>
+<title>ECMAScript Language Binding</title>
+<link rel='stylesheet' type='text/css' href='./spec.css' />
+<link rel='stylesheet' type='text/css' href="https://www.w3.org/StyleSheets/TR/W3C-WD.css" />
+<link rel='next' href='glossary.html' />
+<link rel='contents' href='Overview.html#contents' />
+<link rel='copyright' href='copyright-notice.html' />
+<link rel='glossary' href='glossary.html' />
+<link rel='Start' href='Overview.html' />
+<link rel='index' href='def-index.html' />
+<link rel='author' href='mailto:www-dom@w3.org' />
+<link rel='help' href="https://www.w3.org/DOM/" />
+<link rel='prev' href='java-binding.html' />
+</head>
+<body>
+<div class='navbar' align='center'><a accesskey='p' href=
+'java-binding.html'>previous</a> &nbsp; <a accesskey='n' href=
+'glossary.html'>next</a> &nbsp; <a accesskey='c' href=
+'Overview.html#contents'>contents</a> &nbsp; <a accesskey='i' href=
+'def-index.html'>index</a> 
+
+<hr title='Navigation area separator' />
+</div>
+
+<div class='noprint' style='text-align: right'>
+<p style='font-family: monospace;font-size:small'>31 March 2003</p>
+</div>
+
+<div class='div1'><a id="ecma-binding" name='ecma-binding'></a> 
+
+<h1 id='ecma-binding-h1' class='adiv1'>Appendix E: ECMAScript
+Language Binding</h1>
+
+<p>This appendix contains the complete ECMAScript [<a class=
+'noxref normative' href=
+'references.html#ECMAScript'>ECMAScript</a>] binding for the Level
+3 Document Object Model Events definitions.</p>
+
+<div class='ecma-block'>
+<dl>
+<dt>Properties of the <b>Event</b> Constructor function:</dt>
+
+<dd>
+<dl>
+<dt><b>Event.CAPTURING_PHASE</b></dt>
+
+<dd>The value of the constant <b>Event.CAPTURING_PHASE</b> is
+<b>1</b>.</dd>
+
+<dt><b>Event.AT_TARGET</b></dt>
+
+<dd>The value of the constant <b>Event.AT_TARGET</b> is
+<b>2</b>.</dd>
+
+<dt><b>Event.BUBBLING_PHASE</b></dt>
+
+<dd>The value of the constant <b>Event.BUBBLING_PHASE</b> is
+<b>3</b>.</dd>
+</dl>
+</dd>
+
+<dt>Objects that implement the <b>Event</b> interface:</dt>
+
+<dd>
+<dl>
+<dt>Properties of objects that implement the <b>Event</b>
+interface:</dt>
+
+<dd>
+<dl>
+<dt><b>type</b></dt>
+
+<dd>This read-only property is a <b>String</b>.</dd>
+
+<dt><b>target</b></dt>
+
+<dd>This read-only property is an object that implements the
+<b>EventTarget</b> interface.</dd>
+
+<dt><b>currentTarget</b></dt>
+
+<dd>This read-only property is an object that implements the
+<b>EventTarget</b> interface.</dd>
+
+<dt><b>eventPhase</b></dt>
+
+<dd>This read-only property is a <b>Number</b>.</dd>
+
+<dt><b>bubbles</b></dt>
+
+<dd>This read-only property is a <b>Boolean</b>.</dd>
+
+<dt><b>cancelable</b></dt>
+
+<dd>This read-only property is a <b>Boolean</b>.</dd>
+
+<dt><b>timeStamp</b></dt>
+
+<dd>This read-only property is an object that implements the
+<b>Date</b> interface.</dd>
+
+<dt><b>namespaceURI</b></dt>
+
+<dd>This read-only property is a <b>String</b>.</dd>
+</dl>
+</dd>
+
+<dt>Functions of objects that implement the <b>Event</b>
+interface:</dt>
+
+<dd>
+<dl>
+<dt><b>stopPropagation()</b></dt>
+
+<dd>This function has no return value.</dd>
+
+<dt><b>preventDefault()</b></dt>
+
+<dd>This function has no return value.</dd>
+
+<dt><b>initEvent(eventTypeArg, canBubbleArg,
+cancelableArg)</b></dt>
+
+<dd>This function has no return value.<br />
+The <b>eventTypeArg</b> parameter is a <b>String</b>.<br />
+The <b>canBubbleArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>cancelableArg</b> parameter is a <b>Boolean</b>.</dd>
+
+<dt><b>isCustom()</b></dt>
+
+<dd>This function returns a <b>Boolean</b>.</dd>
+
+<dt><b>stopImmediatePropagation()</b></dt>
+
+<dd>This function has no return value.</dd>
+
+<dt><b>isDefaultPrevented()</b></dt>
+
+<dd>This function returns a <b>Boolean</b>.</dd>
+
+<dt><b>initEventNS(namespaceURIArg, eventTypeArg, canBubbleArg,
+cancelableArg)</b></dt>
+
+<dd>This function has no return value.<br />
+The <b>namespaceURIArg</b> parameter is a <b>String</b>.<br />
+The <b>eventTypeArg</b> parameter is a <b>String</b>.<br />
+The <b>canBubbleArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>cancelableArg</b> parameter is a <b>Boolean</b>.</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+
+<dt>Objects that implement the <b>EventTarget</b> interface:</dt>
+
+<dd>
+<dl>
+<dt>Functions of objects that implement the <b>EventTarget</b>
+interface:</dt>
+
+<dd>
+<dl>
+<dt><b>addEventListener(type, listener, useCapture)</b></dt>
+
+<dd>This function has no return value.<br />
+The <b>type</b> parameter is a <b>String</b>.<br />
+The <b>listener</b> parameter is an object that implements the
+<b>EventListener</b> interface.<br />
+The <b>useCapture</b> parameter is a <b>Boolean</b>.</dd>
+
+<dt><b>removeEventListener(type, listener, useCapture)</b></dt>
+
+<dd>This function has no return value.<br />
+The <b>type</b> parameter is a <b>String</b>.<br />
+The <b>listener</b> parameter is an object that implements the
+<b>EventListener</b> interface.<br />
+The <b>useCapture</b> parameter is a <b>Boolean</b>.</dd>
+
+<dt><b>dispatchEvent(evt)</b></dt>
+
+<dd>This function returns a <b>Boolean</b>.<br />
+The <b>evt</b> parameter is an object that implements the
+<b>Event</b> interface.<br />
+This function can raise an object that implements the
+<b>EventException</b> interface.</dd>
+
+<dt><b>addEventListenerNS(namespaceURI, type, listener, useCapture,
+evtGroup)</b></dt>
+
+<dd>This function has no return value.<br />
+The <b>namespaceURI</b> parameter is a <b>String</b>.<br />
+The <b>type</b> parameter is a <b>String</b>.<br />
+The <b>listener</b> parameter is an object that implements the
+<b>EventListener</b> interface.<br />
+The <b>useCapture</b> parameter is a <b>Boolean</b>.<br />
+The <b>evtGroup</b> parameter is an object that implements the
+<b>Object</b> interface.</dd>
+
+<dt><b>removeEventListenerNS(namespaceURI, type, listener,
+useCapture)</b></dt>
+
+<dd>This function has no return value.<br />
+The <b>namespaceURI</b> parameter is a <b>String</b>.<br />
+The <b>type</b> parameter is a <b>String</b>.<br />
+The <b>listener</b> parameter is an object that implements the
+<b>EventListener</b> interface.<br />
+The <b>useCapture</b> parameter is a <b>Boolean</b>.</dd>
+
+<dt><b>willTriggerNS(namespaceURI, type)</b></dt>
+
+<dd>This function returns a <b>Boolean</b>.<br />
+The <b>namespaceURI</b> parameter is a <b>String</b>.<br />
+The <b>type</b> parameter is a <b>String</b>.</dd>
+
+<dt><b>hasEventListenerNS(namespaceURI, type)</b></dt>
+
+<dd>This function returns a <b>Boolean</b>.<br />
+The <b>namespaceURI</b> parameter is a <b>String</b>.<br />
+The <b>type</b> parameter is a <b>String</b>.</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+
+<dt><b>EventListener</b> function:</dt>
+
+<dd>This function has no return value. The parameter is an object
+that implements the <b>Event</b> interface.</dd>
+
+<dt>Properties of the <b>EventException</b> Constructor
+function:</dt>
+
+<dd>
+<dl>
+<dt><b>EventException.UNSPECIFIED_EVENT_TYPE_ERR</b></dt>
+
+<dd>The value of the constant
+<b>EventException.UNSPECIFIED_EVENT_TYPE_ERR</b> is <b>0</b>.</dd>
+
+<dt><b>EventException.DISPATCH_REQUEST_ERR</b></dt>
+
+<dd>The value of the constant
+<b>EventException.DISPATCH_REQUEST_ERR</b> is <b>1</b>.</dd>
+</dl>
+</dd>
+
+<dt>Objects that implement the <b>EventException</b>
+interface:</dt>
+
+<dd>
+<dl>
+<dt>Properties of objects that implement the <b>EventException</b>
+interface:</dt>
+
+<dd>
+<dl>
+<dt><b>code</b></dt>
+
+<dd>This property is a <b>Number</b>.</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+
+<dt>Objects that implement the <b>DocumentEvent</b> interface:</dt>
+
+<dd>
+<dl>
+<dt>Functions of objects that implement the <b>DocumentEvent</b>
+interface:</dt>
+
+<dd>
+<dl>
+<dt><b>createEvent(eventType)</b></dt>
+
+<dd>This function returns an object that implements the
+<b>Event</b> interface.<br />
+The <b>eventType</b> parameter is a <b>String</b>.<br />
+This function can raise an object that implements the
+<b>DOMException</b> interface.</dd>
+
+<dt><b>canDispatch(namespaceURI, type)</b></dt>
+
+<dd>This function returns a <b>Boolean</b>.<br />
+The <b>namespaceURI</b> parameter is a <b>String</b>.<br />
+The <b>type</b> parameter is a <b>String</b>.</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+
+<dt>Objects that implement the <b>CustomEvent</b> interface:</dt>
+
+<dd>
+<dl>
+<dt>Objects that implement the <b>CustomEvent</b> interface have
+all properties and functions of the <b>Event</b> interface as well
+as the properties and functions defined below.</dt>
+
+<dt>Functions of objects that implement the <b>CustomEvent</b>
+interface:</dt>
+
+<dd>
+<dl>
+<dt><b>setDispatchState(target, phase)</b></dt>
+
+<dd>This function has no return value.<br />
+The <b>target</b> parameter is an object that implements the
+<b>EventTarget</b> interface.<br />
+The <b>phase</b> parameter is a <b>Number</b>.</dd>
+
+<dt><b>isPropagationStopped()</b></dt>
+
+<dd>This function returns a <b>Boolean</b>.</dd>
+
+<dt><b>isImmediatePropagationStopped()</b></dt>
+
+<dd>This function returns a <b>Boolean</b>.</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+
+<dt>Objects that implement the <b>UIEvent</b> interface:</dt>
+
+<dd>
+<dl>
+<dt>Objects that implement the <b>UIEvent</b> interface have all
+properties and functions of the <b>Event</b> interface as well as
+the properties and functions defined below.</dt>
+
+<dt>Properties of objects that implement the <b>UIEvent</b>
+interface:</dt>
+
+<dd>
+<dl>
+<dt><b>view</b></dt>
+
+<dd>This read-only property is an object that implements the
+<b>AbstractView</b> interface.</dd>
+
+<dt><b>detail</b></dt>
+
+<dd>This read-only property is a <b>Number</b>.</dd>
+</dl>
+</dd>
+
+<dt>Functions of objects that implement the <b>UIEvent</b>
+interface:</dt>
+
+<dd>
+<dl>
+<dt><b>initUIEvent(typeArg, canBubbleArg, cancelableArg, viewArg,
+detailArg)</b></dt>
+
+<dd>This function has no return value.<br />
+The <b>typeArg</b> parameter is a <b>String</b>.<br />
+The <b>canBubbleArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>cancelableArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>viewArg</b> parameter is an object that implements the
+<b>AbstractView</b> interface.<br />
+The <b>detailArg</b> parameter is a <b>Number</b>.</dd>
+
+<dt><b>initUIEventNS(namespaceURI, typeArg, canBubbleArg,
+cancelableArg, viewArg, detailArg)</b></dt>
+
+<dd>This function has no return value.<br />
+The <b>namespaceURI</b> parameter is a <b>String</b>.<br />
+The <b>typeArg</b> parameter is a <b>String</b>.<br />
+The <b>canBubbleArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>cancelableArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>viewArg</b> parameter is an object that implements the
+<b>AbstractView</b> interface.<br />
+The <b>detailArg</b> parameter is a <b>Number</b>.</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+
+<dt>Objects that implement the <b>TextEvent</b> interface:</dt>
+
+<dd>
+<dl>
+<dt>Objects that implement the <b>TextEvent</b> interface have all
+properties and functions of the <b>UIEvent</b> interface as well as
+the properties and functions defined below.</dt>
+
+<dt>Properties of objects that implement the <b>TextEvent</b>
+interface:</dt>
+
+<dd>
+<dl>
+<dt><b>data</b></dt>
+
+<dd>This read-only property is a <b>String</b>.</dd>
+</dl>
+</dd>
+
+<dt>Functions of objects that implement the <b>TextEvent</b>
+interface:</dt>
+
+<dd>
+<dl>
+<dt><b>initTextEvent(typeArg, canBubbleArg, cancelableArg, viewArg,
+dataArg)</b></dt>
+
+<dd>This function has no return value.<br />
+The <b>typeArg</b> parameter is a <b>String</b>.<br />
+The <b>canBubbleArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>cancelableArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>viewArg</b> parameter is an object that implements the
+<b>AbstractView</b> interface.<br />
+The <b>dataArg</b> parameter is a <b>String</b>.</dd>
+
+<dt><b>initTextEventNS(namespaceURI, type, canBubbleArg,
+cancelableArg, viewArg, dataArg)</b></dt>
+
+<dd>This function has no return value.<br />
+The <b>namespaceURI</b> parameter is a <b>String</b>.<br />
+The <b>type</b> parameter is a <b>String</b>.<br />
+The <b>canBubbleArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>cancelableArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>viewArg</b> parameter is an object that implements the
+<b>AbstractView</b> interface.<br />
+The <b>dataArg</b> parameter is a <b>String</b>.</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+
+<dt>Objects that implement the <b>MouseEvent</b> interface:</dt>
+
+<dd>
+<dl>
+<dt>Objects that implement the <b>MouseEvent</b> interface have all
+properties and functions of the <b>UIEvent</b> interface as well as
+the properties and functions defined below.</dt>
+
+<dt>Properties of objects that implement the <b>MouseEvent</b>
+interface:</dt>
+
+<dd>
+<dl>
+<dt><b>screenX</b></dt>
+
+<dd>This read-only property is a <b>Number</b>.</dd>
+
+<dt><b>screenY</b></dt>
+
+<dd>This read-only property is a <b>Number</b>.</dd>
+
+<dt><b>clientX</b></dt>
+
+<dd>This read-only property is a <b>Number</b>.</dd>
+
+<dt><b>clientY</b></dt>
+
+<dd>This read-only property is a <b>Number</b>.</dd>
+
+<dt><b>ctrlKey</b></dt>
+
+<dd>This read-only property is a <b>Boolean</b>.</dd>
+
+<dt><b>shiftKey</b></dt>
+
+<dd>This read-only property is a <b>Boolean</b>.</dd>
+
+<dt><b>altKey</b></dt>
+
+<dd>This read-only property is a <b>Boolean</b>.</dd>
+
+<dt><b>metaKey</b></dt>
+
+<dd>This read-only property is a <b>Boolean</b>.</dd>
+
+<dt><b>button</b></dt>
+
+<dd>This read-only property is a <b>Number</b>.</dd>
+
+<dt><b>relatedTarget</b></dt>
+
+<dd>This read-only property is an object that implements the
+<b>EventTarget</b> interface.</dd>
+
+<dt><b>altGraphKey</b></dt>
+
+<dd>This read-only property is a <b>Boolean</b>.</dd>
+</dl>
+</dd>
+
+<dt>Functions of objects that implement the <b>MouseEvent</b>
+interface:</dt>
+
+<dd>
+<dl>
+<dt><b>initMouseEvent(typeArg, canBubbleArg, cancelableArg,
+viewArg, detailArg, screenXArg, screenYArg, clientXArg, clientYArg,
+ctrlKeyArg, altKeyArg, shiftKeyArg, metaKeyArg, buttonArg,
+relatedTargetArg)</b></dt>
+
+<dd>This function has no return value.<br />
+The <b>typeArg</b> parameter is a <b>String</b>.<br />
+The <b>canBubbleArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>cancelableArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>viewArg</b> parameter is an object that implements the
+<b>AbstractView</b> interface.<br />
+The <b>detailArg</b> parameter is a <b>Number</b>.<br />
+The <b>screenXArg</b> parameter is a <b>Number</b>.<br />
+The <b>screenYArg</b> parameter is a <b>Number</b>.<br />
+The <b>clientXArg</b> parameter is a <b>Number</b>.<br />
+The <b>clientYArg</b> parameter is a <b>Number</b>.<br />
+The <b>ctrlKeyArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>altKeyArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>shiftKeyArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>metaKeyArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>buttonArg</b> parameter is a <b>Number</b>.<br />
+The <b>relatedTargetArg</b> parameter is an object that implements
+the <b>EventTarget</b> interface.</dd>
+
+<dt><b>initMouseEventNS(namespaceURI, typeArg, canBubbleArg,
+cancelableArg, viewArg, detailArg, screenXArg, screenYArg,
+clientXArg, clientYArg, ctrlKeyArg, altKeyArg, shiftKeyArg,
+metaKeyArg, buttonArg, relatedTargetArg, altGraphKeyArg)</b></dt>
+
+<dd>This function has no return value.<br />
+The <b>namespaceURI</b> parameter is a <b>String</b>.<br />
+The <b>typeArg</b> parameter is a <b>String</b>.<br />
+The <b>canBubbleArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>cancelableArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>viewArg</b> parameter is an object that implements the
+<b>AbstractView</b> interface.<br />
+The <b>detailArg</b> parameter is a <b>Number</b>.<br />
+The <b>screenXArg</b> parameter is a <b>Number</b>.<br />
+The <b>screenYArg</b> parameter is a <b>Number</b>.<br />
+The <b>clientXArg</b> parameter is a <b>Number</b>.<br />
+The <b>clientYArg</b> parameter is a <b>Number</b>.<br />
+The <b>ctrlKeyArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>altKeyArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>shiftKeyArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>metaKeyArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>buttonArg</b> parameter is a <b>Number</b>.<br />
+The <b>relatedTargetArg</b> parameter is an object that implements
+the <b>EventTarget</b> interface.<br />
+The <b>altGraphKeyArg</b> parameter is a <b>Boolean</b>.</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+
+<dt>Properties of the <b>KeyboardEvent</b> Constructor
+function:</dt>
+
+<dd>
+<dl>
+<dt><b>KeyboardEvent.DOM_KEY_LOCATION_STANDARD</b></dt>
+
+<dd>The value of the constant
+<b>KeyboardEvent.DOM_KEY_LOCATION_STANDARD</b> is <b>0x00</b>.</dd>
+
+<dt><b>KeyboardEvent.DOM_KEY_LOCATION_LEFT</b></dt>
+
+<dd>The value of the constant
+<b>KeyboardEvent.DOM_KEY_LOCATION_LEFT</b> is <b>0x01</b>.</dd>
+
+<dt><b>KeyboardEvent.DOM_KEY_LOCATION_RIGHT</b></dt>
+
+<dd>The value of the constant
+<b>KeyboardEvent.DOM_KEY_LOCATION_RIGHT</b> is <b>0x02</b>.</dd>
+
+<dt><b>KeyboardEvent.DOM_KEY_LOCATION_NUMPAD</b></dt>
+
+<dd>The value of the constant
+<b>KeyboardEvent.DOM_KEY_LOCATION_NUMPAD</b> is <b>0x03</b>.</dd>
+
+<dt><b>KeyboardEvent.DOM_KEY_LOCATION_UNKNOWN</b></dt>
+
+<dd>The value of the constant
+<b>KeyboardEvent.DOM_KEY_LOCATION_UNKNOWN</b> is <b>0x04</b>.</dd>
+</dl>
+</dd>
+
+<dt>Objects that implement the <b>KeyboardEvent</b> interface:</dt>
+
+<dd>
+<dl>
+<dt>Objects that implement the <b>KeyboardEvent</b> interface have
+all properties and functions of the <b>UIEvent</b> interface as
+well as the properties and functions defined below.</dt>
+
+<dt>Properties of objects that implement the <b>KeyboardEvent</b>
+interface:</dt>
+
+<dd>
+<dl>
+<dt><b>keyIdentifier</b></dt>
+
+<dd>This read-only property is a <b>String</b>.</dd>
+
+<dt><b>keyLocation</b></dt>
+
+<dd>This read-only property is a <b>Number</b>.</dd>
+
+<dt><b>ctrlKey</b></dt>
+
+<dd>This read-only property is a <b>Boolean</b>.</dd>
+
+<dt><b>shiftKey</b></dt>
+
+<dd>This read-only property is a <b>Boolean</b>.</dd>
+
+<dt><b>altKey</b></dt>
+
+<dd>This read-only property is a <b>Boolean</b>.</dd>
+
+<dt><b>metaKey</b></dt>
+
+<dd>This read-only property is a <b>Boolean</b>.</dd>
+
+<dt><b>altGraphKey</b></dt>
+
+<dd>This read-only property is a <b>Boolean</b>.</dd>
+</dl>
+</dd>
+
+<dt>Functions of objects that implement the <b>KeyboardEvent</b>
+interface:</dt>
+
+<dd>
+<dl>
+<dt><b>initKeyboardEvent(typeArg, canBubbleArg, cancelableArg,
+viewArg, keyIdentifierArg, keyLocationArg, ctrlKeyArg, shiftKeyArg,
+altKeyArg, metaKeyArg, altGraphKeyArg)</b></dt>
+
+<dd>This function has no return value.<br />
+The <b>typeArg</b> parameter is a <b>String</b>.<br />
+The <b>canBubbleArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>cancelableArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>viewArg</b> parameter is an object that implements the
+<b>AbstractView</b> interface.<br />
+The <b>keyIdentifierArg</b> parameter is a <b>String</b>.<br />
+The <b>keyLocationArg</b> parameter is a <b>Number</b>.<br />
+The <b>ctrlKeyArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>shiftKeyArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>altKeyArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>metaKeyArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>altGraphKeyArg</b> parameter is a <b>Boolean</b>.</dd>
+
+<dt><b>initKeyboardEventNS(namespaceURI, type, canBubbleArg,
+cancelableArg, viewArg, keyIdentifierArg, keyLocationArg,
+ctrlKeyArg, shiftKeyArg, altKeyArg, metaKeyArg,
+altGraphKeyArg)</b></dt>
+
+<dd>This function has no return value.<br />
+The <b>namespaceURI</b> parameter is a <b>String</b>.<br />
+The <b>type</b> parameter is a <b>String</b>.<br />
+The <b>canBubbleArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>cancelableArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>viewArg</b> parameter is an object that implements the
+<b>AbstractView</b> interface.<br />
+The <b>keyIdentifierArg</b> parameter is a <b>String</b>.<br />
+The <b>keyLocationArg</b> parameter is a <b>Number</b>.<br />
+The <b>ctrlKeyArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>shiftKeyArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>altKeyArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>metaKeyArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>altGraphKeyArg</b> parameter is a <b>Boolean</b>.</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+
+<dt>Properties of the <b>MutationEvent</b> Constructor
+function:</dt>
+
+<dd>
+<dl>
+<dt><b>MutationEvent.MODIFICATION</b></dt>
+
+<dd>The value of the constant <b>MutationEvent.MODIFICATION</b> is
+<b>1</b>.</dd>
+
+<dt><b>MutationEvent.ADDITION</b></dt>
+
+<dd>The value of the constant <b>MutationEvent.ADDITION</b> is
+<b>2</b>.</dd>
+
+<dt><b>MutationEvent.REMOVAL</b></dt>
+
+<dd>The value of the constant <b>MutationEvent.REMOVAL</b> is
+<b>3</b>.</dd>
+</dl>
+</dd>
+
+<dt>Objects that implement the <b>MutationEvent</b> interface:</dt>
+
+<dd>
+<dl>
+<dt>Objects that implement the <b>MutationEvent</b> interface have
+all properties and functions of the <b>Event</b> interface as well
+as the properties and functions defined below.</dt>
+
+<dt>Properties of objects that implement the <b>MutationEvent</b>
+interface:</dt>
+
+<dd>
+<dl>
+<dt><b>relatedNode</b></dt>
+
+<dd>This read-only property is an object that implements the
+<b>Node</b> interface.</dd>
+
+<dt><b>prevValue</b></dt>
+
+<dd>This read-only property is a <b>String</b>.</dd>
+
+<dt><b>newValue</b></dt>
+
+<dd>This read-only property is a <b>String</b>.</dd>
+
+<dt><b>attrName</b></dt>
+
+<dd>This read-only property is a <b>String</b>.</dd>
+
+<dt><b>attrChange</b></dt>
+
+<dd>This read-only property is a <b>Number</b>.</dd>
+</dl>
+</dd>
+
+<dt>Functions of objects that implement the <b>MutationEvent</b>
+interface:</dt>
+
+<dd>
+<dl>
+<dt><b>initMutationEvent(typeArg, canBubbleArg, cancelableArg,
+relatedNodeArg, prevValueArg, newValueArg, attrNameArg,
+attrChangeArg)</b></dt>
+
+<dd>This function has no return value.<br />
+The <b>typeArg</b> parameter is a <b>String</b>.<br />
+The <b>canBubbleArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>cancelableArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>relatedNodeArg</b> parameter is an object that implements
+the <b>Node</b> interface.<br />
+The <b>prevValueArg</b> parameter is a <b>String</b>.<br />
+The <b>newValueArg</b> parameter is a <b>String</b>.<br />
+The <b>attrNameArg</b> parameter is a <b>String</b>.<br />
+The <b>attrChangeArg</b> parameter is a <b>Number</b>.</dd>
+
+<dt><b>initMutationEventNS(namespaceURI, typeArg, canBubbleArg,
+cancelableArg, relatedNodeArg, prevValueArg, newValueArg,
+attrNameArg, attrChangeArg)</b></dt>
+
+<dd>This function has no return value.<br />
+The <b>namespaceURI</b> parameter is a <b>String</b>.<br />
+The <b>typeArg</b> parameter is a <b>String</b>.<br />
+The <b>canBubbleArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>cancelableArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>relatedNodeArg</b> parameter is an object that implements
+the <b>Node</b> interface.<br />
+The <b>prevValueArg</b> parameter is a <b>String</b>.<br />
+The <b>newValueArg</b> parameter is a <b>String</b>.<br />
+The <b>attrNameArg</b> parameter is a <b>String</b>.<br />
+The <b>attrChangeArg</b> parameter is a <b>Number</b>.</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+
+<dt>Objects that implement the <b>MutationNameEvent</b>
+interface:</dt>
+
+<dd>
+<dl>
+<dt>Objects that implement the <b>MutationNameEvent</b> interface
+have all properties and functions of the <b>MutationEvent</b>
+interface as well as the properties and functions defined
+below.</dt>
+
+<dt>Properties of objects that implement the
+<b>MutationNameEvent</b> interface:</dt>
+
+<dd>
+<dl>
+<dt><b>prevNamespaceURI</b></dt>
+
+<dd>This read-only property is a <b>String</b>.</dd>
+
+<dt><b>prevNodeName</b></dt>
+
+<dd>This read-only property is a <b>String</b>.</dd>
+</dl>
+</dd>
+
+<dt>Functions of objects that implement the
+<b>MutationNameEvent</b> interface:</dt>
+
+<dd>
+<dl>
+<dt><b>initMutationNameEvent(typeArg, canBubbleArg, cancelableArg,
+relatedNodeArg, prevNamespaceURI, prevNodeName)</b></dt>
+
+<dd>This function has no return value.<br />
+The <b>typeArg</b> parameter is a <b>String</b>.<br />
+The <b>canBubbleArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>cancelableArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>relatedNodeArg</b> parameter is an object that implements
+the <b>Node</b> interface.<br />
+The <b>prevNamespaceURI</b> parameter is a <b>String</b>.<br />
+The <b>prevNodeName</b> parameter is a <b>String</b>.</dd>
+
+<dt><b>initMutationNameEventNS(namespaceURI, typeArg, canBubbleArg,
+cancelableArg, relatedNodeArg, prevNamespaceURI,
+prevNodeName)</b></dt>
+
+<dd>This function has no return value.<br />
+The <b>namespaceURI</b> parameter is a <b>String</b>.<br />
+The <b>typeArg</b> parameter is a <b>String</b>.<br />
+The <b>canBubbleArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>cancelableArg</b> parameter is a <b>Boolean</b>.<br />
+The <b>relatedNodeArg</b> parameter is an object that implements
+the <b>Node</b> interface.<br />
+The <b>prevNamespaceURI</b> parameter is a <b>String</b>.<br />
+The <b>prevNodeName</b> parameter is a <b>String</b>.</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</div>
+
+<!-- ecma-block -->
+</div>
+
+<!-- div1 ecma-binding -->
+<div class='navbar' align='center'>
+<hr title='Navigation area separator' />
+<a accesskey='p' href='java-binding.html'>previous</a> &nbsp; <a
+accesskey='n' href='glossary.html'>next</a> &nbsp; <a accesskey='c'
+href='Overview.html#contents'>contents</a> &nbsp; <a accesskey='i'
+href='def-index.html'>index</a></div>
+</body>
+</html>
+

@@ -1,0 +1,111 @@
+:root{
+	--brand-blue: #0b5ed7; /* primary */
+	--brand-green: #2d9f6c; /* secondary */
+	--brand-accent: #f7b500; /* accent */
+	--brand-text: #1f2937;
+}
+
+body { padding-bottom: 40px; color: var(--brand-text); }
+
+/* Navbar customizations inspired by MINSA colors */
+.navbar-custom{
+	background: linear-gradient(90deg,var(--brand-blue),var(--brand-green));
+	color: #fff;
+    z-index: 1040; /* keep above content */
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+}
+.navbar-custom .navbar-brand, .navbar-custom .nav-link{ color: rgba(255,255,255,0.95); }
+.navbar-custom .nav-link{ opacity: 0.95; }
+.navbar-custom .brand-text{ font-weight:700; color: #fff; }
+
+/* Make buttons match the palette */
+.btn-primary-custom{ background: var(--brand-blue); border-color: var(--brand-blue); color: #fff; }
+.btn-accent{ background: var(--brand-accent); border-color: var(--brand-accent); color: #222; }
+
+/* Print styles: ensure readable, flexible tables */
+@media print{
+	@page { size: A4; margin: 12mm; }
+	html, body { background: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+	/* Hide interactive UI */
+	.navbar, .navbar-custom, .btn, .modal, #privateChatWidget, #chatCard, .no-print { display: none !important; }
+
+	/* Container for print */
+	.print-container { max-width: 100% !important; }
+	.print-header h1, .print-header h2, .print-header h3 { margin: 0; }
+
+	/* Tables */
+	table { width:100%; border-collapse: collapse; table-layout: auto; }
+	.print-table { width:100%; table-layout:auto; }
+	table, table th, table td { border: 1px solid #bbb; }
+	th, td { padding: 6pt 8pt; vertical-align: top; word-break: break-word; white-space: normal; hyphens: auto; }
+	thead { display: table-header-group; }
+	tfoot { display: table-footer-group; }
+	tr { page-break-inside: avoid; break-inside: avoid; }
+
+	/* Zebra striping in print (light) */
+	tbody tr:nth-child(odd) { background: #f7f7f7; }
+}
+
+/* Subtle blink for unread badge */
+@keyframes blinkFade {
+	0%, 49% { opacity: 1; }
+	50%, 100% { opacity: 0.35; }
+}
+.blink { animation: blinkFade 1s linear infinite; }
+
+/* Logo sizing helpers */
+.navbar-brand picture, .navbar-brand img { display: inline-block; }
+.navbar-brand img { height: 36px; width: auto; }
+.navbar-brand picture { line-height:0; }
+
+/* Acrylic / translucent button */
+.btn-acrylic{
+	background: rgba(255,255,255,0.06);
+	color: #fff;
+	border: 1px solid rgba(255,255,255,0.12);
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	border-radius: .375rem;
+	padding: .375rem .75rem;
+	transition: background .15s ease, transform .08s ease, box-shadow .15s ease;
+}
+.btn-acrylic:hover{ background: rgba(255,255,255,0.12); transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+.btn-acrylic:active{ transform: translateY(0); }
+.btn-acrylic:focus{ outline: none; box-shadow: 0 0 0 4px rgba(11,94,215,0.12); }
+
+/* Light variant for use on light backgrounds */
+.btn-acrylic.btn-light{
+	background: rgba(31,41,55,0.06);
+	color: var(--brand-text);
+	border-color: rgba(31,41,55,0.08);
+}
+
+/* Auth screen background and glassy card */
+.auth-screen{
+	background: radial-gradient(1200px 600px at 20% 10%, rgba(11,94,215,0.12), transparent 60%),
+							radial-gradient(1200px 600px at 80% 90%, rgba(45,159,108,0.12), transparent 60%);
+}
+
+.card-glass{
+	background: rgba(255,255,255,0.08);
+	border: 1px solid rgba(255,255,255,0.2);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	border-radius: .75rem;
+}
+
+/* Add hover and active states for buttons to improve responsiveness */
+button, .btn {
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+button:hover, .btn:hover {
+    background-color: #0056b3; /* Slightly darker shade for hover */
+    transform: scale(1.02); /* Slight zoom effect */
+}
+
+button:active, .btn:active {
+    background-color: #004494; /* Even darker shade for active */
+    transform: scale(0.98); /* Slight shrink effect */
+}
+

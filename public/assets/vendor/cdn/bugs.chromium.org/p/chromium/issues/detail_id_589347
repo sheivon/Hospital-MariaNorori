@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<script>
+  const commentRegexp = /#c([0-9]+)/;
+  const url = "https://issues.chromium.org/41240891"
+  let hash = window.location.hash;
+
+  // If a monorail style comment is specified then convert it to an
+  // issue tracker style comment. Increment it by one because issue
+  // tracker considers the description as the first comment.
+  const matches = hash.match(commentRegexp);
+  if (matches) {
+    let commentNum = parseInt(matches[1]);
+    hash = hash.replace("#c" + commentNum, "#comment" + (commentNum+1));
+  }
+  window.location = url + hash;
+</script>

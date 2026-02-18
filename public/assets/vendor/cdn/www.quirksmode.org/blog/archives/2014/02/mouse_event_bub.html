@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Mouse event bubbling in iOS - QuirksBlog</title>
+
+<meta name="monetization" content="$ilp.gatehub.net/591198132">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mouse event bubbling in iOS — ppk">
+<meta name="twitter:url" content="http://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html">
+<meta name="twitter:image" content="https://quirksmode.org/pix/logo_quirksmode_twitter.png">
+<link rel="stylesheet" href="/quirksmode-new.css" type="text/css" />
+<link rel="alternate" type="application/atom+xml" title="Atom" href="https://www.quirksmode.org/blog/atom.xml" />
+<link rel="alternate" type="application/rss+xml" title="RSS 1.0" href="https://www.quirksmode.org/blog/index.rdf" />
+<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="https://www.quirksmode.org/blog/index.xml" />
+<link rel="alternate" type="application/rsd+xml" title="RSD" href="https://www.quirksmode.org/blog/rsd.xml" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script type="text/javascript" src="/quirksmode.js"></script>
+</head>
+
+<body class="blog">
+
+
+
+
+<div class="pageHeader">
+<div class="specialMessage">
+	<a href="/cssbook.html">I'm writing a CSS book</a>
+</div>
+
+<div class="mainNav">
+	<a href="/js/contents.html">JavaScript archives</a>
+	<a href="/compatibility.html">Compatibility</a>
+	<a href="/ths">Thidrekssaga</a>
+	<a href="/blog/">QuirksBlog</a>
+	<a href="/donations.html">Donations</a>
+	<a href="/cssbook.html">CSS book</a>
+	<a href="/politics/">Politics</a>
+	<a href="/mobile/">Mobile</a>
+	<a href="/about/">About</a>
+	<a href="/coh/" title="Conference Organiser's Handbook">COH</a>
+	<!-- a href="/mobilewebhandbook/">Mobile Web<br>Handbook</a -->
+</div>
+
+<a class="logoQuirksmode" href="/" title="Home"><img src="/pix/logo_quirksmode.gif" alt="QuirksMode" /></a>
+
+<div class="extraInfo">
+	<img class="logoPPK" src="/pix/logo_ppk.gif" alt="PPK" />
+	<a href="/contact.html" class="rightExtraLink">contact</a>
+	<form action="https://www.google.com/search" method="get" title="Uses Google" id="mainSearch">
+		<input name="q" id="searchTop" placeholder="Search QuirksMode.org" />
+		<input type="submit" id="searchSubmit" value="Search" />
+	</form>
+</div>
+
+</div>
+
+<h2>Mouse event bubbling in iOS</h2>
+
+<p>It&#8217;s that time again when I worry about the bubbling of mouse events on Safari iOS. Three years ago I did some <a href="/blog/archives/2010/09/click_event_del.html">research</a> and a <a href="/blog/archives/2010/10/click_event_del_1.html">follow-up</a>, and I found that the click event refused to bubble up to the body or higher in Safari iOS, unless some specific criteria were met. Today I repeated that research, and found the situation has changed.</p>
+
+
+<a name="more"></a>
+
+<h3>Bubbling and the event cascade</h3>
+
+<p>Most events, including mouse events, bubble up. That is, if the user triggers a mouseover on an element, the browser sees if that element has an onmouseover event handler, and if so executes it. Then it does the same with all the element&#8217;s ancestors up to and including the document. This is standard behaviour that works everywhere &#8212; except in Safari iOS.</p>
+
+<p>When the user touches a touchscreen, the browser reacts by firing a cascade of events that includes the touchstart and touchend events, all mouse events, and click. This is done for reasons of backward compatibility, and last week I <a href="/blog/archives/2014/01/touch_action_te.html">retested</a> this cascade to make sure it still works. It does.</p>
+
+<p>So touching any element would trigger the mouse events, and all of them would subsequently bubble up to the document. This is what happens in all browsers except for Safari on iOS.</p>
+
+<h3>Safari&#8217;s oddities</h3> 
+
+<p>With the help of <a href="/m/tests/eventdelegation2.html">this test page</a> I found that Safari on iOS only allows the mouse events, including click, to bubble up in the following situations:</p>
+
+<ol>
+	<li>The target element of the event is a link or a form field.</li>
+	<li>The target element, or any of its ancestors up to <em>but not including</em> the <code>&lt;body&gt;</code>, has an explicit event handler set for any of the mouse events. This event handler may be an empty function.</li>
+	<li>The target element, or any of its ancestors <em>up to and including</em> the document has a <code>cursor: pointer</code> CSS declarations.</li>
+</ol>
+
+<p>This goes only for Safari iOS and only for the mouse events. The touch events always bubble up to the document even in Safari, and all other browsers allow all events to bubble up.</p>
+
+<p>I also tested this in Chrome on iOS, and it obeys the same restrictions as Safari. That makes sense, since on iOS Chrome is forced to use Apple&#8217;s WebView, which is pretty close to Safari.</p>
+
+<p>And no, I don&#8217;t understand it. The third situation, especially, ignores the difference between the CSS presentation layer and the JavaScript behaviour layer in addition to not making any sense at all.</p>
+
+<p>I used to theorise that there was some kind of a performance drawback to allowing mouse events to always bubble up. But if that&#8217;s the case, why didn&#8217;t any of the other browsers implement the same restrictions? Besides, just checking if an element has an event handler isn&#8217;t <em>that</em> much drain on memory, processor, or battery, is it?</p>
+
+<p>So I don&#8217;t understand why all this is the case, but it most certainly is the case. If you&#8217;re having bubbling problems, just add an empty-function event handler anywhere between the body and the element, and you&#8217;re set to go. But it shouldn&#8217;t be necessary.</p>
+
+
+<div class="floater">
+
+<ul>
+	<li>Written on  6 February 2014</li>
+	<li>Categorized in <a href="https://www.quirksmode.org/blog/archives/coding_techniques/touch_events/index.html">Touch events</a></li>
+	<li>Previous entry: <a href="https://www.quirksmode.org/blog/archives/2014/02/css_day_speaker_1.html">CSS Day speakers announced</a></li>
+
+	<li>Next entry: <a href="https://www.quirksmode.org/blog/archives/2014/02/the_ios_event_c.html">The iOS event cascade and innerHTML</a></li>
+
+</ul>
+
+<p>This is the blog of <a href="/about/">Peter-Paul Koch</a>, web developer, consultant, and trainer.
+You can also follow
+him on <a href="https://twitter.com/ppk" class="external">Twitter</a> or <a href="https://mastodon.social/@ppk" class="external">Mastodon</a>.<br>
+<a href="https://www.quirksmode.org/blog/atom.xml">Atom</a>
+<a href="https://www.quirksmode.org/blog/index.xml">RSS</a>
+</p>
+
+<p>If you like this blog, why not <a href="/donations.html">donate a little bit of money</a> to help me pay my bills?</p>
+
+
+<p>Categories:</p>
+
+<ul>
+	
+	
+	
+		<li><a href="https://www.quirksmode.org/blog/archives/archives/index.html" title="">Archives</a>  <span class="smaller">(1)</span>
+	</li>
+	
+	
+	
+	
+	
+		<li><a href="https://www.quirksmode.org/blog/archives/browsers/index.html" title="Browser news">Browsers</a>  <span class="smaller">(9)</span>
+	</li>
+	
+	
+	
+		<li><a href="https://www.quirksmode.org/blog/archives/coding_techniques/index.html" title="Notes about HTML, CSS or JavaScript coding techniques">Coding techniques</a>  <span class="smaller">(27)</span>
+	</li>
+	
+		<li><a href="https://www.quirksmode.org/blog/archives/conferences/index.html" title="Conferences I attended">Conferences</a>  <span class="smaller">(108)</span>
+	</li>
+	
+	
+	
+	
+	
+		<li><a href="https://www.quirksmode.org/blog/archives/css_for_javascripters/index.html" title="">CSS for JavaScripters</a>  <span class="smaller">(17)</span>
+	</li>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		<li><a href="https://www.quirksmode.org/blog/archives/linkbait/index.html" title="What's going on elsewhere">Linkbait</a>  <span class="smaller">(49)</span>
+	</li>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		<li><a href="https://www.quirksmode.org/blog/archives/monetisation/index.html" title="">Monetisation</a>  <span class="smaller">(8)</span>
+	</li>
+	
+	
+	
+	
+		<li><a href="https://www.quirksmode.org/blog/archives/notes_on_the_web/index.html" title="">Notes on the web</a>  <span class="smaller">(2)</span>
+	</li>
+	
+	
+	
+	
+		<li><a href="https://www.quirksmode.org/blog/archives/personal/index.html" title="About my life">Personal</a>  <span class="smaller">(31)</span>
+	</li>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		<li><a href="https://www.quirksmode.org/blog/archives/thidrekssaga/index.html" title="">Thidrekssaga</a>  <span class="smaller">(14)</span>
+	</li>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		<li><a href="https://www.quirksmode.org/blog/archives/web_thinking/index.html" title="My thinking about the web">Web thinking</a>  <span class="smaller">(15)</span>
+	</li>
+	
+	
+	
+
+</ul>
+
+
+
+
+</div>
+
+
+
+
+
+<div id="footer">
+<p>If you like this page, why not <a href="/donations.html">donate a little bit of money</a> to help me pay my bills and create more free content? Donating a lot of money is also allowed, BTW.</p>
+
+<a href="/index.html">Home</a>
+<a href="/contact.html">Contact</a>
+<a href="/donations.html">Donations</a>
+</div>
+
+</body>
+</html>

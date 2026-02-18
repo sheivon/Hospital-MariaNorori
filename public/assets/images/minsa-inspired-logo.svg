@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="40" viewBox="0 0 200 40" role="img" aria-label="MINSA inspired logo">
+  <defs>
+    <linearGradient id="g1" x1="0" x2="1">
+      <stop offset="0" stop-color="#0b5ed7"/>
+      <stop offset="1" stop-color="#2d9f6c"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="40" rx="4" fill="transparent" />
+  <!-- symbol -->
+  <g transform="translate(6,4)">
+    <circle cx="14" cy="14" r="14" fill="url(#g1)" />
+    <path d="M10 14h8M14 10v8" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+  <!-- text -->
+  <g transform="translate(40,12)" font-family="Segoe UI, Roboto, Arial, sans-serif">
+    <text x="0" y="0" fill="#0b5ed7" font-size="12" font-weight="700">MINSA</text>
+    <text x="46" y="0" fill="#2d9f6c" font-size="12" font-weight="700">Inspired</text>
+    <text x="0" y="14" fill="#333" font-size="10">Hospital Records</text>
+  </g>
+</svg>

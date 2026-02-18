@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="client-nojs">
+<head>
+<meta charset="UTF-8" />
+<title>CommonJS Spec Wiki</title>
+<meta name="generator" content="MediaWiki 1.24.1" />
+<link rel="ExportRDF" type="application/rdf+xml" title="CommonJS" href="/index.php?title=Special:ExportRDF/CommonJS&amp;xmlmime=rdf" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="search" type="application/opensearchdescription+xml" href="/opensearch_desc.php" title="CommonJS Spec Wiki (en)" />
+<link rel="EditURI" type="application/rsd+xml" href="https://wiki.commonjs.org/api.php?action=rsd" />
+<link rel="alternate" hreflang="x-default" href="/wiki/CommonJS" />
+<link rel="alternate" type="application/atom+xml" title="CommonJS Spec Wiki Atom feed" href="/index.php?title=Special:RecentChanges&amp;feed=atom" />
+<link rel="stylesheet" href="https://wiki.commonjs.org/load.php?debug=false&amp;lang=en&amp;modules=mediawiki.legacy.commonPrint%2Cshared%7Cmediawiki.skinning.interface%7Cmediawiki.ui.button%7Cskins.vector.styles&amp;only=styles&amp;skin=vector&amp;*" />
+<meta name="ResourceLoaderDynamicStyles" content="" />
+<link rel="stylesheet" href="https://wiki.commonjs.org/load.php?debug=false&amp;lang=en&amp;modules=site&amp;only=styles&amp;skin=vector&amp;*" />
+<style>a:lang(ar),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}
+/* cache key: wikidb:resourceloader:filter:minify-css:7:b36fd1c042133c9c9b60260f7c29b237 */</style>
+<script src="https://wiki.commonjs.org/load.php?debug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=vector&amp;*"></script>
+<script>if(window.mw){
+mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"CommonJS","wgTitle":"CommonJS","wgCurRevisionId":5822,"wgRevisionId":5822,"wgArticleId":30,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":[],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"CommonJS","wgIsProbablyEditable":false,"wgRestrictionEdit":[],"wgRestrictionMove":[],"wgIsMainPage":true,"sfgAutocompleteValues":[],"sfgAutocompleteOnAllChars":false,"sfgFieldProperties":[],"sfgCargoFields":[],"sfgDependentFields":[],"sfgShowOnSelect":[],"sfgScriptPath":"/extensions/SemanticForms","edgValues":null,"sfgEDSettings":null,"sdgDownArrowImage":"/extensions/SemanticDrilldown/skins/down-arrow.png","sdgRightArrowImage":"/extensions/SemanticDrilldown/skins/right-arrow.png"});
+}</script><script>if(window.mw){
+mw.loader.implement("user.options",function($,jQuery){mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"editfont":"default","editondblclick":0,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":1,"extendwatchlist":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"imagesize":2,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nickname":"","norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"rcdays":7,"rclimit":50,"rows":25,"showhiddencats":0,"shownumberswatching":1,"showtoolbar":1,"skin":"vector","stubthreshold":0,"thumbsize":5,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":1,"watchdefault":1,"watchdeletion":0,"watchlistdays":3,"watchlisthideanons":0,"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"watchrollback":0,
+"wllimit":250,"useeditwarning":1,"prefershttps":1,"language":"en","variant-gan":"gan","variant-iu":"iu","variant-kk":"kk","variant-ku":"ku","variant-shi":"shi","variant-sr":"sr","variant-tg":"tg","variant-uz":"uz","variant-zh":"zh","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false,"searchNs102":false,"searchNs103":false,"searchNs104":false,"searchNs105":false,"searchNs106":false,"searchNs107":false,"searchNs108":false,"searchNs109":false,"searchNs170":false,"searchNs171":false,"searchNs200":false,"searchNs201":false,"variant":"en"});},{},{});mw.loader.implement("user.tokens",function($,jQuery){mw.user.tokens.set({"editToken":"+\\","patrolToken":"+\\","watchToken":"+\\"});},{},{});
+/* cache key: wikidb:resourceloader:filter:minify-js:7:06107c8532d3698a3639a0db45ee701e */
+}</script>
+<script>if(window.mw){
+mw.loader.load(["ext.smw.style","mediawiki.page.startup","mediawiki.legacy.wikibits","mediawiki.legacy.ajax","skins.vector.js"]);
+}</script>
+<!--[if lt IE 7]><style type="text/css">body{behavior:url("/skins/Vector/csshover.min.htc")}</style><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-CommonJS skin-vector action-view">
+		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<div id="content" class="mw-body" role="main">
+			<a id="top"></a>
+
+									<h1 id="firstHeading" class="firstHeading" lang="en"><span dir="auto">CommonJS</span></h1>
+						<div id="bodyContent" class="mw-body-content">
+									<div id="siteSub">From CommonJS Spec Wiki</div>
+								<div id="contentSub"></div>
+												<div id="jump-to-nav" class="mw-jump">
+					Jump to:					<a href="#mw-head">navigation</a>, 					<a href="#p-search">search</a>
+				</div>
+				<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><p>Welcome to <a rel="nofollow" class="external text" href="http://commonjs.org">CommonJS</a>, a group with a goal of building up the JavaScript ecosystem for web servers, desktop and command line apps and in the browser.
+</p><p>This wiki is a starting point for collecting up ideas, any draft API suggestions for the <a rel="nofollow" class="external text" href="https://groups.google.com/group/commonjs">CommonJS group</a>. Discussions occur on that mailing list and <a rel="nofollow" class="external text" href="http://log.serverjs.org/mochabot/join">on IRC (#commonjs on freenode)</a>.
+</p>
+<div id="toc" class="toc"><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Meta"><span class="tocnumber">1</span> <span class="toctext">Meta</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#Current_Efforts"><span class="tocnumber">2</span> <span class="toctext">Current Efforts</span></a></li>
+<li class="toclevel-1 tocsection-3"><a href="#Future_Efforts"><span class="tocnumber">3</span> <span class="toctext">Future Efforts</span></a>
+<ul>
+<li class="toclevel-2 tocsection-4"><a href="#Low-level_APIs"><span class="tocnumber">3.1</span> <span class="toctext">Low-level APIs</span></a></li>
+<li class="toclevel-2 tocsection-5"><a href="#High-level_APIs"><span class="tocnumber">3.2</span> <span class="toctext">High-level APIs</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-6"><a href="#Implementations"><span class="tocnumber">4</span> <span class="toctext">Implementations</span></a>
+<ul>
+<li class="toclevel-2 tocsection-7"><a href="#In_development"><span class="tocnumber">4.1</span> <span class="toctext">In development</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-8"><a href="#Tests"><span class="tocnumber">5</span> <span class="toctext">Tests</span></a></li>
+<li class="toclevel-1 tocsection-9"><a href="#Further_Reading"><span class="tocnumber">6</span> <span class="toctext">Further Reading</span></a></li>
+<li class="toclevel-1 tocsection-10"><a href="#Wiki"><span class="tocnumber">7</span> <span class="toctext">Wiki</span></a></li>
+</ul>
+</div>
+
+<h2><span class="mw-headline" id="Meta">Meta</span></h2>
+<ul><li> <a href="/wiki/Introduction" title="Introduction">Introduction</a></li>
+<li> <a href="/wiki/FAQ" title="FAQ">FAQ</a></li>
+<li> <a href="/wiki/Process" title="Process">Process</a></li>
+<li> <a href="/wiki/Target_Platforms" title="Target Platforms">Target Platforms</a></li>
+<li> <a href="/wiki/Coding_Standards" title="Coding Standards">Coding Standards</a></li></ul>
+<h2><span class="mw-headline" id="Current_Efforts">Current Efforts</span></h2>
+<p>This is  a list of issues currently being discussed / standardized. They come from the "Low level" department, as we need to have solid basics prior to building a tower.
+</p><p><br />
+</p>
+<ol><li> <a href="/wiki/Global" title="Global">Uniform Baseline / Globals</a> (discussion)</li>
+<li> <a href="/wiki/Modules" title="Modules">Modules</a> (<a href="/wiki/Modules/1.1.1" title="Modules/1.1.1">1.1.1</a>)
+<ol><li> <code>binary</code>: <a href="/wiki/Binary" title="Binary">Binary</a> Data Objects (byte arrays and/or strings) (proposals, discussion, early implementations)</li>
+<li> <code>encodings</code>: <a href="/wiki/Encodings" title="Encodings">Encodings</a> and character sets (proposals, discussion, early implementations)</li>
+<li> <code>io</code>: <a href="/wiki/IO" title="IO">I/O Streams</a> (proposals, discussion)</li>
+<li> <code>fs</code>, <code>fs-base</code>: <a href="/wiki/Filesystem" title="Filesystem">Filesystem</a> (proposals, discussion, early implementations)</li>
+<li> <code>system</code>: <a href="/wiki/System" title="System" class="mw-redirect">System</a> Interface (stdin, stdout, stderr, &amp;c) (<a href="/wiki/System/1.0" title="System/1.0">1.0</a>, amendments proposed)</li>
+<li> <code>assert</code>, <code>test</code>: <a href="/wiki/Unit_Testing" title="Unit Testing">Unit Testing</a> (<a href="/wiki/Unit_Testing/1.0" title="Unit Testing/1.0">1.0</a>, amendment proposals pending)</li>
+<li> <code>sockets</code>: <a href="/wiki/Sockets" title="Sockets">Socket I/O</a> TCP/IP sockets (early proposals)</li>
+<li> <code>event-queue</code>: <a href="/wiki/Reactor" title="Reactor">Reactor</a> Reactor/Event Queue (early proposals)</li>
+<li> <code>worker</code>: <a href="/wiki/Worker" title="Worker">Worker</a> Worker (concurrent shared nothing process/thread) (proposal)</li>
+<li> <code>console</code>: <a href="/wiki/Console" title="Console">console</a> (proposal)</li></ol></li>
+<li> <a href="/wiki/Packages" title="Packages">Packages</a> (<a href="/wiki/Packages/1.0" title="Packages/1.0">1.0</a>)</li>
+<li> <a href="/wiki/Packages/Mappings/C" title="Packages/Mappings/C">Package Mappings</a> (proposal)</li>
+<li> <a href="/wiki/JSGI" title="JSGI">Web Server Gateway Interface (JSGI)</a> (proposals, discussion, early implementations)</li>
+<li> <a href="/wiki/Promises" title="Promises">Promises</a> (proposal)</li></ol>
+<ul><li> <a href="/wiki/Status" title="Status">Pending Business / Calls for Action / Status Report</a></li></ul>
+<h2><span class="mw-headline" id="Future_Efforts">Future Efforts</span></h2>
+<h3><span class="mw-headline" id="Low-level_APIs">Low-level APIs</span></h3>
+<p>This is the collection of APIs that we'd like to see behaving consistently across JavaScript interpreters.
+</p>
+<ul><li> <a href="/wiki/Runtime_Services" title="Runtime Services">Language and Runtime Services</a></li>
+<li> <a href="/wiki/Logging" title="Logging">Logging</a></li>
+<li> <a href="/wiki/RDBMS" title="RDBMS">Relational database interface</a></li>
+<li> ResultSets (collections of data maybe from RDBMS, maybe from other sources)</li>
+<li> <a href="/wiki/Concurrency" title="Concurrency">Concurrency</a></li>
+<li> <a href="/index.php?title=String_IO&amp;action=edit&amp;redlink=1" class="new" title="String IO (page does not exist)">String / ByteString I/O</a></li>
+<li> <a href="/wiki/C_API" title="C API">C unified API</a> to our Target Platforms</li>
+<li> <a href="/wiki/Subprocess" title="Subprocess">Subprocesses</a> (popen)</li></ul>
+<h3><span class="mw-headline" id="High-level_APIs">High-level APIs</span></h3>
+<p>This is the collection of APIs that implement common functionality on top of the low-level API.
+</p>
+<ul><li> <a href="/wiki/HTTP_Client" title="HTTP Client">HTTP client</a> APIs</li>
+<li> <a href="/wiki/Email" title="Email">Email</a></li>
+<li> <a href="/wiki/XMPP" title="XMPP">Jabber (XMPP)</a></li>
+<li> <a href="/wiki/I18n" title="I18n">Internationalization</a></li>
+<li> <a href="/wiki/Promise_Manager" title="Promise Manager">Promise Manager</a></li>
+<li> <a href="/wiki/Command_Line" title="Command Line">Command line processing</a></li></ul>
+<h2><span class="mw-headline" id="Implementations">Implementations</span></h2>
+<table class="wikitable" width="100%">
+
+<tr>
+<th rowspan="2"> <a href="/wiki/Implementations" title="Implementations">Implementations</a>
+</th>
+<th> Standards
+</th>
+<th> Proposals and standards in development
+</th></tr>
+<tr>
+<th>
+</th>
+<th>
+</th></tr></table>
+<h3><span class="mw-headline" id="In_development">In development</span></h3>
+<ul><li> mob is implementing SecurableModules in Ejscript <a rel="nofollow" class="external free" href="http://www.ejscript.org">http://www.ejscript.org</a></li>
+<li> pmuellr posted a sample loader for SecurableModules: <a rel="nofollow" class="external free" href="https://wiki.github.com/pmuellr/modjewel">http://wiki.github.com/pmuellr/modjewel</a></li>
+<li> atul varma has a SecurableModule implementation for Python/Spidermonkey: <a rel="nofollow" class="external free" href="http://hg.toolness.com/pydertron/raw-file/tip/docs.html">http://hg.toolness.com/pydertron/raw-file/tip/docs.html</a></li>
+<li> <a href="/wiki/User:Alexandre.Morgaut" title="User:Alexandre.Morgaut">Alexandre</a> implements several commonJS standards in Wakanda (SquirrelFish) <a rel="nofollow" class="external free" href="http://www.wakandasoft.com">http://www.wakandasoft.com</a></li>
+<li> Titanium is in the process of adding support for CommonJS. <a rel="nofollow" class="external free" href="http://www.appcelerator.com">http://www.appcelerator.com</a></li></ul>
+<h2><span class="mw-headline" id="Tests">Tests</span></h2>
+<ul><li> <a rel="nofollow" class="external text" href="https://github.com/280north/narwhal/tree/master/tests/commonjs/">CommonJS tests</a> compatible with <a rel="nofollow" class="external text" href="https://github.com/280north/narwhal/tree/master/lib/test/">this test framework</a>.</li></ul>
+<h2><span class="mw-headline" id="Further_Reading">Further Reading</span></h2>
+<ul><li> <a href="/wiki/Existing_APIs" title="Existing APIs">Existing APIs</a></li>
+<li> <a href="/wiki/Infrastructure" title="Infrastructure">Infrastructure</a></li>
+<li> <a href="/wiki/High_Level_Tools" title="High Level Tools">High Level Tools</a></li>
+<li> <a href="/wiki/Random_Links" title="Random Links">Random Links</a></li></ul>
+<h2><span class="mw-headline" id="Wiki">Wiki</span></h2>
+<ul><li> <a href="/wiki/Dumps" title="Dumps">Dumps</a></li></ul>
+
+<!-- 
+NewPP limit report
+CPU time usage: 0.050 seconds
+Real time usage: 0.049 seconds
+Preprocessor visited node count: 89/1000000
+Preprocessor generated node count: 313/1000000
+Post‐expand include size: 148/2097152 bytes
+Template argument size: 0/2097152 bytes
+Highest expansion depth: 6/40
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key wikidb:pcache:idhash:30-0!*!0!!en!*!* and timestamp 20251108194749 and revision id 5822
+ -->
+</div>									<div class="printfooter">
+						Retrieved from "<a dir="ltr" href="https://wiki.commonjs.org/index.php?title=CommonJS&amp;oldid=5822">https://wiki.commonjs.org/index.php?title=CommonJS&amp;oldid=5822</a>"					</div>
+													<div id='catlinks' class='catlinks catlinks-allhidden'></div>												<div class="visualClear"></div>
+							</div>
+		</div>
+		<div id="mw-navigation">
+			<h2>Navigation menu</h2>
+
+			<div id="mw-head">
+									<div id="p-personal" role="navigation" class="" aria-labelledby="p-personal-label">
+						<h3 id="p-personal-label">Personal tools</h3>
+						<ul>
+							<li id="pt-login"><a href="/index.php?title=Special:UserLogin&amp;returnto=CommonJS" title="You are encouraged to log in; however, it is not mandatory [o]" accesskey="o">Log in</a></li><li id="pt-createaccount"><a href="/wiki/Special:RequestAccount">Request account</a></li>						</ul>
+					</div>
+									<div id="left-navigation">
+										<div id="p-namespaces" role="navigation" class="vectorTabs" aria-labelledby="p-namespaces-label">
+						<h3 id="p-namespaces-label">Namespaces</h3>
+						<ul>
+															<li  id="ca-nstab-main" class="selected"><span><a href="/wiki/CommonJS"  title="View the content page [c]" accesskey="c">Page</a></span></li>
+															<li  id="ca-talk" class="new"><span><a href="/index.php?title=Talk:CommonJS&amp;action=edit&amp;redlink=1"  title="Discussion about the content page [t]" accesskey="t">Discussion</a></span></li>
+													</ul>
+					</div>
+										<div id="p-variants" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-variants-label">
+												<h3 id="p-variants-label"><span>Variants</span><a href="#"></a></h3>
+
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+									</div>
+				<div id="right-navigation">
+										<div id="p-views" role="navigation" class="vectorTabs" aria-labelledby="p-views-label">
+						<h3 id="p-views-label">Views</h3>
+						<ul>
+															<li id="ca-view" class="selected"><span><a href="/wiki/CommonJS" >Read</a></span></li>
+															<li id="ca-viewsource"><span><a href="/index.php?title=CommonJS&amp;action=edit"  title="This page is protected.&#10;You can view its source [e]" accesskey="e">View source</a></span></li>
+															<li id="ca-history" class="collapsible"><span><a href="/index.php?title=CommonJS&amp;action=history"  title="Past revisions of this page [h]" accesskey="h">View history</a></span></li>
+													</ul>
+					</div>
+										<div id="p-cactions" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-cactions-label">
+						<h3 id="p-cactions-label"><span>More</span><a href="#"></a></h3>
+
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+										<div id="p-search" role="search">
+						<h3>
+							<label for="searchInput">Search</label>
+						</h3>
+
+						<form action="/index.php" id="searchform">
+														<div id="simpleSearch">
+															<input type="search" name="search" placeholder="Search" title="Search CommonJS Spec Wiki [f]" accesskey="f" id="searchInput" /><input type="hidden" value="Special:Search" name="title" /><input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton mw-fallbackSearchButton" /><input type="submit" name="go" value="Go" title="Go to a page with this exact name if exists" id="searchButton" class="searchButton" />								</div>
+						</form>
+					</div>
+									</div>
+			</div>
+			<div id="mw-panel">
+				<div id="p-logo" role="banner"><a class="mw-wiki-logo" href="/wiki/CommonJS"  title="Visit the main page"></a></div>
+						<div class="portal" role="navigation" id='p-navigation' aria-labelledby='p-navigation-label'>
+			<h3 id='p-navigation-label'>Navigation</h3>
+
+			<div class="body">
+									<ul>
+													<li id="n-mainpage"><a href="/wiki/CommonJS" title="Visit the main page [z]" accesskey="z">CommonJS</a></li>
+													<li id="n-implementations"><a href="/wiki/Implementations">Implementations</a></li>
+													<li id="n-FAQ"><a href="/wiki/FAQ">FAQ</a></li>
+													<li id="n-Mailing-List"><a href="https://groups.google.com/group/commonjs" rel="nofollow">Mailing List</a></li>
+													<li id="n-IRC"><a href="irc://irc.freenode.net/commonjs" rel="nofollow">IRC</a></li>
+													<li id="n-IRC-Via-Mochabot"><a href="http://log.serverjs.org/mochabot/join" rel="nofollow">IRC Via Mochabot</a></li>
+													<li id="n-IRC-Logs"><a href="http://log.server-side-javascript.org/mochabot/" rel="nofollow">IRC Logs</a></li>
+													<li id="n-CommonJS.org"><a href="http://commonjs.org/" rel="nofollow">CommonJS.org</a></li>
+													<li id="n-recentchanges"><a href="/wiki/Special:RecentChanges" title="A list of recent changes in the wiki [r]" accesskey="r">Recent changes</a></li>
+													<li id="n-randompage"><a href="/wiki/Special:Random" title="Load a random page [x]" accesskey="x">Random page</a></li>
+											</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id='p-tb' aria-labelledby='p-tb-label'>
+			<h3 id='p-tb-label'>Tools</h3>
+
+			<div class="body">
+									<ul>
+													<li id="t-whatlinkshere"><a href="/wiki/Special:WhatLinksHere/CommonJS" title="A list of all wiki pages that link here [j]" accesskey="j">What links here</a></li>
+													<li id="t-recentchangeslinked"><a href="/wiki/Special:RecentChangesLinked/CommonJS" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li>
+													<li id="t-specialpages"><a href="/wiki/Special:SpecialPages" title="A list of all special pages [q]" accesskey="q">Special pages</a></li>
+													<li id="t-print"><a href="/index.php?title=CommonJS&amp;printable=yes" rel="alternate" title="Printable version of this page [p]" accesskey="p">Printable version</a></li>
+													<li id="t-permalink"><a href="/index.php?title=CommonJS&amp;oldid=5822" title="Permanent link to this revision of the page">Permanent link</a></li>
+													<li id="t-info"><a href="/index.php?title=CommonJS&amp;action=info">Page information</a></li>
+													<li id="t-smwbrowselink"><a href="/wiki/Special:Browse/CommonJS" rel="smw-browse">Browse properties</a></li>
+											</ul>
+							</div>
+		</div>
+				</div>
+		</div>
+		<div id="footer" role="contentinfo">
+							<ul id="footer-info">
+											<li id="footer-info-lastmod"> This page was last modified on 9 October 2011, at 19:22.</li>
+											<li id="footer-info-viewcount">This page has been accessed 835,332 times.</li>
+									</ul>
+							<ul id="footer-places">
+											<li id="footer-places-privacy"><a href="/wiki/CommonJS:Privacy_policy" title="CommonJS:Privacy policy">Privacy policy</a></li>
+											<li id="footer-places-about"><a href="/wiki/CommonJS:About" title="CommonJS:About">About CommonJS Spec Wiki</a></li>
+											<li id="footer-places-disclaimer"><a href="/wiki/CommonJS:General_disclaimer" title="CommonJS:General disclaimer">Disclaimers</a></li>
+									</ul>
+										<ul id="footer-icons" class="noprint">
+											<li id="footer-poweredbyico">
+															<a href="//www.mediawiki.org/"><img src="/resources/assets/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" width="88" height="31" /></a>
+															<a href="https://www.semantic-mediawiki.org/wiki/Semantic_MediaWiki"><img src="/extensions/SemanticMediaWiki/includes/../resources/images/smw_button.png" alt="Powered by Semantic MediaWiki" width="88" height="31" /></a>
+													</li>
+									</ul>
+						<div style="clear:both"></div>
+		</div>
+		<script>/*<![CDATA[*/window.jQuery && jQuery.ready();/*]]>*/</script><script>if(window.mw){
+mw.loader.state({"site":"loading","user":"ready","user.groups":"ready"});
+}</script>
+<script>if(window.mw){
+mw.loader.load(["ext.smw.tooltips","mediawiki.toc","mediawiki.action.view.postEdit","mediawiki.user","mediawiki.hidpi","mediawiki.page.ready","mediawiki.searchSuggest"],null,true);
+}</script>
+<script>if(window.mw){
+document.write("\u003Cscript src=\"https://wiki.commonjs.org/load.php?debug=false\u0026amp;lang=en\u0026amp;modules=site\u0026amp;only=scripts\u0026amp;skin=vector\u0026amp;*\"\u003E\u003C/script\u003E");
+}</script>
+<script>if(window.mw){
+mw.config.set({"wgBackendResponseTime":97});
+}</script>
+	</body>
+</html>
