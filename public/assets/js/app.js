@@ -41,7 +41,8 @@ document.addEventListener('DOMContentLoaded', function(){
       }
       fetch('/api/diagnostics_create.php', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type, date, description, patient_id })
       }).then(r=>r.json()).then(data=>{
         if (data.success) {
@@ -63,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function(){
     document.getElementById('diag_patient_id').value = patientId;
     diagnosticsContent.innerHTML = '<div class="text-center">'+(t('loading')||'Loading...')+'</div>';
     fetch(`/api/diagnostics_list.php?patient_id=${patientId}`).then(r=>r.json()).then(data=>{
+      fetch(`/api/diagnostics_list.php?patient_id=${patientId}`, { credentials: 'same-origin' }).then(r=>r.json()).then(data=>{
       if (!data.success || !Array.isArray(data.diagnostics) || data.diagnostics.length === 0) {
         diagnosticsContent.innerHTML = `<div class="alert alert-info">${t('diagnostics_table_empty')||'No diagnostics found'}</div>`;
         return;
@@ -80,6 +82,7 @@ function loadPatients() {
   if (!tableBody) return;
 
   fetch('/api/patients_list.php')
+    fetch('/api/patients_list.php', { credentials: 'same-origin' })
     .then(r => r.json())
     .then(data => {
       if (!data.success) return;
@@ -144,12 +147,14 @@ tableBody && tableBody.addEventListener('click', e => {
 
   if (button.classList.contains('btn-edit')) {
     fetch('/api/patients_list.php')
+      fetch('/api/patients_list.php', { credentials: 'same-origin' })
       .then(r => r.json())
       .then(data => {
         const p = data.data.find(x => x.id == id);
         if (!p) return;
         if (patientError) { patientError.classList.add('d-none'); patientError.textContent = ''; }
-        document.getElementById('id').value = p.id;
+        if (document.getElementById('id')) document.getElementById('id').value = p.id;
+        if (document.getElementById('patientId')) document.getElementById('patientId').value = p.id;
         document.getElementById('first_name').value = p.first_name;
         document.getElementById('last_name').value = p.last_name;
         if (document.getElementById('email')) document.getElementById('email').value = p.email || '';
@@ -177,6 +182,7 @@ tableBody && tableBody.addEventListener('click', e => {
     }, function(isConfirm){
       if (!isConfirm) return;
       fetch('/api/patients_delete.php', { method:'POST', body: new URLSearchParams({id}) })
+        fetch('/api/patients_delete.php', { method:'POST', credentials: 'same-origin', body: new URLSearchParams({id}) })
         .then(r => r.json())
         .then(res => {
           if (res.success) loadPatients();
@@ -190,14 +196,21 @@ tableBody && tableBody.addEventListener('click', e => {
 
   if (tableBody) loadPatients();
 
-  document.getElementById('btnAdd').addEventListener('click', ()=>{
-    form.reset(); document.getElementById('patientId').value='';
-    if (patientError){ patientError.classList.add('d-none'); patientError.textContent = ''; }
-  if (!form || !modal) return;
-  form.reset(); document.getElementById('patientId').value='';
-  if (patientError){ patientError.classList.add('d-none'); patientError.textContent = ''; }
-  modal.show();
-  });
+  const btnAdd = document.getElementById('btnAdd');
+  if (btnAdd) {
+    btnAdd.addEventListener('click', ()=>{
+      if (form && typeof form.reset === 'function') form.reset();
+      if (document.getElementById('id')) document.getElementById('id').value = '';
+      if (document.getElementById('patientId')) document.getElementById('patientId').value = '';
+      if (patientError){ patientError.classList.add('d-none'); patientError.textContent = ''; }
+      if (!form || !modal) return;
+      if (form && typeof form.reset === 'function') form.reset();
+      if (document.getElementById('id')) document.getElementById('id').value = '';
+      if (document.getElementById('patientId')) document.getElementById('patientId').value = '';
+      if (patientError){ patientError.classList.add('d-none'); patientError.textContent = ''; }
+      modal.show();
+    });
+  }
 
   // Print table button
   const btnPrintTable = document.getElementById('btnPrintTable');
@@ -291,6 +304,7 @@ tableBody && tableBody.addEventListener('click', e => {
     const url = id ? '/api/patients_update.php' : '/api/patients_create.php';
     if (cedVal){
       fetch('/api/cedula_check.php?cedula=' + encodeURIComponent(cedVal) + (id ? '&id='+encodeURIComponent(id):''))
+        fetch('/api/cedula_check.php?cedula=' + encodeURIComponent(cedVal) + (id ? '&id='+encodeURIComponent(id):''), { credentials: 'same-origin' })
         .then(r=>r.json()).then(j=>{
           if (!j.success) {
             if (patientError){ patientError.classList.remove('d-none'); patientError.textContent = t('error'); }
@@ -302,6 +316,7 @@ tableBody && tableBody.addEventListener('click', e => {
           }
           // submit
           fetch(url, {method:'POST', body: data}).then(r=>r.json()).then(res=>{
+            fetch(url, {method:'POST', credentials: 'same-origin', body: data}).then(r=>r.json()).then(res=>{
             if (res.success) { if (patientError){ patientError.classList.add('d-none'); patientError.textContent = ''; } modal.hide(); loadPatients(); }
             else { if (patientError){ patientError.classList.remove('d-none'); patientError.textContent = (res.error||t('error')); } }
           });
@@ -474,6 +489,7 @@ tableBody && tableBody.addEventListener('click', e => {
     async function loadUsers(){
       try{
         const res = await fetch('/api/users_list.php');
+          const res = await fetch('/api/users_list.php', { credentials: 'same-origin' });
         const j = await res.json();
         if (!j.success) return;
         const others = (j.data || []).filter(u => String(u.id) !== String(me.id));
@@ -513,6 +529,7 @@ tableBody && tableBody.addEventListener('click', e => {
       sendBtn.disabled = true;
       try{
         const res = await fetch('/api/chat_send.php', { method: 'POST', body: new URLSearchParams({ message: msg, recipient_id: rid }) });
+          const res = await fetch('/api/chat_send.php', { method: 'POST', credentials: 'same-origin', body: new URLSearchParams({ message: msg, recipient_id: rid }) });
         const j = await res.json();
         if (j.success){
           renderMessageLocal({ id: j.id, username: j.username, message: j.message, created_at: j.created_at, user_id: me.id }, true);

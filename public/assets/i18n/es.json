@@ -112,5 +112,6 @@
   "visits_reason": "Motivo",
   "visits_notes": "Notas",
   "visits_created_by": "Creado por",
-  "visits_updated_by": "Actualizado por"
+  "visits_updated_by": "Actualizado por",
+  "maintenance": "Mantenimiento"
 }

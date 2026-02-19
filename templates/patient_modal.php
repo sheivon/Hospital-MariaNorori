@@ -8,6 +8,7 @@
       </div>
       <div class="modal-body">
         <form id="patientForm">
+          <input type="hidden" id="id">
           <input type="hidden" id="patientId" name="id">
           <div class="mb-3">
             <label for="first_name" class="form-label">First Name</label>
@@ -24,6 +25,14 @@
           <div class="mb-3">
             <label for="dob" class="form-label">Date of Birth</label>
             <input type="date" class="form-control" id="dob" name="dob">
+          </div>
+          <div class="mb-3">
+            <label for="gender" class="form-label">Gender</label>
+            <select class="form-select" id="gender" name="gender">
+              <option value="O">Other</option>
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+            </select>
           </div>
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>

@@ -51,13 +51,13 @@ if (file_exists($vendorBase . '/vfs_fonts.js')) {
     }
     try {
       // Initialize patients table only if it exists on the page
-      if ($('#patientsTable').length) {
+        if ($('#patientsTable').length) {
         console.log('✅ Initializing DataTable for #patientsTable');
         $('#patientsTable').DataTable({
           responsive: true,
           pageLength: 10,
           columnDefs: [
-            { orderable: false, targets: [6, 7] } // disable sorting on action buttons
+            { orderable: false, targets: [6] } // disable sorting on action buttons (fixed index)
           ]
         });
       } else {

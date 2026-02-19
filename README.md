@@ -64,3 +64,33 @@ admin123
 cliadmin
 cliPass2025
 
+
+---
+reset mysql password wsl linux ubuntu
+
+sudo systemctl stop mysql
+
+sudo mysqld_safe --skip-grant-tables --skip-networking &
+
+mysql -u root
+FLUSH PRIVILEGES;
+ALTER USER 'root'@'%' IDENTIFIED BY 'Kilabone15*';
+
+UPDATE mysql.user 
+SET authentication_string = PASSWORD('Kilabone15*')
+WHERE User = 'root';
+
+FLUSH PRIVILEGES;
+
+exit;
+
+sudo killall mysqld
+sudo systemctl start mysql
+
+- New User
+CREATE USER 'Marianorori'@'%' IDENTIFIED BY 'SuperNoror!26*';
+
+GRANT ALL PRIVILEGES ON *.* TO 'Marianorori'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+

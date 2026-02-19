@@ -3,10 +3,11 @@
 $root = dirname(__DIR__);
 $envFile = $root . '/.env';
 $config = [
-    'DB_HOST' => getenv('DB_HOST') ?: '127.0.0.1',
+    'DB_HOST' => getenv('DB_HOST') ?: '192.168.1.204',
     'DB_NAME' => getenv('DB_NAME') ?: 'hospital',
-    'DB_USER' => getenv('DB_USER') ?: 'root',
-    'DB_PASS' => getenv('DB_PASS') ?: 'Kilabone15*',
+    'DB_USER' => getenv('DB_USER') ?: 'Marianorori',
+    'DB_PORT' => getenv('DB_PORT') ?: '3307',
+    'DB_PASS' => getenv('DB_PASS') ?: 'SuperNoror!26*',
 ];
 
 if (file_exists($envFile)) {
@@ -18,7 +19,7 @@ if (file_exists($envFile)) {
     }
 }
 
-$dsn = "mysql:host={$config['DB_HOST']};dbname={$config['DB_NAME']};charset=utf8mb4";
+$dsn = "mysql:host={$config['DB_HOST']};port={$config['DB_PORT']};dbname={$config['DB_NAME']};charset=utf8mb4";
 try {
     $pdo = new PDO($dsn, $config['DB_USER'], $config['DB_PASS'], [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,

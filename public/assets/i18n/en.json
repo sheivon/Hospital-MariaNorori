@@ -107,5 +107,6 @@
   "visits_reason": "Reason",
   "visits_notes": "Notes",
   "visits_created_by": "Created by",
-  "visits_updated_by": "Updated by"
+  "visits_updated_by": "Updated by",
+  "maintenance": "Maintenance"
 }
