@@ -32,6 +32,13 @@ class SetupController
             }
         } catch (Throwable $e) {
             $messages[] = 'Error: ' . $e->getMessage();
+            $messages[] = sprintf(
+                'DB config in use -> host: %s, port: %s, db: %s, user: %s',
+                $config['DB_HOST'] ?? '',
+                $config['DB_PORT'] ?? '',
+                $config['DB_NAME'] ?? '',
+                $config['DB_USER'] ?? ''
+            );
         }
 
         return implode(PHP_EOL, $messages);

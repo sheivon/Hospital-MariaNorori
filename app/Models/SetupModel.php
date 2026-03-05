@@ -2,52 +2,40 @@
 
 namespace App\Models;
 
+use App\Core\Database;
 use PDO;
+use PDOException;
 use RuntimeException;
 
 class SetupModel
 {
     public function loadConfig(): array
     {
-        $config = [
-            'DB_HOST' => getenv('DB_HOST') ?: '127.0.0.1',
-            'DB_NAME' => getenv('DB_NAME') ?: 'hospital',
-            'DB_USER' => getenv('DB_USER') ?: 'root',
-            'DB_PORT' => getenv('DB_PORT') ?: '3306',
-            'DB_PASS' => getenv('DB_PASS') ?: '',
-        ];
-
-        $envFile = APP_ROOT . '/.env';
-        if (!is_file($envFile)) {
-            return $config;
-        }
-
-        $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [];
-        foreach ($lines as $line) {
-            $line = trim($line);
-            if ($line === '' || strpos($line, '#') === 0 || strpos($line, '=') === false) {
-                continue;
-            }
-            [$key, $value] = array_map('trim', explode('=', $line, 2));
-            if ($key !== '') {
-                $config[$key] = trim($value, "\"'");
-            }
-        }
-
-        return $config;
+        return Database::config();
     }
 
     public function createDatabase(array $config): string
     {
         $this->validateDbIdentifier($config['DB_NAME']);
 
-        $pdo = $this->connectServer($config);
-        $pdo->exec(sprintf(
-            'CREATE DATABASE IF NOT EXISTS `%s` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci',
-            $config['DB_NAME']
-        ));
+        try {
+            $pdo = $this->connectServer($config);
+            $pdo->exec(sprintf(
+                'CREATE DATABASE IF NOT EXISTS `%s` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci',
+                $config['DB_NAME']
+            ));
 
-        return sprintf("Database '%s' created or already exists.", $config['DB_NAME']);
+            return sprintf("Database '%s' created or already exists.", $config['DB_NAME']);
+        } catch (PDOException $e) {
+            if ($this->canUseExistingDatabase($config)) {
+                return sprintf(
+                    "No CREATE DATABASE permission for user '%s'. Using existing database '%s'.",
+                    $config['DB_USER'],
+                    $config['DB_NAME']
+                );
+            }
+            throw $e;
+        }
     }
 
     public function dropAllTables(array $config): array
@@ -149,6 +137,17 @@ class SetupModel
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         ]);
+    }
+
+    private function canUseExistingDatabase(array $config): bool
+    {
+        try {
+            $pdo = $this->connectDatabase($config);
+            $pdo->query('SELECT 1');
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
     }
 
     private function validateDbIdentifier(string $name): void

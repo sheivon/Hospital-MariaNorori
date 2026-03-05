@@ -41,9 +41,10 @@ if (session_status() === PHP_SESSION_NONE) {
       <?php if (!empty($_SESSION['user'])): ?>
           <li class="nav-item"><a class="nav-link" href="/patients.php" data-i18n="patients">Patients</a></li>
           <li class="nav-item"><a class="nav-link" href="/diagnostics.php" data-i18n="diagnostics_title">Diagnostics</a></li>
+          <li class="nav-item"><a class="nav-link" href="/tests.php" data-i18n="tests_title">Tests</a></li>
           <?php if (!empty($_SESSION['user']['role']) && strtolower($_SESSION['user']['role'])==='admin'): ?>
             <li class="nav-item"><a class="nav-link" href="/admin/users.php" data-i18n="admin_users">Admin</a></li>
-            <li class="nav-item"><a class="nav-link" href="/admin/data_manager.php" data-i18n="maintenance">Maintenance</a></li>
+            <li class="nav-item"><a class="nav-link" href="/admin/data_manager.php" data-i18n="data_manager_title">Data Manager</a></li>
           <?php endif; ?>
           
           <!-- User dropdown -->

@@ -40,4 +40,5 @@ include __DIR__ . '/../templates/header.php';
 @keyframes spin {0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
 </style>
 
+<?php include __DIR__ . '/../templates/patient_modal.php'; ?>
 <?php include __DIR__ . '/../templates/footer.php'; ?>

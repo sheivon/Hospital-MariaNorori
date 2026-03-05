@@ -92,17 +92,41 @@ include __DIR__ . '/../templates/header.php';
 // Fetch counts from the database
 require_once __DIR__ . '/../config/db.php';
 
+function tableExists(PDO $pdo, string $table): bool
+{
+    $stmt = $pdo->prepare('SHOW TABLES LIKE :table');
+    $stmt->execute([':table' => $table]);
+    return (bool)$stmt->fetchColumn();
+}
+
+function hasColumn(PDO $pdo, string $table, string $column): bool
+{
+    $stmt = $pdo->prepare("SHOW COLUMNS FROM `$table` LIKE :column");
+    $stmt->execute([':column' => $column]);
+    return (bool)$stmt->fetchColumn();
+}
+
+function countRows(PDO $pdo, string $table): int
+{
+    if (!tableExists($pdo, $table)) {
+        return 0;
+    }
+
+    $sql = "SELECT COUNT(*) FROM `$table`";
+    if (hasColumn($pdo, $table, 'deleted_at')) {
+        $sql .= ' WHERE deleted_at IS NULL';
+    }
+
+    return (int)$pdo->query($sql)->fetchColumn();
+}
+
 try {
-  //  $pdo = new PDO($dsn, $username, $password, $options);
-     $pdo = new PDO($dsn, $config['DB_USER'], $config['DB_PASS'], [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    ]);
-   $stmt = $pdo->query("SELECT 
-        (SELECT COUNT(*) FROM users) AS user_count,
-        (SELECT COUNT(*) FROM patients) AS patient_count,
-        (SELECT COUNT(*) FROM visits) AS visit_count");
-    $counts = $stmt->fetch(PDO::FETCH_ASSOC);
+    $visitLikeTable = tableExists($pdo, 'encounters') ? 'encounters' : 'visits';
+    $counts = [
+        'user_count' => countRows($pdo, 'users'),
+        'patient_count' => countRows($pdo, 'patients'),
+        'visit_count' => countRows($pdo, $visitLikeTable),
+    ];
 } catch (PDOException $e) {
     $counts = ['user_count' => 0, 'patient_count' => 0, 'visit_count' => 0];
 }

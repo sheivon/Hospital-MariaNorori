@@ -9,6 +9,11 @@ class Database
 {
     private static ?PDO $pdo = null;
 
+    public static function config(): array
+    {
+        return self::loadConfig();
+    }
+
     public static function pdo(): PDO
     {
         if (self::$pdo instanceof PDO) {
@@ -17,7 +22,7 @@ class Database
 
         self::ensurePdoMysqlAvailable();
 
-        $config = self::loadConfig();
+        $config = self::config();
         $dsn = sprintf(
             'mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4',
             $config['DB_HOST'],
@@ -46,9 +51,9 @@ class Database
         $config = [
             'DB_HOST' => getenv('DB_HOST') ?: '192.168.1.204', //dev ip 192.168.1.204 wsl mysql
             'DB_NAME' => getenv('DB_NAME') ?: 'hospital',   //DB
-            'DB_USER' => getenv('DB_USER') ?: 'root',   //dev user
+            'DB_USER' => getenv('DB_USER') ?: 'Marianorori',   //dev user
             'DB_PORT' => getenv('DB_PORT') ?: '3307',   //dev port
-            'DB_PASS' => getenv('DB_PASS') ?: 'Kilabone15*', //dev pass
+            'DB_PASS' => getenv('DB_PASS') ?: 'SuperNoror!26*', //dev pass SuperNoror!26*
         ];
 
         $envFile = APP_ROOT . '/.env';
