@@ -70,6 +70,8 @@
   "select_user": "Select user",
   "private_chat": "Private Chat",
   "incoming_messages": "new incoming messages",
+  "send_to_all": "Send to all",
+  "sent_to_all": "Message sent to all",
   "notifications_on": "Notifications on",
   "notifications_off": "Notifications off",
   "chat_health_title": "Chat Health Check",

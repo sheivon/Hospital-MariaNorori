@@ -72,6 +72,8 @@
   "select_user": "Selecciona un usuario",
   "private_chat": "Chat privado",
   "incoming_messages": "mensajes nuevos entrantes",
+  "send_to_all": "Enviar a todos",
+  "sent_to_all": "Mensaje enviado a todos",
   "notifications_on": "Notificaciones activadas",
   "notifications_off": "Notificaciones desactivadas",
   "chat_health_title": "Verificación de Chat",

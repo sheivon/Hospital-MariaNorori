@@ -420,6 +420,7 @@ tableBody && tableBody.addEventListener('click', e => {
           <div id="privateChatPane" class="flex-grow-1 mb-2 overflow-auto border rounded p-2" style="background:#fff;">${t('loading')}</div>
           <div class="d-flex">
             <input id="privateChatInput" class="form-control form-control-sm me-2" placeholder="${t('type_message')}" data-i18n="type_message">
+            <button id="privateChatSendAll" class="btn btn-outline-primary btn-sm me-1" title="${t('send_to_all')}" aria-label="${t('send_to_all')}"><i class="fa-solid fa-bullhorn"></i></button>
             <button id="privateChatSend" class="btn btn-primary btn-sm" data-i18n="send"><i class="fa-solid fa-paper-plane me-1"></i>${t('send')}</button>
           </div>
         </div>
@@ -432,6 +433,7 @@ tableBody && tableBody.addEventListener('click', e => {
     const recipientSelect = document.getElementById('chatRecipient');
     const pane = document.getElementById('privateChatPane');
     const input = document.getElementById('privateChatInput');
+    const sendAllBtn = document.getElementById('privateChatSendAll');
     const sendBtn = document.getElementById('privateChatSend');
   const minBtn = document.getElementById('chatMin');
   const soundBtn = document.getElementById('chatSound');
@@ -565,6 +567,7 @@ tableBody && tableBody.addEventListener('click', e => {
     if (!rid) { swal({ title: '', text: t('select_recipient'), type: 'warning' }); return; }
       const msg = input.value.trim(); if (!msg) return;
       sendBtn.disabled = true;
+      if (sendAllBtn) sendAllBtn.disabled = true;
       try{
         const res = await fetch('/api/chat_send.php', { method: 'POST', credentials: 'same-origin', body: new URLSearchParams({ message: msg, recipient_id: rid }) });
         const j = await res.json();
@@ -578,6 +581,33 @@ tableBody && tableBody.addEventListener('click', e => {
         }
   }catch(e){ console.error(e); swal({ title: '', text: t('error'), type: 'error' }); }
       sendBtn.disabled = false;
+      if (sendAllBtn) sendAllBtn.disabled = false;
+    }
+
+    async function sendToAll(){
+      const msg = input.value.trim();
+      if (!msg) return;
+      sendBtn.disabled = true;
+      if (sendAllBtn) sendAllBtn.disabled = true;
+      try{
+        const res = await fetch('/api/chat_send.php', { method: 'POST', credentials: 'same-origin', body: new URLSearchParams({ message: msg }) });
+        const j = await res.json();
+        if (j.success){
+          renderMessageLocal({ id: j.id, username: j.username, message: j.message, created_at: j.created_at, user_id: me.id }, true);
+          input.value = '';
+          pane.scrollTop = pane.scrollHeight;
+          if (typeof swal === 'function') {
+            swal({ title: '', text: t('sent_to_all'), type: 'success', timer: 1200, showConfirmButton: false });
+          }
+        } else {
+          swal({ title: '', text: (j.error || t('error')), type: 'error' });
+        }
+      }catch(e){
+        console.error(e);
+        swal({ title: '', text: t('error'), type: 'error' });
+      }
+      sendBtn.disabled = false;
+      if (sendAllBtn) sendAllBtn.disabled = false;
     }
 
     recipientSelect.addEventListener('change', ()=>{
@@ -589,6 +619,7 @@ tableBody && tableBody.addEventListener('click', e => {
       loadConversation();
     });
     sendBtn.addEventListener('click', sendPrivate);
+    if (sendAllBtn) sendAllBtn.addEventListener('click', sendToAll);
     input.addEventListener('keydown', (e)=>{ if (e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); sendPrivate(); } });
     minBtn.addEventListener('click', ()=>{
       if (isMinimized()){
