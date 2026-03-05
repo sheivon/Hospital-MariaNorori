@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 include __DIR__ . '/../templates/login-header.php';
 ?>
 <?php if (empty($_SESSION['user'])): ?>
-  <div class="auth-screen d-flex align-items-center justify-content-center" style="min-height: calc(100vh - 170px);">
+  <div class="auth-screen d-flex align-items-center justify-content-center vh-100">
     <div class="card card-glass shadow-lg" style="width:420px;max-width:92vw; margin: 0 12px;">
       <div class="card-body p-4">
         <div class="text-center mb-3">
@@ -42,20 +42,6 @@ include __DIR__ . '/../templates/login-header.php';
       </div>
     </div>
   </div>
-  <script>
-    // Adjust the auth-screen min-height to account for the navbar height dynamically
-    document.addEventListener('DOMContentLoaded', function(){
-      try{
-        var nav = document.querySelector('nav.navbar');
-        var auth = document.querySelector('.auth-screen');
-        if (nav && auth) {
-          var navHeight = nav.getBoundingClientRect().height || 0;
-          // set minHeight to viewport minus navbar height, minus a tiny buffer
-          auth.style.minHeight = 'calc(100vh - ' + Math.ceil(navHeight) + 'px)';
-        }
-      }catch(e){ console.warn('auth-screen resize failed', e); }
-    });
-  </script>
 <?php else: ?>
   <div class="alert alert-info text-center mt-3">
     <p class="" data-i18n="already_logged_in">You are already logged in as </p>
@@ -65,4 +51,12 @@ include __DIR__ . '/../templates/login-header.php';
   </div>
 <?php endif; ?>
 
-<?php include __DIR__ . '/../templates/footer.php';
+<!-- ✅ Load order matters -->
+<script src="../assets/js/jquery-3.6.0.min.js"></script>
+<script src="../assets/js/jquery.dataTables.min.js"></script>
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/sweetalert.min.js"></script>
+
+<!-- ✅ Your app scripts -->
+<script src="/assets/js/i18n.js"></script>
+<script src="/assets/js/app.js"></script> 

@@ -85,7 +85,5 @@ hospital/
 - Do not expose `setup.php` in production.
 - Use strong credentials and HTTPS.
 - Add CSRF protection and stricter validation before production use.
-sudo killall mysqld
 
-sudo systemctl start mysql
 
