@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 include __DIR__ . '/../templates/login-header.php';
 ?>
 <?php if (empty($_SESSION['user'])): ?>
-  <div class="auth-screen d-flex align-items-center justify-content-center navbar-custom" style="min-height: calc(100vh - 170px);">
+  <div class="auth-screen d-flex align-items-center justify-content-center" style="min-height: calc(100vh - 170px);">
     <div class="card card-glass shadow-lg" style="width:420px;max-width:92vw; margin: 0 12px;">
       <div class="card-body p-4">
         <div class="text-center mb-3">

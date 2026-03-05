@@ -45,8 +45,10 @@ Files of interest
 - `migrations/init.sql` — DB schema
 - `scripts/create_admin.php` — creates an admin user using password_hash
 - `public/` — web root: `index.php`, `login.php`, `api/` endpoints
-- `src/` — auth and patient helper functions
+- `app/` — MVC-style application code (`Core`, `Controllers`, `Models`)
+- `src/` — legacy compatibility wrappers (gradually being migrated)
 - `templates/` — header/footer with Bootstrap
+- `docs/ARCHITECTURE.md` — where to put code and request flow
 
 Security notes
 - This is a minimal starter. Do not run in production without adding proper CSRF protections, input validation and HTTPS.

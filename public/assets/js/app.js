@@ -63,8 +63,7 @@ document.addEventListener('DOMContentLoaded', function(){
   function loadDiagnostics(patientId) {
     document.getElementById('diag_patient_id').value = patientId;
     diagnosticsContent.innerHTML = '<div class="text-center">'+(t('loading')||'Loading...')+'</div>';
-    fetch(`/api/diagnostics_list.php?patient_id=${patientId}`).then(r=>r.json()).then(data=>{
-      fetch(`/api/diagnostics_list.php?patient_id=${patientId}`, { credentials: 'same-origin' }).then(r=>r.json()).then(data=>{
+    fetch(`/api/diagnostics_list.php?patient_id=${patientId}`, { credentials: 'same-origin' }).then(r=>r.json()).then(data=>{
       if (!data.success || !Array.isArray(data.diagnostics) || data.diagnostics.length === 0) {
         diagnosticsContent.innerHTML = `<div class="alert alert-info">${t('diagnostics_table_empty')||'No diagnostics found'}</div>`;
         return;
@@ -75,25 +74,29 @@ document.addEventListener('DOMContentLoaded', function(){
       });
       html += '</tbody></table>';
       diagnosticsContent.innerHTML = html;
+    }).catch(()=>{
+      diagnosticsContent.innerHTML = `<div class="alert alert-info">${t('diagnostics_table_empty')||'No diagnostics found'}</div>`;
     });
   }
 function loadPatients() {
   showLoadingOverlay();
-  if (!tableBody) return;
+  if (!tableBody) {
+    hideLoadingOverlay();
+    return;
+  }
 
-  fetch('/api/patients_list.php')
-    fetch('/api/patients_list.php', { credentials: 'same-origin' })
+  fetch('/api/patients_list.php', { credentials: 'same-origin' })
     .then(r => r.json())
     .then(data => {
-      if (!data.success) return;
-
       tableBody.innerHTML = '';
 
-      data.data.forEach(p => {
-        const editTitle = t('edit') || 'Edit';
-        const delTitle = t('delete') || 'Delete';
-        const diagTitle = t('diagnostics_title') || 'Diagnostics';
+      const rows = Array.isArray(data.data) ? data.data : [];
+      if (!data.success || rows.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="7" class="text-center text-muted">${t('no_data') || 'No data'}</td></tr>`;
+        return;
+      }
 
+      rows.forEach(p => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>${p.id}</td>
@@ -125,6 +128,9 @@ function loadPatients() {
         return new bootstrap.Tooltip(tooltipTriggerEl);
       });
     })
+    .catch(() => {
+      tableBody.innerHTML = `<tr><td colspan="7" class="text-center text-muted">${t('no_data') || 'No data'}</td></tr>`;
+    })
     .finally(() => hideLoadingOverlay());
 }
 
@@ -146,11 +152,10 @@ tableBody && tableBody.addEventListener('click', e => {
   }
 
   if (button.classList.contains('btn-edit')) {
-    fetch('/api/patients_list.php')
-      fetch('/api/patients_list.php', { credentials: 'same-origin' })
+    fetch('/api/patients_list.php', { credentials: 'same-origin' })
       .then(r => r.json())
       .then(data => {
-        const p = data.data.find(x => x.id == id);
+        const p = (Array.isArray(data.data) ? data.data : []).find(x => x.id == id);
         if (!p) return;
         if (patientError) { patientError.classList.add('d-none'); patientError.textContent = ''; }
         if (document.getElementById('id')) document.getElementById('id').value = p.id;
@@ -181,8 +186,7 @@ tableBody && tableBody.addEventListener('click', e => {
       closeOnConfirm: true
     }, function(isConfirm){
       if (!isConfirm) return;
-      fetch('/api/patients_delete.php', { method:'POST', body: new URLSearchParams({id}) })
-        fetch('/api/patients_delete.php', { method:'POST', credentials: 'same-origin', body: new URLSearchParams({id}) })
+      fetch('/api/patients_delete.php', { method:'POST', credentials: 'same-origin', body: new URLSearchParams({id}) })
         .then(r => r.json())
         .then(res => {
           if (res.success) loadPatients();
@@ -302,9 +306,24 @@ tableBody && tableBody.addEventListener('click', e => {
     const id = data.get('id');
     // check uniqueness via API before submitting
     const url = id ? '/api/patients_update.php' : '/api/patients_create.php';
+
+    const submitPatient = () => {
+      fetch(url, { method:'POST', credentials: 'same-origin', body: data })
+        .then(r=>r.json())
+        .then(res=>{
+          if (res.success) {
+            if (patientError){ patientError.classList.add('d-none'); patientError.textContent = ''; }
+            modal.hide();
+            loadPatients();
+          } else {
+            if (patientError){ patientError.classList.remove('d-none'); patientError.textContent = (res.error||t('error')); }
+          }
+        })
+        .catch(()=>{ if (patientError){ patientError.classList.remove('d-none'); patientError.textContent = t('error'); } });
+    };
+
     if (cedVal){
-      fetch('/api/cedula_check.php?cedula=' + encodeURIComponent(cedVal) + (id ? '&id='+encodeURIComponent(id):''))
-        fetch('/api/cedula_check.php?cedula=' + encodeURIComponent(cedVal) + (id ? '&id='+encodeURIComponent(id):''), { credentials: 'same-origin' })
+      fetch('/api/cedula_check.php?cedula=' + encodeURIComponent(cedVal) + (id ? '&id='+encodeURIComponent(id):''), { credentials: 'same-origin' })
         .then(r=>r.json()).then(j=>{
           if (!j.success) {
             if (patientError){ patientError.classList.remove('d-none'); patientError.textContent = t('error'); }
@@ -314,18 +333,10 @@ tableBody && tableBody.addEventListener('click', e => {
             if (patientError){ patientError.classList.remove('d-none'); patientError.textContent = t('cedula_in_use'); }
             return;
           }
-          // submit
-          fetch(url, {method:'POST', body: data}).then(r=>r.json()).then(res=>{
-            fetch(url, {method:'POST', credentials: 'same-origin', body: data}).then(r=>r.json()).then(res=>{
-            if (res.success) { if (patientError){ patientError.classList.add('d-none'); patientError.textContent = ''; } modal.hide(); loadPatients(); }
-            else { if (patientError){ patientError.classList.remove('d-none'); patientError.textContent = (res.error||t('error')); } }
-          });
-  }).catch(()=>{ if (patientError){ patientError.classList.remove('d-none'); patientError.textContent = t('error'); } });
+          submitPatient();
+        }).catch(()=>{ if (patientError){ patientError.classList.remove('d-none'); patientError.textContent = t('error'); } });
     } else {
-      fetch(url, {method:'POST', body: data}).then(r=>r.json()).then(res=>{
-        if (res.success) { if (patientError){ patientError.classList.add('d-none'); patientError.textContent = ''; } modal.hide(); loadPatients(); }
-        else { if (patientError){ patientError.classList.remove('d-none'); patientError.textContent = (res.error||t('error')); } }
-      }).catch(()=>{ if (patientError){ patientError.classList.remove('d-none'); patientError.textContent = t('error'); } });
+      submitPatient();
     }
   });
 
@@ -475,6 +486,32 @@ tableBody && tableBody.addEventListener('click', e => {
       }catch(e){ /* ignore */ }
     }
 
+    function showIncomingNotification(messages){
+      if (!messages || !messages.length) return;
+      const count = messages.length;
+      const last = messages[messages.length - 1];
+      const text = count === 1
+        ? `${(last && last.username) ? last.username : t('private_chat')}: ${last && last.message ? last.message : ''}`
+        : `${count} ${t('incoming_messages')}`;
+
+      try{
+        if ('Notification' in window && Notification.permission === 'granted'){
+          new Notification(t('private_chat'), { body: text });
+          return;
+        }
+      }catch(e){ /* ignore */ }
+
+      if (typeof swal === 'function'){
+        swal({
+          title: t('private_chat'),
+          text,
+          type: 'info',
+          timer: 2500,
+          showConfirmButton: false
+        });
+      }
+    }
+
     function escapeHtmlLocal(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
     function renderMessageLocal(m, isMe){
@@ -488,8 +525,7 @@ tableBody && tableBody.addEventListener('click', e => {
 
     async function loadUsers(){
       try{
-        const res = await fetch('/api/users_list.php');
-          const res = await fetch('/api/users_list.php', { credentials: 'same-origin' });
+        const res = await fetch('/api/users_list.php', { credentials: 'same-origin' });
         const j = await res.json();
         if (!j.success) return;
         const others = (j.data || []).filter(u => String(u.id) !== String(me.id));
@@ -503,21 +539,23 @@ tableBody && tableBody.addEventListener('click', e => {
       try{
         const since = lastMap[rid] || 0;
         const url = '/api/chat_list.php?recipient=' + encodeURIComponent(rid) + (since ? '&since='+since : '');
-        const res = await fetch(url);
+        const res = await fetch(url, { credentials: 'same-origin' });
         const j = await res.json();
         if (!j.success) return;
         if (!since) pane.innerHTML = '';
-        let newFromOthers = 0;
+        const incomingMessages = [];
         j.data.forEach(m=>{
-          renderMessageLocal(m, m.user_id == me.id);
+          const isMine = String(m.user_id) === String(me.id);
+          renderMessageLocal(m, isMine);
           lastMap[rid] = Math.max(lastMap[rid]||0, m.id);
-          if (m.user_id != me.id) newFromOthers++;
+          if (!isMine) incomingMessages.push(m);
         });
         pane.scrollTop = pane.scrollHeight;
-        const shouldNotify = (isMinimized() || document.hidden) && newFromOthers > 0;
+        const shouldNotify = since > 0 && (isMinimized() || document.hidden) && incomingMessages.length > 0;
         if (shouldNotify){
-          setUnread(unreadCount + newFromOthers);
+          setUnread(unreadCount + incomingMessages.length);
           if (soundEnabled) playBeep();
+          showIncomingNotification(incomingMessages);
         }
       }catch(e){ console.warn('loadConversation', e); }
     }
@@ -528,8 +566,7 @@ tableBody && tableBody.addEventListener('click', e => {
       const msg = input.value.trim(); if (!msg) return;
       sendBtn.disabled = true;
       try{
-        const res = await fetch('/api/chat_send.php', { method: 'POST', body: new URLSearchParams({ message: msg, recipient_id: rid }) });
-          const res = await fetch('/api/chat_send.php', { method: 'POST', credentials: 'same-origin', body: new URLSearchParams({ message: msg, recipient_id: rid }) });
+        const res = await fetch('/api/chat_send.php', { method: 'POST', credentials: 'same-origin', body: new URLSearchParams({ message: msg, recipient_id: rid }) });
         const j = await res.json();
         if (j.success){
           renderMessageLocal({ id: j.id, username: j.username, message: j.message, created_at: j.created_at, user_id: me.id }, true);
@@ -567,6 +604,13 @@ tableBody && tableBody.addEventListener('click', e => {
       localStorage.setItem('CHAT_SOUND', soundEnabled ? '1' : '0');
       setSoundButton();
     });
+
+    if ('Notification' in window && Notification.permission === 'default'){
+      document.addEventListener('click', function requestChatNotificationPermission(){
+        Notification.requestPermission().catch(()=>{});
+        document.removeEventListener('click', requestChatNotificationPermission);
+      }, { once: true });
+    }
 
     // polling
     function startPoll(){

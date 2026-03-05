@@ -82,8 +82,10 @@ body { padding-bottom: 40px; color: var(--brand-text); }
 
 /* Auth screen background and glassy card */
 .auth-screen{
-	background: radial-gradient(1200px 600px at 20% 10%, rgba(11,94,215,0.12), transparent 60%),
-							radial-gradient(1200px 600px at 80% 90%, rgba(45,159,108,0.12), transparent 60%);
+	background:
+		radial-gradient(1200px 600px at 20% 10%, rgba(255,255,255,0.10), transparent 60%),
+		radial-gradient(1200px 600px at 80% 90%, rgba(255,255,255,0.08), transparent 60%),
+		linear-gradient(90deg,var(--brand-blue),var(--brand-green));
 }
 
 .card-glass{

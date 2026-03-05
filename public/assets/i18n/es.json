@@ -71,6 +71,7 @@
   "select_recipient": "Selecciona un destinatario",
   "select_user": "Selecciona un usuario",
   "private_chat": "Chat privado",
+  "incoming_messages": "mensajes nuevos entrantes",
   "notifications_on": "Notificaciones activadas",
   "notifications_off": "Notificaciones desactivadas",
   "chat_health_title": "Verificación de Chat",

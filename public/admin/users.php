@@ -246,5 +246,7 @@ function runUsersInit(){
 waitForLibraries(() => {
   if (document.readyState !== 'loading') runUsersInit(); else document.addEventListener('DOMContentLoaded', runUsersInit);
 });
-<!-- removed duplicate module-based DataTable init; users table is initialized above with Buttons support -->
-<?php include __DIR__ . '/../../templates/footer.php';
+// removed duplicate module-based DataTable init; users table is initialized above with Buttons support
+</script>
+
+<?php include __DIR__ . '/../../templates/footer.php'; ?>

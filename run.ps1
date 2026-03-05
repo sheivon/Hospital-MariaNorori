@@ -18,6 +18,21 @@ $ErrorActionPreference = 'Stop'
 $root = (Get-Location).ProviderPath
 Write-Host "Project root: $root"
 
+function Test-PdoMysqlEnabled {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$PhpPath
+    )
+
+    try {
+        $result = & $PhpPath -r "echo extension_loaded('pdo_mysql') ? '1' : '0';" 2>$null
+        return ($result -eq '1')
+    }
+    catch {
+        return $false
+    }
+}
+
 # Try to find php.exe: prefer system php, else XAMPP copy
 $phpCmd = $null
 # Find php on system PATH (PowerShell 5 compatible)
@@ -32,6 +47,23 @@ if (-not $phpCmd) {
 if (-not $phpCmd) {
     Write-Error "php executable not found. Install PHP or ensure C:\xampp\php\php.exe exists, then re-run with -UseXamppPhp if needed."
     exit 1
+}
+
+$xamppPhp = 'C:\xampp\php\php.exe'
+$activeHasPdoMysql = Test-PdoMysqlEnabled -PhpPath $phpCmd
+
+if (-not $activeHasPdoMysql -and (Test-Path $xamppPhp) -and $phpCmd -ne $xamppPhp) {
+    if (Test-PdoMysqlEnabled -PhpPath $xamppPhp) {
+        Write-Host "System PHP does not have pdo_mysql enabled. Switching to XAMPP PHP: $xamppPhp" -ForegroundColor Yellow
+        $phpCmd = $xamppPhp
+        $activeHasPdoMysql = $true
+    }
+}
+
+if (-not $activeHasPdoMysql) {
+    Write-Warning "The selected PHP binary does not have the pdo_mysql driver enabled."
+    Write-Host "Enable extension=pdo_mysql in your php.ini and restart Apache/PHP, then run again." -ForegroundColor Yellow
+    Write-Host "Current PHP: $phpCmd" -ForegroundColor Yellow
 }
 
 # Build arguments for PHP built-in server

@@ -69,6 +69,7 @@
   "select_recipient": "Select recipient",
   "select_user": "Select user",
   "private_chat": "Private Chat",
+  "incoming_messages": "new incoming messages",
   "notifications_on": "Notifications on",
   "notifications_off": "Notifications off",
   "chat_health_title": "Chat Health Check",
