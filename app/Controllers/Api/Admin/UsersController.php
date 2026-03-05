@@ -4,11 +4,23 @@ namespace App\Controllers\Api\Admin;
 
 use App\Core\ApiResponse;
 use App\Core\Auth;
+use App\Models\UserRoleModel;
 use App\Models\UserModel;
 use Throwable;
 
 class UsersController
 {
+    public static function roles(): void
+    {
+        Auth::requireRole('admin');
+        try {
+            $roles = (new UserRoleModel())->all();
+            ApiResponse::success(['data' => $roles]);
+        } catch (Throwable $e) {
+            ApiResponse::fail($e->getMessage());
+        }
+    }
+
     public static function index(): void
     {
         Auth::requireRole('admin');
@@ -32,8 +44,10 @@ class UsersController
         if ($username === '' || $password === '') {
             ApiResponse::fail('Username and password required');
         }
-        if (!in_array($role, ['user', 'admin'], true)) {
-            $role = 'user';
+
+        $roleModel = new UserRoleModel();
+        if (!$roleModel->exists($role)) {
+            ApiResponse::fail('Invalid role');
         }
 
         try {
@@ -66,8 +80,10 @@ class UsersController
         $fullname = trim((string)($payload['fullname'] ?? ''));
         $cedula = trim((string)($payload['cedula'] ?? ''));
         $role = strtolower(trim((string)($payload['role'] ?? 'user')));
-        if (!in_array($role, ['user', 'admin'], true)) {
-            $role = 'user';
+
+        $roleModel = new UserRoleModel();
+        if (!$roleModel->exists($role)) {
+            ApiResponse::fail('Invalid role');
         }
 
         $me = Auth::currentUser();

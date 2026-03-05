@@ -62,10 +62,7 @@ include __DIR__ . '/../../templates/header.php';
           </div>
           <div class="mb-3">
             <label class="form-label" data-i18n="role">Role</label>
-            <select class="form-select" name="role" id="role">
-              <option value="user" data-i18n="role_user">User</option>
-              <option value="admin" data-i18n="role_admin">Admin</option>
-            </select>
+            <select class="form-select" name="role" id="role"></select>
           </div>
           <small class="text-muted" data-i18n="password_optional_reset">Leave password empty to keep current (when editing)</small>
         </div>
@@ -103,6 +100,31 @@ function runUsersInit(){
   const form = document.getElementById('userForm');
   const errBox = document.getElementById('userFormError');
   const title = document.getElementById('userModalTitle');
+  const roleSelect = document.getElementById('role');
+
+  async function loadRoles(selectedValue){
+    if (!roleSelect) return;
+    try {
+      const res = await fetch('/api/admin/roles_list.php');
+      const j = await res.json();
+      const roles = (j && j.success && Array.isArray(j.data)) ? j.data : [];
+      if (!roles.length) {
+        roleSelect.innerHTML = '<option value="user">user</option>';
+        roleSelect.value = 'user';
+        return;
+      }
+
+      roleSelect.innerHTML = roles.map(r => `<option value="${escapeHtml(r.role)}">${escapeHtml(r.role)}</option>`).join('');
+      const preferred = selectedValue || roleSelect.value || 'user';
+      roleSelect.value = preferred;
+      if (roleSelect.value !== preferred) {
+        roleSelect.selectedIndex = 0;
+      }
+    } catch (e) {
+      roleSelect.innerHTML = '<option value="user">user</option>';
+      roleSelect.value = 'user';
+    }
+  }
 
   // Initialize DataTable to load users via AJAX
   let usersTable = null;
@@ -163,7 +185,7 @@ function runUsersInit(){
         document.getElementById('password').required = false;
         document.getElementById('fullname').value = u.fullname||'';
         document.getElementById('cedula').value = u.cedula||'';
-        document.getElementById('role').value = (u.role||'user');
+        await loadRoles(u.role || 'user');
         title.textContent = t('update_user');
         modal.show();
       } else if ($btn.hasClass('btn-del')){
@@ -186,11 +208,13 @@ function runUsersInit(){
     document.getElementById('userId').value='';
     document.getElementById('username').required = true;
     document.getElementById('password').required = true;
+    loadRoles('user');
     title.textContent = t('create_user');
     modal.show();
   });
 
   // initialize DataTable and handlers
+  loadRoles('user');
   initUsersTable();
 
   form.addEventListener('submit', async (e)=>{

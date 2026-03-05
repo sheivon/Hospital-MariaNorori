@@ -22,6 +22,7 @@ DROP TABLE IF EXISTS patient_conditions;
 DROP TABLE IF EXISTS encounters;
 DROP TABLE IF EXISTS patient_contacts;
 DROP TABLE IF EXISTS chat_messages;
+DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS patients;
 DROP TABLE IF EXISTS users;
 
@@ -39,6 +40,37 @@ CREATE TABLE users (
   updated_at TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   INDEX idx_users_role (role)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE user_roles (
+  role_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  role VARCHAR(50) NOT NULL UNIQUE,
+  accesstype VARCHAR(50) NOT NULL,
+  INDEX idx_user_roles_access (accesstype)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO user_roles (role, accesstype) VALUES
+  ('admin', 'full'),
+  ('doctor', 'clinical'),
+  ('user', 'basic');
+
+DROP TRIGGER IF EXISTS trg_user_roles_no_insert;
+DROP TRIGGER IF EXISTS trg_user_roles_no_update;
+DROP TRIGGER IF EXISTS trg_user_roles_no_delete;
+
+CREATE TRIGGER trg_user_roles_no_insert
+BEFORE INSERT ON user_roles
+FOR EACH ROW
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'user_roles is read-only';
+
+CREATE TRIGGER trg_user_roles_no_update
+BEFORE UPDATE ON user_roles
+FOR EACH ROW
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'user_roles is read-only';
+
+CREATE TRIGGER trg_user_roles_no_delete
+BEFORE DELETE ON user_roles
+FOR EACH ROW
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'user_roles is read-only';
 
 CREATE TABLE patients (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
