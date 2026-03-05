@@ -1,98 +1,91 @@
 # Hospital Patient Records (PHP + MySQL)
 
-A minimal patient records web app using PHP, PDO, Bootstrap and AJAX.
+Hospital management starter application built with PHP, PDO, Bootstrap, DataTables, and AJAX.
 
-Prerequisites
-- XAMPP (or PHP + MySQL) installed on Windows
-- PHP 7.4+ recommended
+## Features
 
-Quick start (using XAMPP)
-1. Copy this project folder into `C:/xampp/htdocs/hospital` (or your www folder).
-2. Start Apache and MySQL via XAMPP Control Panel.
-3. Create the database and tables:
-   - Open phpMyAdmin (http://localhost/phpmyadmin) and import `migrations/init.sql`, or run from command line:
+- Authentication and role-based access.
+- Patient management (create, update, soft delete).
+- Diagnostics and tests modules.
+- Admin user management.
+- Generic admin data manager for CRUD across hospital tables.
+- Bilingual UI (English / Spanish).
 
-```powershell
-# create the database/tables from the migration SQL
-mysql -u root -p < migrations/init.sql
+## Requirements
 
-# (optional) run the built-in PHP server for development (PowerShell):
-& 'C:\xampp\php\php.exe' -S 127.0.0.1:8000 -t public
-```
+- PHP 8.0+ (recommended)
+- MySQL / MariaDB
+- `pdo_mysql` PHP extension enabled
+- Windows + PowerShell scripts are included, but app runs on any OS with PHP/MySQL
 
-4. Create an admin user (script will prompt for username/password):
+## Quick Start
 
-```powershell
-php scripts/create_admin.php
-```
-
-5. Open the app in your browser:
-   - If you put the project under Apache's htdocs and mapped `/hospital` to the project root: http://localhost/hospital/
-   - If you run the built-in PHP server (development): http://localhost:8000/
-
-Alternatively, run a built-in PHP server (for dev):
+1. Configure DB credentials in environment variables or `.env` file (`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASS`).
+2. Start the local server:
 
 ```powershell
-cd C:/00-IN-DEV/Health
-& 'C:\xampp\php\php.exe' -S 127.0.0.1:8000 -t public
-# then open http://127.0.0.1:8000 or http://localhost:8000
+.\run.ps1
 ```
 
-Default DB settings
-- See `.env.example` for example values. You can create a `.env` file in the project root to override them.
+3. Open setup page and initialize schema/data:
 
-Files of interest
-- `migrations/init.sql` — DB schema
-- `scripts/create_admin.php` — creates an admin user using password_hash
-- `public/` — web root: `index.php`, `login.php`, `api/` endpoints
-- `app/` — MVC-style application code (`Core`, `Controllers`, `Models`)
-- `src/` — legacy compatibility wrappers (gradually being migrated)
-- `templates/` — header/footer with Bootstrap
-- `docs/ARCHITECTURE.md` — where to put code and request flow
+- http://localhost:8000/setup.php
 
-Security notes
-- This is a minimal starter. Do not run in production without adding proper CSRF protections, input validation and HTTPS.
+Use **Initialize Database** to create DB, run schema, and seed default users.
 
-If you want, I can now implement additional features (search, pagination, export) or tighten security (CSRF tokens, input validation).
+## Database
 
+- Baseline schema: `migrations/init.sql`
+- Setup MVC flow:
+  - `app/Controllers/SetupController.php`
+  - `app/Models/SetupModel.php`
+  - `public/setup.php`
 
+## Project Structure
 
-----
+```text
+hospital/
+├─ app/
+│  ├─ Core/                 # DB, auth, API response helpers
+│  ├─ Controllers/          # MVC controllers (API + setup)
+│  ├─ Models/               # DB models and business rules
+│  └─ bootstrap.php         # Autoload/bootstrap
+├─ config/
+│  └─ db.php                # PDO bootstrap (uses app/Core/Database)
+├─ docs/
+│  └─ ARCHITECTURE.md       # Architecture and entity relationships
+├─ migrations/
+│  └─ init.sql              # Single baseline schema
+├─ public/
+│  ├─ index.php             # Landing/dashboard summary
+│  ├─ patients.php          # Patients view
+│  ├─ diagnostics.php       # Diagnostics view
+│  ├─ tests.php             # Tests view
+│  ├─ setup.php             # DB setup UI
+│  ├─ admin/
+│  │  ├─ users.php          # User administration
+│  │  └─ data_manager.php   # Generic CRUD manager
+│  ├─ api/                  # API endpoints
+│  └─ assets/               # JS, CSS, i18n, vendor assets
+├─ scripts/                 # Utility scripts (admin creation, checks, etc.)
+├─ src/                     # Legacy compatibility wrappers
+├─ templates/               # Shared header/footer/modals
+├─ run.ps1                  # Start development server
+└─ push.ps1                 # Stage/commit/push helper
+```
 
-admin
-admin123
+## Notes
 
+- Soft delete is enforced in key modules using `deleted_at`.
+- Role values are sourced from `user_roles`.
+- For architecture details, see `docs/ARCHITECTURE.md`.
 
-cliadmin
-cliPass2025
+## Security
 
-
----
-reset mysql password wsl linux ubuntu
-
-sudo systemctl stop mysql
-
-sudo mysqld_safe --skip-grant-tables --skip-networking &
-
-mysql -u root
-FLUSH PRIVILEGES;
-ALTER USER 'root'@'%' IDENTIFIED BY 'Kilabone15*';
-
-UPDATE mysql.user 
-SET authentication_string = PASSWORD('Kilabone15*')
-WHERE User = 'root';
-
-FLUSH PRIVILEGES;
-
-exit;
-
+- Do not expose `setup.php` in production.
+- Use strong credentials and HTTPS.
+- Add CSRF protection and stricter validation before production use.
 sudo killall mysqld
+
 sudo systemctl start mysql
-
-- New User
-CREATE USER 'Marianorori'@'%' IDENTIFIED BY 'SuperNoror!26*';
-
-GRANT ALL PRIVILEGES ON *.* TO 'Marianorori'@'%' WITH GRANT OPTION;
-FLUSH PRIVILEGES;
-
 
