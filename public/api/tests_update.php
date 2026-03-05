@@ -21,7 +21,7 @@ if (!$id || $test_type === ''){
 
 try{
     global $pdo;
-    $stmt = $pdo->prepare('UPDATE tests SET test_type=:tt, result=:res, test_date=:td, notes=:notes WHERE id=:id');
+    $stmt = $pdo->prepare('UPDATE tests SET test_type=:tt, result=:res, test_date=:td, notes=:notes WHERE id=:id AND deleted_at IS NULL');
     $stmt->execute([
         ':tt'=>$test_type,
         ':res'=>$result !== '' ? $result : null,

@@ -15,7 +15,7 @@ try {
             FROM diagnostics d
             LEFT JOIN users u1 ON d.created_by = u1.id
             LEFT JOIN users u2 ON d.updated_by = u2.id
-            WHERE d.patient_id = :pid
+            WHERE d.patient_id = :pid AND d.deleted_at IS NULL
             ORDER BY d.date DESC, d.id DESC');
         $stmt->execute([':pid' => $patient_id]);
     } else {
@@ -23,6 +23,7 @@ try {
             FROM diagnostics d
             LEFT JOIN users u1 ON d.created_by = u1.id
             LEFT JOIN users u2 ON d.updated_by = u2.id
+            WHERE d.deleted_at IS NULL
             ORDER BY d.date DESC, d.id DESC');
     }
     $rows = $stmt->fetchAll();

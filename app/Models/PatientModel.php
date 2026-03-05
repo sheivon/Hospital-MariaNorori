@@ -17,13 +17,13 @@ class PatientModel
 
     public function all(): array
     {
-        $stmt = $this->pdo->query('SELECT id, first_name, last_name, email, cedula, dob, gender, phone, address, notes, created_at, updated_at FROM patients ORDER BY id DESC');
+        $stmt = $this->pdo->query('SELECT id, first_name, last_name, email, cedula, dob, gender, phone, address, notes, created_at, updated_at FROM patients WHERE deleted_at IS NULL ORDER BY id DESC');
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function find(int $id): ?array
     {
-        $stmt = $this->pdo->prepare('SELECT id, first_name, last_name, email, cedula, dob, gender, phone, address, notes, created_at, updated_at FROM patients WHERE id = :id LIMIT 1');
+        $stmt = $this->pdo->prepare('SELECT id, first_name, last_name, email, cedula, dob, gender, phone, address, notes, created_at, updated_at FROM patients WHERE id = :id AND deleted_at IS NULL LIMIT 1');
         $stmt->execute([':id' => $id]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row ?: null;
@@ -67,7 +67,7 @@ class PatientModel
 
     public function delete(int $id): bool
     {
-        $stmt = $this->pdo->prepare('DELETE FROM patients WHERE id = :id');
+        $stmt = $this->pdo->prepare('UPDATE patients SET deleted_at = NOW() WHERE id = :id AND deleted_at IS NULL');
         return $stmt->execute([':id' => $id]);
     }
 
@@ -76,10 +76,10 @@ class PatientModel
         $cedula = trim((string)($data['cedula'] ?? ''));
         if ($cedula !== '') {
             if ($exceptId) {
-                $stmt = $this->pdo->prepare('SELECT id FROM patients WHERE cedula = :ced AND id != :id LIMIT 1');
+                $stmt = $this->pdo->prepare('SELECT id FROM patients WHERE cedula = :ced AND id != :id AND deleted_at IS NULL LIMIT 1');
                 $stmt->execute([':ced' => $cedula, ':id' => $exceptId]);
             } else {
-                $stmt = $this->pdo->prepare('SELECT id FROM patients WHERE cedula = :ced LIMIT 1');
+                $stmt = $this->pdo->prepare('SELECT id FROM patients WHERE cedula = :ced AND deleted_at IS NULL LIMIT 1');
                 $stmt->execute([':ced' => $cedula]);
             }
             if ($stmt->fetch()) {

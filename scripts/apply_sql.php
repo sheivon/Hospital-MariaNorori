@@ -1,5 +1,5 @@
 <?php
-// Usage: php scripts/apply_sql.php migrations/20251101_create_chat_messages.sql
+// Usage: php scripts/apply_sql.php migrations/init.sql
 $file = $argv[1] ?? null;
 if (!$file || !file_exists($file)) {
     fwrite(STDERR, "Usage: php scripts/apply_sql.php <sql-file>\n");

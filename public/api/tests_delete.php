@@ -15,7 +15,7 @@ if (!$id){
 
 try{
     global $pdo;
-    $stmt = $pdo->prepare('DELETE FROM tests WHERE id = :id');
+    $stmt = $pdo->prepare('UPDATE tests SET deleted_at = NOW() WHERE id = :id AND deleted_at IS NULL');
     $stmt->execute([':id'=>$id]);
     echo json_encode(['success'=>true]);
 }catch(Throwable $e){

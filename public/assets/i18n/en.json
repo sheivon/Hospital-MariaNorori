@@ -109,5 +109,20 @@
   "visits_notes": "Notes",
   "visits_created_by": "Created by",
   "visits_updated_by": "Updated by",
-  "maintenance": "Maintenance"
+  "maintenance": "Maintenance",
+  "no_data": "No data",
+  "data_manager_title": "Data Manager",
+  "data_manager_new": "New",
+  "data_manager_refresh": "Refresh",
+  "data_manager_table": "Table",
+  "data_manager_softdelete_hint": "Deletes are soft delete (sets deleted_at).",
+  "data_manager_edit_row": "Edit Row",
+  "data_manager_create_row": "Create Row",
+  "data_manager_update_row": "Update Row",
+  "data_manager_soft_delete_confirm": "Soft delete this row?",
+  "data_manager_failed_tables": "Failed loading tables",
+  "data_manager_failed_rows": "Failed loading rows",
+  "data_manager_delete_failed": "Delete failed",
+  "data_manager_save_failed": "Save failed",
+  "data_manager_init_failed": "Initialization error"
 }

@@ -114,5 +114,20 @@
   "visits_notes": "Notas",
   "visits_created_by": "Creado por",
   "visits_updated_by": "Actualizado por",
-  "maintenance": "Mantenimiento"
+  "maintenance": "Mantenimiento",
+  "no_data": "Sin datos",
+  "data_manager_title": "Gestor de Datos",
+  "data_manager_new": "Nuevo",
+  "data_manager_refresh": "Actualizar",
+  "data_manager_table": "Tabla",
+  "data_manager_softdelete_hint": "Las eliminaciones son lógicas (establecen deleted_at).",
+  "data_manager_edit_row": "Editar fila",
+  "data_manager_create_row": "Crear fila",
+  "data_manager_update_row": "Actualizar fila",
+  "data_manager_soft_delete_confirm": "¿Eliminar lógicamente esta fila?",
+  "data_manager_failed_tables": "Error al cargar tablas",
+  "data_manager_failed_rows": "Error al cargar filas",
+  "data_manager_delete_failed": "Error al eliminar",
+  "data_manager_save_failed": "Error al guardar",
+  "data_manager_init_failed": "Error de inicialización"
 }

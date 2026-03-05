@@ -44,11 +44,11 @@ class Database
     private static function loadConfig(): array
     {
         $config = [
-            'DB_HOST' => getenv('DB_HOST') ?: '192.168.1.204',
-            'DB_NAME' => getenv('DB_NAME') ?: 'hospital',
-            'DB_USER' => getenv('DB_USER') ?: 'Marianorori',
-            'DB_PORT' => getenv('DB_PORT') ?: '3307',
-            'DB_PASS' => getenv('DB_PASS') ?: 'SuperNoror!26*',
+            'DB_HOST' => getenv('DB_HOST') ?: '192.168.1.204', //dev ip 192.168.1.204 wsl mysql
+            'DB_NAME' => getenv('DB_NAME') ?: 'hospital',   //DB
+            'DB_USER' => getenv('DB_USER') ?: 'root',   //dev user
+            'DB_PORT' => getenv('DB_PORT') ?: '3307',   //dev port
+            'DB_PASS' => getenv('DB_PASS') ?: 'Kilabone15*', //dev pass
         ];
 
         $envFile = APP_ROOT . '/.env';

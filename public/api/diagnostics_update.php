@@ -21,7 +21,7 @@ if (!$id || $type === '') {
 
 try {
     global $pdo;
-    $stmt = $pdo->prepare('UPDATE diagnostics SET type = :type, description = :desc, date = :dt, updated_by = :uid WHERE id = :id');
+    $stmt = $pdo->prepare('UPDATE diagnostics SET type = :type, description = :desc, date = :dt, updated_by = :uid WHERE id = :id AND deleted_at IS NULL');
     $stmt->execute([
         ':type' => $type,
         ':desc' => $description !== '' ? $description : null,
