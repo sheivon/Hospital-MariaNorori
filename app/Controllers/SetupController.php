@@ -13,10 +13,28 @@ class SetupController
         $config = $setup->loadConfig();
         $schemaFile = APP_ROOT . '/migrations/init.sql';
 
+        // Allow overriding config via form inputs
+        $overrideMap = [
+            'DB_HOST' => 'db_host',
+            'DB_PORT' => 'db_port',
+            'DB_NAME' => 'db_name',
+            'DB_USER' => 'db_user',
+            'DB_PASS' => 'db_pass',
+        ];
+        foreach ($overrideMap as $key => $field) {
+            if (array_key_exists($field, $post)) {
+                $config[$key] = trim((string)$post[$field]);
+            }
+        }
+
         $messages = [];
 
         try {
-            if (isset($post['create_db'])) {
+            if (isset($post['test_connection'])) {
+                $messages[] = $setup->testConnection($config);
+            } elseif (isset($post['save_config'])) {
+                $messages[] = $setup->saveConfig($config);
+            } elseif (isset($post['create_db'])) {
                 $messages[] = $setup->createDatabase($config);
             } elseif (isset($post['create_tables'])) {
                 $messages[] = $setup->runSchemaFromFile($config, $schemaFile);

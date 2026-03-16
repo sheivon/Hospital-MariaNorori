@@ -19,8 +19,8 @@ include __DIR__ . '/../templates/header.php';
     </table>
 
     <div class="mt-4">
-      <a href="/" class="btn btn-link">Back to home</a>
-      <a href="/login.php" class="btn btn-primary">Sign in</a>
+      <a href="/" class="btn btn-link"><i class="fa-solid fa-house me-1"></i>Back to home</a>
+      <a href="/login.php" class="btn btn-primary"><i class="fa-solid fa-user-circle me-1"></i>Sign in</a>
     </div>
   </div>
 </div>

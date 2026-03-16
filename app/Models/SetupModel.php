@@ -14,6 +14,61 @@ class SetupModel
         return Database::config();
     }
 
+    public function testConnection(array $config): string
+    {
+        try {
+            $pdo = new PDO(
+                sprintf('mysql:host=%s;port=%s;charset=utf8mb4', $config['DB_HOST'], $config['DB_PORT']),
+                $config['DB_USER'],
+                $config['DB_PASS'],
+                [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+            );
+            $pdo->query('SELECT 1');
+            return 'Connection successful.';
+        } catch (PDOException $e) {
+            throw new RuntimeException('Connection failed: ' . $e->getMessage());
+        }
+    }
+
+    public function saveConfig(array $config): string
+    {
+        $envFile = APP_ROOT . '/.env';
+        $lines = [];
+
+        if (is_file($envFile)) {
+            $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [];
+        }
+
+        $keys = ['DB_HOST', 'DB_PORT', 'DB_NAME', 'DB_USER', 'DB_PASS'];
+        $newLines = [];
+
+        foreach ($lines as $line) {
+            $trim = trim($line);
+            if ($trim === '' || strpos($trim, '#') === 0 || strpos($trim, '=') === false) {
+                $newLines[] = $line;
+                continue;
+            }
+
+            [$key, $value] = array_map('trim', explode('=', $line, 2));
+            if (in_array($key, $keys, true)) {
+                continue; // we'll add updated values below
+            }
+            $newLines[] = $line;
+        }
+
+        foreach ($keys as $key) {
+            if (isset($config[$key])) {
+                $newLines[] = sprintf('%s=%s', $key, $config[$key]);
+            }
+        }
+
+        if (false === @file_put_contents($envFile, implode(PHP_EOL, $newLines) . PHP_EOL)) {
+            throw new RuntimeException('Unable to write .env file. Check permissions.');
+        }
+
+        return 'Configuration saved to .env.';
+    }
+
     public function createDatabase(array $config): string
     {
         $this->validateDbIdentifier($config['DB_NAME']);

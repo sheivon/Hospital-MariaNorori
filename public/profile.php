@@ -41,10 +41,13 @@ include __DIR__ . '/../templates/header.php';
     <?php if ($err): ?><div class="alert alert-danger" data-i18n="<?=htmlspecialchars($err)?>">Error</div><?php endif; ?>
     <form method="post">
       <div class="mb-3"><label class="form-label" data-i18n="label_username">Username</label><input class="form-control" value="<?=htmlspecialchars($dbu['username'])?>" disabled></div>
-      <div class="mb-3"><label class="form-label" data-i18n="label_fullname">Full name</label><input name="fullname" class="form-control" value="<?=htmlspecialchars($dbu['fullname']??'')?>" data-i18n="label_fullname" placeholder="Full name"></div>
-      <div class="mb-3"><label class="form-label" data-i18n="label_cedula">Cédula</label><input name="cedula" class="form-control" value="<?=htmlspecialchars($dbu['cedula']??'')?>" data-i18n="label_cedula" placeholder="Cédula"></div>
-      <div class="mb-3"><label class="form-label" data-i18n="label_new_password">New password (leave empty to keep)</label><input name="password" type="password" class="form-control" data-i18n="label_new_password" placeholder="New password (leave empty to keep)"></div>
-      <button class="btn btn-primary" data-i18n="btn_save">Save</button>
+      <div class="mb-3"><label class="form-label" data-i18n="label_fullname">Full name</label><input name="fullname" class="form-control" value="<?=htmlspecialchars($dbu['fullname']??'')?>" data-i18n="label_fullname" data-i18n-placeholder="label_fullname"></div>
+      <div class="mb-3"><label class="form-label" data-i18n="label_cedula">Cédula</label><input name="cedula" class="form-control" value="<?=htmlspecialchars($dbu['cedula']??'')?>" data-i18n="label_cedula" data-i18n-placeholder="label_cedula"></div>
+      <div class="mb-3"><label class="form-label" data-i18n="label_new_password">New password (leave empty to keep)</label><input name="password" type="password" class="form-control" data-i18n="label_new_password" data-i18n-placeholder="label_new_password"></div>
+      <button class="btn btn-primary">
+        <i class="fa-solid fa-floppy-disk me-1"></i>
+        <span data-i18n="btn_save">Save</span>
+      </button>
     </form>
   </div>
 </div>

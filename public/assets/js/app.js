@@ -421,7 +421,10 @@ tableBody && tableBody.addEventListener('click', e => {
           <div class="d-flex">
             <input id="privateChatInput" class="form-control form-control-sm me-2" placeholder="${t('type_message')}" data-i18n="type_message">
             <button id="privateChatSendAll" class="btn btn-outline-primary btn-sm me-1" title="${t('send_to_all')}" aria-label="${t('send_to_all')}"><i class="fa-solid fa-bullhorn"></i></button>
-            <button id="privateChatSend" class="btn btn-primary btn-sm" data-i18n="send"><i class="fa-solid fa-paper-plane me-1"></i>${t('send')}</button>
+            <button id="privateChatSend" class="btn btn-primary btn-sm">
+              <i class="fa-solid fa-paper-plane me-1"></i>
+              <span data-i18n="send">${t('send')}</span>
+            </button>
           </div>
         </div>
       </div>`;

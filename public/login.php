@@ -22,8 +22,12 @@ include __DIR__ . '/../templates/login-header.php';
     <div class="card card-glass shadow-lg" style="width:420px;max-width:92vw; margin: 0 12px;">
       <div class="card-body p-4">
         <div class="text-center mb-3">
-          <i class="fa-solid fa-user-lock fa-2x text-primary"></i>
-          <h3 class="mt-2 mb-0" data-i18n="login_title">Login</h3>
+              <picture class="login-logo">
+                <!-- prefer the SVG; PNG was converted to an embedded-SVG file -->
+                <source srcset="/assets/images/minsa-logo.svg" type="image/svg+xml">
+                <img src="/assets/images/minsa-logo.svg" alt="MINSA_logo" height="40" />
+              </picture>
+          <h3 class="mt-2 mb-0"><i class="fa-solid fa-right-to-bracket me-2"></i><span data-i18n="login_title">Login</span></h3>
         </div>
         <?php if (!empty($err)): ?>
           <div class="alert alert-danger" data-i18n="<?= htmlspecialchars($err) ?>">Invalid username or password</div>
@@ -31,11 +35,11 @@ include __DIR__ . '/../templates/login-header.php';
         <form method="post">
           <div class="mb-3">
             <label class="form-label" data-i18n="label_username">Username</label>
-            <input name="username" class="form-control" required placeholder="Username" data-i18n="label_username">
+            <input name="username" class="form-control" required data-i18n="label_username" data-i18n-placeholder="label_username">
           </div>
           <div class="mb-3">
             <label class="form-label" data-i18n="label_password">Password</label>
-            <input name="password" type="password" class="form-control" required placeholder="Password" data-i18n="label_password">
+            <input name="password" type="password" class="form-control" required data-i18n="label_password" data-i18n-placeholder="label_password">
           </div>
           <button class="btn btn-primary w-100"><i class="fa-solid fa-right-to-bracket me-1"></i><span data-i18n="btn_login">Login</span></button>
         </form>
@@ -46,8 +50,8 @@ include __DIR__ . '/../templates/login-header.php';
   <div class="alert alert-info text-center mt-3">
     <p class="" data-i18n="already_logged_in">You are already logged in as </p>
     <strong><?= htmlspecialchars($_SESSION['user']['username']) ?></strong>.
-    <a href="/patients.php" class="btn btn-sm btn-primary ms-2" data-i18n="go_patients">Go to Patients Dashboard</a>
-    <a href="/logout.php" class="btn btn-sm btn-secondary ms-2" data-i18n="logout">Logout</a>
+    <a href="/patients.php" class="btn btn-sm btn-primary ms-2"><i class="fa-solid fa-users me-1"></i><span data-i18n="go_patients">Go to Patients Dashboard</span></a>
+    <a href="/logout.php" class="btn btn-sm btn-secondary ms-2"><i class="fa-solid fa-right-from-bracket me-1"></i><span data-i18n="logout">Logout</span></a>
   </div>
 <?php endif; ?>
 
@@ -57,6 +61,6 @@ include __DIR__ . '/../templates/login-header.php';
 <script src="../assets/js/bootstrap.bundle.min.js"></script>
 <script src="../assets/js/sweetalert.min.js"></script>
 
-<!-- ✅ Your app scripts -->
+<!-- ✅ hospital app scripts -->
 <script src="/assets/js/i18n.js"></script>
 <script src="/assets/js/app.js"></script> 

@@ -40,11 +40,14 @@ include __DIR__ . '/../templates/header.php';
         <h3 data-i18n="register_title">Register</h3>
         <?php if ($err): ?><div class="alert alert-danger" data-i18n="<?= htmlspecialchars($err) ?>">Error</div><?php endif; ?>
         <form method="post">
-            <div class="mb-3"><label class="form-label" data-i18n="label_username">Username</label><input name="username" class="form-control" required data-i18n="label_username" placeholder="Username"></div>
-            <div class="mb-3"><label class="form-label" data-i18n="label_password">Password</label><input name="password" type="password" class="form-control" required data-i18n="label_password" placeholder="Password"></div>
-            <div class="mb-3"><label class="form-label" data-i18n="label_fullname">Full name</label><input name="fullname" class="form-control" data-i18n="label_fullname" placeholder="Full name"></div>
-            <div class="mb-3"><label class="form-label" data-i18n="label_cedula">Cédula</label><input name="cedula" class="form-control" data-i18n="label_cedula" placeholder="Cédula"></div>
-            <button class="btn btn-primary" data-i18n="btn_register">Register</button>
+            <div class="mb-3"><label class="form-label" data-i18n="label_username">Username</label><input name="username" class="form-control" required data-i18n="label_username" data-i18n-placeholder="label_username"></div>
+            <div class="mb-3"><label class="form-label" data-i18n="label_password">Password</label><input name="password" type="password" class="form-control" required data-i18n="label_password" data-i18n-placeholder="label_password"></div>
+            <div class="mb-3"><label class="form-label" data-i18n="label_fullname">Full name</label><input name="fullname" class="form-control" data-i18n="label_fullname" data-i18n-placeholder="label_fullname"></div>
+            <div class="mb-3"><label class="form-label" data-i18n="label_cedula">Cédula</label><input name="cedula" class="form-control" data-i18n="label_cedula" data-i18n-placeholder="label_cedula"></div>
+            <button class="btn btn-primary">
+                <i class="fa-solid fa-user-plus me-1"></i>
+                <span data-i18n="btn_register">Register</span>
+            </button>
         </form>
   </div>
 </div>

@@ -6,20 +6,28 @@ include __DIR__ . '/../templates/header.php';
   
 <div class="container mt-4">
   <h1 class="display-4" data-i18n="hospital">Hospital</h1>
-  <p class="lead" data-i18n="welcome_message">Welcome to the Hospital Records system.</p>
+  <p class="lead" data-i18n="welcome_message">Bienvenido al sistema de registros del hospital.</p>
 </div>
   <div class="container"> 
     <div class="d-flex justify-content-center gap-2 mt-3">
   <?php
       if (empty($_SESSION['user'])) {
           echo '
-              <a href="/login.php" class="btn btn-primary btn-lg" data-i18n="btn_login">Sign in</a>
-              <a href="/patients.php" class="btn btn-outline-primary btn-lg" data-i18n="go_patients">Patients (dashboard)</a>
-              <a href="/demo.php" class="btn btn-outline-secondary btn-lg" data-i18n="go_demo">Try demo</a>
+              <a href="/login.php" class="btn btn-primary btn-lg">
+                  <i class="fa-solid fa-user-circle me-2"></i><span data-i18n="sign_in">Iniciar sesión</span>
+              </a>
+              <a href="/patients.php" class="btn btn-outline-primary btn-lg">
+                  <i class="fa-solid fa-users"></i><span data-i18n="go_patients">Pacientes (panel)</span>
+              </a>
+              <a href="/demo.php" class="btn btn-outline-secondary btn-lg">
+                  <i class="fa-solid fa-play-circle me-2"></i><span data-i18n="go_demo">Probar demo</span>
+              </a>
           ';
       } else {
           echo '
-              <a href="/patients.php" class="btn btn-outline-primary btn-lg" data-i18n="go_patients">Patients (dashboard)</a>
+              <a href="/patients.php" class="btn btn-outline-primary btn-lg">
+                  <i class="fa-solid fa-users me-2"></i><span data-i18n="go_patients">Pacientes (panel)</span>
+              </a>
           ';
       }
       ?>
@@ -29,17 +37,7 @@ include __DIR__ . '/../templates/header.php';
    </div>
 </div>
 
-<!-- Overlay for loading with circular progress -->
-<div id="loading-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 9999; display: flex; justify-content: center; align-items: center;">
-    <div style="width: 50px; height: 50px; border: 5px solid rgba(255, 255, 255, 0.3); border-top: 5px solid white; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-</div>
-
-<style>
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-</style>
+<?php include __DIR__ . '/../templates/loading_overlay.php'; ?>
 
 <script>
     // Show overlay when loading data
@@ -68,24 +66,6 @@ include __DIR__ . '/../templates/header.php';
 
     // Trigger data fetch on page load
     window.onload = fetchData;
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const userLang = localStorage.getItem('lang') || 'en';
-
-        const loadLanguage = async (lang) => {
-            const response = await fetch(`/assets/i18n/${lang}.json`);
-            const translations = await response.json();
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[key]) {
-                    el.textContent = translations[key];
-                }
-            });
-        };
-
-        // Load initial language
-        loadLanguage(userLang);
-    });
 </script>
 
 <?php
@@ -135,27 +115,27 @@ try {
 <div class="row p-0 m-0 mt-4 text-center">
     <div class="col-md-4">
         <div class="card">
-            <h2 class="card-head m-2 p2" data-i18n="patients">Patients</h2>
+            <h2 class="card-head m-2 p2"><i class="fa-solid fa-user-injured me-2"></i><span data-i18n="patients_title">Pacientes</span></h2>
             <div class="card-body">
-                <p data-i18n="patient_descriptions">Manage patient records and information.</p>
+                <p data-i18n="patient_descriptions">Gestiona los registros e información de los pacientes.</p>
                 <h3><?php echo $counts['patient_count']; ?></h3>
             </div>
         </div>
     </div>
     <div class="col-md-4">
         <div class="card">
-            <h2 class="card-head m-2 p2" data-i18n="users">Users</h2>
+            <h2 class="card-head m-2 p2"><i class="fa-solid fa-user-shield me-2"></i><span data-i18n="users">Usuarios</span></h2>
             <div class="card-body">
-                <p data-i18n="users_description">Manage user accounts and permissions.</p>
+                <p data-i18n="users_description">Gestiona las cuentas de usuario y sus permisos.</p>
                 <h3><?php echo $counts['user_count']; ?></h3>
             </div>
         </div>
     </div>
     <div class="col-md-4">
         <div class="card">
-            <h2 class="card-head m-2 p2" data-i18n="visits">Visits</h2>
+            <h2 class="card-head m-2 p2"><i class="fa-solid fa-stethoscope me-2"></i><span data-i18n="visits">Visitas</span></h2>
             <div class="card-body">
-                <p data-i18n="visits_description">Track patient visits and appointments.</p>
+                <p data-i18n="visits_description">Rastrea las visitas y citas de los pacientes.</p>
                 <h3><?php echo $counts['visit_count']; ?></h3>
             </div>
         </div>

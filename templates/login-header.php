@@ -17,6 +17,7 @@ if (session_status() === PHP_SESSION_NONE) {
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <!-- assets are served from the web root (public/), so drop the /public prefix -->
   <link href="/assets/css/styles.css" rel="stylesheet">
+  <link href="/assets/css/auth.css" rel="stylesheet">
   <?php
   // Load DataTables Buttons CSS if present (local offline copy)
   $btnCssPath = $_SERVER['DOCUMENT_ROOT'] . '/assets/vendor/datatables/buttons.dataTables.min.css';

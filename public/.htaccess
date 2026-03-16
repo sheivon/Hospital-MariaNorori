@@ -1,0 +1,13 @@
+# Redirect common error codes to friendly pages
+ErrorDocument 401 /401.php
+ErrorDocument 404 /404.php
+ErrorDocument 500 /500.php
+
+# (Optional) Force direct access to error pages even if file exists
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_URI} ^/401\.php$ [OR]
+  RewriteCond %{REQUEST_URI} ^/404\.php$ [OR]
+  RewriteCond %{REQUEST_URI} ^/500\.php$
+  RewriteRule ^ - [L]
+</IfModule>

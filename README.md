@@ -6,7 +6,7 @@ Hospital management starter application built with PHP, PDO, Bootstrap, DataTabl
 
 - Authentication and role-based access.
 - Patient management (create, update, soft delete).
-- Diagnostics and tests modules.
+- Diagnostics module.
 - Admin user management.
 - Generic admin data manager for CRUD across hospital tables.
 - Bilingual UI (English / Spanish).
