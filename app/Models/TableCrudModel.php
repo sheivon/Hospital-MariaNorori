@@ -34,6 +34,8 @@ class TableCrudModel
         'audit_logs' => ['pk' => 'id', 'label' => 'Audit Logs'],
     ];
 
+    private array $deletedAtCache = [];
+
     public function __construct()
     {
         $this->pdo = Database::pdo();
@@ -44,12 +46,24 @@ class TableCrudModel
         return $this->tables;
     }
 
+    private function hasDeletedAt(string $table): bool
+    {
+        if (array_key_exists($table, $this->deletedAtCache)) {
+            return $this->deletedAtCache[$table];
+        }
+
+        $stmt = $this->pdo->query(sprintf("SHOW COLUMNS FROM `%s` LIKE 'deleted_at'", $table));
+        $this->deletedAtCache[$table] = (bool) $stmt->fetch();
+        return $this->deletedAtCache[$table];
+    }
+
     public function listRows(string $table, int $limit = 200): array
     {
         $meta = $this->tableMeta($table);
         $pk = $meta['pk'];
         $limit = max(1, min(500, $limit));
-        $sql = sprintf('SELECT * FROM `%s` WHERE deleted_at IS NULL ORDER BY `%s` DESC LIMIT %d', $table, $pk, $limit);
+        $whereDeleted = $this->hasDeletedAt($table) ? ' WHERE deleted_at IS NULL' : '';
+        $sql = sprintf('SELECT * FROM `%s`%s ORDER BY `%s` DESC LIMIT %d', $table, $whereDeleted, $pk, $limit);
         return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -101,11 +115,13 @@ class TableCrudModel
         }
         $data['__id'] = $id;
 
+        $whereDeleted = $this->hasDeletedAt($table) ? ' AND deleted_at IS NULL' : '';
         $sql = sprintf(
-            'UPDATE `%s` SET %s WHERE `%s` = :__id AND deleted_at IS NULL',
+            'UPDATE `%s` SET %s WHERE `%s` = :__id%s',
             $table,
             implode(', ', $sets),
-            $pk
+            $pk,
+            $whereDeleted
         );
 
         $stmt = $this->pdo->prepare($sql);
@@ -116,7 +132,11 @@ class TableCrudModel
     {
         $meta = $this->tableMeta($table);
         $pk = $meta['pk'];
-        $sql = sprintf('UPDATE `%s` SET deleted_at = NOW() WHERE `%s` = :id AND deleted_at IS NULL', $table, $pk);
+        if ($this->hasDeletedAt($table)) {
+            $sql = sprintf('UPDATE `%s` SET deleted_at = NOW() WHERE `%s` = :id AND deleted_at IS NULL', $table, $pk);
+        } else {
+            $sql = sprintf('DELETE FROM `%s` WHERE `%s` = :id', $table, $pk);
+        }
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([':id' => $id]);
     }

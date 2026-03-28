@@ -35,10 +35,14 @@ CREATE TABLE users (
   fullname VARCHAR(255) DEFAULT NULL,
   cedula VARCHAR(50) DEFAULT NULL UNIQUE,
   role VARCHAR(50) NOT NULL DEFAULT 'user',
+  specialty VARCHAR(120) DEFAULT NULL,
+  department VARCHAR(120) DEFAULT NULL,
   is_active TINYINT(1) NOT NULL DEFAULT 1,
+  deleted_at DATETIME NULL DEFAULT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  INDEX idx_users_role (role)
+  INDEX idx_users_role (role),
+  INDEX idx_users_deleted_at (deleted_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE user_roles (
@@ -88,12 +92,20 @@ CREATE TABLE patients (
   occupation VARCHAR(120) DEFAULT NULL,
   insurance_provider VARCHAR(120) DEFAULT NULL,
   insurance_policy_no VARCHAR(120) DEFAULT NULL,
+  father_name VARCHAR(150) DEFAULT NULL,
+  mother_name VARCHAR(150) DEFAULT NULL,
+  expediente_no VARCHAR(100) DEFAULT NULL,
+  procedencia VARCHAR(255) DEFAULT NULL,
+  education_level VARCHAR(100) DEFAULT NULL,
+  employer VARCHAR(255) DEFAULT NULL,
   notes TEXT DEFAULT NULL,
   is_deceased TINYINT(1) NOT NULL DEFAULT 0,
+  deleted_at DATETIME NULL DEFAULT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   INDEX idx_patients_name (last_name, first_name),
-  INDEX idx_patients_dob (dob)
+  INDEX idx_patients_dob (dob),
+  INDEX idx_patients_deleted_at (deleted_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE patient_contacts (
@@ -174,11 +186,22 @@ CREATE TABLE diagnostics (
   patient_id INT UNSIGNED NOT NULL,
   encounter_id INT UNSIGNED DEFAULT NULL,
   type VARCHAR(100) NOT NULL,
+  unit VARCHAR(120) DEFAULT NULL,
+  room VARCHAR(80) DEFAULT NULL,
   icd10_code VARCHAR(20) DEFAULT NULL,
   description TEXT,
   status VARCHAR(30) NOT NULL DEFAULT 'active',
   severity VARCHAR(30) DEFAULT NULL,
   date DATE DEFAULT NULL,
+  time TIME DEFAULT NULL,
+  plan TEXT DEFAULT NULL,
+  weight DECIMAL(6,2) DEFAULT NULL,
+  height DECIMAL(6,2) DEFAULT NULL,
+  age INT DEFAULT NULL,
+  sex ENUM('M','F','O') DEFAULT NULL,
+  expediente_no VARCHAR(100) DEFAULT NULL,
+  cedula VARCHAR(50) DEFAULT NULL,
+  inss_no VARCHAR(100) DEFAULT NULL,
   created_by INT UNSIGNED DEFAULT NULL,
   updated_by INT UNSIGNED DEFAULT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -200,6 +223,10 @@ CREATE TABLE tests (
   result TEXT,
   test_date DATETIME DEFAULT NULL,
   unit VARCHAR(50) DEFAULT NULL,
+  location VARCHAR(255) DEFAULT NULL,
+  code VARCHAR(100) DEFAULT NULL,
+  bed VARCHAR(50) DEFAULT NULL,
+  service VARCHAR(120) DEFAULT NULL,
   reference_range VARCHAR(120) DEFAULT NULL,
   notes TEXT,
   created_by INT UNSIGNED DEFAULT NULL,
@@ -261,6 +288,12 @@ CREATE TABLE treatment_plans (
   diagnostic_id INT UNSIGNED DEFAULT NULL,
   goal VARCHAR(255) DEFAULT NULL,
   treatment_description TEXT NOT NULL,
+  medications TEXT DEFAULT NULL,
+  exams TEXT DEFAULT NULL,
+  diet TEXT DEFAULT NULL,
+  rules TEXT DEFAULT NULL,
+  follow_up TEXT DEFAULT NULL,
+  transfer TEXT DEFAULT NULL,
   start_date DATE DEFAULT NULL,
   end_date DATE DEFAULT NULL,
   status VARCHAR(30) NOT NULL DEFAULT 'active',
@@ -356,6 +389,7 @@ CREATE TABLE immunizations (
 CREATE TABLE appointments (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   patient_id INT UNSIGNED NOT NULL,
+  encounter_id INT UNSIGNED DEFAULT NULL,
   provider_user_id INT UNSIGNED DEFAULT NULL,
   appointment_at DATETIME NOT NULL,
   reason VARCHAR(255) DEFAULT NULL,
@@ -365,9 +399,11 @@ CREATE TABLE appointments (
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   CONSTRAINT fk_appointments_patient FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE,
+  CONSTRAINT fk_appointments_encounter FOREIGN KEY (encounter_id) REFERENCES encounters(id) ON DELETE SET NULL,
   CONSTRAINT fk_appointments_provider FOREIGN KEY (provider_user_id) REFERENCES users(id) ON DELETE SET NULL,
   CONSTRAINT fk_appointments_created_by FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL,
   INDEX idx_appointments_patient (patient_id),
+  INDEX idx_appointments_encounter (encounter_id),
   INDEX idx_appointments_at (appointment_at),
   INDEX idx_appointments_status (status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -436,24 +472,36 @@ CREATE TABLE audit_logs (
   INDEX idx_audit_logs_created_at (created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-ALTER TABLE users ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX idx_users_deleted_at (deleted_at);
-ALTER TABLE patients ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX idx_patients_deleted_at (deleted_at);
-ALTER TABLE patient_contacts ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX idx_patient_contacts_deleted_at (deleted_at);
-ALTER TABLE encounters ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX idx_encounters_deleted_at (deleted_at);
-ALTER TABLE patient_conditions ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX idx_patient_conditions_deleted_at (deleted_at);
-ALTER TABLE patient_allergies ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX idx_patient_allergies_deleted_at (deleted_at);
-ALTER TABLE diagnostics ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX idx_diagnostics_deleted_at (deleted_at);
-ALTER TABLE tests ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX idx_tests_deleted_at (deleted_at);
-ALTER TABLE vitals ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX idx_vitals_deleted_at (deleted_at);
-ALTER TABLE clinical_notes ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX idx_clinical_notes_deleted_at (deleted_at);
-ALTER TABLE treatment_plans ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX idx_treatment_plans_deleted_at (deleted_at);
-ALTER TABLE clinical_procedures ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX idx_clinical_procedures_deleted_at (deleted_at);
-ALTER TABLE medications_catalog ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX idx_medications_catalog_deleted_at (deleted_at);
-ALTER TABLE prescriptions ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX idx_prescriptions_deleted_at (deleted_at);
-ALTER TABLE treatment_administration ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX idx_treatment_administration_deleted_at (deleted_at);
-ALTER TABLE immunizations ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX idx_immunizations_deleted_at (deleted_at);
-ALTER TABLE appointments ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX idx_appointments_deleted_at (deleted_at);
-ALTER TABLE admissions ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX idx_admissions_deleted_at (deleted_at);
-ALTER TABLE bed_movements ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX idx_bed_movements_deleted_at (deleted_at);
-ALTER TABLE chat_messages ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX idx_chat_messages_deleted_at (deleted_at);
-ALTER TABLE audit_logs ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX idx_audit_logs_deleted_at (deleted_at);
+CREATE TABLE encounter_doctors (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  encounter_id INT UNSIGNED NOT NULL,
+  user_id INT UNSIGNED NOT NULL,
+  role VARCHAR(80) DEFAULT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_encounter_doctors_encounter FOREIGN KEY (encounter_id) REFERENCES encounters(id) ON DELETE CASCADE,
+  CONSTRAINT fk_encounter_doctors_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  INDEX idx_encounter_doctors_encounter (encounter_id),
+  INDEX idx_encounter_doctors_user (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE users ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_users_deleted_at (deleted_at);
+ALTER TABLE patients ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_patients_deleted_at (deleted_at);
+ALTER TABLE patient_contacts ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_patient_contacts_deleted_at (deleted_at);
+ALTER TABLE encounters ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_encounters_deleted_at (deleted_at);
+ALTER TABLE patient_conditions ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
+ALTER TABLE patient_allergies ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
+ALTER TABLE diagnostics ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
+ALTER TABLE tests ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
+ALTER TABLE vitals ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
+ALTER TABLE clinical_notes ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
+ALTER TABLE treatment_plans ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
+ALTER TABLE clinical_procedures ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
+ALTER TABLE medications_catalog ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
+ALTER TABLE prescriptions ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
+ALTER TABLE treatment_administration ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
+ALTER TABLE immunizations ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
+ALTER TABLE appointments ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
+ALTER TABLE admissions ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
+ALTER TABLE bed_movements ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
+ALTER TABLE chat_messages ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
+ALTER TABLE audit_logs ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);

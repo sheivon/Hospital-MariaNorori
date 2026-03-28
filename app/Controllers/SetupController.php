@@ -40,6 +40,8 @@ class SetupController
                 $messages[] = $setup->runSchemaFromFile($config, $schemaFile);
             } elseif (isset($post['create_users']) || isset($post['create_admin'])) {
                 $messages = array_merge($messages, $setup->createDefaultUsers($config));
+            } elseif (isset($post['seed_sample_data'])) {
+                $messages = array_merge($messages, $setup->createSampleData($config));
             } elseif (isset($post['drop_tables'])) {
                 $messages = array_merge($messages, $setup->dropAllTables($config));
             } elseif (isset($post['initialize_db'])) {

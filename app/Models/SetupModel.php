@@ -163,7 +163,57 @@ class SetupModel
                 ':c' => null,
                 ':r' => $user['role'],
             ]);
-            $messages[] = "Created user: {$user['username']} (password: {$user['password']})";
+            $messages[] = "Created user: {$user['username']} (password hashed)";
+        }
+
+        return $messages;
+    }
+
+    public function createSampleData(array $config): array
+    {
+        $pdo = $this->connectDatabase($config);
+        $messages = [];
+
+        $patientCheck = $pdo->query('SELECT COUNT(*) FROM patients')->fetchColumn();
+        if ($patientCheck > 0) {
+            $messages[] = 'Sample data not inserted: patients already exist.';
+            return $messages;
+        }
+
+        $patients = [
+            ['first_name'=>'Carlos','last_name'=>'Mendez','cedula'=>'080119990001','dob'=>'1999-01-08','gender'=>'M','marital_status'=>'single','phone'=>'555-0101','email'=>'carlos.mendez@example.com','insurance_provider'=>'INSURSA','insurance_policy_no'=>'INS-1001','expediente_no'=>'EXP-0001','procedencia'=>'Local','father_name'=>'Jose Mendez','mother_name'=>'Ana Lopez','education_level'=>'College','employer'=>'Clinica A','address'=>'123 Principal St','notes'=>'Allergic to penicillin'],
+            ['first_name'=>'Maria','last_name'=>'Gonzalez','cedula'=>'080219985002','dob'=>'1985-02-08','gender'=>'F','marital_status'=>'married','phone'=>'555-0202','email'=>'maria.gonzalez@example.com','insurance_provider'=>'SEGUROS','insurance_policy_no'=>'INS-1002','expediente_no'=>'EXP-0002','procedencia'=>'Regional','father_name'=>'Miguel Gonzalez','mother_name'=>'Lucia Torres','education_level'=>'High School','employer'=>'Hospital General','address'=>'45 Avenida Central','notes'=>'Diabetic type 2'],
+        ];
+
+        $insertPatient = $pdo->prepare('INSERT INTO patients (first_name, last_name, cedula, dob, gender, marital_status, phone, email, insurance_provider, insurance_policy_no, expediente_no, procedencia, father_name, mother_name, education_level, employer, address, notes, created_at, updated_at) VALUES (:first_name, :last_name, :cedula, :dob, :gender, :marital_status, :phone, :email, :insurance_provider, :insurance_policy_no, :expediente_no, :procedencia, :father_name, :mother_name, :education_level, :employer, :address, :notes, NOW(), NOW())');
+
+        foreach ($patients as $patient) {
+            $insertPatient->execute($patient);
+            $patientId = (int)$pdo->lastInsertId();
+            $messages[] = "Inserted patient #{$patientId}: {$patient['first_name']} {$patient['last_name']}";
+
+            $insertDiag = $pdo->prepare('INSERT INTO diagnostics (patient_id, encounter_id, type, unit, room, icd10_code, description, status, severity, date, time, plan, weight, height, age, sex, expediente_no, cedula, inss_no, created_by, created_at, updated_at) VALUES (:patient_id, NULL, :type, :unit, :room, :icd10, :description, :status, :severity, :date, :time, :plan, :weight, :height, :age, :sex, :expediente_no, :cedula, :inss_no, NULL, NOW(), NOW())');
+            $insertDiag->execute([
+                ':patient_id' => $patientId,
+                ':type' => 'General Checkup',
+                ':unit' => 'General',
+                ':room' => '101',
+                ':icd10' => 'Z00.00',
+                ':description' => "Routine clinical assessment for {$patient['first_name']}",
+                ':status' => 'completed',
+                ':severity' => 'low',
+                ':date' => date('Y-m-d'),
+                ':time' => date('H:i:s'),
+                ':plan' => 'Follow standard monitoring',
+                ':weight' => 70.0,
+                ':height' => 170.0,
+                ':age' => 25,
+                ':sex' => $patient['gender'],
+                ':expediente_no' => $patient['expediente_no'],
+                ':cedula' => $patient['cedula'],
+                ':inss_no' => $patient['insurance_policy_no'],
+            ]);
+            $messages[] = "Inserted diagnostics for patient #{$patientId}";
         }
 
         return $messages;

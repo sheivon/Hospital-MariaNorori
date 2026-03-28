@@ -18,10 +18,7 @@ include __DIR__ . '/../templates/header.php';
               </a>
               <a href="/patients.php" class="btn btn-outline-primary btn-lg">
                   <i class="fa-solid fa-users"></i><span data-i18n="go_patients">Pacientes (panel)</span>
-              </a>
-              <a href="/demo.php" class="btn btn-outline-secondary btn-lg">
-                  <i class="fa-solid fa-play-circle me-2"></i><span data-i18n="go_demo">Probar demo</span>
-              </a>
+              </a> 
           ';
       } else {
           echo '
@@ -86,6 +83,28 @@ function hasColumn(PDO $pdo, string $table, string $column): bool
     return (bool)$stmt->fetchColumn();
 }
 
+function ensureSoftDeleteColumns(PDO $pdo, array $tables): void
+{
+    foreach ($tables as $table) {
+        if (!tableExists($pdo, $table)) {
+            continue;
+        }
+
+        if (!hasColumn($pdo, $table, 'deleted_at')) {
+            $sql = sprintf("ALTER TABLE `%s` ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL", $table);
+            $pdo->exec($sql);
+        }
+
+        // Ensure index exist in a safe way.
+        $indexName = 'idx_' . $table . '_deleted_at';
+        $indexExists = $pdo->query("SHOW INDEX FROM `$table` WHERE Key_name = '$indexName'")->fetch();
+        if (!$indexExists) {
+            $sql = sprintf("CREATE INDEX `%s` ON `%s` (`deleted_at`)", $indexName, $table);
+            $pdo->exec($sql);
+        }
+    }
+}
+
 function countRows(PDO $pdo, string $table): int
 {
     if (!tableExists($pdo, $table)) {
@@ -101,6 +120,8 @@ function countRows(PDO $pdo, string $table): int
 }
 
 try {
+    ensureSoftDeleteColumns($pdo, ['users', 'patients', 'patient_contacts', 'encounters', 'patient_conditions', 'patient_allergies', 'diagnostics', 'tests', 'vitals', 'clinical_notes', 'treatment_plans', 'clinical_procedures', 'medications_catalog', 'prescriptions', 'treatment_administration', 'immunizations', 'appointments', 'admissions', 'bed_movements', 'chat_messages', 'audit_logs']);
+
     $visitLikeTable = tableExists($pdo, 'encounters') ? 'encounters' : 'visits';
     $counts = [
         'user_count' => countRows($pdo, 'users'),

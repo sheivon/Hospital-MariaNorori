@@ -1,8 +1,10 @@
 <?php
 namespace App\Models;
-
 use App\Core\Database;
 use PDO;
+
+// Modelo para la tabla Diagnostico
+// DIAGNOSTICO CRUD
 
 class DiagnosticoModel {
     private $pdo;

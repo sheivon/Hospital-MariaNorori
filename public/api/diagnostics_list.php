@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../config/db.php';
+require_once __DIR__ . '/api_helpers.php';
 require_once __DIR__ . '/../../src/auth.php';
 
 require_login();
@@ -10,12 +11,14 @@ $patient_id = isset($_GET['patient_id']) ? (int)$_GET['patient_id'] : null;
 
 try {
     global $pdo;
+    $deletedCondition = softDeleteCondition($pdo, 'diagnostics', 'd');
+
     if ($patient_id) {
         $stmt = $pdo->prepare('SELECT d.*, u1.fullname AS created_by_name, u2.fullname AS updated_by_name
             FROM diagnostics d
             LEFT JOIN users u1 ON d.created_by = u1.id
             LEFT JOIN users u2 ON d.updated_by = u2.id
-            WHERE d.patient_id = :pid AND d.deleted_at IS NULL
+            WHERE d.patient_id = :pid' . $deletedCondition . '
             ORDER BY d.date DESC, d.id DESC');
         $stmt->execute([':pid' => $patient_id]);
     } else {
@@ -23,7 +26,7 @@ try {
             FROM diagnostics d
             LEFT JOIN users u1 ON d.created_by = u1.id
             LEFT JOIN users u2 ON d.updated_by = u2.id
-            WHERE d.deleted_at IS NULL
+            WHERE 1=1' . $deletedCondition . '
             ORDER BY d.date DESC, d.id DESC');
     }
     $rows = $stmt->fetchAll();

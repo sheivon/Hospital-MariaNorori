@@ -25,7 +25,7 @@ include __DIR__ . '/../templates/login-header.php';
               <picture class="login-logo">
                 <!-- prefer the SVG; PNG was converted to an embedded-SVG file -->
                 <source srcset="/assets/images/minsa-logo.svg" type="image/svg+xml">
-                <img src="/assets/images/minsa-logo.svg" alt="MINSA_logo" height="40" />
+                <img src="/assets/images/minsa-logo.svg" alt="MINSA_logo" height="60" />
               </picture>
           <h3 class="mt-2 mb-0"><i class="fa-solid fa-right-to-bracket me-2"></i><span data-i18n="login_title">Login</span></h3>
         </div>

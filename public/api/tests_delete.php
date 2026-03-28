@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../config/db.php';
+require_once __DIR__ . '/api_helpers.php';
 require_once __DIR__ . '/../../src/auth.php';
 
 require_login();
@@ -15,8 +16,13 @@ if (!$id){
 
 try{
     global $pdo;
-    $stmt = $pdo->prepare('UPDATE tests SET deleted_at = NOW() WHERE id = :id AND deleted_at IS NULL');
-    $stmt->execute([':id'=>$id]);
+    if (hasColumn($pdo, 'tests', 'deleted_at')) {
+        $stmt = $pdo->prepare('UPDATE tests SET deleted_at = NOW() WHERE id = :id AND deleted_at IS NULL');
+        $stmt->execute([':id'=>$id]);
+    } else {
+        $stmt = $pdo->prepare('DELETE FROM tests WHERE id = :id');
+        $stmt->execute([':id'=>$id]);
+    }
     echo json_encode(['success'=>true]);
 }catch(Throwable $e){
     http_response_code(500);

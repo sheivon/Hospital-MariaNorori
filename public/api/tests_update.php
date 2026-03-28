@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../config/db.php';
+require_once __DIR__ . '/api_helpers.php';
 require_once __DIR__ . '/../../src/auth.php';
 
 require_login();
@@ -21,7 +22,8 @@ if (!$id || $test_type === ''){
 
 try{
     global $pdo;
-    $stmt = $pdo->prepare('UPDATE tests SET test_type=:tt, result=:res, test_date=:td, notes=:notes WHERE id=:id AND deleted_at IS NULL');
+    $deletedCondition = softDeleteCondition($pdo, 'tests');
+    $stmt = $pdo->prepare('UPDATE tests SET test_type=:tt, result=:res, test_date=:td, notes=:notes WHERE id=:id' . $deletedCondition);
     $stmt->execute([
         ':tt'=>$test_type,
         ':res'=>$result !== '' ? $result : null,

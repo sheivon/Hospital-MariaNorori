@@ -1,220 +1,18 @@
-document.addEventListener('DOMContentLoaded', function(){
-  // i18n helper and common refs
-  const t = window.i18n_t || ((k,vars)=> (typeof k === 'string' ? k : ''));
-  const DBG = (new URLSearchParams(location.search).get('debug') === '1') || (localStorage.getItem('DEBUG_PRINT') === '1');
-  const tableBody = document.querySelector('#patientsTable tbody');
-  const modal = document.getElementById('patientModal') ? new bootstrap.Modal(document.getElementById('patientModal')) : null;
-  const form = document.getElementById('patientForm');
-  const patientError = document.getElementById('patientFormError');
-
-  // Diagnostic insert logic
-  const btnAddDiagnostic = document.getElementById('btnAddDiagnostic');
-  const diagnosticForm = document.getElementById('diagnosticForm');
-  const btnCancelDiagnostic = document.getElementById('btnCancelDiagnostic');
-  const diagnosticFormError = document.getElementById('diagnosticFormError');
-  let currentPatientId = null;
-  const diagnosticsModal = document.getElementById('diagnosticsModal') ? new bootstrap.Modal(document.getElementById('diagnosticsModal')) : null;
-  const diagnosticsContent = document.getElementById('diagnosticsContent');
-
-  if (btnAddDiagnostic && diagnosticForm && btnCancelDiagnostic) {
-    btnAddDiagnostic.addEventListener('click', function() {
-      diagnosticForm.style.display = '';
-      btnAddDiagnostic.style.display = 'none';
-      diagnosticFormError.classList.add('d-none');
-    });
-    btnCancelDiagnostic.addEventListener('click', function() {
-      diagnosticForm.style.display = 'none';
-      btnAddDiagnostic.style.display = '';
-      diagnosticFormError.classList.add('d-none');
-      diagnosticForm.reset();
-    });
-    diagnosticForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const type = document.getElementById('diag_type').value.trim();
-      const date = document.getElementById('diag_date').value;
-      const description = document.getElementById('diag_description').value.trim();
-      const patient_id = document.getElementById('diag_patient_id').value;
-      if (!type || !date || !patient_id) {
-        diagnosticFormError.textContent = t('error') || 'Error';
-        diagnosticFormError.classList.remove('d-none');
-        return;
-      }
-      fetch('/api/diagnostics_create.php', {
-        method: 'POST',
-          credentials: 'same-origin',
-          headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type, date, description, patient_id })
-      }).then(r=>r.json()).then(data=>{
-        if (data.success) {
-          diagnosticForm.style.display = 'none';
-          btnAddDiagnostic.style.display = '';
-          diagnosticFormError.classList.add('d-none');
-          diagnosticForm.reset();
-          // Reload diagnostics list
-          if (currentPatientId) loadDiagnostics(currentPatientId);
-        } else {
-          diagnosticFormError.textContent = data.error || (t('error') || 'Error');
-          diagnosticFormError.classList.remove('d-none');
-        }
-      });
-    });
-  }
-
-  function loadDiagnostics(patientId) {
-    document.getElementById('diag_patient_id').value = patientId;
-    diagnosticsContent.innerHTML = '<div class="text-center">'+(t('loading')||'Loading...')+'</div>';
-    fetch(`/api/diagnostics_list.php?patient_id=${patientId}`, { credentials: 'same-origin' }).then(r=>r.json()).then(data=>{
-      if (!data.success || !Array.isArray(data.diagnostics) || data.diagnostics.length === 0) {
-        diagnosticsContent.innerHTML = `<div class="alert alert-info">${t('diagnostics_table_empty')||'No diagnostics found'}</div>`;
-        return;
-      }
-      let html = `<table class="table table-bordered table-sm"><thead><tr><th>${t('diagnostics_type')||'Type'}</th><th>${t('diagnostics_description')||'Description'}</th><th>${t('diagnostics_date')||'Date'}</th><th>${t('diagnostics_created_by')||'Created by'}</th></tr></thead><tbody>`;
-      data.diagnostics.forEach(d => {
-        html += `<tr><td>${escapeHtml(d.type)}</td><td>${escapeHtml(d.description||'')}</td><td>${d.date||''}</td><td>${escapeHtml(d.created_by_name||'')}</td></tr>`;
-      });
-      html += '</tbody></table>';
-      diagnosticsContent.innerHTML = html;
-    }).catch(()=>{
-      diagnosticsContent.innerHTML = `<div class="alert alert-info">${t('diagnostics_table_empty')||'No diagnostics found'}</div>`;
-    });
-  }
-function loadPatients() {
-  showLoadingOverlay();
-  if (!tableBody) {
-    hideLoadingOverlay();
-    return;
-  }
-
-  fetch('/api/patients_list.php', { credentials: 'same-origin' })
-    .then(r => r.json())
-    .then(data => {
-      tableBody.innerHTML = '';
-
-      const rows = Array.isArray(data.data) ? data.data : [];
-      if (!data.success || rows.length === 0) {
-        tableBody.innerHTML = `<tr><td colspan="7" class="text-center text-muted">${t('no_data') || 'No data'}</td></tr>`;
-        return;
-      }
-
-      rows.forEach(p => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${p.id}</td>
-          <td>${escapeHtml(p.first_name + ' ' + p.last_name)}</td>
-          <td>${escapeHtml(p.cedula||'')}</td>
-          <td>${p.dob||''}</td>
-          <td>${escapeHtml(p.email||'')}</td>
-          <td>${escapeHtml(p.phone||'')}</td>
-          <td>
-            <div class="btn-group" role="group">
-              <button class="btn btn-sm btn-primary btn-edit" data-id="${p.id}" >
-                <i class="fa-solid fa-pen-to-square"></i>
-              </button>
-              <button class="btn btn-sm btn-danger btn-del" data-id="${p.id}">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-              <button class="btn btn-sm btn-info btn-diag" data-id="${p.id}">
-                <i class="fa-solid fa-stethoscope"></i>
-              </button>
-            </div>
-          </td>
-        `;
-        tableBody.appendChild(tr);
-      });
-
-      // Enable Bootstrap tooltips for new buttons
-      const tooltipTriggerList = [].slice.call(tableBody.querySelectorAll('[data-bs-toggle="tooltip"]'));
-      tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl);
-      });
-    })
-    .catch(() => {
-      tableBody.innerHTML = `<tr><td colspan="7" class="text-center text-muted">${t('no_data') || 'No data'}</td></tr>`;
-    })
-    .finally(() => hideLoadingOverlay());
+// Global overlay helpers used by patients.js and other modules
+function showLoadingOverlay(){
+  const el = document.getElementById('loading-overlay');
+  if (el) el.style.display='flex';
+}
+function hideLoadingOverlay(){
+  const el = document.getElementById('loading-overlay');
+  if (el) el.style.display='none';
 }
 
-// Event delegation for icon buttons
-tableBody && tableBody.addEventListener('click', e => {
-  const button = e.target.closest('button');
-  if (!button) return;
-
-  const id = button.dataset.id;
-  if (button.classList.contains('btn-diag')) {
-    currentPatientId = id;
-    loadDiagnostics(id);
-    diagnosticsModal && diagnosticsModal.show();
-    diagnosticForm.style.display = 'none';
-    btnAddDiagnostic.style.display = '';
-    diagnosticFormError.classList.add('d-none');
-    diagnosticForm.reset();
-    return;
-  }
-
-  if (button.classList.contains('btn-edit')) {
-    fetch('/api/patients_list.php', { credentials: 'same-origin' })
-      .then(r => r.json())
-      .then(data => {
-        const p = (Array.isArray(data.data) ? data.data : []).find(x => x.id == id);
-        if (!p) return;
-        if (patientError) { patientError.classList.add('d-none'); patientError.textContent = ''; }
-        if (document.getElementById('id')) document.getElementById('id').value = p.id;
-        if (document.getElementById('patientId')) document.getElementById('patientId').value = p.id;
-        document.getElementById('first_name').value = p.first_name;
-        document.getElementById('last_name').value = p.last_name;
-        if (document.getElementById('email')) document.getElementById('email').value = p.email || '';
-        document.getElementById('cedula').value = p.cedula || '';
-        document.getElementById('dob').value = p.dob || '';
-        document.getElementById('gender').value = p.gender || 'O';
-        document.getElementById('phone').value = p.phone || '';
-        document.getElementById('address').value = p.address || '';
-        document.getElementById('notes').value = p.notes || '';
-        modal.show();
-      });
-    return;
-  }
-
-  if (button.classList.contains('btn-del')) {
-    swal({
-      title: t('delete_confirm'),
-      text: '',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      confirmButtonText: t('confirm_yes'),
-      cancelButtonText: t('cancel'),
-      closeOnConfirm: true
-    }, function(isConfirm){
-      if (!isConfirm) return;
-      fetch('/api/patients_delete.php', { method:'POST', credentials: 'same-origin', body: new URLSearchParams({id}) })
-        .then(r => r.json())
-        .then(res => {
-          if (res.success) loadPatients();
-          else swal({ title: '', text: res.error || t('error'), type: 'error' });
-        });
-    });
-  }
-});
-
-  function escapeHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-  if (tableBody) loadPatients();
-
-  const btnAdd = document.getElementById('btnAdd');
-  if (btnAdd) {
-    btnAdd.addEventListener('click', ()=>{
-      if (form && typeof form.reset === 'function') form.reset();
-      if (document.getElementById('id')) document.getElementById('id').value = '';
-      if (document.getElementById('patientId')) document.getElementById('patientId').value = '';
-      if (patientError){ patientError.classList.add('d-none'); patientError.textContent = ''; }
-      if (!form || !modal) return;
-      if (form && typeof form.reset === 'function') form.reset();
-      if (document.getElementById('id')) document.getElementById('id').value = '';
-      if (document.getElementById('patientId')) document.getElementById('patientId').value = '';
-      if (patientError){ patientError.classList.add('d-none'); patientError.textContent = ''; }
-      modal.show();
-    });
-  }
+document.addEventListener('DOMContentLoaded', function(){
+  // i18n helper and debug
+  const t = window.i18n_t || ((k,vars)=> (typeof k === 'string' ? k : ''));
+  const DBG = (new URLSearchParams(location.search).get('debug') === '1') || (localStorage.getItem('DEBUG_PRINT') === '1');
+  // Patients list and form are now handled in /assets/js/patients.js
 
   // Print table button
   const btnPrintTable = document.getElementById('btnPrintTable');
@@ -283,118 +81,6 @@ tableBody && tableBody.addEventListener('click', e => {
     setTimeout(() => w.close(), 800);
   });
 
-  // REMOVE DUPLICATE: ensure only one handler exists (kept the one above with diagnostics)
-  /*
-  // Removed duplicate patients click handler (edit/delete)
-  */
-
-  form && form.addEventListener('submit', function(e){
-    e.preventDefault();
-    // client-side cedula format validation
-    const cedVal = document.getElementById('cedula') ? document.getElementById('cedula').value.trim() : '';
-    const emailVal = document.getElementById('email') ? document.getElementById('email').value.trim() : '';
-    if (cedVal && !/^[\p{L}\d\-\s]+$/u.test(cedVal)) {
-      if (patientError){ patientError.classList.remove('d-none'); patientError.textContent = t('cedula_invalid'); }
-      return;
-    }
-    if (emailVal && !/^\S+@\S+\.\S+$/.test(emailVal)){
-      if (patientError){ patientError.classList.remove('d-none'); patientError.textContent = t('email_invalid'); }
-      return;
-    }
-
-    const data = new FormData(form);
-    const id = data.get('id');
-    // check uniqueness via API before submitting
-    const url = id ? '/api/patients_update.php' : '/api/patients_create.php';
-
-    const submitPatient = () => {
-      fetch(url, { method:'POST', credentials: 'same-origin', body: data })
-        .then(r=>r.json())
-        .then(res=>{
-          if (res.success) {
-            if (patientError){ patientError.classList.add('d-none'); patientError.textContent = ''; }
-            modal.hide();
-            loadPatients();
-          } else {
-            if (patientError){ patientError.classList.remove('d-none'); patientError.textContent = (res.error||t('error')); }
-          }
-        })
-        .catch(()=>{ if (patientError){ patientError.classList.remove('d-none'); patientError.textContent = t('error'); } });
-    };
-
-    if (cedVal){
-      fetch('/api/cedula_check.php?cedula=' + encodeURIComponent(cedVal) + (id ? '&id='+encodeURIComponent(id):''), { credentials: 'same-origin' })
-        .then(r=>r.json()).then(j=>{
-          if (!j.success) {
-            if (patientError){ patientError.classList.remove('d-none'); patientError.textContent = t('error'); }
-            return;
-          }
-          if (!j.available) {
-            if (patientError){ patientError.classList.remove('d-none'); patientError.textContent = t('cedula_in_use'); }
-            return;
-          }
-          submitPatient();
-        }).catch(()=>{ if (patientError){ patientError.classList.remove('d-none'); patientError.textContent = t('error'); } });
-    } else {
-      submitPatient();
-    }
-  });
-
-  // Print details from modal
-  const btnPrintDetails = document.getElementById('btnPrintDetails');
-  function buildDetailsHtml(){
-    const id = document.getElementById('patientId').value || '';
-    const first = escapeHtml(document.getElementById('first_name').value || '');
-    const last = escapeHtml(document.getElementById('last_name').value || '');
-    const cedulaVal = escapeHtml(document.getElementById('cedula') ? document.getElementById('cedula').value : '');
-    const dob = escapeHtml(document.getElementById('dob').value || '');
-    const gender = escapeHtml(document.getElementById('gender').value || '');
-    const phone = escapeHtml(document.getElementById('phone').value || '');
-    const address = escapeHtml(document.getElementById('address').value || '');
-    const notes = escapeHtml(document.getElementById('notes').value || '');
-    const email = escapeHtml(document.getElementById('email') ? document.getElementById('email').value : '');
-    return `<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>${t('patient_details_title')} ${id}</title>
-    <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/assets/css/styles.css" rel="stylesheet">
-  </head>
-  <body data-print-window="details">
-    <div class="container mt-4 print-container">
-      <div class="print-header d-flex align-items-center mb-3">
-        <img src="/assets/images/minsa-logo.svg" alt="Logo" height="40" style="display:block"/>
-        <div class="ms-2">
-          <h2 class="mb-0">${t('patient_details_title')}</h2>
-          <small class="text-muted">${new Date().toLocaleString()}</small>
-        </div>
-      </div>
-      <table class="table table-sm table-striped table-bordered print-table">
-        <tbody>
-          <tr><th style="width:220px;">ID</th><td>${id}</td></tr>
-          <tr><th>${t('name')}</th><td>${first} ${last}</td></tr>
-          <tr><th>${t('cedula')}</th><td>${cedulaVal}</td></tr>
-          <tr><th>${t('email')}</th><td>${email}</td></tr>
-          <tr><th>${t('dob')}</th><td>${dob}</td></tr>
-          <tr><th>${t('gender')}</th><td>${gender}</td></tr>
-          <tr><th>${t('phone')}</th><td>${phone}</td></tr>
-          <tr><th>${t('address')}</th><td>${address}</td></tr>
-          <tr><th>${t('notes')}</th><td>${notes}</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <script>try{ console.info('[PRINT] Details window ready'); }catch(e){}; window.print && window.print();</script>
-  </body>
-</html>`;
-  }
-
-  if (btnPrintDetails) btnPrintDetails.addEventListener('click', ()=>{
-    if (DBG) console.info('[PRINT] Details: click');
-    const html = buildDetailsHtml();
-    const w = window.open('','_blank');
-    w.document.write(html); w.document.close(); w.focus(); w.print(); setTimeout(()=>w.close(),500);
-  });
 
   // --- Chat: private user-to-user floating widget ---
   (function(){
@@ -428,10 +114,40 @@ tableBody && tableBody.addEventListener('click', e => {
           </div>
         </div>
       </div>`;
+    const startMinimized = (localStorage.getItem('CHAT_MINIMIZED') ?? '1') === '1';
+    const widgetHeight = 420;
     Object.assign(widget.style, {
-      position: 'fixed', right: '16px', bottom: '16px', zIndex: 1050, boxShadow: '0 6px 18px rgba(0,0,0,0.15)'
+      position: 'fixed', right: '16px', bottom: startMinimized ? `-${widgetHeight}px` : '16px', zIndex: 1050, boxShadow: '0 6px 18px rgba(0,0,0,0.15)'
     });
     document.body.appendChild(widget);
+
+    const openChatBtn = document.createElement('button');
+    openChatBtn.id = 'privateChatOpenBtn';
+    openChatBtn.className = 'btn btn-primary btn-sm';
+    openChatBtn.title = t('private_chat') || 'Chat';
+    openChatBtn.style.position = 'fixed';
+    openChatBtn.style.right = '16px';
+    openChatBtn.style.bottom = '16px';
+    openChatBtn.style.zIndex = 1050;
+    openChatBtn.style.width = '44px';
+    openChatBtn.style.height = '44px';
+    openChatBtn.style.borderRadius = '50%';
+    openChatBtn.style.padding = '0';
+    openChatBtn.style.display = startMinimized ? '' : 'none';
+    openChatBtn.innerHTML = `<i class="fa-solid fa-comments"></i>`;
+
+    const openChatBadge = document.createElement('span');
+    openChatBadge.className = 'badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle d-none';
+    openChatBtn.appendChild(openChatBadge);
+
+    openChatBtn.addEventListener('click', () => {
+      widget.style.bottom = '16px';
+      openChatBtn.style.display = 'none';
+      setUnread(0);
+      localStorage.setItem('CHAT_MINIMIZED', '0');
+    });
+
+    document.body.appendChild(openChatBtn);
 
     const recipientSelect = document.getElementById('chatRecipient');
     const pane = document.getElementById('privateChatPane');
@@ -450,7 +166,9 @@ tableBody && tableBody.addEventListener('click', e => {
 
     function setUnread(n){
       unreadCount = Math.max(0, n|0);
-      if (unreadCount > 0){
+
+      const showBadge = unreadCount > 0;
+      if (showBadge){
         unreadBadge.textContent = String(unreadCount);
         unreadBadge.classList.remove('d-none');
         unreadBadge.classList.add('blink');
@@ -459,9 +177,20 @@ tableBody && tableBody.addEventListener('click', e => {
         unreadBadge.classList.add('d-none');
         unreadBadge.classList.remove('blink');
       }
+
+      // Update open-chat button badge when minimized
+      if (typeof openChatBadge !== 'undefined'){
+        if (showBadge && isMinimized()){
+          openChatBadge.textContent = String(unreadCount);
+          openChatBadge.classList.remove('d-none');
+        } else {
+          openChatBadge.textContent = '';
+          openChatBadge.classList.add('d-none');
+        }
+      }
     }
 
-    function isMinimized(){ return widget.style.bottom === '-360px'; }
+    function isMinimized(){ return widget.style.bottom === `-${widgetHeight}px`; }
 
     function setSoundButton(){
       const icon = soundBtn.querySelector('i');
@@ -556,11 +285,17 @@ tableBody && tableBody.addEventListener('click', e => {
           if (!isMine) incomingMessages.push(m);
         });
         pane.scrollTop = pane.scrollHeight;
-        const shouldNotify = since > 0 && (isMinimized() || document.hidden) && incomingMessages.length > 0;
-        if (shouldNotify){
+        const hasIncoming = since > 0 && incomingMessages.length > 0;
+        if (hasIncoming){
           setUnread(unreadCount + incomingMessages.length);
-          if (soundEnabled) playBeep();
-          showIncomingNotification(incomingMessages);
+          if (soundEnabled) {
+            // Play a ding for each new message in inbox
+            incomingMessages.forEach(()=>playBeep());
+          }
+          // Only show visual notification when minimized/hidden for non-disruption
+          if (isMinimized() || document.hidden) {
+            showIncomingNotification(incomingMessages);
+          }
         }
       }catch(e){ console.warn('loadConversation', e); }
     }
@@ -627,9 +362,13 @@ tableBody && tableBody.addEventListener('click', e => {
     minBtn.addEventListener('click', ()=>{
       if (isMinimized()){
         widget.style.bottom = '16px';
+        openChatBtn.style.display = 'none';
         setUnread(0);
+        localStorage.setItem('CHAT_MINIMIZED', '0');
       } else {
-        widget.style.bottom = '-360px';
+      widget.style.bottom = `-${widgetHeight}px`;
+        openChatBtn.style.display = '';
+        localStorage.setItem('CHAT_MINIMIZED', '1');
       }
     });
 
@@ -654,19 +393,5 @@ tableBody && tableBody.addEventListener('click', e => {
 
     loadUsers().then(()=>{ startPoll(); setSoundButton(); if (window.applyI18n) try{ window.applyI18n(widget); }catch(e){} });
   })();
-
-
-
-// Loading overlay
-function showLoadingOverlay(){document.getElementById('loading-overlay').style.display='flex';}
-function hideLoadingOverlay(){document.getElementById('loading-overlay').style.display='none';}
-
-
-
- 
- 
-}
- 
- ); // End of DOMContentLoaded
-
+}); // End of DOMContentLoaded
  

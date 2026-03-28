@@ -41,6 +41,8 @@ class UsersController
         $fullname = trim((string)($payload['fullname'] ?? ''));
         $cedula = trim((string)($payload['cedula'] ?? ''));
         $role = strtolower(trim((string)($payload['role'] ?? 'user')));
+        $specialty = trim((string)($payload['specialty'] ?? ''));
+        $department = trim((string)($payload['department'] ?? ''));
         if ($username === '' || $password === '') {
             ApiResponse::fail('Username and password required');
         }
@@ -59,7 +61,7 @@ class UsersController
                 ApiResponse::fail('Cédula already in use');
             }
 
-            $id = $userModel->create($username, $password, $fullname, $cedula, $role);
+            $id = $userModel->create($username, $password, $fullname, $cedula, $role, $specialty, $department);
             ApiResponse::success(['id' => $id]);
         } catch (Throwable $e) {
             ApiResponse::fail($e->getMessage());
@@ -80,6 +82,8 @@ class UsersController
         $fullname = trim((string)($payload['fullname'] ?? ''));
         $cedula = trim((string)($payload['cedula'] ?? ''));
         $role = strtolower(trim((string)($payload['role'] ?? 'user')));
+        $specialty = trim((string)($payload['specialty'] ?? ''));
+        $department = trim((string)($payload['department'] ?? ''));
 
         $roleModel = new UserRoleModel();
         if (!$roleModel->exists($role)) {
@@ -104,7 +108,7 @@ class UsersController
                 ApiResponse::fail('Cédula already in use');
             }
 
-            $fields = ['fullname' => $fullname, 'cedula' => $cedula, 'role' => $role];
+            $fields = ['fullname' => $fullname, 'cedula' => $cedula, 'role' => $role, 'specialty' => $specialty, 'department' => $department];
             if ($username !== '') {
                 $fields['username'] = $username;
             }

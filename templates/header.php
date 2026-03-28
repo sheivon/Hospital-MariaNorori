@@ -11,7 +11,16 @@ if (session_status() === PHP_SESSION_NONE) {
   <title data-i18n="hospital">Hospital Records</title>
   <link href="../assets/css/bootstrap.min.css" rel="stylesheet"> 
   <link rel="stylesheet" href="../assets/css/jquery.dataTables.min.css">
-  <link rel="stylesheet" href="../assets/css/buttons.dataTables.min.css">
+  <!-- DataTables Buttons CSS loaded from vendor if available -->
+  <?php
+  $btnCssPath1 = $_SERVER['DOCUMENT_ROOT'] . '/assets/css/buttons.dataTables.min.css';
+  $btnCssPath2 = $_SERVER['DOCUMENT_ROOT'] . '/assets/vendor/datatables/buttons.dataTables.min.css';
+  if (file_exists($btnCssPath1)) {
+    echo "<link rel=\"stylesheet\" href=\"/assets/css/buttons.dataTables.min.css\">\n";
+  } elseif (file_exists($btnCssPath2)) {
+    echo "<link rel=\"stylesheet\" href=\"/assets/vendor/datatables/buttons.dataTables.min.css\">\n";
+  }
+  ?>
   <!-- SweetAlert v1 CSS -->
   <link href="../assets/css/sweetalert.min.css" rel="stylesheet">
   <!-- Font Awesome (free) -->
@@ -44,8 +53,10 @@ if (session_status() === PHP_SESSION_NONE) {
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav ms-auto align-items-center">
       <?php if (!empty($_SESSION['user'])): ?>
+          <li class="nav-item"><a class="nav-link" href="/dashboard.php"><i class="fa-solid fa-chart-line me-1"></i><span data-i18n="dashboard">Dashboard</span></a></li>
           <li class="nav-item"><a class="nav-link" href="/patients.php"><i class="fa-solid fa-users me-1"></i><span data-i18n="patients">Patients</span></a></li>
           <li class="nav-item"><a class="nav-link" href="/diagnostics.php"><i class="fa-solid fa-stethoscope me-1"></i><span data-i18n="diagnostics_title">Diagnostics</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="/encounters.php"><i class="fa-solid fa-notes-medical me-1"></i><span data-i18n="encounters">Encounters</span></a></li>
           <?php if (!empty($_SESSION['user']['role']) && strtolower($_SESSION['user']['role'])==='admin'): ?>
             <li class="nav-item"><a class="nav-link" href="/admin/users.php"><i class="fa-solid fa-user-shield me-1"></i><span data-i18n="admin_users">Admin</span></a></li>
             <li class="nav-item"><a class="nav-link" href="/admin/data_manager.php"><i class="fa-solid fa-table-list me-1"></i><span data-i18n="data_manager_title">Data Manager</span></a></li>

@@ -9,21 +9,35 @@ use PDO;
 class PatientModel
 {
     private PDO $pdo;
+    private ?bool $deletedAtExists = null;
 
     public function __construct()
     {
         $this->pdo = Database::pdo();
     }
 
+    private function hasDeletedAt(): bool
+    {
+        if ($this->deletedAtExists !== null) {
+            return $this->deletedAtExists;
+        }
+
+        $stmt = $this->pdo->query("SHOW COLUMNS FROM `patients` LIKE 'deleted_at'");
+        $this->deletedAtExists = (bool)$stmt->fetch();
+        return $this->deletedAtExists;
+    }
+
     public function all(): array
     {
-        $stmt = $this->pdo->query('SELECT id, first_name, last_name, email, cedula, dob, gender, phone, address, notes, created_at, updated_at FROM patients WHERE deleted_at IS NULL ORDER BY id DESC');
+        $deletedWhere = $this->hasDeletedAt() ? ' WHERE deleted_at IS NULL' : '';
+        $stmt = $this->pdo->query('SELECT id, first_name, last_name, email, cedula, dob, gender, phone, address, marital_status, insurance_provider, insurance_policy_no, father_name, mother_name, expediente_no, procedencia, education_level, employer, notes, created_at, updated_at FROM patients' . $deletedWhere . ' ORDER BY id DESC');
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function find(int $id): ?array
     {
-        $stmt = $this->pdo->prepare('SELECT id, first_name, last_name, email, cedula, dob, gender, phone, address, notes, created_at, updated_at FROM patients WHERE id = :id AND deleted_at IS NULL LIMIT 1');
+        $deletedWhere = $this->hasDeletedAt() ? ' AND deleted_at IS NULL' : '';
+        $stmt = $this->pdo->prepare('SELECT id, first_name, last_name, email, cedula, dob, gender, phone, address, marital_status, insurance_provider, insurance_policy_no, father_name, mother_name, expediente_no, procedencia, education_level, employer, notes, created_at, updated_at FROM patients WHERE id = :id' . $deletedWhere . ' LIMIT 1');
         $stmt->execute([':id' => $id]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row ?: null;
@@ -32,7 +46,7 @@ class PatientModel
     public function create(array $data): int
     {
         $this->validate($data);
-        $stmt = $this->pdo->prepare('INSERT INTO patients (first_name,last_name,email,cedula,dob,gender,phone,address,notes) VALUES (:fn,:ln,:email,:cedula,:dob,:gender,:phone,:address,:notes)');
+        $stmt = $this->pdo->prepare('INSERT INTO patients (first_name,last_name,email,cedula,dob,gender,phone,address,marital_status,insurance_provider,insurance_policy_no,father_name,mother_name,expediente_no,procedencia,education_level,employer,notes) VALUES (:fn,:ln,:email,:cedula,:dob,:gender,:phone,:address,:marital_status,:insurance_provider,:insurance_policy_no,:father_name,:mother_name,:expediente_no,:procedencia,:education_level,:employer,:notes)');
         $stmt->execute([
             ':fn' => $data['first_name'] ?? null,
             ':ln' => $data['last_name'] ?? null,
@@ -42,6 +56,15 @@ class PatientModel
             ':gender' => $data['gender'] ?? 'O',
             ':phone' => $data['phone'] ?? null,
             ':address' => $data['address'] ?? null,
+            ':marital_status' => $data['marital_status'] ?? null,
+            ':insurance_provider' => $data['insurance_provider'] ?? null,
+            ':insurance_policy_no' => $data['insurance_policy_no'] ?? null,
+            ':father_name' => $data['father_name'] ?? null,
+            ':mother_name' => $data['mother_name'] ?? null,
+            ':expediente_no' => $data['expediente_no'] ?? null,
+            ':procedencia' => $data['procedencia'] ?? null,
+            ':education_level' => $data['education_level'] ?? null,
+            ':employer' => $data['employer'] ?? null,
             ':notes' => $data['notes'] ?? null,
         ]);
         return (int)$this->pdo->lastInsertId();
@@ -50,7 +73,7 @@ class PatientModel
     public function update(int $id, array $data): bool
     {
         $this->validate($data, $id);
-        $stmt = $this->pdo->prepare('UPDATE patients SET first_name=:fn,last_name=:ln,email=:email,cedula=:cedula,dob=:dob,gender=:gender,phone=:phone,address=:address,notes=:notes WHERE id=:id');
+        $stmt = $this->pdo->prepare('UPDATE patients SET first_name=:fn,last_name=:ln,email=:email,cedula=:cedula,dob=:dob,gender=:gender,phone=:phone,address=:address,marital_status=:marital_status,insurance_provider=:insurance_provider,insurance_policy_no=:insurance_policy_no,father_name=:father_name,mother_name=:mother_name,expediente_no=:expediente_no,procedencia=:procedencia,education_level=:education_level,employer=:employer,notes=:notes WHERE id=:id');
         return $stmt->execute([
             ':fn' => $data['first_name'] ?? null,
             ':ln' => $data['last_name'] ?? null,
@@ -60,6 +83,15 @@ class PatientModel
             ':gender' => $data['gender'] ?? 'O',
             ':phone' => $data['phone'] ?? null,
             ':address' => $data['address'] ?? null,
+            ':marital_status' => $data['marital_status'] ?? null,
+            ':insurance_provider' => $data['insurance_provider'] ?? null,
+            ':insurance_policy_no' => $data['insurance_policy_no'] ?? null,
+            ':father_name' => $data['father_name'] ?? null,
+            ':mother_name' => $data['mother_name'] ?? null,
+            ':expediente_no' => $data['expediente_no'] ?? null,
+            ':procedencia' => $data['procedencia'] ?? null,
+            ':education_level' => $data['education_level'] ?? null,
+            ':employer' => $data['employer'] ?? null,
             ':notes' => $data['notes'] ?? null,
             ':id' => $id,
         ]);
@@ -67,7 +99,11 @@ class PatientModel
 
     public function delete(int $id): bool
     {
-        $stmt = $this->pdo->prepare('UPDATE patients SET deleted_at = NOW() WHERE id = :id AND deleted_at IS NULL');
+        if ($this->hasDeletedAt()) {
+            $stmt = $this->pdo->prepare('UPDATE patients SET deleted_at = NOW() WHERE id = :id AND deleted_at IS NULL');
+        } else {
+            $stmt = $this->pdo->prepare('DELETE FROM patients WHERE id = :id');
+        }
         return $stmt->execute([':id' => $id]);
     }
 

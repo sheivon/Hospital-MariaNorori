@@ -80,6 +80,24 @@ hospital/
 - Role values are sourced from `user_roles`.
 - For architecture details, see `docs/ARCHITECTURE.md`.
 
+## Theme / Branding
+
+The UI uses an application color palette that matches the hospital logo and navbar:
+
+- Primary: `#0b5ed7` (blue)
+- Secondary: `#2d9f6c` (green)
+- Accent: `#f7b500` (yellow)
+- Dark text: `#1f2937`
+- Border: `#cbd5e1`
+- Background hue: `#f1f5f9`
+
+DataTables components are themed with the same palette:
+
+- Headers: gradient from primary to secondary
+- Action buttons (pagination): primary background when active
+- Row hover: subtle primary tint
+- Controls (filter + length selector): brand border and rounded corners
+
 ## Security
 
 - Do not expose `setup.php` in production.

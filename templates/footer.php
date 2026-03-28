@@ -41,6 +41,8 @@ if (file_exists($vendorBase . '/vfs_fonts.js')) {
 <!-- ✅ Your app scripts -->
 <script src="/assets/js/i18n.js"></script>
 <script src="/assets/js/app.js"></script>
+<script src="/assets/js/patients.js"></script>
+<script src="/assets/js/users.js"></script>
 
 <script>
   // Verify jQuery is loaded and initialize DataTable(s) only when present
@@ -48,7 +50,6 @@ if (file_exists($vendorBase . '/vfs_fonts.js')) {
     if (typeof $ === 'undefined') {
       console.error('❌ jQuery is not loaded! Check script paths.');
       return;
-    }
     try {
       // Initialize patients table only if it exists on the page
         if ($('#patientsTable').length) {

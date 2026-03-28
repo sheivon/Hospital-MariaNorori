@@ -16,10 +16,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 include __DIR__ . '/../templates/header.php';
 ?>
-<div class="container mt-4">
-    <h3>Database Setup</h3>
-    <p class="text-warning">This page is for initial setup only. Remove or protect it after use!</p>
-    <p class="text-muted">Schema source: <code>migrations/init.sql</code> (single baseline migration).</p>
+<?php
+    $mysqlExtensionsLoaded = extension_loaded('pdo_mysql') || extension_loaded('mysqli');
+    ?>
+    <div class="container mt-4">
+        <h3>Database Setup</h3>
+        <p class="text-warning">This page is for initial setup only. Remove or protect it after use!</p>
+        <p class="text-muted">Schema source: <code>migrations/init.sql</code> (single baseline migration).</p>
+
+        <?php if (!$mysqlExtensionsLoaded): ?>
+            <div class="card border-danger mb-3">
+                <div class="card-body">
+                    <h5 class="card-title text-danger">MySQL extension not available</h5>
+                    <p class="card-text">Your PHP installation is missing the MySQL driver (PDO MySQL or mysqli). Without it, this application cannot connect to the database.</p>
+                    <p class="card-text"><strong>Next steps:</strong></p>
+                    <ul>
+                        <li>Install MySQL / MariaDB on your machine or server.</li>
+                        <li>Enable the <code>pdo_mysql</code> or <code>mysqli</code> PHP extension.</li>
+                    </ul>
+                    <a class="btn btn-danger" href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="noopener noreferrer">Download MySQL</a>
+                    <a class="btn btn-secondary ms-2" href="https://mariadb.org/download/" target="_blank" rel="noopener noreferrer">Download MariaDB</a>
+                </div>
+            </div>
+        <?php endif; ?>
 
     <?php if ($message): ?>
         <div class="alert alert-info">
@@ -83,6 +102,14 @@ include __DIR__ . '/../templates/header.php';
             <h5>Create Default Users</h5>
             <p>Creates default admin and doctor users. Requires database and tables.</p>
             <button type="submit" name="create_users" class="btn btn-warning">Create Default Users</button>
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <h5>Insert Sample Data</h5>
+            <p>Inserts demo sample patients + diagnostics and additional test rows. Only runs when no patient data exists.</p>
+            <button type="submit" name="seed_sample_data" class="btn btn-info">Seed Sample Data</button>
         </div>
     </div>
 

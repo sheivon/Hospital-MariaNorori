@@ -27,6 +27,14 @@
             <input class="form-control" name="cedula" id="cedula">
           </div>
           <div class="mb-3">
+            <label class="form-label">Specialty</label>
+            <input class="form-control" name="specialty" id="specialty">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Department</label>
+            <input class="form-control" name="department" id="department">
+          </div>
+          <div class="mb-3">
             <label class="form-label" data-i18n="role">Role</label>
             <select class="form-select" name="role" id="role"></select>
           </div>

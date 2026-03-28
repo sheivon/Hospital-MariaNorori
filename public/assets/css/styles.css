@@ -2,10 +2,62 @@
 	--brand-blue: #0b5ed7; /* primary */
 	--brand-green: #2d9f6c; /* secondary */
 	--brand-accent: #f7b500; /* accent */
+	--brand-grey: #f1f5f9;
+	--brand-dark: #0c1f3f;
 	--brand-text: #1f2937;
+	--brand-border: #cbd5e1;
 }
 
 body { padding-bottom: 40px; color: var(--brand-text); }
+
+/* DataTables theming (brand palette) */
+.dataTables_wrapper .dataTables_filter input,
+.dataTables_wrapper .dataTables_length select,
+.dataTables_wrapper .dataTables_paginate .paginate_button,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_processing {
+	border: 1px solid var(--brand-border) !important;
+	border-radius: .35rem !important;
+}
+
+.dataTables_wrapper .dataTables_filter input,
+.dataTables_wrapper .dataTables_length select {
+	background: #fff;
+	color: var(--brand-text);
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+	background: #fff;
+	border: 1px solid var(--brand-border) !important;
+	color: var(--brand-dark) !important;
+	min-width: 38px;
+	margin: 0 2px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+	background: var(--brand-blue) !important;
+	border-color: var(--brand-blue) !important;
+	color: #fff !important;
+}
+
+.dataTables_wrapper table.dataTable {
+	border-color: var(--brand-border) !important;
+	box-shadow: 0px 3px 11px rgba(0,0,0,0.06);
+}
+
+.dataTables_wrapper .dataTable .even { background-color: var(--brand-grey); }
+.dataTables_wrapper .dataTable .odd { background-color: #fff; }
+
+.dataTables_wrapper .dataTable thead th {
+	background: linear-gradient(90deg, var(--brand-blue), var(--brand-green));
+	color: #fff;
+	border-bottom: 1px solid var(--brand-border);
+}
+
+.dataTables_wrapper .dataTable tbody tr:hover { background: rgba(11,94,215,0.08); }
+
 
 /* Navbar customizations inspired by MINSA colors */
 .navbar-custom{
@@ -110,4 +162,42 @@ button:active, .btn:active {
     background-color: #004494; /* Even darker shade for active */
     transform: scale(0.98); /* Slight shrink effect */
 }
+
+/* Profile card and avatar enhancements */
+.profile-card {
+  border: 1px solid rgba(13, 38, 68, 0.18);
+  border-radius: 1rem;
+  background: rgba(255,255,255,0.84);
+  box-shadow: 0 16px 30px rgba(0,0,0,0.14);
+}
+
+.profile-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  background: linear-gradient(135deg, var(--brand-blue), var(--brand-green));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.75rem;
+}
+
+.profile-section {
+  background: rgba(255,255,255,0.5);
+  border-radius: .75rem;
+  padding: 1rem;
+}
+
+.profile-label {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.profile-stats {
+  border-left: 1px solid rgba(0,0,0,0.08);
+}
+
 

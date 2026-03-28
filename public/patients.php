@@ -8,7 +8,7 @@ include __DIR__ . '/../templates/header.php';
     <h3 data-i18n="patients">Patients</h3>
     <div>
       <button class="btn btn-secondary me-2" id="btnPrintTable"><i class="fa-solid fa-print me-1"></i><span data-i18n="print">Print</span></button>
-      <button class="btn btn-success me-2" id="btnAdd"><i class="fa-solid fa-user-plus me-1"></i><span data-i18n="add_patient">Add patient</span></button>
+      <a href="/patient.php" class="btn btn-success me-2"><i class="fa-solid fa-user-plus me-1"></i><span data-i18n="add_patient">Add patient</span></a>
     </div>
   </div>
   <div class="card-body px-1">
@@ -16,8 +16,9 @@ include __DIR__ . '/../templates/header.php';
       <thead>
         <tr>
           <th>#</th>
-          <th>Name</th>
+          <th data-i18n="first_name">Name</th>
           <th>Cédula</th>
+          <th>Expediente</th>
           <th>DOB</th>
           <th>Email</th>
           <th>Phone</th>
@@ -32,6 +33,4 @@ include __DIR__ . '/../templates/header.php';
 </div>
 
 <?php include __DIR__ . '/../templates/loading_overlay.php'; ?>
-
-<?php include __DIR__ . '/modal/patient_modal.php'; ?>
 <?php include __DIR__ . '/../templates/footer.php'; ?>
