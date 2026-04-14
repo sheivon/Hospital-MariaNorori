@@ -1,6 +1,10 @@
 <?php
-require_once __DIR__ . '/../../src/auth.php';
-require_role('admin');
+require_once __DIR__ . '/../../app/bootstrap.php';
+
+use App\Core\Auth;
+
+Auth::requireLogin();
+Auth::requireRole('admin');
 include __DIR__ . '/../../templates/header.php';
 ?>
 <div class="container mt-4">

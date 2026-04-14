@@ -1,5 +1,7 @@
 <?php
-require_once __DIR__ . '/../src/auth.php';
+require_once __DIR__ . '/../app/bootstrap.php';
+
+use App\Core\Auth;
 require_once __DIR__ . '/../config/db.php';
 $err = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -25,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             $stmt = $pdo->prepare('INSERT INTO users (username,password,fullname,cedula,role) VALUES (:u,:p,:f,:c,:r)');
             $stmt->execute([':u'=>$username,':p'=>$hash,':f'=>$fullname,':c'=>$cedula,':r'=>'user']);
             // auto-login
-            if (login($username, $password)){
+            if (Auth::login($username, $password)){
                 header('Location: /'); exit;
             } else {
                 $err = 'auto_login_failed';

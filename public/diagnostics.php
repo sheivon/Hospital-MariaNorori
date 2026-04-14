@@ -1,6 +1,9 @@
 <?php
-require_once __DIR__ . '/../src/auth.php';
-require_login();
+require_once __DIR__ . '/../app/bootstrap.php';
+
+use App\Core\Auth;
+
+Auth::requireLogin();
 include __DIR__ . '/../templates/header.php';
 ?>
 <div class="container mt-4">
@@ -124,6 +127,10 @@ include __DIR__ . '/../templates/header.php';
     if (!$.fn.dataTable) {
       console.error('❌ DataTables plugin missing');
       return;
+    }
+    if ($.fn.dataTable.isDataTable('#diagnosticsTable')) {
+      $('#diagnosticsTable').DataTable().destroy();
+      $('#diagnosticsTable').find('tbody').off('click');
     }
     $('#diagnosticsTable').DataTable({
       responsive: true,

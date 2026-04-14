@@ -8,7 +8,7 @@ if (session_status() === PHP_SESSION_NONE) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title data-i18n="hospital">Hospital</title>
+  <title data-i18n="hospital">Centro Salud</title>
   <link href="../assets/css/bootstrap.min.css" rel="stylesheet"> 
   <link rel="stylesheet" href="../assets/css/jquery.dataTables.min.css">
   <!-- DataTables Buttons CSS loaded from vendor if available -->
@@ -34,8 +34,8 @@ if (session_status() === PHP_SESSION_NONE) {
     body.lang-loading{visibility:hidden;}
     .floating-lang-select {
       position: fixed;
-      top: 0.5rem;
-      right: 1rem;
+      top: 0.1rem;
+      right: 0.1rem;
       z-index: 1050;
       background: rgba(255,255,255,0.95);
       border: 1px solid rgba(0,0,0,0.08);
@@ -73,7 +73,7 @@ if (session_status() === PHP_SESSION_NONE) {
           <source srcset="/assets/images/minsa-logo.svg" type="image/svg+xml">
           <img src="/assets/images/minsa-logo.svg" alt="MINSA logo" height="36" style="display:block;" />
         </picture>
-        <span class="brand-text mt-1" data-i18n="hospital">Hospital</span>
+        <span class="brand-text mt-1" data-i18n="hospital">Centro Salud</span>
       </a>
       <button class="btn btn-sm btn-light d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarNav" aria-expanded="false" aria-label="Toggle menu">
         <i class="fa-solid fa-bars"></i>
@@ -83,9 +83,21 @@ if (session_status() === PHP_SESSION_NONE) {
       <ul class="nav flex-column px-2">
       <?php if (!empty($_SESSION['user'])): ?>
           <li class="nav-item"><a class="nav-link" href="/dashboard.php"><i class="fa-solid fa-chart-line me-2"></i><span data-i18n="dashboard">Dashboard</span></a></li>
-          <li class="nav-item"><a class="nav-link" href="/patients.php"><i class="fa-solid fa-users me-2"></i><span data-i18n="patients">Patients</span></a></li>
-          <li class="nav-item"><a class="nav-link" href="/allergis.php"><i class="fa-solid fa-allergies me-2"></i><span data-i18n="allergies">Allergies</span></a></li>
-          <li class="nav-item"><a class="nav-link" href="/diagnostics.php"><i class="fa-solid fa-stethoscope me-2"></i><span data-i18n="diagnostics_title">Diagnostics</span></a></li>
+          <li class="nav-item">
+            <a class="nav-link collapsed d-flex align-items-center" href="#patientsSubmenu" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="patientsSubmenu">
+              <i class="fa-solid fa-users me-2"></i><span data-i18n="patients">Patients</span>
+              <i class="fa-solid fa-chevron-down ms-auto"></i>
+            </a>
+            <div class="collapse" id="patientsSubmenu">
+              <ul class="nav flex-column ps-4">
+                <li class="nav-item"><a class="nav-link" href="/pacientes.php"><span data-i18n="view_patients">Ver pacientes</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="/tests.php"><span data-i18n="tests_results">Test Results</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="/adolescent_history.php"><span data-i18n="adolescent_history">Adolescent History</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="/allergis.php"><span data-i18n="allergies">Allergies</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="/diagnostics.php"><span data-i18n="diagnostics_title">Diagnostics</span></a></li>
+              </ul>
+            </div>
+          </li>
           <li class="nav-item">
             <a class="nav-link collapsed d-flex align-items-center" href="#examenesSubmenu" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="examenesSubmenu">
               <i class="fa-solid fa-vials me-2"></i><span>Exámenes</span>

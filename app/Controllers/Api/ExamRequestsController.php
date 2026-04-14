@@ -27,4 +27,36 @@ class ExamRequestsController extends BaseApiController
             self::fail($e->getMessage());
         }
     }
+
+    public static function update(array $payload): void
+    {
+        $id = (int)($payload['id'] ?? 0);
+        if ($id <= 0) {
+            self::fail('Missing id');
+            return;
+        }
+
+        try {
+            self::service()->update($id, $payload);
+            self::success();
+        } catch (Exception $e) {
+            self::fail($e->getMessage());
+        }
+    }
+
+    public static function delete(array $payload): void
+    {
+        $id = (int)($payload['id'] ?? 0);
+        if ($id <= 0) {
+            self::fail('Missing id');
+            return;
+        }
+
+        try {
+            self::service()->delete($id);
+            self::success();
+        } catch (Exception $e) {
+            self::fail($e->getMessage());
+        }
+    }
 }

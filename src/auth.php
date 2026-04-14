@@ -2,30 +2,30 @@
 
 require_once __DIR__ . '/../app/bootstrap.php';
 
-use App\Core\Auth;
+use App\Helpers\AuthHelper;
 
-Auth::bootSession();
+AuthHelper::bootSession();
 
 function login($username, $password) {
-    return Auth::login((string)$username, (string)$password);
+    return AuthHelper::login((string)$username, (string)$password);
 }
 
 function require_login() {
-    Auth::requireLogin();
+    AuthHelper::requireLogin();
 }
 
 function current_user() {
-    return Auth::currentUser();
+    return AuthHelper::currentUser();
 }
 
 function logout() {
-    Auth::logout();
+    AuthHelper::logout();
 }
 
 function require_role($role){
-    Auth::requireRole((string)$role);
+    AuthHelper::requireRole((string)$role);
 }
 
 function is_admin(){
-    return Auth::isAdmin();
+    return AuthHelper::isAdmin();
 }

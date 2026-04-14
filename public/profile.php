@@ -1,8 +1,11 @@
 <?php
-require_once __DIR__ . '/../src/auth.php';
-require_login();
+require_once __DIR__ . '/../app/bootstrap.php';
+
+use App\Core\Auth;
+
+Auth::requireLogin();
 require_once __DIR__ . '/../config/db.php';
-$user = current_user();
+$user = Auth::currentUser();
 $err = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     $fullname = trim($_POST['fullname'] ?? '');

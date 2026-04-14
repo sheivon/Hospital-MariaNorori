@@ -1,6 +1,9 @@
 <?php
-require_once __DIR__ . '/../src/auth.php';
-require_login();
+require_once __DIR__ . '/../app/bootstrap.php';
+
+use App\Core\Auth;
+
+Auth::requireLogin();
 include __DIR__ . '/../templates/header.php';
 ?>
 <div class="container mt-4">
@@ -27,6 +30,7 @@ include __DIR__ . '/../templates/header.php';
           <th data-i18n="exam_table_type">Examen</th>
           <th data-i18n="exam_table_notes">Notas</th>
           <th data-i18n="exam_table_status">Estado</th>
+          <th data-i18n="actions">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -67,7 +71,7 @@ include __DIR__ . '/../templates/header.php';
       const json = await res.json();
       if (!json.success || !Array.isArray(json.data)) {
         setAlert(t('exam_load_failed') || 'No se pudieron cargar los exámenes.', 'danger');
-        tableBody.innerHTML = `<tr><td colspan="7" class="text-center">${t('exam_no_data') || 'No hay exámenes disponibles.'}</td></tr>`;
+        tableBody.innerHTML = `<tr><td colspan="8" class="text-center">${t('exam_no_data') || 'No hay exámenes disponibles.'}</td></tr>`;
         return;
       }
 
@@ -81,7 +85,7 @@ include __DIR__ . '/../templates/header.php';
 
   function renderExamRows(exams) {
     if (!Array.isArray(exams) || exams.length === 0) {
-      tableBody.innerHTML = `<tr><td colspan="7" class="text-center">${t('exam_no_data') || 'No hay exámenes solicitados.'}</td></tr>`;
+      tableBody.innerHTML = `<tr><td colspan="8" class="text-center">${t('exam_no_data') || 'No hay exámenes solicitados.'}</td></tr>`;
       return;
     }
 
@@ -109,10 +113,15 @@ include __DIR__ . '/../templates/header.php';
           <td>${escapeHtml(exam.exam_type || '')}</td>
           <td>${escapeHtml(exam.notes || '')}</td>
           <td>${escapeHtml(exam.status || '')}</td>
+          <td>
+            <button type="button" class="btn btn-sm btn-success me-1" data-action="add-result" data-id="${escapeHtml(exam.id)}">${t('action_add_result') || 'Add result'}</button>
+            <button type="button" class="btn btn-sm btn-danger" data-action="soft-delete" data-id="${escapeHtml(exam.id)}">${t('action_softdelete') || 'Delete'}</button>
+          </td>
         </tr>`;
     });
 
     tableBody.innerHTML = rowsHtml;
+    bindActionButtons();
 
     if (window.jQuery && window.jQuery.fn.dataTable) {
       if ($.fn.dataTable.isDataTable(dataTableSelector)) {
@@ -121,9 +130,56 @@ include __DIR__ . '/../templates/header.php';
       $(dataTableSelector).DataTable({
         responsive: true,
         order: [],
-        columnDefs: [{ orderable: false, targets: [0] }]
+        columnDefs: [{ orderable: false, targets: [0, 7] }]
       });
     }
+  }
+
+  async function requestExamAction(examId, action, payload = {}) {
+    const url = action === 'delete' ? '/api/exam_requests_delete.php' : '/api/exam_requests_update.php';
+    const body = new URLSearchParams({ id: examId, ...payload });
+    const res = await fetch(url, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: body.toString()
+    });
+    const json = await res.json();
+    if (!res.ok || !json.success) {
+      throw new Error(json.error || 'API error');
+    }
+    return json;
+  }
+
+  function bindActionButtons() {
+    document.querySelectorAll('[data-action="add-result"]').forEach(button => {
+      button.addEventListener('click', async () => {
+        const examId = button.dataset.id;
+        const result = window.prompt(t('prompt_enter_result') || 'Enter the exam result:');
+        if (result === null) return;
+        try {
+          await requestExamAction(examId, 'update', { result, status: 'completed' });
+          setAlert(t('result_saved') || 'Result saved.', 'success');
+          loadExamRequests();
+        } catch (err) {
+          setAlert(err.message, 'danger');
+        }
+      });
+    });
+
+    document.querySelectorAll('[data-action="soft-delete"]').forEach(button => {
+      button.addEventListener('click', async () => {
+        const examId = button.dataset.id;
+        if (!window.confirm(t('confirm_softdelete') || 'Delete this exam request?')) return;
+        try {
+          await requestExamAction(examId, 'delete');
+          setAlert(t('exam_deleted') || 'Exam deleted.', 'success');
+          loadExamRequests();
+        } catch (err) {
+          setAlert(err.message, 'danger');
+        }
+      });
+    });
   }
 
   document.addEventListener('DOMContentLoaded', () => {

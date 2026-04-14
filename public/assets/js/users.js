@@ -33,6 +33,8 @@ class UsersDataLayer {
 }
 
 class UsersView {
+  static table = null;
+
   static escapeHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
   static async renderRoleOptions(selected){
@@ -52,6 +54,12 @@ class UsersView {
 
   static init(){
     if (!document.querySelector('#usersTable')) return;
+
+    if (window.jQuery && $.fn.dataTable.isDataTable('#usersTable')) {
+      $('#usersTable').DataTable().destroy();
+      $('#usersTable').find('tbody').off('click');
+      UsersView.table = null;
+    }
 
     const t = window.i18n_t || (k=>k);
     const table = $('#usersTable').DataTable({

@@ -1,12 +1,12 @@
 <?php
-// Public landing page. Offers Sign in and optional links. Dashboard moved to /patients.php
+// Public landing page. Offers Sign in and optional links. Dashboard moved to /pacientes.php
 include __DIR__ . '/../templates/header.php';
 ?>
 <div class="py-5 text-center">
   
 <div class="container mt-4">
-  <h1 class="display-4" data-i18n="hospital">Hospital</h1>
-  <p class="lead" data-i18n="welcome_message">Bienvenido al sistema de registros del hospital.</p>
+  <h1 class="display-4" data-i18n="hospital">Centro Salud</h1>
+  <p class="lead" data-i18n="welcome_message">Bienvenido al sistema de registros del Centro Salud.</p>
 </div>
   <div class="container"> 
     <div class="d-flex justify-content-center gap-2 mt-3">
@@ -16,13 +16,13 @@ include __DIR__ . '/../templates/header.php';
               <a href="/login.php" class="btn btn-primary btn-lg">
                   <i class="fa-solid fa-user-circle me-2"></i><span data-i18n="sign_in">Iniciar sesión</span>
               </a>
-              <a href="/patients.php" class="btn btn-outline-primary btn-lg">
+              <a href="/pacientes.php" class="btn btn-outline-primary btn-lg">
                   <i class="fa-solid fa-users"></i><span data-i18n="go_patients">Pacientes (panel)</span>
               </a> 
           ';
       } else {
           echo '
-              <a href="/patients.php" class="btn btn-outline-primary btn-lg">
+              <a href="/pacientes.php" class="btn btn-outline-primary btn-lg">
                   <i class="fa-solid fa-users me-2"></i><span data-i18n="go_patients">Pacientes (panel)</span>
               </a>
           ';

@@ -1,11 +1,13 @@
 <?php
-require_once __DIR__ . '/../src/auth.php';
+require_once __DIR__ . '/../app/bootstrap.php';
+
+use App\Core\Auth;
 
 $err = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $u = $_POST['username'] ?? '';
     $p = $_POST['password'] ?? '';
-  if (login($u, $p)) {
+  if (Auth::login($u, $p)) {
     // When serving from the `public/` directory as the web root,
     // redirect to `/` (document root) instead of `/public/` which
     // would resolve to `/public/` under the web root and cause 404s.
@@ -50,7 +52,7 @@ include __DIR__ . '/../templates/login-header.php';
   <div class="alert alert-info text-center mt-3">
     <p class="" data-i18n="already_logged_in">You are already logged in as </p>
     <strong><?= htmlspecialchars($_SESSION['user']['username']) ?></strong>.
-    <a href="/patients.php" class="btn btn-sm btn-primary ms-2"><i class="fa-solid fa-users me-1"></i><span data-i18n="go_patients">Go to Patients Dashboard</span></a>
+    <a href="/pacientes.php" class="btn btn-sm btn-primary ms-2"><i class="fa-solid fa-users me-1"></i><span data-i18n="go_patients">Ir al panel de pacientes</span></a>
     <a href="/logout.php" class="btn btn-sm btn-secondary ms-2"><i class="fa-solid fa-right-from-bracket me-1"></i><span data-i18n="logout">Logout</span></a>
   </div>
 <?php endif; ?>

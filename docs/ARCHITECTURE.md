@@ -24,7 +24,9 @@ This project now follows an incremental MVC structure while keeping existing URL
   - Repository-style database access and data persistence logic.
 - `src/`
   - Legacy compatibility wrappers used by older pages/scripts.
-  - New business logic should go in `app/`.
+  - These wrappers are deprecated: public pages now use direct OOP classes under `app/`.
+- `app/Helpers/`
+  - Reusable helper classes for auth, patient, and chat access.
 - `config/`
   - Compatibility config bootstrap (`db.php` now delegates to `app/Core/Database.php`).
 - `templates/`
@@ -49,7 +51,7 @@ This project now follows an incremental MVC structure while keeping existing URL
 - Patients API (`patients_list/create/update/delete.php`)
 - Chat API (`chat_list.php`, `chat_send.php`)
 - Users API (`users_list.php` and admin users CRUD endpoints)
-- Legacy wrappers (`src/auth.php`, `src/patient.php`, `src/chat.php`) now delegate to MVC classes.
+- Legacy wrappers (`src/auth.php`, `src/patient.php`, `src/chat.php`) are now deprecated and no longer used by current public pages.
 - Setup flow moved to MVC (`app/Controllers/SetupController.php`, `app/Models/SetupModel.php`) while keeping `public/setup.php` UI.
 
 ## Database Baseline

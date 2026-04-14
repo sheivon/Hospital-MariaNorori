@@ -14,6 +14,7 @@ DROP TABLE IF EXISTS medications_catalog;
 DROP TABLE IF EXISTS clinical_procedures;
 DROP TABLE IF EXISTS treatment_plans;
 DROP TABLE IF EXISTS clinical_notes;
+DROP TABLE IF EXISTS adolescent_clinical_histories;
 DROP TABLE IF EXISTS vitals;
 DROP TABLE IF EXISTS tests;
 DROP TABLE IF EXISTS diagnostics;
@@ -247,7 +248,9 @@ CREATE TABLE exam_requests (
   request_date DATE NOT NULL,
   exam_type VARCHAR(255) NOT NULL,
   notes TEXT DEFAULT NULL,
+  result TEXT DEFAULT NULL,
   status VARCHAR(50) NOT NULL DEFAULT 'pending',
+  deleted_at DATETIME NULL DEFAULT NULL,
   created_by INT UNSIGNED DEFAULT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
@@ -335,6 +338,31 @@ CREATE TABLE clinical_notes (
   CONSTRAINT fk_clinical_notes_user FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL,
   INDEX idx_clinical_notes_patient (patient_id),
   INDEX idx_clinical_notes_encounter (encounter_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE adolescent_clinical_histories (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  patient_id INT UNSIGNED NOT NULL,
+  encounter_id INT UNSIGNED DEFAULT NULL,
+  visit_date DATE DEFAULT NULL,
+  reason_for_consultation TEXT DEFAULT NULL,
+  personal_pathological_history TEXT DEFAULT NULL,
+  risk_factors TEXT DEFAULT NULL,
+  family_pathological_history TEXT DEFAULT NULL,
+  family_environment TEXT DEFAULT NULL,
+  education_work_living TEXT DEFAULT NULL,
+  activities_social TEXT DEFAULT NULL,
+  physical_activity TEXT DEFAULT NULL,
+  notes TEXT DEFAULT NULL,
+  form_data TEXT DEFAULT NULL,
+  created_by INT UNSIGNED DEFAULT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_adolescent_history_patient FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE,
+  CONSTRAINT fk_adolescent_history_encounter FOREIGN KEY (encounter_id) REFERENCES encounters(id) ON DELETE SET NULL,
+  CONSTRAINT fk_adolescent_history_user FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL,
+  INDEX idx_adolescent_history_patient (patient_id),
+  INDEX idx_adolescent_history_visit_date (visit_date)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE treatment_plans (

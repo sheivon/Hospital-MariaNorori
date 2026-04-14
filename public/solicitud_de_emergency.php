@@ -1,6 +1,9 @@
 <?php
-require_once __DIR__ . '/../src/auth.php';
-require_login();
+require_once __DIR__ . '/../app/bootstrap.php';
+
+use App\Core\Auth;
+
+Auth::requireLogin();
 include __DIR__ . '/../templates/header.php';
 ?>
 <div class="container mt-4">
@@ -288,6 +291,16 @@ include __DIR__ . '/../templates/header.php';
     patientDisplay.value = [patient.first_name, patient.last_name].filter(Boolean).join(' ');
     patientCedula.value = patient.cedula || '';
     patientExpediente.value = patient.expediente_no || '';
+    document.getElementById('sex').value = patient.gender || '';
+    document.getElementById('civilStatus').value = patient.marital_status || '';
+    document.getElementById('education').value = patient.education_level || '';
+    document.getElementById('patientCategory').value = patient.procedencia || '';
+    document.getElementById('inssNumber').value = patient.insurance_policy_no || '';
+    document.getElementById('address').value = patient.address || '';
+    document.getElementById('locality').value = patient.locality || patient.procedencia || '';
+    document.getElementById('district').value = patient.district || '';
+    document.getElementById('healthUnit').value = patient.health_unit || '';
+
     if (patientModalInstance) {
       patientModalInstance.hide();
     }

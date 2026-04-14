@@ -42,33 +42,7 @@ if (file_exists($vendorBase . '/vfs_fonts.js')) {
 <script src="/assets/js/app.js"></script>
 <script src="/assets/js/patients.js"></script>
 <script src="/assets/js/users.js"></script>
+<script src="/assets/js/adolescent_history.js"></script>
 
-<script>
-  // Verify jQuery is loaded and initialize DataTable(s) only when present
-  document.addEventListener('DOMContentLoaded', () => {
-    if (typeof $ === 'undefined') {
-      console.error('❌ jQuery is not loaded! Check script paths.');
-      return;
-    }
-    try {
-      // Initialize patients table only if it exists on the page
-      if ($('#patientsTable').length) {
-        console.log('✅ Initializing DataTable for #patientsTable');
-        $('#patientsTable').DataTable({
-          responsive: true,
-          pageLength: 10,
-          columnDefs: [
-            { orderable: false, targets: [6] } // disable sorting on action buttons (fixed index)
-          ]
-        });
-      } else {
-        // No patients table on this page; don't attempt to init
-        console.log('ℹ️ #patientsTable not found — skipping default DataTable init');
-      }
-    } catch (err) {
-      console.error('Error during DataTable initialization:', err);
-    }
-  });
-</script>
 </body>
 </html>

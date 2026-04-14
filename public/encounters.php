@@ -1,6 +1,9 @@
 <?php
-require_once __DIR__ . '/../src/auth.php';
-require_login();
+require_once __DIR__ . '/../app/bootstrap.php';
+
+use App\Core\Auth;
+
+Auth::requireLogin();
 include __DIR__ . '/../templates/header.php';
 ?>
 <div class="container mt-4">
@@ -41,8 +44,12 @@ document.addEventListener('DOMContentLoaded', function(){
 
   function escapeHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
+  if ($.fn.dataTable.isDataTable('#encountersTable')) {
+    $('#encountersTable').DataTable().destroy();
+    $('#encountersTable tbody').off('click');
+  }
+
   const table = $('#encountersTable').DataTable({
-    dom: 'Bfrtip',
     buttons: [
       { extend: 'copy', exportOptions: { columns: ':not(:last-child)' } },
       { extend: 'csv', exportOptions: { columns: ':not(:last-child)' } },

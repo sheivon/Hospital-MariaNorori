@@ -118,7 +118,7 @@ include __DIR__ . '/../templates/header.php';
     </div>
 
     <div class="col-md-2">
-      <label for="employer" class="form-label" data-i18n="employer">Employer</label>
+      <label for="employer" class="form-label" data-i18n="employer">Empleador</label>
       <input type="text" class="form-control" id="employer" name="employer" data-i18n-placeholder="employer">
     </div>
 

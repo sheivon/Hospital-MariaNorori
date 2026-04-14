@@ -1,7 +1,11 @@
 <?php
 // Auth & role guard: only allow admin users here.
-require_once __DIR__ . '/../../src/auth.php';
-require_role('admin');
+require_once __DIR__ . '/../../app/bootstrap.php';
+
+use App\Core\Auth;
+
+Auth::requireLogin();
+Auth::requireRole('admin');
 
 // Header template has common HTML head, CSS, and nav bar.
 include __DIR__ . '/../../templates/header.php';

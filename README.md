@@ -1,6 +1,6 @@
-# Hospital Patient Records (PHP + MySQL)
+# Centro Salud Patient Records (PHP + MySQL)
 
-Hospital management starter application built with PHP, PDO, Bootstrap, DataTables, and AJAX.
+Centro Salud management starter application built with PHP, PDO, Bootstrap, DataTables, and AJAX.
 
 ## Features
 
@@ -8,7 +8,7 @@ Hospital management starter application built with PHP, PDO, Bootstrap, DataTabl
 - Patient management (create, update, soft delete).
 - Diagnostics module.
 - Admin user management.
-- Generic admin data manager for CRUD across hospital tables.
+- Generic admin data manager for CRUD across Centro Salud tables.
 - Bilingual UI (English / Spanish).
 
 ## Requirements
@@ -55,6 +55,7 @@ hospital/
 │  │  └─ PrintService.php
 │  ├─ Interfaces/           # Repository and service interface contracts
 │  ├─ Entities/             # Domain entities / value objects
+│  ├─ Helpers/              # OOP helper classes for shared logic and compatibility
 │  ├─ Models/               # Repository-style DB access models
 │  └─ bootstrap.php         # Autoload/bootstrap
 ├─ config/
@@ -65,7 +66,7 @@ hospital/
 │  └─ init.sql              # Baseline schema
 ├─ public/
 │  ├─ index.php             # Landing/dashboard summary
-│  ├─ patients.php          # Patients view
+│  ├─ pacientes.php         # Pacientes view
 │  ├─ diagnostics.php       # Diagnostics view
 │  ├─ tests.php             # Tests view
 │  ├─ setup.php             # DB setup UI
@@ -76,7 +77,7 @@ hospital/
 │  │  └─ admin/             # Admin API wrappers
 │  └─ assets/               # JS, CSS, i18n, vendor assets
 ├─ scripts/                 # Utility scripts (admin creation, checks, etc.)
-├─ src/                     # Legacy compatibility wrappers
+├─ src/                     # Legacy compatibility wrappers (deprecated)
 ├─ templates/               # Shared header/footer/modals
 ├─ run.ps1                  # Start development server
 └─ push.ps1                 # Stage/commit/push helper

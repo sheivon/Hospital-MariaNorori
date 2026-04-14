@@ -12,8 +12,8 @@ include('../templates/header.php');
 
   <div id="allergyAlert" class="alert alert-danger d-none" role="alert"></div>
 
-  <div class="card">
-    <div class="card-body p-0">
+  <div class="border rounded border-2 border-success"> 
+    <div class="p-3">
       <div class="table-responsive">
         <table id="allergiesTable" class="table table-striped table-bordered mb-0" style="width:100%">
           <thead>
@@ -126,8 +126,10 @@ include('../templates/header.php');
           searchable: false,
           render: function(data) {
             return `
+            <div class="btn-group" role="group">
               <button type="button" class="btn btn-sm btn-primary me-1" onclick="editAllergy(${data.id})">Edit</button>
               <button type="button" class="btn btn-sm btn-danger" onclick="deleteAllergy(${data.id})">Delete</button>
+            </div>
             `;
           }
         }

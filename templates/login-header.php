@@ -8,7 +8,7 @@ if (session_status() === PHP_SESSION_NONE) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title data-i18n="hospital">Hospital Records</title>
+  <title data-i18n="hospital">Centro Salud Records</title>
   <link href="../assets/css/bootstrap.min.css" rel="stylesheet"> 
   <link rel="stylesheet" href="../assets/css/jquery.dataTables.min.css">
   <!-- SweetAlert v1 CSS -->

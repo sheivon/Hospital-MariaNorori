@@ -101,8 +101,8 @@ class PatientsView {
   static initDataTable() {
     if (!window.jQuery || !window.jQuery.fn.DataTable) return;
 
-    if (this.dataTable && $.fn.dataTable.isDataTable('#patientsTable')) {
-      this.dataTable.destroy();
+    if ($.fn.dataTable.isDataTable('#patientsTable')) {
+      $('#patientsTable').DataTable().destroy();
       $('#patientsTable').find('tbody').off('click');
     }
 
@@ -207,8 +207,7 @@ class PatientsView {
   }
 
   static openAllergyModal(patientId) {
-    this.resetAllergyForm(patientId);
-    if (this.allergyModal) this.allergyModal.show();
+    window.location.href = '/allergis.php?patient_id=' + encodeURIComponent(patientId);
   }
 
   static async loadPatients() {
@@ -279,7 +278,7 @@ class PatientsView {
       return;
     }
     if (button.classList.contains('btn-edit')) {
-      window.location.href = '/patient.php?id=' + encodeURIComponent(id);
+      window.location.href = '/paciente.php?id=' + encodeURIComponent(id);
       return;
     }
     if (button.classList.contains('btn-del')) {
@@ -322,13 +321,11 @@ class PatientsView {
 
   static async initList(){
     await this.loadPatients();
-    await this.initAllergyModal();
-    const btnPrintTable = document.getElementById('btnPrintTable');
-    if (btnPrintTable) {
-      btnPrintTable.addEventListener('click', () => {
-        const table = document.getElementById('patientsTable');
-        if (!table) return swal({ text: window.i18n_t ? window.i18n_t('no_table_to_print') : 'No table to print', icon:'info' });
-        window.open('/print.php?resource=patients', '_blank');
+    const btnAllergiesPage = document.getElementById('btnAllergiesPage');
+    if (btnAllergiesPage) {
+      btnAllergiesPage.addEventListener('click', (event) => {
+        event.preventDefault();
+        window.location.href = '/allergis.php';
       });
     }
   }
@@ -376,7 +373,7 @@ class PatientsView {
         const id = formData.get('id');
         const payload = id ? await PatientsDataLayer.update(formData) : await PatientsDataLayer.create(formData);
         if (payload.success) {
-          window.location.href = '/patients.php';
+          window.location.href = '/pacientes.php';
         }
       } catch (err) {
         const errorMsg = err.message || (window.i18n_t ? window.i18n_t('error') : 'Error');

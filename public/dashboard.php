@@ -1,6 +1,9 @@
 <?php
-require_once __DIR__ . '/../src/auth.php';
-require_login();
+require_once __DIR__ . '/../app/bootstrap.php';
+
+use App\Core\Auth;
+
+Auth::requireLogin();
 include __DIR__ . '/../templates/header.php';
 ?>
 <div class="container mt-3">

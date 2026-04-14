@@ -16,3 +16,6 @@ spl_autoload_register(function ($class) {
         require_once $file;
     }
 });
+
+use App\Core\Auth;
+Auth::bootSession();
