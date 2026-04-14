@@ -136,17 +136,17 @@ class PatientsView {
   static async loadAllergyPatients() {
     const select = document.getElementById('patient_id');
     if (!select) return;
-    select.innerHTML = '<option value="">Loading patients...</option>';
+    select.innerHTML = '<option value="">Cargando pacientes...</option>';
     try {
       const res = await fetch('/api/patients_list.php', { credentials: 'same-origin' });
       const json = await res.json();
       const patients = Array.isArray(json.data) ? json.data : [];
-      select.innerHTML = '<option value="">Select patient</option>' + patients.map(p => {
+      select.innerHTML = '<option value="">Seleccione un paciente</option>' + patients.map(p => {
         const name = `${p.first_name || ''} ${p.last_name || ''}`.trim();
         return `<option value="${this.escapeAttr(p.id)}">${this.escapeHtml(name)}${p.cedula ? ' (' + this.escapeHtml(p.cedula) + ')' : ''}</option>`;
       }).join('');
     } catch (err) {
-      select.innerHTML = '<option value="">Unable to load patients</option>';
+      select.innerHTML = '<option value="">No se pudieron cargar los pacientes</option>';
     }
   }
 
@@ -165,7 +165,7 @@ class PatientsView {
     document.getElementById('noted_date').value = '';
     document.getElementById('notes').value = '';
     const title = document.getElementById('allergyModalLabel');
-    if (title) title.textContent = 'Add Allergy';
+    if (title) title.textContent = 'Agregar alergia';
   }
 
   static async saveAllergy(event) {
@@ -195,7 +195,7 @@ class PatientsView {
       });
       const json = await res.json();
       if (!res.ok || !json.success) {
-        throw new Error(json.error || 'Unable to save allergy');
+        throw new Error(json.error || 'No se pudo guardar la alergia');
       }
       if (this.allergyModal) this.allergyModal.hide();
     } catch (err) {
@@ -207,7 +207,7 @@ class PatientsView {
   }
 
   static openAllergyModal(patientId) {
-    window.location.href = '/allergis.php?patient_id=' + encodeURIComponent(patientId);
+    window.location.href = '/alergias.php?patient_id=' + encodeURIComponent(patientId);
   }
 
   static async loadPatients() {
@@ -236,7 +236,7 @@ class PatientsView {
           <td>${this.escapeHtml(p.phone||'')}</td>
           <td>
             <div class="btn-group d-flex" role="group">
-              <button class="btn btn-sm btn-info btn-allergies" data-id="${p.id}" title="Allergies"><i class="fa-solid fa-allergies"></i></button>
+              <button class="btn btn-sm btn-info btn-allergies" data-id="${p.id}" title="Alergias"><i class="fa-solid fa-allergies"></i></button>
               <button class="btn btn-sm btn-primary btn-edit" data-id="${p.id}" title="Edit"><i class="fa-solid fa-pen-to-square"></i></button>
               <button class="btn btn-sm btn-danger btn-del" data-id="${p.id}" title="Delete"><i class="fa-solid fa-trash"></i></button>
             </div>
@@ -325,7 +325,7 @@ class PatientsView {
     if (btnAllergiesPage) {
       btnAllergiesPage.addEventListener('click', (event) => {
         event.preventDefault();
-        window.location.href = '/allergis.php';
+        window.location.href = '/alergias.php';
       });
     }
   }
@@ -463,9 +463,9 @@ class PatientsModal {
       });
     } catch (err) {
       console.error('Failed to load patients for selection modal', err);
-      tableBody.innerHTML = `<tr><td colspan="6" class="text-center text-danger">${window.i18n_t ? window.i18n_t('error') : 'Error loading patients'}</td></tr>`;
+      tableBody.innerHTML = `<tr><td colspan="6" class="text-center text-danger">${window.i18n_t ? window.i18n_t('error') : 'Error cargando pacientes'}</td></tr>`;
       if (messageBox) {
-        messageBox.textContent = (err.message || 'Error loading patients');
+        messageBox.textContent = (err.message || 'Error cargando pacientes');
         messageBox.classList.remove('d-none');
       }
     }

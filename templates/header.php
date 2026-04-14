@@ -93,7 +93,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 <li class="nav-item"><a class="nav-link" href="/pacientes.php"><span data-i18n="view_patients">Ver pacientes</span></a></li>
                 <li class="nav-item"><a class="nav-link" href="/tests.php"><span data-i18n="tests_results">Test Results</span></a></li>
                 <li class="nav-item"><a class="nav-link" href="/adolescent_history.php"><span data-i18n="adolescent_history">Adolescent History</span></a></li>
-                <li class="nav-item"><a class="nav-link" href="/allergis.php"><span data-i18n="allergies">Allergies</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="/alergias.php"><span data-i18n="allergies">Alergias</span></a></li>
                 <li class="nav-item"><a class="nav-link" href="/diagnostics.php"><span data-i18n="diagnostics_title">Diagnostics</span></a></li>
               </ul>
             </div>

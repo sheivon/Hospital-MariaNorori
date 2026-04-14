@@ -10,7 +10,7 @@ include __DIR__ . '/../templates/header.php';
   <div class="card-head d-flex justify-content-between align-items-center mb-3 bg-success text-white rounded-top">
     <h3 data-i18n="patients">Pacientes</h3>
     <div>
-      <a href="/allergis.php" class="btn btn-secondary me-2" id="btnAllergiesPage"><i class="fa-solid fa-allergies me-1"></i><span data-i18n="view_allergies">Ver alergias</span></a>
+      <a href="/alergias.php" class="btn btn-secondary me-2" id="btnAllergiesPage"><i class="fa-solid fa-allergies me-1"></i><span data-i18n="view_allergies">Ver alergias</span></a>
       <a href="/paciente.php" class="btn btn-success me-2"><i class="fa-solid fa-user-plus me-1"></i><span data-i18n="add_patient">Agregar paciente</span></a>
     </div>
   </div>
