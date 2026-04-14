@@ -37,6 +37,17 @@ if (file_exists($vendorBase . '/vfs_fonts.js')) {
 }
 ?>
 
+<!-- ✅ Local DataTables Spanish language pack for offline dev -->
+<script>
+  if (window.jQuery && $.fn.dataTable) {
+    $.extend(true, $.fn.dataTable.defaults, {
+      language: {
+        url: '/assets/vendor/datatables/Spanish.json'
+      }
+    });
+  }
+</script>
+
 <!-- ✅ Your app scripts -->
 <script src="/assets/js/i18n.js"></script>
 <script src="/assets/js/app.js"></script>
