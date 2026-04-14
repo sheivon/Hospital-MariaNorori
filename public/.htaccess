@@ -1,13 +1,12 @@
-# Redirect common error codes to friendly pages
-ErrorDocument 401 /401.php
-ErrorDocument 404 /404.php
-ErrorDocument 500 /500.php
+# Redirect common error codes to a single friendly page
+ErrorDocument 401 /error.php?code=401
+ErrorDocument 404 /error.php?code=404
+ErrorDocument 500 /error.php?code=500
 
-# (Optional) Force direct access to error pages even if file exists
+# Redirect direct access of legacy error page filenames to the unified error page
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteCond %{REQUEST_URI} ^/401\.php$ [OR]
-  RewriteCond %{REQUEST_URI} ^/404\.php$ [OR]
-  RewriteCond %{REQUEST_URI} ^/500\.php$
-  RewriteRule ^ - [L]
+  RewriteRule ^401\.php$ /error.php?code=401 [R=302,L]
+  RewriteRule ^404\.php$ /error.php?code=404 [R=302,L]
+  RewriteRule ^500\.php$ /error.php?code=500 [R=302,L]
 </IfModule>
