@@ -5,15 +5,23 @@ This project now follows an incremental MVC structure while keeping existing URL
 ## Folder Map
 
 - `public/`
-  - Web entrypoints and API routes (`/api/*.php`)
+  - Web entrypoints and API routes (`/api/*.php`).
   - Keep these files thin: parse request and call a controller.
 - `app/Core/`
   - Cross-cutting infrastructure: DB connection, auth/session, API response helpers.
 - `app/Controllers/`
   - Request orchestration logic (HTTP input/output).
   - `app/Controllers/Api/` for API controllers.
+  - `app/Controllers/SetupController.php` for setup workflow.
+- `app/Services/`
+  - Business logic services and orchestration beyond simple CRUD.
+  - Includes `app/Services/Admin/` and `app/Services/PrintService.php`.
+- `app/Interfaces/`
+  - Repository and service contracts for decoupling implementations.
+- `app/Entities/`
+  - Domain entities and value object definitions.
 - `app/Models/`
-  - Database access and data rules for each domain entity.
+  - Repository-style database access and data persistence logic.
 - `src/`
   - Legacy compatibility wrappers used by older pages/scripts.
   - New business logic should go in `app/`.

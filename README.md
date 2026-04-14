@@ -46,16 +46,23 @@ Use **Initialize Database** to create DB, run schema, and seed default users.
 ```text
 hospital/
 ├─ app/
-│  ├─ Core/                 # DB, auth, API response helpers
-│  ├─ Controllers/          # MVC controllers (API + setup)
-│  ├─ Models/               # DB models and business rules
+│  ├─ Core/                 # DB connection, auth/session, API response helpers
+│  ├─ Controllers/          # MVC controllers and request orchestration
+│  │  ├─ Api/               # API controller classes
+│  │  └─ SetupController.php
+│  ├─ Services/             # Business logic services
+│  │  ├─ Admin/             # Admin-specific service classes
+│  │  └─ PrintService.php
+│  ├─ Interfaces/           # Repository and service interface contracts
+│  ├─ Entities/             # Domain entities / value objects
+│  ├─ Models/               # Repository-style DB access models
 │  └─ bootstrap.php         # Autoload/bootstrap
 ├─ config/
-│  └─ db.php                # PDO bootstrap (uses app/Core/Database)
+│  └─ db.php                # PDO bootstrap (delegates to app/Core/Database)
 ├─ docs/
 │  └─ ARCHITECTURE.md       # Architecture and entity relationships
 ├─ migrations/
-│  └─ init.sql              # Single baseline schema
+│  └─ init.sql              # Baseline schema
 ├─ public/
 │  ├─ index.php             # Landing/dashboard summary
 │  ├─ patients.php          # Patients view
@@ -65,7 +72,8 @@ hospital/
 │  ├─ admin/
 │  │  ├─ users.php          # User administration
 │  │  └─ data_manager.php   # Generic CRUD manager
-│  ├─ api/                  # API endpoints
+│  ├─ api/                  # Thin API entrypoints to MVC controllers
+│  │  └─ admin/             # Admin API wrappers
 │  └─ assets/               # JS, CSS, i18n, vendor assets
 ├─ scripts/                 # Utility scripts (admin creation, checks, etc.)
 ├─ src/                     # Legacy compatibility wrappers
