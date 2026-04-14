@@ -115,9 +115,19 @@ include __DIR__ . '/../templates/header.php';
   loadPatients().then(()=> loadDiagnostics());
 })();
 </script>
-<script type="module">
-    import DataTable from 'datatables.net-dt';
-    $(document).ready(function() {
-        $('#diagnosticsTable').DataTable();
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    if (typeof $ === 'undefined') {
+      console.error('❌ jQuery not loaded before diagnostics table init');
+      return;
+    }
+    if (!$.fn.dataTable) {
+      console.error('❌ DataTables plugin missing');
+      return;
+    }
+    $('#diagnosticsTable').DataTable({
+      responsive: true,
+      pageLength: 10
     });
+  });
 </script>

@@ -81,6 +81,37 @@ include __DIR__ . '/../../templates/header.php';
   let currentRows = [];
   let currentTable = '';
   let currentPk = 'id';
+  let dmDataTable = null;
+
+  const readOnlyTables = new Set(['user_roles']);
+
+  function isReadOnlyTable(){
+    return readOnlyTables.has(currentTable);
+  }
+
+  function ensureDataTable() {
+    if (!window.jQuery || !window.jQuery.fn.DataTable) return;
+
+    if (dmDataTable && $.fn.dataTable.isDataTable('#dmTable')) {
+      dmDataTable.destroy();
+      $('#dmTable').find('thead').empty();
+      $('#dmTable').find('tbody').empty();
+    }
+
+    dmDataTable = $('#dmTable').DataTable({
+      dom: 'Bfrtip',
+      buttons: [
+        { extend: 'copy' },
+        { extend: 'csv' },
+        { extend: 'excel' },
+        { extend: 'pdf' },
+        { extend: 'print' }
+      ],
+      responsive: true,
+      lengthMenu: [10, 25, 50, 100],
+      columnDefs: [{ orderable: false, targets: -1 }]
+    });
+  }
 
   function showError(message){
     if (!message){ dmError.classList.add('d-none'); dmError.textContent = ''; return; }
@@ -110,19 +141,26 @@ include __DIR__ . '/../../templates/header.php';
 
     if (!Array.isArray(currentRows) || currentRows.length === 0){
       dmTableBody.innerHTML = `<tr><td colspan="${columns.length + 1}" class="text-center text-muted">${tr('no_data','No data')}</td></tr>`;
+      ensureDataTable();
       return;
     }
 
     dmTableBody.innerHTML = '';
+    const readonly = isReadOnlyTable();
+
     currentRows.forEach(row => {
       const tr = document.createElement('tr');
+      const actionButtons = readonly
+        ? `<span class="text-muted">${tr('read_only','Read-only')}</span>`
+        : `<button class="btn btn-sm btn-primary me-1 btn-edit" data-id="${row[currentPk]}"><i class="fa-solid fa-pen"></i></button>
+           <button class="btn btn-sm btn-danger btn-del" data-id="${row[currentPk]}"><i class="fa-solid fa-trash"></i></button>`;
+
       tr.innerHTML = columns.map(c => `<td>${escapeHtml(row[c])}</td>`).join('') +
-        `<td>
-          <button class="btn btn-sm btn-primary me-1 btn-edit" data-id="${row[currentPk]}"><i class="fa-solid fa-pen"></i></button>
-          <button class="btn btn-sm btn-danger btn-del" data-id="${row[currentPk]}"><i class="fa-solid fa-trash"></i></button>
-        </td>`;
+        `<td>${actionButtons}</td>`;
       dmTableBody.appendChild(tr);
     });
+
+    ensureDataTable();
   }
 
   function escapeHtml(value){
@@ -145,6 +183,7 @@ include __DIR__ . '/../../templates/header.php';
       currentTable = entries[0][0];
       tableSelector.value = currentTable;
       currentPk = entries[0][1].pk || 'id';
+      btnCreateRow.disabled = isReadOnlyTable();
     }
   }
 
@@ -160,6 +199,11 @@ include __DIR__ . '/../../templates/header.php';
   }
 
   function openCreate(){
+    if (isReadOnlyTable()) {
+      showError(tr('data_manager_read_only', 'This table is read-only. Create is disabled.'));
+      return;
+    }
+
     showFormError('');
     dmRowId.value = '';
     dmModalTitle.textContent = tr('data_manager_create_row', 'Create Row');
@@ -168,6 +212,11 @@ include __DIR__ . '/../../templates/header.php';
   }
 
   function openEdit(id){
+    if (isReadOnlyTable()) {
+      showError(tr('data_manager_read_only', 'This table is read-only. Edit is disabled.'));
+      return;
+    }
+
     const row = currentRows.find(r => String(r[currentPk]) === String(id));
     if (!row){ return; }
     showFormError('');
@@ -240,6 +289,7 @@ include __DIR__ . '/../../templates/header.php';
       const metaRes = await fetch('/api/admin/tables_meta.php');
       const metaJson = await metaRes.json();
       currentPk = (metaJson.tables?.[currentTable]?.pk) || 'id';
+      btnCreateRow.disabled = isReadOnlyTable();
       await loadRows();
     } catch (e) {
       showError(e.message || 'Error');
@@ -250,6 +300,10 @@ include __DIR__ . '/../../templates/header.php';
   btnRefreshRows.addEventListener('click', () => loadRows().catch(e => showError(e.message || 'Error')));
 
   dmTableBody.addEventListener('click', async (e) => {
+    if (isReadOnlyTable()) {
+      return;
+    }
+
     const editBtn = e.target.closest('.btn-edit');
     const delBtn = e.target.closest('.btn-del');
 

@@ -8,7 +8,11 @@
 	--brand-border: #cbd5e1;
 }
 
-body { padding-bottom: 40px; color: var(--brand-text); }
+html, body {
+  min-height: 100%;
+  overflow-x: hidden;
+}
+body { padding-bottom: 0; color: var(--brand-text); }
 
 /* DataTables theming (brand palette) */
 .dataTables_wrapper .dataTables_filter input,
@@ -109,6 +113,90 @@ body { padding-bottom: 40px; color: var(--brand-text); }
 .navbar-brand picture, .navbar-brand img { display: inline-block; }
 .navbar-brand img { height: 36px; width: auto; }
 .navbar-brand picture { line-height:0; }
+
+/* Sidebar brand stacking */
+.navbar-brand.flex-column {
+  align-items: center;
+  text-align: center;
+}
+.navbar-brand.flex-column picture,
+.navbar-brand.flex-column img {
+  margin-bottom: 0.3rem;
+}
+.navbar-brand.flex-column .brand-text {
+  display: block;
+}
+
+/* Sidebar layout */
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  background: #f8fafc;
+}
+.sidebar {
+  width: 250px;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, var(--brand-blue), var(--brand-green));
+  color: #fff;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  box-shadow: 2px 0 18px rgba(0, 0, 0, 0.12);
+}
+.sidebar .sidebar-top {
+  border-bottom: 1px solid rgba(255,255,255,0.16);
+}
+.sidebar .nav {
+  margin-top: .5rem;
+}
+.sidebar .nav-item + .nav-item {
+  margin-top: .35rem;
+}
+.sidebar .nav-link {
+  color: rgba(255,255,255,0.92);
+  padding: .75rem 1rem;
+  border-radius: .75rem;
+  transition: background .2s ease, color .2s ease;
+}
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+  background: rgba(255,255,255,0.14);
+  color: #fff;
+}
+.sidebar .nav-link i {
+  min-width: 1.2rem;
+}
+.sidebar .sidebar-footer {
+  margin-top: auto;
+  border-top: 1px solid rgba(255,255,255,0.16);
+}
+.sidebar .sidebar-footer select {
+  background: rgba(255,255,255,0.12);
+  color: #111;
+}
+.main-content {
+  flex: 1;
+  min-width: 0;
+  padding: 1.25rem;
+}
+@media (max-width: 991.98px) {
+  .app-shell {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    min-width: auto;
+    height: auto;
+    position: relative;
+    box-shadow: none;
+  }
+  .main-content {
+    padding-top: 0;
+  }
+}
 
 /* Acrylic / translucent button */
 .btn-acrylic{

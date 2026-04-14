@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\app",
+    "\\app\\Controllers",
+    "\\app\\Controllers\\Api",
+    "\\app\\Controllers\\Api\\Admin",
+    "\\public",
+    "\\public\\api",
+    "\\public\\api\\admin",
+    "\\src"
+  ],
+  "SelectedNode": "\\public\\api\\admin",
+  "PreviewInSolutionExplorer": false
+}

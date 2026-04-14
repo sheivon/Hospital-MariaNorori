@@ -56,7 +56,7 @@ include __DIR__ . '/../templates/header.php';
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/assets/vendor/chartjs/chart.min.js"></script>
 <script>
 (function(){
   const t = window.i18n_t || (k=>k);

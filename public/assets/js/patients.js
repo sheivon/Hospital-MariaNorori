@@ -41,6 +41,7 @@ class PatientsDataLayer {
 
 class PatientsView {
   static escapeHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  static escapeAttr(s){ return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
   static setError(message){
     const alertBox = document.getElementById('patientAlert');
@@ -95,6 +96,121 @@ class PatientsView {
     };
   }
 
+  static dataTable = null;
+
+  static initDataTable() {
+    if (!window.jQuery || !window.jQuery.fn.DataTable) return;
+
+    if (this.dataTable && $.fn.dataTable.isDataTable('#patientsTable')) {
+      this.dataTable.destroy();
+      $('#patientsTable').find('tbody').off('click');
+    }
+
+    this.dataTable = $('#patientsTable').DataTable({
+      dom: 'Bfrtip',
+      buttons: [
+        { extend: 'copy', exportOptions: { columns: ':not(:last-child)' } },
+        { extend: 'csv', exportOptions: { columns: ':not(:last-child)' } },
+        { extend: 'excel', exportOptions: { columns: ':not(:last-child)' } },
+        { extend: 'pdf', exportOptions: { columns: ':not(:last-child)' } },
+        { extend: 'print', exportOptions: { columns: ':not(:last-child)' } }
+      ],
+      responsive: true,
+      lengthMenu: [10, 25, 50, 100],
+      columnDefs: [{ orderable: false, targets: -1 }]
+    });
+  }
+
+  static async initAllergyModal() {
+    const modalEl = document.getElementById('allergyModal');
+    if (!modalEl) return;
+
+    this.allergyModal = new bootstrap.Modal(modalEl, { backdrop: 'static' });
+    const form = document.getElementById('patientAllergyForm');
+    if (form) {
+      form.addEventListener('submit', (event) => this.saveAllergy(event));
+    }
+    await this.loadAllergyPatients();
+  }
+
+  static async loadAllergyPatients() {
+    const select = document.getElementById('patient_id');
+    if (!select) return;
+    select.innerHTML = '<option value="">Loading patients...</option>';
+    try {
+      const res = await fetch('/api/patients_list.php', { credentials: 'same-origin' });
+      const json = await res.json();
+      const patients = Array.isArray(json.data) ? json.data : [];
+      select.innerHTML = '<option value="">Select patient</option>' + patients.map(p => {
+        const name = `${p.first_name || ''} ${p.last_name || ''}`.trim();
+        return `<option value="${this.escapeAttr(p.id)}">${this.escapeHtml(name)}${p.cedula ? ' (' + this.escapeHtml(p.cedula) + ')' : ''}</option>`;
+      }).join('');
+    } catch (err) {
+      select.innerHTML = '<option value="">Unable to load patients</option>';
+    }
+  }
+
+  static resetAllergyForm(patientId = '') {
+    const errorBox = document.getElementById('patientAllergyError');
+    if (errorBox) {
+      errorBox.textContent = '';
+      errorBox.classList.add('d-none');
+    }
+    document.getElementById('allergyId').value = '';
+    document.getElementById('patient_id').value = patientId;
+    document.getElementById('allergen').value = '';
+    document.getElementById('reaction').value = '';
+    document.getElementById('severity').value = '';
+    document.getElementById('status').value = 'active';
+    document.getElementById('noted_date').value = '';
+    document.getElementById('notes').value = '';
+    const title = document.getElementById('allergyModalLabel');
+    if (title) title.textContent = 'Add Allergy';
+  }
+
+  static async saveAllergy(event) {
+    event.preventDefault();
+    const errorBox = document.getElementById('patientAllergyError');
+    if (errorBox) {
+      errorBox.textContent = '';
+      errorBox.classList.add('d-none');
+    }
+
+    const payload = new URLSearchParams();
+    payload.set('id', document.getElementById('allergyId').value);
+    payload.set('patient_id', document.getElementById('patient_id').value);
+    payload.set('allergen', document.getElementById('allergen').value);
+    payload.set('reaction', document.getElementById('reaction').value);
+    payload.set('severity', document.getElementById('severity').value);
+    payload.set('status', document.getElementById('status').value);
+    payload.set('noted_date', document.getElementById('noted_date').value);
+    payload.set('notes', document.getElementById('notes').value);
+
+    try {
+      const res = await fetch('/backend/patient_allergies_save.php', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: payload.toString()
+      });
+      const json = await res.json();
+      if (!res.ok || !json.success) {
+        throw new Error(json.error || 'Unable to save allergy');
+      }
+      if (this.allergyModal) this.allergyModal.hide();
+    } catch (err) {
+      if (errorBox) {
+        errorBox.textContent = err.message || 'Save failed';
+        errorBox.classList.remove('d-none');
+      }
+    }
+  }
+
+  static openAllergyModal(patientId) {
+    this.resetAllergyForm(patientId);
+    if (this.allergyModal) this.allergyModal.show();
+  }
+
   static async loadPatients() {
     const tableBody = document.querySelector('#patientsTable tbody');
     if (!tableBody) return;
@@ -105,6 +221,7 @@ class PatientsView {
       tableBody.innerHTML = '';
       if (!rows.length) {
         tableBody.innerHTML = `<tr><td colspan="8" class="text-center text-muted">${window.i18n_t ? window.i18n_t('no_data') : 'No data'}</td></tr>`;
+        this.initDataTable();
         return;
       }
 
@@ -120,8 +237,9 @@ class PatientsView {
           <td>${this.escapeHtml(p.phone||'')}</td>
           <td>
             <div class="btn-group d-flex" role="group">
-              <button class="btn btn-sm btn-primary btn-edit" data-id="${p.id}"><i class="fa-solid fa-pen-to-square"></i></button>
-              <button class="btn btn-sm btn-danger btn-del" data-id="${p.id}"><i class="fa-solid fa-trash"></i></button>
+              <button class="btn btn-sm btn-info btn-allergies" data-id="${p.id}" title="Allergies"><i class="fa-solid fa-allergies"></i></button>
+              <button class="btn btn-sm btn-primary btn-edit" data-id="${p.id}" title="Edit"><i class="fa-solid fa-pen-to-square"></i></button>
+              <button class="btn btn-sm btn-danger btn-del" data-id="${p.id}" title="Delete"><i class="fa-solid fa-trash"></i></button>
             </div>
           </td>
         `;
@@ -129,6 +247,7 @@ class PatientsView {
       });
 
       this.bindListEvents();
+      this.initDataTable();
 
     } catch (err) {
       tableBody.innerHTML = `<tr><td colspan="8" class="text-center text-muted">${window.i18n_t ? window.i18n_t('no_data') : 'No data'}</td></tr>`;
@@ -142,8 +261,12 @@ class PatientsView {
     const tableBody = document.querySelector('#patientsTable tbody');
     if (!tableBody) return;
 
-    tableBody.removeEventListener('click', this.listClickHandler);
-    tableBody.addEventListener('click', this.listClickHandler);
+    if (!this._listClickHandlerBound) {
+      this._listClickHandlerBound = this.listClickHandler.bind(this);
+    }
+
+    tableBody.removeEventListener('click', this._listClickHandlerBound);
+    tableBody.addEventListener('click', this._listClickHandlerBound);
   }
 
   static async listClickHandler(e){
@@ -151,6 +274,10 @@ class PatientsView {
     if (!button) return;
     const id = button.dataset.id;
     if (!id) return;
+    if (button.classList.contains('btn-allergies')) {
+      this.openAllergyModal(id);
+      return;
+    }
     if (button.classList.contains('btn-edit')) {
       window.location.href = '/patient.php?id=' + encodeURIComponent(id);
       return;
@@ -195,6 +322,7 @@ class PatientsView {
 
   static async initList(){
     await this.loadPatients();
+    await this.initAllergyModal();
     const btnPrintTable = document.getElementById('btnPrintTable');
     if (btnPrintTable) {
       btnPrintTable.addEventListener('click', () => {
@@ -266,6 +394,99 @@ class PatientsView {
     if (patientId) this.loadPatient(patientId);
   }
 }
+
+class PatientsModal {
+  static modalId = 'patientsListModal';
+  static tableId = 'patientsModalSelectionTable';
+  static messageId = 'patientsModalMessage';
+  static bootstrapModal = null;
+  static onSelect = null;
+
+  static init() {
+    const modalEl = document.getElementById(this.modalId);
+    if (!modalEl) return;
+
+    this.bootstrapModal = new bootstrap.Modal(modalEl, { backdrop: 'static', keyboard: true });
+
+    const body = modalEl.querySelector('tbody');
+    if (body) {
+      body.addEventListener('click', (event) => {
+        const btn = event.target.closest('[data-action="select-patient"]');
+        if (!btn) return;
+
+        const id = btn.dataset.patientId;
+        const name = btn.dataset.patientName;
+        this.hide();
+        if (this.onSelect) {
+          this.onSelect({ id: Number(id), name });
+          this.onSelect = null;
+        }
+
+        const selectedEvent = new CustomEvent('patientSelected', { detail: { id: Number(id), name } });
+        document.dispatchEvent(selectedEvent);
+      });
+    }
+
+    modalEl.addEventListener('hidden.bs.modal', () => {
+      this.onSelect = null;
+    });
+  }
+
+  static async loadPatients() {
+    const tableBody = document.querySelector(`#${this.tableId} tbody`);
+    const messageBox = document.getElementById(this.messageId);
+    if (!tableBody || !messageBox) return;
+
+    messageBox.classList.add('d-none');
+    messageBox.textContent = '';
+
+    try {
+      const result = await PatientsDataLayer.list();
+      const rows = Array.isArray(result.data) ? result.data : [];
+      tableBody.innerHTML = '';
+
+      if (rows.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="6" class="text-center text-muted">${window.i18n_t ? window.i18n_t('no_data') : 'No patients found'}</td></tr>`;
+        return;
+      }
+
+      rows.forEach(p => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${p.id}</td>
+          <td>${PatientsView.escapeHtml((p.first_name || '') + ' ' + (p.last_name || ''))}</td>
+          <td>${PatientsView.escapeHtml(p.cedula || '')}</td>
+          <td>${PatientsView.escapeHtml(p.dob || '')}</td>
+          <td>${PatientsView.escapeHtml(p.email || '')}</td>
+          <td>
+            <button type="button" class="btn btn-sm btn-primary" data-action="select-patient" data-patient-id="${p.id}" data-patient-name="${PatientsView.escapeAttr((p.first_name || '') + ' ' + (p.last_name || ''))}">Select</button>
+          </td>
+        `;
+        tableBody.appendChild(tr);
+      });
+    } catch (err) {
+      console.error('Failed to load patients for selection modal', err);
+      tableBody.innerHTML = `<tr><td colspan="6" class="text-center text-danger">${window.i18n_t ? window.i18n_t('error') : 'Error loading patients'}</td></tr>`;
+      if (messageBox) {
+        messageBox.textContent = (err.message || 'Error loading patients');
+        messageBox.classList.remove('d-none');
+      }
+    }
+  }
+
+  static async show({ onSelect } = {}) {
+    if (!this.bootstrapModal) this.init();
+    this.onSelect = typeof onSelect === 'function' ? onSelect : null;
+    await this.loadPatients();
+    if (this.bootstrapModal) this.bootstrapModal.show();
+  }
+
+  static hide() {
+    if (this.bootstrapModal) this.bootstrapModal.hide();
+  }
+}
+
+window.PatientsModal = PatientsModal;
 
 window.addEventListener('DOMContentLoaded', () => {
   if (document.querySelector('#patientsTable')) {

@@ -2,13 +2,25 @@
 
 namespace App\Controllers\Api;
 
-use App\Core\ApiResponse;
 use App\Core\Auth;
+use App\Core\ApiResponse;
+use App\Services\ChatService;
+use App\Services\UserService;
 use App\Models\ChatModel;
 use App\Models\UserModel;
 
-class ChatController
+class ChatController extends BaseApiController
 {
+    private static function service(): ChatService
+    {
+        return new ChatService(new ChatModel());
+    }
+
+    private static function userService(): UserService
+    {
+        return new UserService(new UserModel());
+    }
+
     public static function list(array $query): void
     {
         Auth::bootSession();
@@ -19,14 +31,13 @@ class ChatController
         $current = Auth::currentUser();
         $currentId = $current ? (int)$current['id'] : null;
 
-        $chatModel = new ChatModel();
         if ($recipient && $currentId) {
-            $data = $chatModel->getMessages($since, $limit, $currentId, $recipient);
+            $data = self::service()->getMessages($since, $limit, $currentId, $recipient);
         } else {
-            $data = $chatModel->getMessages($since, $limit);
+            $data = self::service()->getMessages($since, $limit);
         }
 
-        ApiResponse::success(['data' => $data]);
+        self::success(['data' => $data]);
     }
 
     public static function send(array $payload): void
@@ -36,22 +47,20 @@ class ChatController
 
         $message = trim((string)($payload['message'] ?? ''));
         if ($message === '') {
-            ApiResponse::fail('Empty message');
+            self::fail('Empty message');
         }
         $message = mb_substr($message, 0, 2000);
 
         $recipient = isset($payload['recipient_id']) && $payload['recipient_id'] !== '' ? (int)$payload['recipient_id'] : null;
         if ($recipient) {
-            $userModel = new UserModel();
-            if (!$userModel->existsById($recipient)) {
-                ApiResponse::fail('Recipient not found');
+            if (!self::userService()->existsById($recipient)) {
+                self::fail('Recipient not found');
             }
         }
 
-        $chatModel = new ChatModel();
-        $id = $chatModel->addMessage((int)$user['id'], (string)$user['username'], $message, $recipient);
+        $id = self::service()->addMessage((int)$user['id'], (string)$user['username'], $message, $recipient);
 
-        ApiResponse::success([
+        self::success([
             'id' => $id,
             'message' => $message,
             'username' => (string)$user['username'],

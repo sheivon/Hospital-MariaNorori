@@ -6,8 +6,7 @@ if (!empty($_SESSION['user'])): ?>
     username: <?= json_encode($_SESSION['user']['username']) ?>
   };
 </script>
-<?php endif; ?>
-</div>
+<?php endif; ?></main></div>
 
 <!-- ✅ Load order matters -->
 <script src="../assets/js/jquery-3.6.0.min.js"></script>
@@ -50,9 +49,10 @@ if (file_exists($vendorBase . '/vfs_fonts.js')) {
     if (typeof $ === 'undefined') {
       console.error('❌ jQuery is not loaded! Check script paths.');
       return;
+    }
     try {
       // Initialize patients table only if it exists on the page
-        if ($('#patientsTable').length) {
+      if ($('#patientsTable').length) {
         console.log('✅ Initializing DataTable for #patientsTable');
         $('#patientsTable').DataTable({
           responsive: true,

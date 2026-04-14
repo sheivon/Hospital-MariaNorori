@@ -241,6 +241,62 @@ CREATE TABLE tests (
   CONSTRAINT fk_tests_user FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE exam_requests (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  patient_id INT UNSIGNED NOT NULL,
+  request_date DATE NOT NULL,
+  exam_type VARCHAR(255) NOT NULL,
+  notes TEXT DEFAULT NULL,
+  status VARCHAR(50) NOT NULL DEFAULT 'pending',
+  created_by INT UNSIGNED DEFAULT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  INDEX idx_exam_requests_patient (patient_id),
+  INDEX idx_exam_requests_created_by (created_by),
+  CONSTRAINT fk_exam_requests_patient FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE,
+  CONSTRAINT fk_exam_requests_user FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE radiology_requests (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  patient_id INT UNSIGNED NOT NULL,
+  unit VARCHAR(120) DEFAULT NULL,
+  first_last_name VARCHAR(100) DEFAULT NULL,
+  second_last_name VARCHAR(100) DEFAULT NULL,
+  names VARCHAR(200) DEFAULT NULL,
+  insured VARCHAR(10) DEFAULT NULL,
+  gender VARCHAR(10) DEFAULT NULL,
+  age VARCHAR(20) DEFAULT NULL,
+  request_date DATE DEFAULT NULL,
+  clinic_bed VARCHAR(100) DEFAULT NULL,
+  service VARCHAR(100) DEFAULT NULL,
+  code VARCHAR(50) DEFAULT NULL,
+  prior_radiograph VARCHAR(50) DEFAULT NULL,
+  prior_radiograph_code VARCHAR(50) DEFAULT NULL,
+  exam_requested TEXT DEFAULT NULL,
+  clinical_data TEXT DEFAULT NULL,
+  evolution_time VARCHAR(100) DEFAULT NULL,
+  presumptive_diagnosis TEXT DEFAULT NULL,
+  observations TEXT DEFAULT NULL,
+  doctor_code VARCHAR(100) DEFAULT NULL,
+  technician VARCHAR(100) DEFAULT NULL,
+  plates_used VARCHAR(50) DEFAULT NULL,
+  findings TEXT DEFAULT NULL,
+  conclusions TEXT DEFAULT NULL,
+  radiology_date DATE DEFAULT NULL,
+  radiographs_archived VARCHAR(100) DEFAULT NULL,
+  radiograph_count VARCHAR(50) DEFAULT NULL,
+  dictating_doctor_code VARCHAR(100) DEFAULT NULL,
+  status VARCHAR(50) NOT NULL DEFAULT 'pending',
+  created_by INT UNSIGNED DEFAULT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  INDEX idx_radiology_requests_patient (patient_id),
+  INDEX idx_radiology_requests_created_by (created_by),
+  CONSTRAINT fk_radiology_requests_patient FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE,
+  CONSTRAINT fk_radiology_requests_user FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE vitals (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   patient_id INT UNSIGNED NOT NULL,
@@ -427,6 +483,23 @@ CREATE TABLE admissions (
   CONSTRAINT fk_admissions_user FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL,
   INDEX idx_admissions_patient (patient_id),
   INDEX idx_admissions_status (status)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE emergency_encounters (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  patient_id INT UNSIGNED NOT NULL,
+  encounter_id INT UNSIGNED DEFAULT NULL,
+  admission_date DATE NOT NULL,
+  discharge_date DATE DEFAULT NULL,
+  status VARCHAR(50) DEFAULT 'Activo',
+  form_data TEXT DEFAULT NULL,
+  created_by INT UNSIGNED DEFAULT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_emergency_encounters_patient FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE,
+  CONSTRAINT fk_emergency_encounters_encounter FOREIGN KEY (encounter_id) REFERENCES encounters(id) ON DELETE SET NULL,
+  CONSTRAINT fk_emergency_encounters_user FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL,
+  INDEX idx_emergency_encounters_patient (patient_id),
+  INDEX idx_emergency_encounters_status (status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE bed_movements (

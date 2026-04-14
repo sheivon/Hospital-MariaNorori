@@ -8,7 +8,7 @@ if (session_status() === PHP_SESSION_NONE) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title data-i18n="hospital">Hospital Records</title>
+  <title data-i18n="hospital">Hospital</title>
   <link href="../assets/css/bootstrap.min.css" rel="stylesheet"> 
   <link rel="stylesheet" href="../assets/css/jquery.dataTables.min.css">
   <!-- DataTables Buttons CSS loaded from vendor if available -->
@@ -24,13 +24,37 @@ if (session_status() === PHP_SESSION_NONE) {
   <!-- SweetAlert v1 CSS -->
   <link href="../assets/css/sweetalert.min.css" rel="stylesheet">
   <!-- Font Awesome (free) -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
   <!-- assets are served from the web root (public/), so drop the /public prefix -->
   <link href="/assets/css/styles.css" rel="stylesheet">
   <?php if (in_array(basename($_SERVER['SCRIPT_NAME']), ['login.php', 'register.php'], true)): ?>
     <link href="/assets/css/auth.css" rel="stylesheet">
   <?php endif; ?>
-  <style>body.lang-loading{visibility:hidden;}</style>
+  <style>
+    body.lang-loading{visibility:hidden;}
+    .floating-lang-select {
+      position: fixed;
+      top: 0.5rem;
+      right: 1rem;
+      z-index: 1050;
+      background: rgba(255,255,255,0.95);
+      border: 1px solid rgba(0,0,0,0.08);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.08);
+      min-width: 120px;
+    }
+    .floating-lang-select .form-select {
+      min-width: 4rem;
+      padding-right: 0.75rem;
+    }
+    @media (max-width: 992px) {
+      .floating-lang-select {
+        top: 0.75rem;
+        right: 0.75rem;
+        min-width: 100px;
+      }
+    }
+  </style>
   <?php
   // Load DataTables Buttons CSS if present (local offline copy)
   $btnCssPath = $_SERVER['DOCUMENT_ROOT'] . '/assets/vendor/datatables/buttons.dataTables.min.css';
@@ -40,56 +64,82 @@ if (session_status() === PHP_SESSION_NONE) {
   ?>
 </head>
 <body class="lang-loading" style="visibility:hidden;">
-<nav class="navbar navbar-expand-lg navbar-custom sticky-top">
-  <div class="container-fluid">
-    <a class="navbar-brand d-flex align-items-center" href="/">
-      <picture class="me-2">
-        <!-- prefer the SVG; PNG was converted to an embedded-SVG file -->
-        <source srcset="/assets/images/minsa-logo.svg" type="image/svg+xml">
-        <img src="/assets/images/minsa-logo.svg" alt="MINSA logo" height="36" style="display:block;" />
-      </picture>
-      <span class="brand-text" data-i18n="hospital">Hospital</span>
-    </a>
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-nav ms-auto align-items-center">
+<div class="app-shell">
+  <aside class="sidebar sidebar-custom">
+    <div class="sidebar-top d-flex align-items-center p-4">
+      <a class="navbar-brand d-flex flex-column align-items-center text-center" href="/">
+        <picture class="d-sm-none d-md-block d-lg-block" style="z-index:1000;">
+          <!-- prefer the SVG; PNG was converted to an embedded-SVG file -->
+          <source srcset="/assets/images/minsa-logo.svg" type="image/svg+xml">
+          <img src="/assets/images/minsa-logo.svg" alt="MINSA logo" height="36" style="display:block;" />
+        </picture>
+        <span class="brand-text mt-1" data-i18n="hospital">Hospital</span>
+      </a>
+      <button class="btn btn-sm btn-light d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarNav" aria-expanded="false" aria-label="Toggle menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+    <div class="collapse d-md-block" id="sidebarNav">
+      <ul class="nav flex-column px-2">
       <?php if (!empty($_SESSION['user'])): ?>
-          <li class="nav-item"><a class="nav-link" href="/dashboard.php"><i class="fa-solid fa-chart-line me-1"></i><span data-i18n="dashboard">Dashboard</span></a></li>
-          <li class="nav-item"><a class="nav-link" href="/patients.php"><i class="fa-solid fa-users me-1"></i><span data-i18n="patients">Patients</span></a></li>
-          <li class="nav-item"><a class="nav-link" href="/diagnostics.php"><i class="fa-solid fa-stethoscope me-1"></i><span data-i18n="diagnostics_title">Diagnostics</span></a></li>
-          <li class="nav-item"><a class="nav-link" href="/encounters.php"><i class="fa-solid fa-notes-medical me-1"></i><span data-i18n="encounters">Encounters</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="/dashboard.php"><i class="fa-solid fa-chart-line me-2"></i><span data-i18n="dashboard">Dashboard</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="/patients.php"><i class="fa-solid fa-users me-2"></i><span data-i18n="patients">Patients</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="/allergis.php"><i class="fa-solid fa-allergies me-2"></i><span data-i18n="allergies">Allergies</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="/diagnostics.php"><i class="fa-solid fa-stethoscope me-2"></i><span data-i18n="diagnostics_title">Diagnostics</span></a></li>
+          <li class="nav-item">
+            <a class="nav-link collapsed d-flex align-items-center" href="#examenesSubmenu" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="examenesSubmenu">
+              <i class="fa-solid fa-vials me-2"></i><span>Exámenes</span>
+              <i class="fa-solid fa-chevron-down ms-auto"></i>
+            </a>
+            <div class="collapse" id="examenesSubmenu">
+              <ul class="nav flex-column ps-4">
+                <li class="nav-item"><a class="nav-link" href="/examen.php">Exámenes</a></li>
+                <li class="nav-item"><a class="nav-link" href="/solicitud_de_examen.php">Solicitud de examen</a></li>
+                <li class="nav-item"><a class="nav-link" href="/radiologia.php">Radiología</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link collapsed d-flex align-items-center" href="#encountersSubmenu" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="encountersSubmenu">
+              <i class="fa-solid fa-notes-medical me-2"></i><span data-i18n="encounters">Encounters</span>
+              <i class="fa-solid fa-chevron-down ms-auto"></i>
+            </a>
+            <div class="collapse" id="encountersSubmenu">
+              <ul class="nav flex-column ps-4">
+                <li class="nav-item"><a class="nav-link" href="/encounters.php">Encounters</a></li>
+                <li class="nav-item"><a class="nav-link" href="/emergency.php">Emergency</a></li>
+              </ul>
+            </div>
+          </li>
           <?php if (!empty($_SESSION['user']['role']) && strtolower($_SESSION['user']['role'])==='admin'): ?>
-            <li class="nav-item"><a class="nav-link" href="/admin/users.php"><i class="fa-solid fa-user-shield me-1"></i><span data-i18n="admin_users">Admin</span></a></li>
-            <li class="nav-item"><a class="nav-link" href="/admin/data_manager.php"><i class="fa-solid fa-table-list me-1"></i><span data-i18n="data_manager_title">Data Manager</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="/admin/users.php"><i class="fa-solid fa-user-shield me-2"></i><span data-i18n="admin_users">Admin</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="/admin/data_manager.php"><i class="fa-solid fa-table-list me-2"></i><span data-i18n="data_manager_title">Data Manager</span></a></li>
           <?php endif; ?>
-          
-          <!-- User dropdown -->
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown mt-2">
             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fa-solid fa-user me-1"></i>
+              <i class="fa-solid fa-user me-2"></i>
               <span class="username"><?= htmlspecialchars($_SESSION['user']['username'], ENT_QUOTES) ?></span>
             </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="userDropdown">
               <li><a class="dropdown-item" href="/profile.php"><i class="fa-solid fa-user me-1"></i><span data-i18n="profile_title">Profile</span></a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="/logout.php"><i class="fa-solid fa-right-from-bracket me-1"></i><span data-i18n="logout">Logout</span></a></li>
             </ul>
           </li>
       <?php else: ?>
-        <li class="nav-item">
-          <a class="nav-link" href="/login.php" data-i18n="sign_in">Sign in</a>
-        </li>
-       <?php endif; ?>
-        <hr class="pl-2"/>   <i class="fa-solid fa-language"></i>
-        <li class="nav-item ms-2 d-inline">   
-          <select id="langSelect" class="form-select form-select-sm btn-acrylic">
-            <option value="en" class="btn-acrylic text-dark">EN</option>
-            <option value="es" class="btn-acrylic text-dark">ES</option>
-          </select>
-        </li>
+        <li class="nav-item gap-2 mr-auto"><a class="nav-link" href="/login.php" data-i18n="sign_in">Sign in</a></li>
+      <?php endif; ?>
       </ul>
     </div>
-  </div>
-</nav>
+  </aside>
+  <main class="main-content">
+    <div class="floating-lang-select shadow-sm rounded d-flex align-items-center gap-2 p-2">
+      <i class="fa-solid fa-language"></i>
+      <select id="langSelect" class="form-select form-select-sm">
+        <option value="en">EN</option>
+        <option value="es">ES</option>
+      </select>
+    </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', async () => {

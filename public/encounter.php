@@ -43,50 +43,52 @@ include __DIR__ . '/../templates/header.php';
 
   <div class="mb-3 col-4 row">
       <div class="input-group">  
-            <div class="label" data-i18n="encounters_NINNS">N° INNS:</div> 
+            <div class="label" data-i18n="encounters_inss">N° INSS:</div> 
             <input type="text" id="encNINNS" class="form-control" readonly> 
         </div>
   </div>
 
 
-  <div>
+  <div class="card">
     <div class="row mb-3">  
-        <div class="col-md-4">
-          <label for="encPatient" class="form-label" data-i18n="patient">Patient</label>
+      <div class="col-md-4">
+        <label for="encPatient" class="form-label" data-i18n="patient">Patient</label>
+        <div class="input-group">
           <select id="encPatient" name="patient_id" class="form-select" required></select>
-          <div class="invalid-feedback" id="encPatientError"></div>
-        </div> 
-        <div class="col-md-4">
-          <label for="encDate" class="form-label" data-i18n="encounters_date">Date</label>
-          <input type="datetime-local" class="form-control" id="encDate" name="encounter_date" required>
-          <div class="invalid-feedback" id="encDateError"></div>
+          <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#patientsListModal" data-i18n="search_patient">Buscar paciente</button>
         </div>
+        <div class="invalid-feedback" id="encPatientError"></div>
+      </div> 
+      <div class="col-md-4">
+        <label for="encDate" class="form-label" data-i18n="encounters_date">Date</label>
+        <input type="datetime-local" class="form-control" id="encDate" name="encounter_date" required>
+        <div class="invalid-feedback" id="encDateError"></div>
+      </div> 
+      <div class="col-md-4">
+        <label for="encType" class="form-label" data-i18n="encounters_type">Type</label>
+        <select class="form-select" id="encType" name="encounter_type" required>
+          <option value="" data-i18n="select_type">Select type</option>
+          <option value="outpatient" data-i18n="encounter_type_outpatient">Outpatient</option>
+          <option value="inpatient" data-i18n="encounter_type_inpatient">Inpatient</option>
+          <option value="emergency" data-i18n="encounter_type_emergency">Emergency</option>
+        </select>
+        <div class="invalid-feedback" id="encTypeError"></div>
       </div>
     </div>
- 
-    <div class="col-md-4">
-      <label for="encType" class="form-label" data-i18n="encounters_type">Type</label>
-      <select class="form-select" id="encType" name="encounter_type" required>
-        <option value="" data-i18n="select_type">Select type</option>
-        <option value="outpatient">Outpatient</option>
-        <option value="inpatient">Inpatient</option>
-        <option value="emergency">Emergency</option>
-      </select>
-      <div class="invalid-feedback" id="encTypeError"></div>
-    </div>
 
-    <div class="col-md-4">
+    <div class="row mb-3">
+    <div class="col-md-3">
       <label for="encTriage" class="form-label" data-i18n="triage_level">Triage Level</label>
       <select id="encTriage" name="triage_level" class="form-select">
         <option value="" data-i18n="select_triage">Select triage</option>
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
-        <option value="urgent">Urgent</option>
+        <option value="low" data-i18n="triage_low">Low</option>
+        <option value="medium" data-i18n="triage_medium">Medium</option>
+        <option value="high" data-i18n="triage_high">High</option>
+        <option value="urgent" data-i18n="triage_urgent">Urgent</option>
       </select>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-3">
       <label for="encStatus" class="form-label" data-i18n="encounters_status">Status</label>
       <select id="encStatus" name="status" class="form-select">
         <option value="open" data-i18n="status_open">Open</option>
@@ -98,23 +100,28 @@ include __DIR__ . '/../templates/header.php';
       <label for="encDoctor" class="form-label" data-i18n="encounters_doctor">Doctor</label>
       <select id="encDoctor" name="attending_user_id" class="form-select"></select>
     </div>
-
-    <div class="col-md-6">
+</div>
+<div class="row mb-3">
+    <div class="col-6">
       <label for="encReason" class="form-label" data-i18n="encounters_reason">Reason</label>
       <textarea class="form-control" id="encReason" name="reason_for_visit" rows="3"></textarea>
     </div>
 
-    <div class="col-12">
+    <div class="col-6">
       <label for="encNotes" class="form-label" data-i18n="notes">Notes</label>
       <textarea class="form-control" id="encNotes" name="notes" rows="3"></textarea>
     </div>
-
+</div>
+ 
+    </div>
     <div class="col-12 d-flex justify-content-end gap-2">
       <a href="/encounters.php" class="btn btn-secondary" data-i18n="cancel">Cancel</a>
       <button id="btnSaveEnc" class="btn btn-primary" type="submit"><i class="fa-solid fa-save me-1"></i><span data-i18n="save">Save</span></button>
     </div>
   </form>
 </div>
+
+<?php include __DIR__ . '/modal/patients_list_modal.php'; ?>
 
 <script>
 (function(){
@@ -124,6 +131,65 @@ include __DIR__ . '/../templates/header.php';
   const form = document.getElementById('encForm');
   const alertBox = document.getElementById('encAlert');
   let patientsData = [];
+  const patientsModal = document.getElementById('patientsListModal');
+  const patientsModalBody = document.querySelector('#patientsModalSelectionTable tbody');
+  const patientsModalMessage = document.getElementById('patientsModalMessage');
+  let patientModalInstance = null;
+
+  function setModalMessage(message, type = 'info') {
+    if (!patientsModalMessage) return;
+    patientsModalMessage.classList.remove('d-none', 'alert-success', 'alert-danger', 'alert-warning', 'alert-info');
+    patientsModalMessage.classList.add('alert-' + type);
+    patientsModalMessage.textContent = message;
+  }
+
+  function clearModalMessage() {
+    if (!patientsModalMessage) return;
+    patientsModalMessage.classList.add('d-none');
+    patientsModalMessage.textContent = '';
+  }
+
+  function formatPatientRow(patient) {
+    const name = `${patient.first_name} ${patient.last_name}`.trim();
+    return `
+      <tr>
+        <td>${patient.id}</td>
+        <td>${escapeHtml(name)}</td>
+        <td>${escapeHtml(patient.cedula || '')}</td>
+        <td>${escapeHtml(patient.dob || '')}</td>
+        <td>${escapeHtml(patient.email || '')}</td>
+        <td class="text-end"><button type="button" class="btn btn-sm btn-primary select-patient-btn" data-patient='${encodeURIComponent(JSON.stringify(patient))}'>Seleccionar</button></td>
+      </tr>`;
+  }
+
+  function selectPatient(patient) {
+    if (!patient) return;
+    document.getElementById('encPatient').value = patient.id;
+    updatePatientDisplay(patient);
+    if (patientModalInstance) {
+      patientModalInstance.hide();
+    }
+  }
+
+  function renderPatientsModal() {
+    if (!Array.isArray(patientsData) || !patientsData.length) {
+      patientsModalBody.innerHTML = '<tr><td colspan="6" class="text-center">No hay pacientes disponibles.</td></tr>';
+      return;
+    }
+
+    patientsModalBody.innerHTML = patientsData.map(formatPatientRow).join('');
+    patientsModalBody.querySelectorAll('.select-patient-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const patientJson = decodeURIComponent(button.getAttribute('data-patient') || '');
+        try {
+          const patient = JSON.parse(patientJson);
+          selectPatient(patient);
+        } catch (e) {
+          console.error(e);
+        }
+      });
+    });
+  }
 
   function setError(msg){
     if (!alertBox) return;
@@ -175,7 +241,10 @@ include __DIR__ . '/../templates/header.php';
     try {
       const res = await fetch('/api/patients_list.php', { credentials: 'same-origin' });
       const json = await res.json();
-      if (!json.success) return [];
+      if (!json.success) {
+        setModalMessage(t('error_loading_patients') || 'Error loading patients', 'danger');
+        return [];
+      }
       patientsData = Array.isArray(json.data) ? json.data : [];
       const sel = document.getElementById('encPatient');
       sel.innerHTML = `<option value="">${t('select_patient')||'Select patient'}</option>` +
@@ -184,8 +253,12 @@ include __DIR__ . '/../templates/header.php';
           return `<option value="${encodeURIComponent(p.id)}">${escapeHtml(name)}</option>`;
         }).join('');
       sel.addEventListener('change', refreshSelectedPatientDetails);
+      renderPatientsModal();
       return patientsData;
     } catch (e) {
+      if (patientsModalBody) {
+        patientsModalBody.innerHTML = `<tr><td colspan="6" class="text-center">${t('error_loading_patients') || 'Error cargando pacientes.'}</td></tr>`;
+      }
       return [];
     }
   }
@@ -277,6 +350,19 @@ include __DIR__ . '/../templates/header.php';
 
   Promise.all([loadPatients(), loadDoctors()]).then(()=>{
     if (encId) loadEncounter(encId);
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (patientsModal) {
+      patientModalInstance = new bootstrap.Modal(patientsModal);
+      patientsModal.addEventListener('show.bs.modal', () => {
+        if (!patientsData.length) {
+          loadPatients();
+        } else {
+          renderPatientsModal();
+        }
+      });
+    }
   });
 })();
 </script>

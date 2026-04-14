@@ -2,26 +2,29 @@
 
 namespace App\Controllers\Api;
 
-use App\Core\ApiResponse;
 use App\Models\EncounterModel;
+use App\Services\EncounterService;
 use Exception;
 
-class EncountersController
+class EncountersController extends BaseApiController
 {
-    public static function index(): void
+    private static function service(): EncounterService
     {
-        $model = new EncounterModel();
-        ApiResponse::success(['data' => $model->all()]);
+        return new EncounterService(new EncounterModel());
+    }
+
+    public static function index(array $query = []): void
+    {
+        self::success(['data' => self::service()->all($query)]);
     }
 
     public static function create(array $payload): void
     {
         try {
-            $model = new EncounterModel();
-            $id = $model->create($payload);
-            ApiResponse::success(['id' => $id]);
+            $id = self::service()->create($payload);
+            self::success(['id' => $id]);
         } catch (Exception $e) {
-            ApiResponse::fail($e->getMessage());
+            self::fail($e->getMessage());
         }
     }
 
@@ -29,15 +32,14 @@ class EncountersController
     {
         $id = (int)($payload['id'] ?? 0);
         if ($id <= 0) {
-            ApiResponse::fail('Missing id');
+            self::fail('Missing id');
         }
 
         try {
-            $model = new EncounterModel();
-            $model->update($id, $payload);
-            ApiResponse::success();
+            self::service()->update($id, $payload);
+            self::success();
         } catch (Exception $e) {
-            ApiResponse::fail($e->getMessage());
+            self::fail($e->getMessage());
         }
     }
 
@@ -45,15 +47,14 @@ class EncountersController
     {
         $id = (int)($payload['id'] ?? 0);
         if ($id <= 0) {
-            ApiResponse::fail('Missing id');
+            self::fail('Missing id');
         }
 
         try {
-            $model = new EncounterModel();
-            $model->delete($id);
-            ApiResponse::success();
+            self::service()->delete($id);
+            self::success();
         } catch (Exception $e) {
-            ApiResponse::fail($e->getMessage());
+            self::fail($e->getMessage());
         }
     }
 }

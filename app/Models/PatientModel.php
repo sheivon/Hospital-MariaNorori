@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use App\Core\Database;
-use Exception;
+use App\Interfaces\PatientRepositoryInterface;
 use PDO;
 
-class PatientModel
+class PatientModel implements PatientRepositoryInterface
 {
     private PDO $pdo;
     private ?bool $deletedAtExists = null;
@@ -27,7 +27,7 @@ class PatientModel
         return $this->deletedAtExists;
     }
 
-    public function all(): array
+    public function all(array $filters = []): array
     {
         $deletedWhere = $this->hasDeletedAt() ? ' WHERE deleted_at IS NULL' : '';
         $stmt = $this->pdo->query('SELECT id, first_name, last_name, email, cedula, dob, gender, phone, address, marital_status, insurance_provider, insurance_policy_no, father_name, mother_name, expediente_no, procedencia, education_level, employer, notes, created_at, updated_at FROM patients' . $deletedWhere . ' ORDER BY id DESC');
@@ -45,7 +45,6 @@ class PatientModel
 
     public function create(array $data): int
     {
-        $this->validate($data);
         $stmt = $this->pdo->prepare('INSERT INTO patients (first_name,last_name,email,cedula,dob,gender,phone,address,marital_status,insurance_provider,insurance_policy_no,father_name,mother_name,expediente_no,procedencia,education_level,employer,notes) VALUES (:fn,:ln,:email,:cedula,:dob,:gender,:phone,:address,:marital_status,:insurance_provider,:insurance_policy_no,:father_name,:mother_name,:expediente_no,:procedencia,:education_level,:employer,:notes)');
         $stmt->execute([
             ':fn' => $data['first_name'] ?? null,
@@ -72,7 +71,6 @@ class PatientModel
 
     public function update(int $id, array $data): bool
     {
-        $this->validate($data, $id);
         $stmt = $this->pdo->prepare('UPDATE patients SET first_name=:fn,last_name=:ln,email=:email,cedula=:cedula,dob=:dob,gender=:gender,phone=:phone,address=:address,marital_status=:marital_status,insurance_provider=:insurance_provider,insurance_policy_no=:insurance_policy_no,father_name=:father_name,mother_name=:mother_name,expediente_no=:expediente_no,procedencia=:procedencia,education_level=:education_level,employer=:employer,notes=:notes WHERE id=:id');
         return $stmt->execute([
             ':fn' => $data['first_name'] ?? null,
@@ -107,25 +105,18 @@ class PatientModel
         return $stmt->execute([':id' => $id]);
     }
 
-    private function validate(array $data, ?int $exceptId = null): void
+    public function findByCedula(string $cedula, ?int $exceptId = null): ?array
     {
-        $cedula = trim((string)($data['cedula'] ?? ''));
-        if ($cedula !== '') {
-            if ($exceptId) {
-                $stmt = $this->pdo->prepare('SELECT id FROM patients WHERE cedula = :ced AND id != :id AND deleted_at IS NULL LIMIT 1');
-                $stmt->execute([':ced' => $cedula, ':id' => $exceptId]);
-            } else {
-                $stmt = $this->pdo->prepare('SELECT id FROM patients WHERE cedula = :ced AND deleted_at IS NULL LIMIT 1');
-                $stmt->execute([':ced' => $cedula]);
-            }
-            if ($stmt->fetch()) {
-                throw new Exception('Cédula already in use');
-            }
+        $deletedWhere = $this->hasDeletedAt() ? ' AND deleted_at IS NULL' : '';
+        if ($exceptId !== null && $exceptId > 0) {
+            $stmt = $this->pdo->prepare('SELECT id FROM patients WHERE cedula = :cedula AND id != :id' . $deletedWhere . ' LIMIT 1');
+            $stmt->execute([':cedula' => $cedula, ':id' => $exceptId]);
+        } else {
+            $stmt = $this->pdo->prepare('SELECT id FROM patients WHERE cedula = :cedula' . $deletedWhere . ' LIMIT 1');
+            $stmt->execute([':cedula' => $cedula]);
         }
 
-        $email = trim((string)($data['email'] ?? ''));
-        if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new Exception('Invalid email');
-        }
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row ?: null;
     }
 }

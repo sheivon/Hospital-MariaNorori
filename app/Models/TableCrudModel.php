@@ -12,9 +12,11 @@ class TableCrudModel
 
     private array $tables = [
         'users' => ['pk' => 'id', 'label' => 'Users'],
+        'user_roles' => ['pk' => 'role_id', 'label' => 'User Roles', 'read_only' => true],
         'patients' => ['pk' => 'id', 'label' => 'Patients'],
         'patient_contacts' => ['pk' => 'id', 'label' => 'Patient Contacts'],
         'encounters' => ['pk' => 'id', 'label' => 'Encounters'],
+        'encounter_doctors' => ['pk' => 'id', 'label' => 'Encounter Doctors'],
         'patient_conditions' => ['pk' => 'id', 'label' => 'Patient Conditions'],
         'patient_allergies' => ['pk' => 'id', 'label' => 'Patient Allergies'],
         'diagnostics' => ['pk' => 'id', 'label' => 'Diagnostics'],
@@ -74,8 +76,18 @@ class TableCrudModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    private function ensureWritable(string $table): void
+    {
+        $meta = $this->tableMeta($table);
+
+        if (!empty($meta['read_only'])) {
+            throw new RuntimeException(sprintf('Table `%s` is read-only.', $table));
+        }
+    }
+
     public function createRow(string $table, array $payload): int
     {
+        $this->ensureWritable($table);
         $meta = $this->tableMeta($table);
         $columns = $this->editableColumns($table, false);
         $data = $this->sanitizeData($table, $payload, $columns);
@@ -100,6 +112,7 @@ class TableCrudModel
 
     public function updateRow(string $table, int $id, array $payload): void
     {
+        $this->ensureWritable($table);
         $meta = $this->tableMeta($table);
         $pk = $meta['pk'];
         $columns = $this->editableColumns($table, true);
@@ -130,6 +143,7 @@ class TableCrudModel
 
     public function softDelete(string $table, int $id): void
     {
+        $this->ensureWritable($table);
         $meta = $this->tableMeta($table);
         $pk = $meta['pk'];
         if ($this->hasDeletedAt($table)) {

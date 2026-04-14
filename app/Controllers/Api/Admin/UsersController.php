@@ -1,34 +1,44 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controllers\Api\Admin;
 
-use App\Core\ApiResponse;
 use App\Core\Auth;
-use App\Models\UserRoleModel;
+use App\Controllers\Api\BaseApiController;
+use App\Services\Admin\UserService;
 use App\Models\UserModel;
+use App\Models\UserRoleModel;
 use Throwable;
 
-class UsersController
+class UsersController extends BaseApiController
 {
+    private static function service(): UserService
+    {
+        return new UserService(new UserModel(), new UserRoleModel());
+    }
+
     public static function roles(): void
     {
         Auth::requireRole('admin');
+
         try {
-            $roles = (new UserRoleModel())->all();
-            ApiResponse::success(['data' => $roles]);
+            $roles = self::service()->getRoles();
+            self::success(['data' => $roles]);
         } catch (Throwable $e) {
-            ApiResponse::fail($e->getMessage());
+            self::fail($e->getMessage());
         }
     }
 
     public static function index(): void
     {
         Auth::requireRole('admin');
+
         try {
-            $rows = (new UserModel())->listAdminUsers();
-            ApiResponse::success(['data' => $rows]);
+            $rows = self::service()->listUsers();
+            self::success(['data' => $rows]);
         } catch (Throwable $e) {
-            ApiResponse::fail($e->getMessage());
+            self::fail($e->getMessage());
         }
     }
 
@@ -36,35 +46,11 @@ class UsersController
     {
         Auth::requireRole('admin');
 
-        $username = trim((string)($payload['username'] ?? ''));
-        $password = (string)($payload['password'] ?? '');
-        $fullname = trim((string)($payload['fullname'] ?? ''));
-        $cedula = trim((string)($payload['cedula'] ?? ''));
-        $role = strtolower(trim((string)($payload['role'] ?? 'user')));
-        $specialty = trim((string)($payload['specialty'] ?? ''));
-        $department = trim((string)($payload['department'] ?? ''));
-        if ($username === '' || $password === '') {
-            ApiResponse::fail('Username and password required');
-        }
-
-        $roleModel = new UserRoleModel();
-        if (!$roleModel->exists($role)) {
-            ApiResponse::fail('Invalid role');
-        }
-
         try {
-            $userModel = new UserModel();
-            if ($userModel->usernameExists($username)) {
-                ApiResponse::fail('Username already taken');
-            }
-            if ($cedula !== '' && $userModel->cedulaExists($cedula)) {
-                ApiResponse::fail('Cédula already in use');
-            }
-
-            $id = $userModel->create($username, $password, $fullname, $cedula, $role, $specialty, $department);
-            ApiResponse::success(['id' => $id]);
+            $id = self::service()->createUser($payload);
+            self::success(['id' => $id]);
         } catch (Throwable $e) {
-            ApiResponse::fail($e->getMessage());
+            self::fail($e->getMessage());
         }
     }
 
@@ -73,50 +59,14 @@ class UsersController
         Auth::requireRole('admin');
 
         $id = (int)($payload['id'] ?? 0);
-        if ($id <= 0) {
-            ApiResponse::fail('Missing id');
-        }
-
-        $username = trim((string)($payload['username'] ?? ''));
-        $password = (string)($payload['password'] ?? '');
-        $fullname = trim((string)($payload['fullname'] ?? ''));
-        $cedula = trim((string)($payload['cedula'] ?? ''));
-        $role = strtolower(trim((string)($payload['role'] ?? 'user')));
-        $specialty = trim((string)($payload['specialty'] ?? ''));
-        $department = trim((string)($payload['department'] ?? ''));
-
-        $roleModel = new UserRoleModel();
-        if (!$roleModel->exists($role)) {
-            ApiResponse::fail('Invalid role');
-        }
-
         $me = Auth::currentUser();
-        if ($me && (int)$me['id'] === $id && $role !== 'admin') {
-            ApiResponse::fail('Cannot remove your own admin role');
-        }
+        $currentUserId = $me ? (int)$me['id'] : 0;
 
         try {
-            $userModel = new UserModel();
-            if (!$userModel->findById($id)) {
-                ApiResponse::fail('User not found');
-            }
-
-            if ($username !== '' && $userModel->usernameExists($username, $id)) {
-                ApiResponse::fail('Username already taken');
-            }
-            if ($cedula !== '' && $userModel->cedulaExists($cedula, $id)) {
-                ApiResponse::fail('Cédula already in use');
-            }
-
-            $fields = ['fullname' => $fullname, 'cedula' => $cedula, 'role' => $role, 'specialty' => $specialty, 'department' => $department];
-            if ($username !== '') {
-                $fields['username'] = $username;
-            }
-
-            $userModel->update($id, $fields, $password);
-            ApiResponse::success();
+            self::service()->updateUser($id, $payload, $currentUserId);
+            self::success();
         } catch (Throwable $e) {
-            ApiResponse::fail($e->getMessage());
+            self::fail($e->getMessage());
         }
     }
 
@@ -125,30 +75,14 @@ class UsersController
         Auth::requireRole('admin');
 
         $id = (int)($payload['id'] ?? 0);
-        if ($id <= 0) {
-            ApiResponse::fail('Missing id');
-        }
-
         $me = Auth::currentUser();
-        if ($me && (int)$me['id'] === $id) {
-            ApiResponse::fail('Cannot delete your own account');
-        }
+        $currentUserId = $me ? (int)$me['id'] : 0;
 
         try {
-            $userModel = new UserModel();
-            $target = $userModel->findById($id);
-            if (!$target) {
-                ApiResponse::fail('User not found');
-            }
-
-            if (strtolower((string)($target['role'] ?? 'user')) === 'admin' && $userModel->countAdmins() <= 1) {
-                ApiResponse::fail('Cannot delete the last admin');
-            }
-
-            $userModel->delete($id);
-            ApiResponse::success();
+            self::service()->deleteUser($id, $currentUserId);
+            self::success();
         } catch (Throwable $e) {
-            ApiResponse::fail($e->getMessage());
+            self::fail($e->getMessage());
         }
     }
 }

@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use App\Core\Database;
+use App\Interfaces\RepositoryInterface;
 use PDO;
 
-class EncounterModel
+class EncounterModel implements RepositoryInterface
 {
     private PDO $pdo;
 
@@ -14,15 +15,29 @@ class EncounterModel
         $this->pdo = Database::pdo();
     }
 
-    public function all(): array
+    public function all(array $filters = []): array
     {
-        $stmt = $this->pdo->query(
-            'SELECT e.*, p.first_name AS patient_first_name, p.last_name AS patient_last_name, u.fullname AS attending_name
+        $sql = 'SELECT e.*, p.first_name AS patient_first_name, p.last_name AS patient_last_name, u.fullname AS attending_name
              FROM encounters e
              LEFT JOIN patients p ON p.id = e.patient_id
              LEFT JOIN users u ON u.id = e.attending_user_id
-             WHERE e.deleted_at IS NULL
-             ORDER BY e.encounter_date DESC');
+             WHERE e.deleted_at IS NULL';
+        $params = [];
+
+        if (!empty($filters['patient_id'])) {
+            $sql .= ' AND e.patient_id = :patient_id';
+            $params[':patient_id'] = (int)$filters['patient_id'];
+        }
+
+        if (!empty($filters['attending_user_id'])) {
+            $sql .= ' AND e.attending_user_id = :attending_user_id';
+            $params[':attending_user_id'] = (int)$filters['attending_user_id'];
+        }
+
+        $sql .= ' ORDER BY e.encounter_date DESC';
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

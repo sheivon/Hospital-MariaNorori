@@ -36,81 +36,78 @@ include __DIR__ . '/../templates/header.php';
 </div>
 
 <script>
-(function(){
+document.addEventListener('DOMContentLoaded', function(){
   const t = window.i18n_t || (k=>k);
 
   function escapeHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-  async function loadEncounters(){
-    const tbl = document.querySelector('#encountersTable tbody');
-    tbl.innerHTML = `<tr><td colspan="7">${t('loading')||'Loading...'}</td></tr>`;
-
-    try {
-      const res = await fetch('/api/encounters_list.php', { credentials: 'same-origin' });
-      const json = await res.json();
-      if (!json.success){
-        tbl.innerHTML = `<tr><td colspan="7">${escapeHtml(json.error || t('error') || 'Error')}</td></tr>`;
-        return;
+  const table = $('#encountersTable').DataTable({
+    dom: 'Bfrtip',
+    buttons: [
+      { extend: 'copy', exportOptions: { columns: ':not(:last-child)' } },
+      { extend: 'csv', exportOptions: { columns: ':not(:last-child)' } },
+      { extend: 'excel', exportOptions: { columns: ':not(:last-child)' } },
+      { extend: 'pdf', exportOptions: { columns: ':not(:last-child)' } },
+      { extend: 'print', exportOptions: { columns: ':not(:last-child)' } }
+    ],
+    ajax: {
+      url: '/api/encounters_list.php',
+      dataSrc: function(json){
+        if (!json || !json.success || !Array.isArray(json.data)){
+          swal({ title: '', text: t('error') || 'Error loading encounters', icon: 'error' });
+          return [];
+        }
+        return json.data;
       }
-
-      const rows = Array.isArray(json.data) ? json.data : [];
-      if (rows.length === 0){
-        tbl.innerHTML = `<tr><td colspan="7">${t('no_data')||'No data'}</td></tr>`;
-        return;
-      }
-
-      tbl.innerHTML = '';
-      rows.forEach((r,i)=>{
-        const tr = document.createElement('tr');
-        const patient = `${escapeHtml(r.patient_first_name||'')} ${escapeHtml(r.patient_last_name||'')}`.trim();
-        tr.innerHTML = `
-          <td>${i+1}</td>
-          <td>${patient}</td>
-          <td>${escapeHtml(r.encounter_date||'')}</td>
-          <td>${escapeHtml(r.encounter_type||'')}</td>
-          <td>${escapeHtml(r.triage_level||'')}</td>
-          <td>${escapeHtml(r.status||'')}</td>
-          <td>${escapeHtml(r.attending_name||'')}</td>
-          <td>
-            <div class="btn-group" role="group">
-              <button class="btn btn-sm btn-primary btn-edit" data-id="${r.id}"><i class="fa-solid fa-pen-to-square"></i></button>
-              <button class="btn btn-sm btn-danger btn-del" data-id="${r.id}"><i class="fa-solid fa-trash"></i></button>
-            </div>
-          </td>
-        `;
-        tbl.appendChild(tr);
-      });
-    } catch (e) {
-      tbl.innerHTML = `<tr><td colspan="7">${t('error')||'Error'}</td></tr>`;
-    }
-  }
-
-  document.querySelector('#encountersTable tbody').addEventListener('click', e=>{
-    const btn = e.target.closest('button');
-    if (!btn) return;
-    const id = btn.dataset.id;
-    if (btn.classList.contains('btn-edit')){
-      window.location.href = '/encounter.php?id=' + encodeURIComponent(id);
-      return;
-    }
-    if (btn.classList.contains('btn-del')){
-      if (!confirm(t('delete_confirm') || 'Delete?')) return;
-      fetch('/api/encounters_delete.php', { method:'POST', credentials:'same-origin', body: new URLSearchParams({ id }) })
-        .then(r=>r.json()).then(j=>{ if (j.success) loadEncounters(); else alert(j.error||t('error')||'Error'); });
-    }
+    },
+    columns: [
+      { data: null, render: (data, type, row, meta) => meta.row + 1 },
+      { data: null, render: row => escapeHtml(`${row.patient_first_name || ''} ${row.patient_last_name || ''}`.trim()) },
+      { data: 'encounter_date', render: d => escapeHtml(d || '') },
+      { data: 'encounter_type', render: d => escapeHtml(d || '') },
+      { data: 'triage_level', render: d => escapeHtml(d || '') },
+      { data: 'status', render: d => escapeHtml(d || '') },
+      { data: 'attending_name', render: d => escapeHtml(d || '') },
+      { data: 'id', orderable: false, searchable: false, className: 'text-center', render: id => `
+          <div class="btn-group" role="group">
+            <button class="btn btn-sm btn-primary btn-edit" data-id="${id}"><i class="fa-solid fa-pen-to-square"></i></button>
+            <button class="btn btn-sm btn-danger btn-del" data-id="${id}"><i class="fa-solid fa-trash"></i></button>
+          </div>` }
+    ],
+    responsive: true,
+    lengthMenu: [10, 25, 50, 100]
   });
 
-  const btnPrintEncounters = document.getElementById('btnPrintEncounters');
-  if (btnPrintEncounters) {
-    btnPrintEncounters.addEventListener('click', () => {
-      const table = document.getElementById('encountersTable');
-      if (!table) return alert(t('no_table_to_print') || 'No table to print');
-      window.open('/print.php?resource=encounters', '_blank');
-    });
-  }
+  $('#encountersTable tbody').on('click', 'button.btn-edit', function(){
+    const id = $(this).data('id');
+    if (!id) return;
+    window.location.href = '/encounter.php?id=' + encodeURIComponent(id);
+  });
 
-  loadEncounters();
-})();
+  $('#encountersTable tbody').on('click', 'button.btn-del', function(){
+    const id = $(this).data('id');
+    if (!id) return;
+    swal({ title: t('delete_confirm') || 'Delete?', icon: 'warning', buttons: [t('cancel')||'Cancel', t('confirm_yes')||'Yes'], dangerMode: true })
+      .then(async confirmed => {
+        if (!confirmed) return;
+        try {
+          const res = await fetch('/api/encounters_delete.php', { method: 'POST', credentials: 'same-origin', body: new URLSearchParams({ id }) });
+          const json = await res.json();
+          if (json.success) {
+            table.ajax.reload(null, false);
+          } else {
+            swal({ title: '', text: json.error || t('error') || 'Error', icon: 'error' });
+          }
+        } catch (err) {
+          swal({ title: '', text: err.message || t('error') || 'Error', icon: 'error' });
+        }
+      });
+  });
+
+  $('#btnPrintEncounters').on('click', function(){
+    window.open('/print.php?resource=encounters', '_blank');
+  });
+});
 </script>
 
 <?php include __DIR__ . '/../templates/footer.php'; ?>

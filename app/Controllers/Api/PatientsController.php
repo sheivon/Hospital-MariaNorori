@@ -2,58 +2,84 @@
 
 namespace App\Controllers\Api;
 
-use App\Core\ApiResponse;
+use App\Core\Auth;
 use App\Models\PatientModel;
+use App\Services\PatientService;
 use Exception;
 
-class PatientsController
+class PatientsController extends BaseApiController
 {
+    private static function service(): PatientService
+    {
+        return new PatientService(new PatientModel());
+    }
+
     public static function index(): void
     {
-        $model = new PatientModel();
-        ApiResponse::success(['data' => $model->all()]);
+        Auth::requireLogin();
+        $service = self::service();
+        self::success(['data' => $service->getAllPatients()]);
     }
 
     public static function create(array $payload): void
     {
+        Auth::requireLogin();
         try {
-            $model = new PatientModel();
-            $id = $model->create($payload);
-            ApiResponse::success(['id' => $id]);
+            $service = self::service();
+            $id = $service->createPatient($payload);
+            self::success(['id' => $id]);
         } catch (Exception $e) {
-            ApiResponse::fail($e->getMessage());
+            self::fail($e->getMessage());
         }
     }
 
     public static function update(array $payload): void
     {
+        Auth::requireLogin();
         $id = (int)($payload['id'] ?? 0);
         if ($id <= 0) {
-            ApiResponse::fail('Missing id');
+            self::fail('Missing id');
         }
 
         try {
-            $model = new PatientModel();
-            $model->update($id, $payload);
-            ApiResponse::success();
+            $service = self::service();
+            $service->updatePatient($id, $payload);
+            self::success();
         } catch (Exception $e) {
-            ApiResponse::fail($e->getMessage());
+            self::fail($e->getMessage());
         }
+    }
+
+    public static function show(array $query): void
+    {
+        Auth::requireLogin();
+        $id = (int)($query['id'] ?? 0);
+        if ($id <= 0) {
+            self::fail('Missing id');
+        }
+
+        $patient = self::service()->getPatient($id);
+        if ($patient === null) {
+            self::fail('Patient not found');
+        }
+
+        self::success(['patient' => $patient]);
     }
 
     public static function delete(array $payload): void
     {
+        Auth::requireLogin();
         $id = (int)($payload['id'] ?? 0);
         if ($id <= 0) {
-            ApiResponse::fail('Missing id');
+            self::fail('Missing id');
         }
 
         try {
-            $model = new PatientModel();
-            $model->delete($id);
-            ApiResponse::success();
+            $service = self::service();
+            $service->deletePatient($id);
+            self::success();
         } catch (Exception $e) {
-            ApiResponse::fail($e->getMessage());
+            self::fail($e->getMessage());
         }
     }
 }

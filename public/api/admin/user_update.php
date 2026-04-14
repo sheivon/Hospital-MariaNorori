@@ -4,4 +4,5 @@ require_once __DIR__ . '/../../../app/bootstrap.php';
 
 use App\Controllers\Api\Admin\UsersController;
 
-UsersController::update($_POST);
+$payload = $_POST ?: json_decode(file_get_contents('php://input'), true) ?: [];
+UsersController::update($payload);

@@ -1,92 +1,96 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controllers\Api\Admin;
 
-use App\Core\ApiResponse;
 use App\Core\Auth;
+use App\Controllers\Api\BaseApiController;
+use App\Services\Admin\TableCrudService;
 use App\Models\TableCrudModel;
 use Throwable;
 
-class TableCrudController
+class TableCrudController extends BaseApiController
 {
+    private static function service(): TableCrudService
+    {
+        return new TableCrudService(new TableCrudModel());
+    }
+
     public static function meta(): void
     {
         Auth::requireRole('admin');
+
         try {
-            $model = new TableCrudModel();
-            ApiResponse::success(['tables' => $model->listTables()]);
+            self::success(['tables' => self::service()->listTables()]);
         } catch (Throwable $e) {
-            ApiResponse::fail($e->getMessage());
+            self::fail($e->getMessage());
         }
     }
 
     public static function rows(array $query): void
     {
         Auth::requireRole('admin');
-        $table = (string)($query['table'] ?? '');
-        $limit = (int)($query['limit'] ?? 200);
+        $table = trim((string)($query['table'] ?? ''));
+        $limit = max(1, min(500, (int)($query['limit'] ?? 200)));
 
         try {
-            $model = new TableCrudModel();
-            $columns = $model->describe($table);
-            $rows = $model->listRows($table, $limit);
-            ApiResponse::success(['columns' => $columns, 'rows' => $rows]);
+            $columns = self::service()->describe($table);
+            $rows = self::service()->listRows($table, $limit);
+            self::success(['columns' => $columns, 'rows' => $rows]);
         } catch (Throwable $e) {
-            ApiResponse::fail($e->getMessage());
+            self::fail($e->getMessage());
         }
     }
 
     public static function create(array $payload): void
     {
         Auth::requireRole('admin');
-        $table = (string)($payload['table'] ?? '');
+        $table = trim((string)($payload['table'] ?? ''));
         $data = is_array($payload['data'] ?? null) ? $payload['data'] : [];
 
         try {
-            $model = new TableCrudModel();
-            $id = $model->createRow($table, $data);
-            ApiResponse::success(['id' => $id]);
+            $id = self::service()->createRow($table, $data);
+            self::success(['id' => $id]);
         } catch (Throwable $e) {
-            ApiResponse::fail($e->getMessage());
+            self::fail($e->getMessage());
         }
     }
 
     public static function update(array $payload): void
     {
         Auth::requireRole('admin');
-        $table = (string)($payload['table'] ?? '');
+        $table = trim((string)($payload['table'] ?? ''));
         $id = (int)($payload['id'] ?? 0);
         $data = is_array($payload['data'] ?? null) ? $payload['data'] : [];
 
         if ($id <= 0) {
-            ApiResponse::fail('Missing id');
+            self::fail('Missing id');
         }
 
         try {
-            $model = new TableCrudModel();
-            $model->updateRow($table, $id, $data);
-            ApiResponse::success();
+            self::service()->updateRow($table, $id, $data);
+            self::success();
         } catch (Throwable $e) {
-            ApiResponse::fail($e->getMessage());
+            self::fail($e->getMessage());
         }
     }
 
     public static function delete(array $payload): void
     {
         Auth::requireRole('admin');
-        $table = (string)($payload['table'] ?? '');
+        $table = trim((string)($payload['table'] ?? ''));
         $id = (int)($payload['id'] ?? 0);
 
         if ($id <= 0) {
-            ApiResponse::fail('Missing id');
+            self::fail('Missing id');
         }
 
         try {
-            $model = new TableCrudModel();
-            $model->softDelete($table, $id);
-            ApiResponse::success();
+            self::service()->softDelete($table, $id);
+            self::success();
         } catch (Throwable $e) {
-            ApiResponse::fail($e->getMessage());
+            self::fail($e->getMessage());
         }
     }
 }
