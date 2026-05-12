@@ -1,116 +1,153 @@
-# Centro Salud Patient Records (PHP + MySQL)
+# Hospital Management System (PHP + MySQL)
 
-Centro Salud management starter application built with PHP, PDO, Bootstrap, DataTables, and AJAX.
+Hospital web application built with PHP, PDO, Bootstrap, and a modular controller/service/repository architecture.
 
-## Features
+## Start Here (Beginner Friendly)
 
-- Authentication and role-based access.
-- Patient management (create, update, soft delete).
-- Diagnostics module.
-- Admin user management.
-- Generic admin data manager for CRUD across Centro Salud tables.
-- Bilingual UI (English / Spanish).
+If this is your first time in this codebase, follow this exact order:
 
-## Requirements
+1. Run the app locally (see Quick Start below).
+2. Open one page in the browser, for example `/pacientes.php`.
+3. Find its page entrypoint in `public/` and read it top-to-bottom.
+4. Find the API endpoint used by that page in `public/api/`.
+5. Follow the call chain into:
+   - `app/Controllers/Api/`
+   - `app/Services/` (if used)
+   - `app/Repositories/`
 
-- PHP 8.0+ (recommended)
-- MySQL / MariaDB
-- `pdo_mysql` PHP extension enabled
-- Windows + PowerShell scripts are included, but app runs on any OS with PHP/MySQL
+This is the fastest way to understand "how things work" in this project.
 
 ## Quick Start
 
-1. Configure DB credentials in environment variables or `.env` file (`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASS`).
-2. Start the local server:
+### Requirements
+
+- PHP 8.0+
+- MySQL / MariaDB
+- PHP extensions: `pdo`, `pdo_mysql`
+
+### Run
 
 ```powershell
 .\run.ps1
 ```
 
-3. Open setup page and initialize schema/data:
+Alternative:
 
-- http://localhost:8000/setup.php
+```cmd
+run.cmd
+```
 
-Use **Initialize Database** to create DB, run schema, and seed default users.
+Then open:
 
-## Database
+- `http://localhost:8000/setup.php`
 
-- Baseline schema: `migrations/init.sql`
-- Setup MVC flow:
-  - `app/Controllers/SetupController.php`
-  - `app/Models/SetupModel.php`
-  - `public/setup.php`
+Use setup to initialize schema and seed data.
 
-## Project Structure
+## What To Edit (Rule of Thumb)
+
+- New page UI behavior: `public/assets/js/`
+- New API route wrapper: `public/api/`
+- Request validation and orchestration: `app/Controllers/Api/`
+- Business rules: `app/Services/`
+- SQL/data access: `app/Repositories/`
+- Shared HTML partials/layout: `app/Views/Shared/` and `templates/`
+
+Keep `public/*.php` and `public/api/*.php` thin. Put real logic in controllers, services, and repositories.
+
+## Project Map
 
 ```text
 hospital/
-├─ app/
-│  ├─ Core/                 # DB connection, auth/session, API response helpers
-│  ├─ Controllers/          # MVC controllers and request orchestration
-│  │  ├─ Api/               # API controller classes
-│  │  └─ SetupController.php
-│  ├─ Services/             # Business logic services
-│  │  ├─ Admin/             # Admin-specific service classes
-│  │  └─ PrintService.php
-│  ├─ Interfaces/           # Repository and service interface contracts
-│  ├─ Entities/             # Domain entities / value objects
-│  ├─ Helpers/              # OOP helper classes for shared logic and compatibility
-│  ├─ Models/               # Repository-style DB access models
-│  └─ bootstrap.php         # Autoload/bootstrap
-├─ config/
-│  └─ db.php                # PDO bootstrap (delegates to app/Core/Database)
-├─ docs/
-│  └─ ARCHITECTURE.md       # Architecture and entity relationships
-├─ migrations/
-│  └─ init.sql              # Baseline schema
-├─ public/
-│  ├─ index.php             # Landing/dashboard summary
-│  ├─ pacientes.php         # Pacientes view
-│  ├─ diagnostics.php       # Diagnostics view
-│  ├─ tests.php             # Tests view
-│  ├─ setup.php             # DB setup UI
-│  ├─ admin/
-│  │  ├─ users.php          # User administration
-│  │  └─ data_manager.php   # Generic CRUD manager
-│  ├─ api/                  # Thin API entrypoints to MVC controllers
-│  │  └─ admin/             # Admin API wrappers
-│  └─ assets/               # JS, CSS, i18n, vendor assets
-├─ scripts/                 # Utility scripts (admin creation, checks, etc.)
-├─ src/                     # Legacy compatibility wrappers (deprecated)
-├─ templates/               # Shared header/footer/modals
-├─ run.ps1                  # Start development server
-└─ push.ps1                 # Stage/commit/push helper
+|- app/
+|  |- bootstrap.php            (autoload and app bootstrap)
+|  |- Core/                    (Database, Auth, Router, ApiResponse)
+|  |- Controllers/             (HTTP orchestration)
+|  |  `- Api/
+|  |- Services/                (business workflows)
+|  |- Repositories/            (SQL and persistence)
+|  |- Interfaces/              (contracts)
+|  |- Helpers/                 (shared helpers)
+|  |- Modules/                 (module registration/navigation)
+|  |- Views/                   (templates)
+|  |  |- Pages/
+|  |  `- Shared/
+|  |- ViewModels/              (view-specific shaping)
+|  |- Domain/                  (domain-centric classes)
+|  `- Infrastructure/          (technical adapters)
+|- public/
+|  |- *.php                    (web entrypoints)
+|  |- api/                     (API wrappers)
+|  |- admin/
+|  |- assets/
+|  |- modal/
+|  `- wwwroot/
+|- migrations/
+|  `- init.sql                 (baseline schema)
+|- scripts/                    (maintenance scripts)
+|- templates/                  (compatibility wrappers)
+|- docs/
+|  `- ARCHITECTURE.md
+|- config/
+|  `- db.php
+|- run.ps1 / run.cmd
+|- build.ps1
+`- push.ps1
 ```
 
-## Notes
+## Request Flow (Simple Version)
 
-- Soft delete is enforced in key modules using `deleted_at`.
-- Role values are sourced from `user_roles`.
-- For architecture details, see `docs/ARCHITECTURE.md`.
+For API calls:
 
-## Theme / Branding
+1. Browser calls `/api/<feature>_<action>.php`.
+2. Endpoint loads `app/bootstrap.php`.
+3. Endpoint calls controller in `app/Controllers/Api/`.
+4. Controller validates/authenticates and calls service/repository.
+5. Controller returns JSON using `App\Core\ApiResponse`.
 
-The UI uses an application color palette that matches the hospital logo and navbar:
+For page loads:
 
-- Primary: `#0b5ed7` (blue)
-- Secondary: `#2d9f6c` (green)
-- Accent: `#f7b500` (yellow)
-- Dark text: `#1f2937`
-- Border: `#cbd5e1`
-- Background hue: `#f1f5f9`
+1. Browser requests `public/<page>.php`.
+2. Page checks auth with `App\Core\Auth`.
+3. Page includes shared layout fragments.
+4. JavaScript calls API endpoints for dynamic data.
 
-DataTables components are themed with the same palette:
+## Naming Conventions
 
-- Headers: gradient from primary to secondary
-- Action buttons (pagination): primary background when active
-- Row hover: subtle primary tint
-- Controls (filter + length selector): brand border and rounded corners
+- API endpoint: `<feature>_<action>.php`
+  - Example: `encounters_list.php`
+- API controller: `<FeaturePlural>Controller`
+  - Example: `PatientsController`
+- Repository: `<Feature>Repository`
+  - Example: `EncounterRepository`
+- Service: `<Feature>Service`
+  - Example: `PatientService`
 
-## Security
+## Common Beginner Tasks
 
-- Do not expose `setup.php` in production.
-- Use strong credentials and HTTPS.
-- Add CSRF protection and stricter validation before production use.
+### Add a New API Action
+
+1. Create wrapper file in `public/api/`.
+2. Add method to the correct controller in `app/Controllers/Api/`.
+3. Add/update service logic in `app/Services/` (if needed).
+4. Add/update SQL access in `app/Repositories/`.
+5. Return consistent JSON (`success`, `data`, `message`) via `ApiResponse`.
+
+### Add a New Page Field
+
+1. Update HTML in page entry or shared partial.
+2. Update JS request payload in `public/assets/js/`.
+3. Update controller validation.
+4. Update repository SQL and schema if required.
+
+## Security Notes
+
+- Do not expose setup tooling in production.
+- Enforce HTTPS and strong credentials.
+- Add CSRF and stricter validation before production deployment.
+
+## Additional Documentation
+
+- Beginner onboarding: `docs/BEGINNER_GUIDE.md`
+- Detailed architecture: `docs/ARCHITECTURE.md`
 
 

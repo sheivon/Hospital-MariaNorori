@@ -2,12 +2,13 @@
 
 namespace App\Services;
 
-use App\Models\DiagnosticoModel;
+use App\Repositories\DiagnosticoRepository;
 
 class DiagnosticService extends BaseService
 {
-    public function __construct(DiagnosticoModel $repository)
+    public function __construct(DiagnosticoRepository $repository)
     {
         parent::__construct($repository);
     }
 }
+

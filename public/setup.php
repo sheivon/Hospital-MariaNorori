@@ -4,8 +4,8 @@ require_once __DIR__ . '/../app/bootstrap.php';
 use App\Controllers\SetupController;
 
 $message = '';
-$setupModel = new \App\Models\SetupModel();
-$config = $setupModel->loadConfig();
+$setupRepository = new \App\Repositories\SetupRepository();
+$config = $setupRepository->loadConfig();
 
 // Persist posted values in the form (so users can test without losing inputs)
 $posted = array_merge($config, $_POST);
@@ -46,7 +46,16 @@ include __DIR__ . '/../templates/header.php';
         </div>
     <?php endif; ?>
 
-    <form method="post">
+    <div id="setupAlert" class="alert d-none" role="status"></div>
+
+    <div id="setupOverlay" class="d-none" style="position:fixed;inset:0;background:rgba(255,255,255,0.82);z-index:1050;display:flex;align-items:center;justify-content:center;">
+        <div class="text-center p-4 rounded shadow bg-white border">
+            <div class="spinner-border text-primary" role="status" aria-hidden="true"></div>
+            <div id="setupOverlayText" class="mt-3">Please wait while the action completes...</div>
+        </div>
+    </div>
+
+    <form method="post" id="setupForm">
         <div class="card mb-3">
             <div class="card-body">
                 <h5>Database Connection</h5>
@@ -122,4 +131,95 @@ include __DIR__ . '/../templates/header.php';
     </div>
 </form>
 </div>
+<script>
+(function() {
+    const form = document.getElementById('setupForm');
+    const alertBox = document.getElementById('setupAlert');
+    const overlay = document.getElementById('setupOverlay');
+    const overlayText = document.getElementById('setupOverlayText');
+    const buttons = Array.from(form.querySelectorAll('button[type="submit"]'));
+    let lastSubmitName = null;
+
+    function escapeHtml(value) {
+        return String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function setAlert(type, content) {
+        alertBox.className = `alert alert-${type}`;
+        alertBox.innerHTML = `<pre class="mb-0">${escapeHtml(content)}</pre>`;
+        alertBox.classList.remove('d-none');
+    }
+
+    function clearAlert() {
+        alertBox.classList.add('d-none');
+        alertBox.innerHTML = '';
+    }
+
+    function setLoading(active, message) {
+        if (active) {
+            overlayText.textContent = message || 'Please wait while the action completes...';
+            overlay.classList.remove('d-none');
+            buttons.forEach(btn => btn.disabled = true);
+        } else {
+            overlay.classList.add('d-none');
+            buttons.forEach(btn => btn.disabled = false);
+        }
+    }
+
+    form.addEventListener('click', function(event) {
+        const button = event.target.closest('button[type="submit"]');
+        if (button) {
+            lastSubmitName = button.name;
+        }
+    });
+
+    form.addEventListener('submit', async function(event) {
+        const submitter = event.submitter || (event.target && event.target.querySelector('button[type="submit"][name]'));
+        const actionName = submitter && submitter.name ? submitter.name : lastSubmitName;
+        if (!actionName) {
+            return;
+        }
+
+        event.preventDefault();
+        clearAlert();
+        setLoading(true, `Running ${actionName.replace(/_/g, ' ')}...`);
+
+        const formData = new FormData(form);
+        formData.set(actionName, '1');
+
+        const payload = {};
+        formData.forEach((value, key) => {
+            payload[key] = value;
+        });
+
+        try {
+            const response = await fetch('/api/setup_action.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            });
+
+            const json = await response.json();
+            if (!response.ok) {
+                throw new Error(json.error || json.message || 'Server error');
+            }
+
+            if (json.success) {
+                setAlert('success', json.messages.join('\n'));
+            } else {
+                setAlert('danger', json.messages ? json.messages.join('\n') : (json.error || 'Operation failed.'));
+            }
+        } catch (error) {
+            setAlert('danger', error.message || 'Request failed');
+        } finally {
+            setLoading(false);
+        }
+    });
+})();
+</script>
 <?php include __DIR__ . '/../templates/footer.php'; ?>

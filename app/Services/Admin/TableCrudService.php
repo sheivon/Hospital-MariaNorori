@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Services\Admin;
 
-use App\Models\TableCrudModel;
+use App\Repositories\TableCrudRepository;
 
 class TableCrudService
 {
-    private TableCrudModel $repository;
+    private TableCrudRepository $repository;
 
-    public function __construct(TableCrudModel $repository)
+    public function __construct(TableCrudRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -45,3 +45,4 @@ class TableCrudService
         $this->repository->softDelete($table, $id);
     }
 }
+

@@ -2,7 +2,7 @@
 
 namespace App\Core;
 
-use App\Models\UserModel;
+use App\Repositories\UserRepository;
 
 class Auth
 {
@@ -22,8 +22,12 @@ class Auth
     public static function login(string $username, string $password): bool
     {
         self::bootSession();
-        $userModel = new UserModel();
-        $user = $userModel->findByUsername($username);
+        $username = trim($username);
+        if ($username === '' || $password === '') {
+            return false;
+        }
+        $UserRepository = new UserRepository();
+        $user = $UserRepository->findByUsername($username);
         if (!$user || !password_verify($password, $user['password'])) {
             return false;
         }
@@ -92,3 +96,4 @@ class Auth
         return strpos($uri, '/api/') === 0;
     }
 }
+

@@ -175,10 +175,27 @@ include __DIR__ . '/../../templates/header.php';
       .replace(/"/g, '&quot;');
   }
 
+  async function fetchJson(url, options = {}) {
+    const res = await fetch(url, options);
+    const text = await res.text();
+    if (!res.ok) {
+      try {
+        const parsed = JSON.parse(text);
+        throw new Error(parsed.error || parsed.message || res.statusText);
+      } catch {
+        throw new Error(text || res.statusText);
+      }
+    }
+    try {
+      return JSON.parse(text);
+    } catch {
+      throw new Error(tr('data_manager_invalid_response', 'Invalid server response'));
+    }
+  }
+
   async function loadTables(){
     showError('');
-    const res = await fetch('/api/admin/tables_meta.php');
-    const j = await res.json();
+    const j = await fetchJson('/api/admin/tables_meta.php');
     if (!j.success){ throw new Error(j.error || tr('data_manager_failed_tables', 'Failed loading tables')); }
 
     const entries = Object.entries(j.tables || {});
@@ -194,8 +211,7 @@ include __DIR__ . '/../../templates/header.php';
   async function loadRows(){
     if (!currentTable){ return; }
     showError('');
-    const res = await fetch('/api/admin/table_rows.php?table=' + encodeURIComponent(currentTable));
-    const j = await res.json();
+    const j = await fetchJson('/api/admin/table_rows.php?table=' + encodeURIComponent(currentTable));
     if (!j.success){ throw new Error(j.error || tr('data_manager_failed_rows', 'Failed loading rows')); }
     currentColumns = j.columns || [];
     currentRows = j.rows || [];
@@ -261,37 +277,33 @@ include __DIR__ . '/../../templates/header.php';
   }
 
   async function createRow(data){
-    const res = await fetch('/api/admin/table_create.php', {
+    return fetchJson('/api/admin/table_create.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ table: currentTable, data })
     });
-    return res.json();
   }
 
   async function updateRow(id, data){
-    const res = await fetch('/api/admin/table_update.php', {
+    return fetchJson('/api/admin/table_update.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ table: currentTable, id, data })
     });
-    return res.json();
   }
 
   async function deleteRow(id){
-    const res = await fetch('/api/admin/table_delete.php', {
+    return fetchJson('/api/admin/table_delete.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ table: currentTable, id })
     });
-    return res.json();
   }
 
   tableSelector.addEventListener('change', async () => {
     currentTable = tableSelector.value;
     try {
-      const metaRes = await fetch('/api/admin/tables_meta.php');
-      const metaJson = await metaRes.json();
+      const metaJson = await fetchJson('/api/admin/tables_meta.php');
       currentPk = (metaJson.tables?.[currentTable]?.pk) || 'id';
       btnCreateRow.disabled = isReadOnlyTable();
       await loadRows();
@@ -320,9 +332,14 @@ include __DIR__ . '/../../templates/header.php';
       const id = delBtn.dataset.id;
       const ok = confirm(tr('data_manager_soft_delete_confirm', 'Soft delete this row?'));
       if (!ok) return;
-      const j = await deleteRow(id);
-      if (!j.success){ showError(j.error || tr('data_manager_delete_failed', 'Delete failed')); return; }
-      await loadRows();
+
+      try {
+        const j = await deleteRow(id);
+        if (!j.success){ showError(j.error || tr('data_manager_delete_failed', 'Delete failed')); return; }
+        await loadRows();
+      } catch (e) {
+        showError(e.message || tr('data_manager_delete_failed', 'Delete failed'));
+      }
     }
   });
 
@@ -332,14 +349,18 @@ include __DIR__ . '/../../templates/header.php';
     const id = dmRowId.value;
     const payload = gatherPayload();
 
-    const j = id ? await updateRow(id, payload) : await createRow(payload);
-    if (!j.success){
-      showFormError(j.error || tr('data_manager_save_failed', 'Save failed'));
-      return;
-    }
+    try {
+      const j = id ? await updateRow(id, payload) : await createRow(payload);
+      if (!j.success){
+        showFormError(j.error || tr('data_manager_save_failed', 'Save failed'));
+        return;
+      }
 
-    modal.hide();
-    await loadRows();
+      modal.hide();
+      await loadRows();
+    } catch (e) {
+      showFormError(e.message || tr('data_manager_save_failed', 'Save failed'));
+    }
   });
 
   (async function init(){

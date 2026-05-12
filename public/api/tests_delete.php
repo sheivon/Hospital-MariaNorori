@@ -2,10 +2,8 @@
 
 require_once __DIR__ . '/../../app/bootstrap.php';
 
-use App\Core\Auth;
 use App\Controllers\Api\TestsController;
 
-Auth::requireLogin();
 $payload = $_POST ?: json_decode(file_get_contents('php://input'), true) ?: [];
-
 TestsController::delete($payload);
+

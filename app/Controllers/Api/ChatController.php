@@ -6,19 +6,19 @@ use App\Core\Auth;
 use App\Core\ApiResponse;
 use App\Services\ChatService;
 use App\Services\UserService;
-use App\Models\ChatModel;
-use App\Models\UserModel;
+use App\Repositories\ChatRepository;
+use App\Repositories\UserRepository;
 
 class ChatController extends BaseApiController
 {
     private static function service(): ChatService
     {
-        return new ChatService(new ChatModel());
+        return new ChatService(new ChatRepository());
     }
 
     private static function userService(): UserService
     {
-        return new UserService(new UserModel());
+        return new UserService(new UserRepository());
     }
 
     public static function list(array $query): void
@@ -68,3 +68,4 @@ class ChatController extends BaseApiController
         ]);
     }
 }
+

@@ -104,9 +104,11 @@ CREATE TABLE patients (
   deleted_at DATETIME NULL DEFAULT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  encountered TINYINT(1) NOT NULL DEFAULT 0,
   INDEX idx_patients_name (last_name, first_name),
   INDEX idx_patients_dob (dob),
-  INDEX idx_patients_deleted_at (deleted_at)
+  INDEX idx_patients_deleted_at (deleted_at),
+  INDEX idx_patients_encountered (encountered)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE patient_contacts (
@@ -585,24 +587,350 @@ CREATE TABLE encounter_doctors (
   INDEX idx_encounter_doctors_user (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-ALTER TABLE users ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_users_deleted_at (deleted_at);
-ALTER TABLE patients ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_patients_deleted_at (deleted_at);
-ALTER TABLE patient_contacts ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_patient_contacts_deleted_at (deleted_at);
-ALTER TABLE encounters ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_encounters_deleted_at (deleted_at);
-ALTER TABLE patient_conditions ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
-ALTER TABLE patient_allergies ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
-ALTER TABLE diagnostics ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
-ALTER TABLE tests ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
-ALTER TABLE vitals ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
-ALTER TABLE clinical_notes ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
-ALTER TABLE treatment_plans ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
-ALTER TABLE clinical_procedures ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
-ALTER TABLE medications_catalog ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
-ALTER TABLE prescriptions ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
-ALTER TABLE treatment_administration ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
-ALTER TABLE immunizations ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
-ALTER TABLE appointments ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
-ALTER TABLE admissions ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
-ALTER TABLE bed_movements ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
-ALTER TABLE chat_messages ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
-ALTER TABLE audit_logs ADD COLUMN IF NOT EXISTS deleted_at DATETIME NULL DEFAULT NULL, ADD INDEX IF NOT EXISTS idx_ (deleted_at);
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'users' AND COLUMN_NAME = 'deleted_at') = 0,
+    'ALTER TABLE users ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'users' AND INDEX_NAME = 'idx_users_deleted_at') = 0,
+    'CREATE INDEX idx_users_deleted_at ON users (deleted_at)',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'patients' AND COLUMN_NAME = 'deleted_at') = 0,
+    'ALTER TABLE patients ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'patients' AND COLUMN_NAME = 'encountered') = 0,
+    'ALTER TABLE patients ADD COLUMN encountered TINYINT(1) NOT NULL DEFAULT 0',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'patients' AND INDEX_NAME = 'idx_patients_deleted_at') = 0,
+    'CREATE INDEX idx_patients_deleted_at ON patients (deleted_at)',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'patients' AND INDEX_NAME = 'idx_patients_encountered') = 0,
+    'CREATE INDEX idx_patients_encountered ON patients (encountered)',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'patient_contacts' AND COLUMN_NAME = 'deleted_at') = 0,
+    'ALTER TABLE patient_contacts ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'patient_contacts' AND INDEX_NAME = 'idx_patient_contacts_deleted_at') = 0,
+    'CREATE INDEX idx_patient_contacts_deleted_at ON patient_contacts (deleted_at)',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'encounters' AND COLUMN_NAME = 'deleted_at') = 0,
+    'ALTER TABLE encounters ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'encounters' AND INDEX_NAME = 'idx_encounters_deleted_at') = 0,
+    'CREATE INDEX idx_encounters_deleted_at ON encounters (deleted_at)',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'patient_conditions' AND COLUMN_NAME = 'deleted_at') = 0,
+    'ALTER TABLE patient_conditions ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'patient_conditions' AND INDEX_NAME = 'idx_patient_conditions_deleted_at') = 0,
+    'CREATE INDEX idx_patient_conditions_deleted_at ON patient_conditions (deleted_at)',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'patient_allergies' AND COLUMN_NAME = 'deleted_at') = 0,
+    'ALTER TABLE patient_allergies ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'patient_allergies' AND INDEX_NAME = 'idx_patient_allergies_deleted_at') = 0,
+    'CREATE INDEX idx_patient_allergies_deleted_at ON patient_allergies (deleted_at)',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'diagnostics' AND COLUMN_NAME = 'deleted_at') = 0,
+    'ALTER TABLE diagnostics ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'diagnostics' AND INDEX_NAME = 'idx_diagnostics_deleted_at') = 0,
+    'CREATE INDEX idx_diagnostics_deleted_at ON diagnostics (deleted_at)',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'tests' AND COLUMN_NAME = 'deleted_at') = 0,
+    'ALTER TABLE tests ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'tests' AND INDEX_NAME = 'idx_tests_deleted_at') = 0,
+    'CREATE INDEX idx_tests_deleted_at ON tests (deleted_at)',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'vitals' AND COLUMN_NAME = 'deleted_at') = 0,
+    'ALTER TABLE vitals ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'vitals' AND INDEX_NAME = 'idx_vitals_deleted_at') = 0,
+    'CREATE INDEX idx_vitals_deleted_at ON vitals (deleted_at)',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'clinical_notes' AND COLUMN_NAME = 'deleted_at') = 0,
+    'ALTER TABLE clinical_notes ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'clinical_notes' AND INDEX_NAME = 'idx_clinical_notes_deleted_at') = 0,
+    'CREATE INDEX idx_clinical_notes_deleted_at ON clinical_notes (deleted_at)',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'treatment_plans' AND COLUMN_NAME = 'deleted_at') = 0,
+    'ALTER TABLE treatment_plans ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'treatment_plans' AND INDEX_NAME = 'idx_treatment_plans_deleted_at') = 0,
+    'CREATE INDEX idx_treatment_plans_deleted_at ON treatment_plans (deleted_at)',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'clinical_procedures' AND COLUMN_NAME = 'deleted_at') = 0,
+    'ALTER TABLE clinical_procedures ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'clinical_procedures' AND INDEX_NAME = 'idx_clinical_procedures_deleted_at') = 0,
+    'CREATE INDEX idx_clinical_procedures_deleted_at ON clinical_procedures (deleted_at)',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'medications_catalog' AND COLUMN_NAME = 'deleted_at') = 0,
+    'ALTER TABLE medications_catalog ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'medications_catalog' AND INDEX_NAME = 'idx_medications_catalog_deleted_at') = 0,
+    'CREATE INDEX idx_medications_catalog_deleted_at ON medications_catalog (deleted_at)',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'prescriptions' AND COLUMN_NAME = 'deleted_at') = 0,
+    'ALTER TABLE prescriptions ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'prescriptions' AND INDEX_NAME = 'idx_prescriptions_deleted_at') = 0,
+    'CREATE INDEX idx_prescriptions_deleted_at ON prescriptions (deleted_at)',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'treatment_administration' AND COLUMN_NAME = 'deleted_at') = 0,
+    'ALTER TABLE treatment_administration ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'treatment_administration' AND INDEX_NAME = 'idx_treatment_administration_deleted_at') = 0,
+    'CREATE INDEX idx_treatment_administration_deleted_at ON treatment_administration (deleted_at)',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'immunizations' AND COLUMN_NAME = 'deleted_at') = 0,
+    'ALTER TABLE immunizations ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'immunizations' AND INDEX_NAME = 'idx_immunizations_deleted_at') = 0,
+    'CREATE INDEX idx_immunizations_deleted_at ON immunizations (deleted_at)',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'appointments' AND COLUMN_NAME = 'deleted_at') = 0,
+    'ALTER TABLE appointments ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'appointments' AND INDEX_NAME = 'idx_appointments_deleted_at') = 0,
+    'CREATE INDEX idx_appointments_deleted_at ON appointments (deleted_at)',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'admissions' AND COLUMN_NAME = 'deleted_at') = 0,
+    'ALTER TABLE admissions ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'admissions' AND INDEX_NAME = 'idx_admissions_deleted_at') = 0,
+    'CREATE INDEX idx_admissions_deleted_at ON admissions (deleted_at)',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'bed_movements' AND COLUMN_NAME = 'deleted_at') = 0,
+    'ALTER TABLE bed_movements ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'bed_movements' AND INDEX_NAME = 'idx_bed_movements_deleted_at') = 0,
+    'CREATE INDEX idx_bed_movements_deleted_at ON bed_movements (deleted_at)',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'chat_messages' AND COLUMN_NAME = 'deleted_at') = 0,
+    'ALTER TABLE chat_messages ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'chat_messages' AND INDEX_NAME = 'idx_chat_messages_deleted_at') = 0,
+    'CREATE INDEX idx_chat_messages_deleted_at ON chat_messages (deleted_at)',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'audit_logs' AND COLUMN_NAME = 'deleted_at') = 0,
+    'ALTER TABLE audit_logs ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'audit_logs' AND INDEX_NAME = 'idx_audit_logs_deleted_at') = 0,
+    'CREATE INDEX idx_audit_logs_deleted_at ON audit_logs (deleted_at)',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+
+
+
+// Add more tables and indexes as needed for future features
+// preliminary structure for future modules like billing, inventory, staff scheduling, etc.
+
+//Table for Seguimiento_Integral_ala_niñez_y_adolescencia
+CREATE TABLE seguimiento_integral_ninez_adolescencia (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+  patient_id INT UNSIGNED NOT NULL,
+  encounter_id INT UNSIGNED DEFAULT NULL,
+  visit_date DATE NOT NULL,
+
+  -- signos principales
+  respira_rapida TINYINT(1) NOT NULL DEFAULT 0,
+  dificultad_alimentarse TINYINT(1) NOT NULL DEFAULT 0,
+  dificultad_respirar TINYINT(1) NOT NULL DEFAULT 0,
+  convulsiones TINYINT(1) NOT NULL DEFAULT 0,
+  letargia TINYINT(1) NOT NULL DEFAULT 0,
+  inconciencia TINYINT(1) NOT NULL DEFAULT 0,
+  flacidez TINYINT(1) NOT NULL DEFAULT 0,
+
+  vomitos TINYINT(1) NOT NULL DEFAULT 0,
+  diarrea TINYINT(1) NOT NULL DEFAULT 0,
+  dias_diarrea SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+
+  fiebre TINYINT(1) NOT NULL DEFAULT 0,
+  fiebre_mas_7_dias TINYINT(1) NOT NULL DEFAULT 0,
+
+  cianosis_central TINYINT(1) NOT NULL DEFAULT 0,
+  ombligo_rojizo TINYINT(1) NOT NULL DEFAULT 0,
+  ombligo_supurando TINYINT(1) NOT NULL DEFAULT 0,
+
+  pustulas_extensas TINYINT(1) NOT NULL DEFAULT 0,
+  pustulas_escasas TINYINT(1) NOT NULL DEFAULT 0,
+
+  tiraje_subcostal TINYINT(1) NOT NULL DEFAULT 0,
+  placas_blancas_bucales TINYINT(1) NOT NULL DEFAULT 0,
+
+  hipotermia TINYINT(1) NOT NULL DEFAULT 0,
+  se_ve_mal TINYINT(1) NOT NULL DEFAULT 0,
+
+  supuracion_oido TINYINT(1) NOT NULL DEFAULT 0,
+  supuracion_ojos TINYINT(1) NOT NULL DEFAULT 0,
+
+  manifestacion_sangrado TINYINT(1) NOT NULL DEFAULT 0,
+  distension_abdominal TINYINT(1) NOT NULL DEFAULT 0,
+  apnea TINYINT(1) NOT NULL DEFAULT 0,
+  quejido TINYINT(1) NOT NULL DEFAULT 0,
+  aleteo_nasal TINYINT(1) NOT NULL DEFAULT 0,
+
+  palidez_intensa TINYINT(1) NOT NULL DEFAULT 0,
+  llenado_capilar_lento TINYINT(1) NOT NULL DEFAULT 0,
+
+  fontanela_abombada TINYINT(1) NOT NULL DEFAULT 0,
+  sangrado_heces TINYINT(1) NOT NULL DEFAULT 0,
+
+  anormalmente_somnoliento TINYINT(1) NOT NULL DEFAULT 0,
+  ojos_hundidos TINYINT(1) NOT NULL DEFAULT 0,
+  inquieto_irritable TINYINT(1) NOT NULL DEFAULT 0,
+
+  -- nutricion y crecimiento
+  peso_g INT UNSIGNED DEFAULT NULL,
+  talla_cm DECIMAL(5,2) DEFAULT NULL,
+  perimetro_cefalico_cm DECIMAL(5,2) DEFAULT NULL,
+  imc DECIMAL(5,2) DEFAULT NULL,
+
+  peso_edad ENUM('normal','bajo','alto') DEFAULT NULL,
+  talla_edad ENUM('normal','bajo','alto') DEFAULT NULL,
+  peso_talla ENUM('normal','bajo','alto') DEFAULT NULL,
+
+  edema_pies TINYINT(1) NOT NULL DEFAULT 0,
+  emaciacion TINYINT(1) NOT NULL DEFAULT 0,
+  malnutricion TINYINT(1) NOT NULL DEFAULT 0,
+
+  -- alimentacion
+  lactancia_materna TINYINT(1) NOT NULL DEFAULT 0,
+  lactancia_nocturna TINYINT(1) NOT NULL DEFAULT 0,
+  lactancia_mas_8_veces TINYINT(1) NOT NULL DEFAULT 0,
+  otros_liquidos TINYINT(1) NOT NULL DEFAULT 0,
+  uso_biberon TINYINT(1) NOT NULL DEFAULT 0,
+
+  problemas_posicion TINYINT(1) NOT NULL DEFAULT 0,
+  problemas_agarre TINYINT(1) NOT NULL DEFAULT 0,
+  problemas_succion TINYINT(1) NOT NULL DEFAULT 0,
+
+  -- vacunas y suplementos
+  vacuna TINYINT(1) NOT NULL DEFAULT 0,
+  vacuna_edad TINYINT(1) NOT NULL DEFAULT 0,
+  vitamina_a TINYINT(1) NOT NULL DEFAULT 0,
+  hierro TINYINT(1) NOT NULL DEFAULT 0,
+  zinc TINYINT(1) NOT NULL DEFAULT 0,
+  antiparasitario TINYINT(1) NOT NULL DEFAULT 0,
+
+  -- entorno familiar
+  buen_trato TINYINT(1) NOT NULL DEFAULT 0,
+  relacion_afectivo ENUM('Madre','Padre','Cuidador') DEFAULT NULL,
+
+  lesiones_fisicas TINYINT(1) NOT NULL DEFAULT 0,
+  lesiones_genitales TINYINT(1) NOT NULL DEFAULT 0,
+  lesiones_ano TINYINT(1) NOT NULL DEFAULT 0,
+
+  comportamiento_alterado TINYINT(1) NOT NULL DEFAULT 0,
+  comportamiento_cuidador_alterado TINYINT(1) NOT NULL DEFAULT 0,
+
+  -- notas (texto separado conceptualmente)
+  notas TEXT DEFAULT NULL,
+
+  created_by INT UNSIGNED DEFAULT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+
+  -- foreign keys
+  CONSTRAINT fk_seg_patient FOREIGN KEY (patient_id)
+    REFERENCES patients(id) ON DELETE CASCADE,
+
+  CONSTRAINT fk_seg_encounter FOREIGN KEY (encounter_id)
+    REFERENCES encounters(id) ON DELETE SET NULL,
+
+  CONSTRAINT fk_seg_user FOREIGN KEY (created_by)
+    REFERENCES users(id) ON DELETE SET NULL,
+
+  -- indexes (IMPORTANT for performance)
+  INDEX idx_patient_date (patient_id, visit_date),
+  INDEX idx_encounter (encounter_id),
+  INDEX idx_created_at (created_at)
+
+) ENGINE=InnoDB 
+DEFAULT CHARSET=utf8mb4 
+COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE seguimiento_notas (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  seguimiento_id INT UNSIGNED NOT NULL,
+  tipo VARCHAR(50),
+  contenido TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (seguimiento_id) REFERENCES seguimiento_integral_ninez_adolescencia(id) ON DELETE CASCADE
+);
+
+
+
+
+
+
+
+
+
+

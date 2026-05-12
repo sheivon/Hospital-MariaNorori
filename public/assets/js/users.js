@@ -1,81 +1,180 @@
-class UsersDataLayer {
+class UsersApi {
   static async request(url, options = {}) {
-    const resp = await fetch(url, { credentials: 'same-origin', ...options });
-    if (!resp.ok) throw new Error('Network error');
-    const json = await resp.json();
-    if (!json.success) {
-      const err = new Error(json.error || 'API error');
-      err.api = json;
-      throw err;
+    const response = await fetch(url, { credentials: 'same-origin', ...options });
+    if (!response.ok) {
+      throw new Error(`Network error: ${response.status}`);
     }
+
+    const json = await response.json();
+    if (!json.success) {
+      const error = new Error(json.error || 'API error');
+      error.api = json;
+      throw error;
+    }
+
     return json;
   }
 
-  static async list() {
-    return UsersDataLayer.request('/api/admin/users_list.php');
+  static list() {
+    return this.request('/api/admin/users_list.php');
   }
 
-  static async roles() {
-    return UsersDataLayer.request('/api/admin/roles_list.php');
+  static roles() {
+    return this.request('/api/admin/roles_list.php');
   }
 
-  static async create(payload) {
-    return UsersDataLayer.request('/api/admin/user_create.php', { method:'POST', body: payload });
+  static save(userId, payload) {
+    const url = userId ? '/api/admin/user_update.php' : '/api/admin/user_create.php';
+    return this.request(url, { method: 'POST', body: payload });
   }
 
-  static async update(payload) {
-    return UsersDataLayer.request('/api/admin/user_update.php', { method:'POST', body: payload });
-  }
-
-  static async delete(id) {
-    return UsersDataLayer.request('/api/admin/user_delete.php', { method:'POST', body: new URLSearchParams({ id }) });
+  static delete(id) {
+    return this.request('/api/admin/user_delete.php', {
+      method: 'POST',
+      body: new URLSearchParams({ id }),
+    });
   }
 }
 
-class UsersView {
-  static table = null;
+class UserModal {
+  constructor() {
+    this.modalElement = document.getElementById('userModal');
+    this.form = document.getElementById('userForm');
+    this.errorBox = document.getElementById('userFormError');
+    this.title = document.getElementById('userModalTitle');
+    this.modal = new bootstrap.Modal(this.modalElement);
+  }
 
-  static escapeHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  setTitle(text) {
+    this.title.textContent = text;
+  }
 
-  static async renderRoleOptions(selected){
+  reset() {
+    this.form.reset();
+    this.hideError();
+    document.getElementById('username').required = true;
+    document.getElementById('password').required = true;
+  }
+
+  fill(user) {
+    document.getElementById('userId').value = user.id || '';
+    document.getElementById('username').value = user.username || '';
+    document.getElementById('username').required = false;
+    document.getElementById('password').value = '';
+    document.getElementById('password').required = false;
+    document.getElementById('fullname').value = user.fullname || '';
+    document.getElementById('cedula').value = user.cedula || '';
+    document.getElementById('specialty').value = user.specialty || '';
+    document.getElementById('department').value = user.department || '';
+  }
+
+  async loadRoles(selected = 'user') {
     const select = document.getElementById('role');
     if (!select) return;
+
     try {
-      const result = await UsersDataLayer.roles();
-      const roles = Array.isArray(result.data) ? result.data : [];
-      select.innerHTML = roles.map(r=>`<option value="${this.escapeHtml(r.role)}">${this.escapeHtml(r.role)}</option>`).join('');
-      select.value = selected || 'user';
-      if (select.value !== (selected || 'user')) select.selectedIndex = 0;
-    } catch (e) {
+      const { data: roles } = await UsersApi.roles();
+      select.innerHTML = roles.map(role => `
+        <option value="${UserView.escapeHtml(role.role)}">${UserView.escapeHtml(role.role)}</option>
+      `).join('');
+      select.value = selected;
+      if (select.value !== selected) {
+        select.selectedIndex = 0;
+      }
+    } catch (error) {
       select.innerHTML = '<option value="user">user</option>';
       select.value = 'user';
     }
   }
 
-  static init(){
-    if (!document.querySelector('#usersTable')) return;
+  open(user = null) {
+    if (!user) {
+      this.reset();
+      this.setTitle('Create user');
+      this.loadRoles('user');
+    } else {
+      this.reset();
+      this.fill(user);
+      this.setTitle('Update user');
+      this.loadRoles(user.role || 'user');
+    }
 
+    this.modal.show();
+  }
+
+  close() {
+    this.modal.hide();
+  }
+
+  serialize() {
+    return new FormData(this.form);
+  }
+
+  showError(message) {
+    if (!this.errorBox) return;
+    this.errorBox.classList.remove('d-none');
+    this.errorBox.textContent = message;
+  }
+
+  hideError() {
+    if (!this.errorBox) return;
+    this.errorBox.classList.add('d-none');
+    this.errorBox.textContent = '';
+  }
+}
+
+class UserView {
+  static table = null;
+  static modal = null;
+
+  static escapeHtml(value) {
+    return String(value || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  static async init() {
+    if (!document.querySelector('#usersTable')) return;
+    this.modal = new UserModal();
+    this.initTable();
+    this.bindActions();
+  }
+
+  static initTable() {
     if (window.jQuery && $.fn.dataTable.isDataTable('#usersTable')) {
       $('#usersTable').DataTable().destroy();
       $('#usersTable').find('tbody').off('click');
-      UsersView.table = null;
+      this.table = null;
     }
 
-    const t = window.i18n_t || (k=>k);
-    const table = $('#usersTable').DataTable({
+    const t = window.i18n_t || (key => key);
+    this.table = $('#usersTable').DataTable({
       dom: 'Bfrtip',
       buttons: [
         { extend: 'copy', exportOptions: { columns: ':not(:last-child)' } },
         { extend: 'csv', exportOptions: { columns: ':not(:last-child)' } },
         { extend: 'excel', exportOptions: { columns: ':not(:last-child)' } },
         { extend: 'pdf', exportOptions: { columns: ':not(:last-child)' } },
-        { extend: 'print', exportOptions: { columns: ':not(:last-child)' } }
+        {
+          extend: 'print',
+          exportOptions: { columns: ':not(:last-child)' },
+          action: function () {
+            if (typeof window.triggerCustomPrint === 'function') {
+              window.triggerCustomPrint('users');
+              return;
+            }
+            window.open('/print.php?resource=users', '_blank');
+          }
+        }
       ],
       ajax: {
         url: '/api/admin/users_list.php',
-        dataSrc: function(json){
-          if (!json || !json.success || !Array.isArray(json.data)){
-            swal({ title:'', text: t('error')||'Error loading users', icon: 'error'});
+        dataSrc(json) {
+          if (!json || !json.success || !Array.isArray(json.data)) {
+            swal({ title: '', text: t('error') || 'Error loading users', icon: 'error' });
             return [];
           }
           return json.data;
@@ -83,110 +182,100 @@ class UsersView {
       },
       columns: [
         { data: 'id' },
-        { data: 'username', render: d => UsersView.escapeHtml(d) },
-        { data: 'fullname', render: d => UsersView.escapeHtml(d||'') },
-        { data: 'cedula', render: d => UsersView.escapeHtml(d||'') },
-        { data: 'role', render: d => UsersView.escapeHtml(d||'') },
-        { data: null, orderable: false, searchable: false, className: 'text-center d-flex ', render: row => `
-            <button class="btn btn-sm btn-primary btn-edit" data-id="${row.id}"><i class="fa-solid fa-pen-to-square"></i></button>
-            <button class="btn btn-sm btn-danger btn-del" data-id="${row.id}"><i class="fa-solid fa-trash"></i></button>
-          ` }
+        { data: 'username', render: d => UserView.escapeHtml(d) },
+        { data: 'fullname', render: d => UserView.escapeHtml(d || '') },
+        { data: 'cedula', render: d => UserView.escapeHtml(d || '') },
+        { data: 'role', render: d => UserView.escapeHtml(d || '') },
+        {
+          data: null,
+          orderable: false,
+          searchable: false,
+          className: 'text-center d-flex',
+          render(row) {
+            return `
+              <button class="btn btn-sm btn-primary btn-edit table-action-btn" data-id="${row.id}" title="${t('edit') || 'Edit'}">
+                <i class="fa-solid fa-pen-to-square"></i><span class="btn-label">${t('edit') || 'Edit'}</span>
+              </button>
+              <button class="btn btn-sm btn-danger btn-del table-action-btn" data-id="${row.id}" title="${t('delete') || 'Delete'}">
+                <i class="fa-solid fa-trash"></i><span class="btn-label">${t('delete') || 'Delete'}</span>
+              </button>
+            `;
+          }
+        }
       ],
       responsive: true
     });
+  }
 
-    const modal = new bootstrap.Modal(document.getElementById('userModal'));
-    const form = document.getElementById('userForm');
-    const errorBox = document.getElementById('userFormError');
-    const title = document.getElementById('userModalTitle');
+  static bindActions() {
+    const createButton = document.getElementById('btnNewUser');
+    const printButton = document.getElementById('btnPrintUsers');
 
-    async function clearAndOpenEdit(user){
-      if (!form) return;
-      form.reset();
-      errorBox.classList.add('d-none');
-      errorBox.textContent = '';
+    createButton?.addEventListener('click', () => this.modal.open());
 
-      document.getElementById('userId').value = user.id || '';
-      document.getElementById('username').value = user.username || '';
-      document.getElementById('username').required = false;
-      document.getElementById('password').value = '';
-      document.getElementById('password').required = false;
-      document.getElementById('fullname').value = user.fullname || '';
-      document.getElementById('cedula').value = user.cedula || '';
-      document.getElementById('specialty').value = user.specialty || '';
-      document.getElementById('department').value = user.department || '';
-      await UsersView.renderRoleOptions(user.role || 'user');
-      title.textContent = t('update_user');
-      modal.show();
-    }
-
-    document.getElementById('btnNewUser')?.addEventListener('click', async () => {
-      form.reset();
-      errorBox.classList.add('d-none');
-      errorBox.textContent = '';
-      document.getElementById('userId').value = '';
-      document.getElementById('username').required = true;
-      document.getElementById('password').required = true;
-      await UsersView.renderRoleOptions('user');
-      title.textContent = t('create_user');
-      modal.show();
-    });
-
-    $('#usersTable tbody').off('click').on('click', 'button', async function(){
-      const btn = $(this);
-      const id = btn.data('id');
+    $('#usersTable tbody').off('click').on('click', 'button', async function() {
+      const button = $(this);
+      const id = button.data('id');
       if (!id) return;
 
-      if (btn.hasClass('btn-edit')){
-        const row = table.row(btn.closest('tr')).data();
+      if (button.hasClass('btn-edit')) {
+        const row = UserView.table.row(button.closest('tr')).data();
         if (!row) return;
-        await clearAndOpenEdit(row);
+        UserView.modal.open(row);
       }
 
-      if (btn.hasClass('btn-del')){
+      if (button.hasClass('btn-del')) {
+        const t = window.i18n_t || (key => key);
         swal({
-          title: t('delete_user_confirm'), text:'', icon:'warning', buttons:[t('cancel'),t('confirm_yes')], dangerMode:true
+          title: t('delete_user_confirm'),
+          text: '',
+          icon: 'warning',
+          buttons: [t('cancel'), t('confirm_yes')],
+          dangerMode: true
         }).then(async confirmed => {
           if (!confirmed) return;
           try {
-            await UsersDataLayer.delete(id);
-            table.ajax.reload();
-          } catch (err){
-            swal({ title:'', text: err.message||t('error'), icon:'error' });
+            await UsersApi.delete(id);
+            UserView.reloadTable();
+          } catch (error) {
+            swal({ title: '', text: error.message || t('error'), icon: 'error' });
           }
         });
       }
     });
 
-    form.addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      errorBox.classList.add('d-none');
-      errorBox.textContent = '';
+    this.modal.form.addEventListener('submit', async event => {
+      event.preventDefault();
+      this.modal.hideError();
 
-      const data = new FormData(form);
-      const id = data.get('id');
-      const url = id ? '/api/admin/user_update.php' : '/api/admin/user_create.php';
+      const formData = this.modal.serialize();
+      const userId = formData.get('id');
 
       try {
-        const res = await UsersDataLayer.request(url, { method:'POST', body: data });
-        if (res.success){
-          modal.hide();
-          table.ajax.reload();
-        } else {
-          throw new Error(res.error || t('error'));
-        }
-      } catch (err){
-        errorBox.classList.remove('d-none');
-        errorBox.textContent = err.message || t('error');
+        await UsersApi.save(userId, formData);
+        this.modal.close();
+        this.reloadTable();
+      } catch (error) {
+        this.modal.showError(error.message || 'Unable to save user');
       }
     });
 
-    document.getElementById('btnPrintUsers')?.addEventListener('click', () => {
-      const current = document.getElementById('usersTable');
-      if (!current) return swal({ title:'', text: t('no_table_to_print')||'No table to print', icon:'info' });
+    printButton?.addEventListener('click', () => {
+      const table = document.getElementById('usersTable');
+      if (!table) return swal({ title: '', text: (window.i18n_t?.('no_table_to_print') || 'No table to print'), icon: 'info' });
+      if (typeof window.triggerCustomPrint === 'function') {
+        window.triggerCustomPrint('users');
+        return;
+      }
       window.open('/print.php?resource=users', '_blank');
     });
   }
+
+  static reloadTable() {
+    if (this.table) {
+      this.table.ajax.reload(null, false);
+    }
+  }
 }
 
-window.addEventListener('DOMContentLoaded', () => UsersView.init());
+window.addEventListener('DOMContentLoaded', () => UserView.init());

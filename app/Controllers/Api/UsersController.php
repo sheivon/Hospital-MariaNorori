@@ -4,13 +4,13 @@ namespace App\Controllers\Api;
 
 use App\Core\Auth;
 use App\Services\UserService;
-use App\Models\UserModel;
+use App\Repositories\UserRepository;
 
 class UsersController extends BaseApiController
 {
     private static function service(): UserService
     {
-        return new UserService(new UserModel());
+        return new UserService(new UserRepository());
     }
 
     public static function listForChat(): void

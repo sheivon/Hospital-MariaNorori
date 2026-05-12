@@ -6,3 +6,4 @@ use App\Controllers\Api\ChatController;
 
 $payload = $_POST ?: json_decode(file_get_contents('php://input'), true) ?: [];
 ChatController::send($payload);
+

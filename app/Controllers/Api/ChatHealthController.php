@@ -3,8 +3,8 @@
 namespace App\Controllers\Api;
 
 use App\Core\Auth;
-use App\Models\ChatModel;
-use App\Models\UserModel;
+use App\Repositories\ChatRepository;
+use App\Repositories\UserRepository;
 use App\Services\ChatHealthService;
 use Throwable;
 
@@ -12,7 +12,7 @@ class ChatHealthController extends BaseApiController
 {
     private static function service(): ChatHealthService
     {
-        return new ChatHealthService(new ChatModel(), new UserModel());
+        return new ChatHealthService(new ChatRepository(), new UserRepository());
     }
 
     public static function health(): void
@@ -41,3 +41,4 @@ class ChatHealthController extends BaseApiController
         }
     }
 }
+

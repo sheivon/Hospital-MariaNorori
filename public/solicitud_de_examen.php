@@ -9,7 +9,7 @@ include __DIR__ . '/../templates/header.php';
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Solicitud de Examen</h2>
-    <a href="/dashboard.php" class="btn btn-secondary"><i class="fa-solid fa-arrow-left me-1"></i>Volver</a>
+    <a href="/" class="btn btn-secondary"><i class="fa-solid fa-arrow-left me-1"></i>Volver</a>
   </div>
 
   <div id="examAlert" class="alert alert-danger d-none" role="alert"></div>
@@ -123,7 +123,7 @@ include __DIR__ . '/../templates/header.php';
     </div>
 
     <div class="col-12 d-flex justify-content-end gap-2">
-      <a href="/dashboard.php" class="btn btn-secondary">Cancelar</a>
+      <a href="/" class="btn btn-secondary">Cancelar</a>
       <button id="submitExamRequest" class="btn btn-primary" type="submit"><i class="fa-solid fa-paper-plane me-1"></i>Enviar solicitud</button>
     </div>
   </form>
@@ -183,7 +183,9 @@ include __DIR__ . '/../templates/header.php';
         <td>${escapeHtml(patient.dob || '')}</td>
         <td>${escapeHtml(patient.email || '')}</td>
         <td class="text-end">
-          <button type="button" class="btn btn-sm btn-primary select-patient-btn" data-patient='${encodeURIComponent(JSON.stringify(patient))}'>Seleccionar</button>
+          <button type="button" class="btn btn-sm btn-primary select-patient-btn table-action-btn" data-patient='${encodeURIComponent(JSON.stringify(patient))}' title="Seleccionar">
+            <i class="fa-solid fa-check"></i><span class="btn-label">Seleccionar</span>
+          </button>
         </td>
       </tr>
     `;
@@ -208,7 +210,7 @@ include __DIR__ . '/../templates/header.php';
     clearModalMessage();
 
     try {
-      const res = await fetch('/api/patients_list.php', { credentials: 'same-origin' });
+      const res = await fetch('/api/patients_list.php?encountered=1', { credentials: 'same-origin' });
       const json = await res.json();
       if (!json.success || !Array.isArray(json.data)) {
         setModalMessage('No se pudo cargar la lista de pacientes.', 'danger');

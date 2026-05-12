@@ -3,7 +3,7 @@
 namespace App\Controllers\Api;
 
 use App\Core\Auth;
-use App\Models\PatientModel;
+use App\Repositories\PatientRepository;
 use App\Services\PatientService;
 use Exception;
 
@@ -11,14 +11,24 @@ class PatientsController extends BaseApiController
 {
     private static function service(): PatientService
     {
-        return new PatientService(new PatientModel());
+        return new PatientService(new PatientRepository());
     }
 
     public static function index(): void
     {
         Auth::requireLogin();
         $service = self::service();
-        self::success(['data' => $service->getAllPatients()]);
+        $filters = [];
+
+        if (isset($_GET['encountered'])) {
+            $filters['encountered'] = (int)$_GET['encountered'];
+        }
+
+        if (isset($_GET['emergency_available'])) {
+            $filters['emergency_available'] = (int)$_GET['emergency_available'];
+        }
+
+        self::success(['data' => $service->getAllPatients($filters)]);
     }
 
     public static function create(array $payload): void
@@ -83,3 +93,4 @@ class PatientsController extends BaseApiController
         }
     }
 }
+

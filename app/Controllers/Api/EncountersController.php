@@ -2,7 +2,7 @@
 
 namespace App\Controllers\Api;
 
-use App\Models\EncounterModel;
+use App\Repositories\EncounterRepository;
 use App\Services\EncounterService;
 use Exception;
 
@@ -10,7 +10,7 @@ class EncountersController extends BaseApiController
 {
     private static function service(): EncounterService
     {
-        return new EncounterService(new EncounterModel());
+        return new EncounterService(new EncounterRepository());
     }
 
     public static function index(array $query = []): void
@@ -58,3 +58,4 @@ class EncountersController extends BaseApiController
         }
     }
 }
+

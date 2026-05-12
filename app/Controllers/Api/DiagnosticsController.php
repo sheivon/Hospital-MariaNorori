@@ -3,14 +3,14 @@
 namespace App\Controllers\Api;
 
 use App\Services\DiagnosticService;
-use App\Models\DiagnosticoModel;
+use App\Repositories\DiagnosticoRepository;
 use Exception;
 
 class DiagnosticsController extends BaseApiController
 {
     private static function service(): DiagnosticService
     {
-        return new DiagnosticService(new DiagnosticoModel());
+        return new DiagnosticService(new DiagnosticoRepository());
     }
 
     public static function index(array $query = []): void
@@ -58,3 +58,4 @@ class DiagnosticsController extends BaseApiController
         }
     }
 }
+

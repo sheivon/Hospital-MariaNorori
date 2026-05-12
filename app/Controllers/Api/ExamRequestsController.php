@@ -3,14 +3,14 @@
 namespace App\Controllers\Api;
 
 use App\Services\ExamRequestService;
-use App\Models\ExamRequestModel;
+use App\Repositories\ExamRequestRepository;
 use Exception;
 
 class ExamRequestsController extends BaseApiController
 {
     private static function service(): ExamRequestService
     {
-        return new ExamRequestService(new ExamRequestModel());
+        return new ExamRequestService(new ExamRequestRepository());
     }
 
     public static function index(array $query = []): void
@@ -60,3 +60,4 @@ class ExamRequestsController extends BaseApiController
         }
     }
 }
+

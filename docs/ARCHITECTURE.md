@@ -9,10 +9,18 @@ This project now follows an incremental MVC structure while keeping existing URL
   - Keep these files thin: parse request and call a controller.
 - `app/Core/`
   - Cross-cutting infrastructure: DB connection, auth/session, API response helpers.
+  - Current technical baseline while migration into `app/Infrastructure/` progresses.
+- `app/Infrastructure/`
+  - ASP.NET-style infrastructure layer for technical services and adapters.
 - `app/Controllers/`
   - Request orchestration logic (HTTP input/output).
   - `app/Controllers/Api/` for API controllers.
   - `app/Controllers/SetupController.php` for setup workflow.
+- `app/Views/`
+  - ASP.NET-style view layer.
+  - `app/Views/Shared/` contains shared layout fragments and modal partials.
+- `app/ViewModels/`
+  - View-specific DTOs prepared by controllers.
 - `app/Services/`
   - Business logic services and orchestration beyond simple CRUD.
   - Includes `app/Services/Admin/` and `app/Services/PrintService.php`.
@@ -20,8 +28,12 @@ This project now follows an incremental MVC structure while keeping existing URL
   - Repository and service contracts for decoupling implementations.
 - `app/Entities/`
   - Domain entities and value object definitions.
+- `app/Domain/`
+  - ASP.NET-style target folder for domain-centric classes.
 - `app/Models/`
   - Repository-style database access and data persistence logic.
+- `app/Repositories/`
+  - ASP.NET-style target folder for repository classes.
 - `src/`
   - Legacy compatibility wrappers used by older pages/scripts.
   - These wrappers are deprecated: public pages now use direct OOP classes under `app/`.
@@ -30,7 +42,12 @@ This project now follows an incremental MVC structure while keeping existing URL
 - `config/`
   - Compatibility config bootstrap (`db.php` now delegates to `app/Core/Database.php`).
 - `templates/`
-  - Shared HTML layout fragments.
+  - Compatibility wrappers that forward to `app/Views/Shared`.
+- `public/modal/`
+  - Compatibility wrappers that forward to `app/Views/Shared/Modals`.
+- `public/wwwroot/`
+  - ASP.NET-style target static root.
+  - Existing static assets remain in `public/assets` during migration.
 
 ## Request Flow
 
@@ -45,6 +62,7 @@ This project now follows an incremental MVC structure while keeping existing URL
 - Keep endpoint files under 10 lines when possible.
 - Use `App\Core\Auth` for all auth/role checks.
 - Use `App\Core\ApiResponse` for consistent JSON responses.
+- Keep front-end modules clean: API client layer (`UsersApi`), UI modal state (`UserModal`), and page renderer/controller (`UserView`).
 
 ## Migrated Areas
 
@@ -52,7 +70,7 @@ This project now follows an incremental MVC structure while keeping existing URL
 - Chat API (`chat_list.php`, `chat_send.php`)
 - Users API (`users_list.php` and admin users CRUD endpoints)
 - Legacy wrappers (`src/auth.php`, `src/patient.php`, `src/chat.php`) are now deprecated and no longer used by current public pages.
-- Setup flow moved to MVC (`app/Controllers/SetupController.php`, `app/Models/SetupModel.php`) while keeping `public/setup.php` UI.
+- Setup flow moved to MVC (`app/Controllers/SetupController.php`, `app/Models/SetupRepository.php`) while keeping `public/setup.php` UI.
 
 ## Database Baseline
 

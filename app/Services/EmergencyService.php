@@ -2,12 +2,13 @@
 
 namespace App\Services;
 
-use App\Models\EmergencyEncounterModel;
+use App\Repositories\EmergencyEncounterRepository;
 
 class EmergencyService extends BaseService
 {
-    public function __construct(EmergencyEncounterModel $repository)
+    public function __construct(EmergencyEncounterRepository $repository)
     {
         parent::__construct($repository);
     }
 }
+

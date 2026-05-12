@@ -7,13 +7,13 @@ namespace App\Controllers\Api;
 use App\Core\Auth;
 use App\Core\ApiResponse;
 use App\Services\CedulaService;
-use App\Models\PatientModel;
+use App\Repositories\PatientRepository;
 
 class CedulaController extends BaseApiController
 {
     private static function service(): CedulaService
     {
-        return new CedulaService(new PatientModel());
+        return new CedulaService(new PatientRepository());
     }
 
     public static function check(array $query): void
@@ -30,3 +30,4 @@ class CedulaController extends BaseApiController
         self::success(['available' => self::service()->isCedulaAvailable($cedula, $exceptId)]);
     }
 }
+

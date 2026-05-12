@@ -282,7 +282,9 @@ include __DIR__ . '/../templates/header.php';
         <td>${escapeHtml(patient.cedula || '')}</td>
         <td>${escapeHtml(patient.dob || '')}</td>
         <td>${escapeHtml(patient.email || '')}</td>
-        <td class="text-end"><button type="button" class="btn btn-sm btn-primary select-patient-btn" data-patient='${encodeURIComponent(JSON.stringify(patient))}'>${t('select_patient') || 'Select'}</button></td>
+        <td class="text-end"><button type="button" class="btn btn-sm btn-primary select-patient-btn table-action-btn" data-patient='${encodeURIComponent(JSON.stringify(patient))}' title="${t('select_patient') || 'Select'}">
+          <i class="fa-solid fa-check"></i><span class="btn-label">${t('select_patient') || 'Select'}</span>
+        </button></td>
       </tr>`;
   }
 
@@ -311,7 +313,7 @@ include __DIR__ . '/../templates/header.php';
     clearModalMessage();
 
     try {
-      const res = await fetch('/api/patients_list.php', { credentials: 'same-origin' });
+      const res = await fetch('/api/patients_list.php?emergency_available=1', { credentials: 'same-origin' });
       const json = await res.json();
       if (!json.success || !Array.isArray(json.data)) {
         setModalMessage(t('error_loading_patients') || 'Unable to load patient list.', 'danger');
@@ -385,12 +387,8 @@ include __DIR__ . '/../templates/header.php';
         return;
       }
 
-      setAlert(t('emergency_saved_success') || 'Emergency record saved successfully.', 'success');
-      form.reset();
-      patientIdInput.value = '';
-      patientDisplay.value = '';
-      patientCedula.value = '';
-      patientExpediente.value = '';
+      window.location.href = '/emergency.php';
+      return;
     } catch (error) {
       console.error(error);
       setAlert(t('emergency_send_failed') || 'Error sending the request. Please try again.');

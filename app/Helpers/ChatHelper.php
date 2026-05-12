@@ -2,16 +2,16 @@
 
 namespace App\Helpers;
 
-use App\Models\ChatModel;
+use App\Repositories\ChatRepository;
 
 class ChatHelper
 {
-    private static ?ChatModel $model = null;
+    private static ?ChatRepository $model = null;
 
-    private static function model(): ChatModel
+    private static function model(): ChatRepository
     {
         if (self::$model === null) {
-            self::$model = new ChatModel();
+            self::$model = new ChatRepository();
         }
         return self::$model;
     }
@@ -26,3 +26,4 @@ class ChatHelper
         return self::model()->getMessages($sinceId, $limit, $userA, $userB);
     }
 }
+

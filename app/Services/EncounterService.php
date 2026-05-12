@@ -2,12 +2,13 @@
 
 namespace App\Services;
 
-use App\Models\EncounterModel;
+use App\Repositories\EncounterRepository;
 
 class EncounterService extends BaseService
 {
-    public function __construct(EncounterModel $repository)
+    public function __construct(EncounterRepository $repository)
     {
         parent::__construct($repository);
     }
 }
+

@@ -161,7 +161,9 @@ include __DIR__ . '/../templates/header.php';
         <td>${escapeHtml(patient.cedula || '')}</td>
         <td>${escapeHtml(patient.dob || '')}</td>
         <td>${escapeHtml(patient.email || '')}</td>
-        <td class="text-end"><button type="button" class="btn btn-sm btn-primary select-patient-btn" data-patient='${encodeURIComponent(JSON.stringify(patient))}'>Seleccionar</button></td>
+        <td class="text-end"><button type="button" class="btn btn-sm btn-primary select-patient-btn table-action-btn" data-patient='${encodeURIComponent(JSON.stringify(patient))}' title="Seleccionar">
+          <i class="fa-solid fa-check"></i><span class="btn-label">Seleccionar</span>
+        </button></td>
       </tr>`;
   }
 
@@ -242,7 +244,8 @@ include __DIR__ . '/../templates/header.php';
 
   async function loadPatients(){
     try {
-      const res = await fetch('/api/patients_list.php', { credentials: 'same-origin' });
+      const query = encId ? '' : '?encountered=0';
+      const res = await fetch('/api/patients_list.php' + query, { credentials: 'same-origin' });
       const json = await res.json();
       if (!json.success) {
         setModalMessage(t('error_loading_patients') || 'Error loading patients', 'danger');
@@ -321,25 +324,43 @@ include __DIR__ . '/../templates/header.php';
       return;
     }
 
-    const payload = {
-      id: document.getElementById('encId').value ? Number(document.getElementById('encId').value) : undefined,
-      patient_id: Number(patientId),
-      encounter_date: date,
-      encounter_type: type,
-      triage_level: document.getElementById('encTriage').value || null,
-      status: document.getElementById('encStatus').value,
-      attending_user_id: document.getElementById('encDoctor').value || null,
-      reason_for_visit: document.getElementById('encReason').value.trim() || null,
-      notes: document.getElementById('encNotes').value.trim() || null,
-    };
+    const payload = new URLSearchParams();
+    const encIdValue = document.getElementById('encId').value;
+    if (encIdValue) {
+      payload.append('id', encIdValue);
+    }
+    payload.append('patient_id', patientId);
+    payload.append('encounter_date', date);
+    payload.append('encounter_type', type);
+    payload.append('status', document.getElementById('encStatus').value);
 
-    const url = payload.id ? '/api/encounters_update.php' : '/api/encounters_create.php';
+    const triageValue = document.getElementById('encTriage').value.trim();
+    if (triageValue) {
+      payload.append('triage_level', triageValue);
+    }
+
+    const doctorValue = document.getElementById('encDoctor').value;
+    if (doctorValue) {
+      payload.append('attending_user_id', doctorValue);
+    }
+
+    const reasonValue = document.getElementById('encReason').value.trim();
+    if (reasonValue) {
+      payload.append('reason_for_visit', reasonValue);
+    }
+
+    const notesValue = document.getElementById('encNotes').value.trim();
+    if (notesValue) {
+      payload.append('notes', notesValue);
+    }
+
+    const url = encIdValue ? '/api/encounters_update.php' : '/api/encounters_create.php';
 
     try {
       const res = await fetch(url, {
         method: 'POST',
         credentials: 'same-origin',
-        body: new URLSearchParams(payload)
+        body: payload
       });
       const json = await res.json();
       if (!json.success){ setError(json.error || t('error')||'Error'); return; }

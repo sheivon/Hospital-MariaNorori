@@ -35,6 +35,7 @@ class Database
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             ]);
+            self::applySchemaPatches(self::$pdo);
         } catch (PDOException $e) {
             $message = 'DB Connection failed: ' . $e->getMessage();
             if (stripos($e->getMessage(), 'could not find driver') !== false) {
@@ -44,6 +45,11 @@ class Database
         }
 
         return self::$pdo;
+    }
+
+    public static function getInstance(): PDO
+    {
+        return self::pdo();
     }
 
     private static function loadConfig(): array
@@ -83,6 +89,45 @@ class Database
         }
 
         die(self::buildPdoMysqlMissingMessage());
+    }
+
+    private static function applySchemaPatches(PDO $pdo): void
+    {
+        $patches = [
+            'tests' => [
+                'result' => 'TEXT NULL',
+            ],
+            'exam_requests' => [
+                'result' => 'TEXT NULL',
+            ],
+        ];
+
+        foreach ($patches as $table => $columns) {
+            foreach ($columns as $column => $definition) {
+                self::ensureColumnExists($pdo, $table, $column, $definition);
+            }
+        }
+    }
+
+    private static function ensureColumnExists(PDO $pdo, string $table, string $column, string $definition): void
+    {
+        try {
+            $stmt = $pdo->prepare(
+                'SELECT 1 FROM information_schema.columns WHERE table_schema = :schema AND table_name = :table AND column_name = :column LIMIT 1'
+            );
+            $stmt->execute([
+                ':schema' => self::config()['DB_NAME'],
+                ':table' => $table,
+                ':column' => $column,
+            ]);
+            if ($stmt->fetch()) {
+                return;
+            }
+
+            $pdo->exec(sprintf('ALTER TABLE `%s` ADD COLUMN `%s` %s', $table, $column, $definition));
+        } catch (PDOException $e) {
+            // Leave existing schema unchanged if we cannot patch it.
+        }
     }
 
     private static function buildPdoMysqlMissingMessage(): string

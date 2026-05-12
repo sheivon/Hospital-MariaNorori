@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Services\PrintService;
-use App\Models\DiagnosticoModel;
-use App\Models\PatientModel;
-use App\Models\UserModel;
-use App\Models\EncounterModel;
+use App\Repositories\DiagnosticoRepository;
+use App\Repositories\PatientRepository;
+use App\Repositories\UserRepository;
+use App\Repositories\EncounterRepository;
+use App\Repositories\TestRepository;
 use Exception;
 
 class PrintController
@@ -16,10 +17,11 @@ class PrintController
     private static function service(): PrintService
     {
         return new PrintService(
-            new DiagnosticoModel(),
-            new PatientModel(),
-            new UserModel(),
-            new EncounterModel()
+            new DiagnosticoRepository(),
+            new PatientRepository(),
+            new UserRepository(),
+            new EncounterRepository(),
+            new TestRepository()
         );
     }
 
@@ -41,8 +43,9 @@ class PrintController
      * @param string $resource
      * @return array{title:string,columns:array<array<string,string>>,rows:array<array<string,mixed>>}
      */
-    public static function datatable(string $resource): array
+    public static function datatable(string $resource, array $filters = []): array
     {
-        return self::service()->datatable($resource);
+        return self::service()->datatable($resource, $filters);
     }
 }
+

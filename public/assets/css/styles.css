@@ -86,7 +86,15 @@ body { padding-bottom: 0; color: var(--brand-text); }
 	.navbar, .navbar-custom, .btn, .modal, #privateChatWidget, #chatCard, .no-print { display: none !important; }
 
 	/* Container for print */
+	.app-shell, .main-content, .print-container, .container {
+		width: 100% !important;
+		max-width: 100% !important;
+		margin: 0 !important;
+		padding: 0 !important;
+	}
+	.main-content { padding: 0 !important; }
 	.print-container { max-width: 100% !important; }
+	.print-header, .print-header > div { margin: 0 !important; padding: 0 !important; }
 	.print-header h1, .print-header h2, .print-header h3 { margin: 0; }
 
 	/* Tables */
@@ -168,6 +176,30 @@ body { padding-bottom: 0; color: var(--brand-text); }
 }
 .sidebar .nav-link i {
   min-width: 1.2rem;
+}
+.sidebar .collapse {
+  max-height: calc(100vh - 10rem);
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.sidebar .collapse::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+.table-action-btn {
+  min-width: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+}
+.table-action-btn .btn-label {
+  display: none;
+  white-space: nowrap;
+}
+.table-action-btn:hover .btn-label {
+  display: inline-block;
 }
 .sidebar .sidebar-footer {
   margin-top: auto;

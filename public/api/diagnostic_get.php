@@ -7,3 +7,4 @@ use App\Controllers\Api\DiagnosticsController;
 
 Auth::requireLogin();
 DiagnosticsController::show($_GET);
+

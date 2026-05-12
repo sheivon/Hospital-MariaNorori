@@ -2,11 +2,13 @@
 require_once __DIR__ . '/../app/bootstrap.php';
 
 use App\Core\Auth;
+use App\Repositories\UserRepository;
 
 $err = '';
+$hasUsers = (new UserRepository())->countActiveUsers() > 0;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $u = $_POST['username'] ?? '';
-    $p = $_POST['password'] ?? '';
+  $u = trim((string)($_POST['username'] ?? ''));
+  $p = (string)($_POST['password'] ?? '');
   if (Auth::login($u, $p)) {
     // When serving from the `public/` directory as the web root,
     // redirect to `/` (document root) instead of `/public/` which
@@ -33,6 +35,11 @@ include __DIR__ . '/../templates/login-header.php';
         </div>
         <?php if (!empty($err)): ?>
           <div class="alert alert-danger" data-i18n="<?= htmlspecialchars($err) ?>">Invalid username or password</div>
+        <?php endif; ?>
+        <?php if (!$hasUsers): ?>
+          <div class="alert alert-warning">
+            No active users found. Run setup and create default users, then log in with admin/admin123.
+          </div>
         <?php endif; ?>
         <form method="post">
           <div class="mb-3">

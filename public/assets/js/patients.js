@@ -113,7 +113,17 @@ class PatientsView {
         { extend: 'csv', exportOptions: { columns: ':not(:last-child)' } },
         { extend: 'excel', exportOptions: { columns: ':not(:last-child)' } },
         { extend: 'pdf', exportOptions: { columns: ':not(:last-child)' } },
-        { extend: 'print', exportOptions: { columns: ':not(:last-child)' } }
+        {
+          extend: 'print',
+          exportOptions: { columns: ':not(:last-child)' },
+          action: function () {
+            if (typeof window.triggerCustomPrint === 'function') {
+              window.triggerCustomPrint('patients');
+              return;
+            }
+            window.open('/print.php?resource=patients', '_blank');
+          }
+        }
       ],
       responsive: true,
       lengthMenu: [10, 25, 50, 100],
@@ -236,9 +246,15 @@ class PatientsView {
           <td>${this.escapeHtml(p.phone||'')}</td>
           <td>
             <div class="btn-group d-flex" role="group">
-              <button class="btn btn-sm btn-info btn-allergies" data-id="${p.id}" title="Alergias"><i class="fa-solid fa-allergies"></i></button>
-              <button class="btn btn-sm btn-primary btn-edit" data-id="${p.id}" title="Edit"><i class="fa-solid fa-pen-to-square"></i></button>
-              <button class="btn btn-sm btn-danger btn-del" data-id="${p.id}" title="Delete"><i class="fa-solid fa-trash"></i></button>
+              <button class="btn btn-sm btn-info btn-allergies table-action-btn" data-id="${p.id}" title="Alergias">
+                <i class="fa-solid fa-allergies"></i><span class="btn-label">Alergias</span>
+              </button>
+              <button class="btn btn-sm btn-primary btn-edit table-action-btn" data-id="${p.id}" title="Editar">
+                <i class="fa-solid fa-pen-to-square"></i><span class="btn-label">Editar</span>
+              </button>
+              <button class="btn btn-sm btn-danger btn-del table-action-btn" data-id="${p.id}" title="Eliminar">
+                <i class="fa-solid fa-trash"></i><span class="btn-label">Eliminar</span>
+              </button>
             </div>
           </td>
         `;

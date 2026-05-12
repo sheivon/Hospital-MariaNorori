@@ -2,12 +2,13 @@
 
 namespace App\Services;
 
-use App\Models\RadiologyRequestModel;
+use App\Repositories\RadiologyRequestRepository;
 
 class RadiologyService extends BaseService
 {
-    public function __construct(RadiologyRequestModel $repository)
+    public function __construct(RadiologyRequestRepository $repository)
     {
         parent::__construct($repository);
     }
 }
+

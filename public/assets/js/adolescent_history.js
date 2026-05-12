@@ -31,9 +31,24 @@ class AdolescentHistoryView {
     if (!document.querySelector('#adolescentHistoryPage')) return;
     this.form = document.getElementById('adolescentHistoryForm');
     this.errorBox = document.getElementById('adolescentHistoryError');
+    this.modalEl = document.getElementById('adolescentHistoryModal');
+    this.modal = (this.modalEl && window.bootstrap) ? new bootstrap.Modal(this.modalEl) : null;
 
     await this.loadPatients();
     await this.loadList();
+
+    if (this.modalEl) {
+      this.modalEl.addEventListener('show.bs.modal', async () => {
+        this.setError('');
+        await this.loadPatients();
+        const visitDateInput = document.getElementById('visit_date');
+        if (visitDateInput && !visitDateInput.value) {
+          const now = new Date();
+          now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+          visitDateInput.value = now.toISOString().slice(0, 10);
+        }
+      });
+    }
 
     if (this.form) {
       this.form.addEventListener('submit', (event) => this.submitForm(event));
@@ -46,7 +61,11 @@ class AdolescentHistoryView {
     select.innerHTML = '<option value="">Loading...</option>';
 
     try {
-      const json = await fetch('/api/patients_list.php', { credentials: 'same-origin' }).then((r) => r.json());
+      const response = await fetch('/api/patients_list.php?encountered=1', { credentials: 'same-origin' });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const json = await response.json();
       const patients = Array.isArray(json.data) ? json.data : [];
       select.innerHTML = '<option value="">Select patient</option>' + patients.map((p) => {
         const name = `${p.first_name || ''} ${p.last_name || ''}`.trim();
@@ -54,6 +73,7 @@ class AdolescentHistoryView {
       }).join('');
     } catch (error) {
       select.innerHTML = '<option value="">Unable to load patients</option>';
+      console.error('Error loading patients:', error);
     }
   }
 
@@ -110,6 +130,9 @@ class AdolescentHistoryView {
       await AdolescentHistoryDataLayer.create(formData);
       this.form.reset();
       await this.loadList();
+      if (this.modal) {
+        this.modal.hide();
+      }
       this.setError(window.i18n_t ? window.i18n_t('history_saved') : 'Record saved successfully', false);
     } catch (error) {
       this.setError(error.message || 'Unable to save record');

@@ -2,12 +2,13 @@
 
 namespace App\Services;
 
-use App\Models\TestModel;
+use App\Repositories\TestRepository;
 
 class TestService extends BaseService
 {
-    public function __construct(TestModel $repository)
+    public function __construct(TestRepository $repository)
     {
         parent::__construct($repository);
     }
 }
+

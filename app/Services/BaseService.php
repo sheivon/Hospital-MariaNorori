@@ -31,11 +31,20 @@ abstract class BaseService implements ServiceInterface
 
     public function update(int $id, array $data): bool
     {
+        $this->ensureValidId($id);
         return $this->repository->update($id, $data);
     }
 
     public function delete(int $id): bool
     {
+        $this->ensureValidId($id);
         return $this->repository->delete($id);
+    }
+
+    protected function ensureValidId(int $id, string $name = 'id'): void
+    {
+        if ($id <= 0) {
+            throw new \InvalidArgumentException(sprintf('Invalid %s', $name));
+        }
     }
 }

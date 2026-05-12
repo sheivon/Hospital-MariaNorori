@@ -3,14 +3,14 @@
 namespace App\Controllers\Api;
 
 use App\Services\RadiologyService;
-use App\Models\RadiologyRequestModel;
+use App\Repositories\RadiologyRequestRepository;
 use Exception;
 
 class RadiologyController extends BaseApiController
 {
     private static function service(): RadiologyService
     {
-        return new RadiologyService(new RadiologyRequestModel());
+        return new RadiologyService(new RadiologyRequestRepository());
     }
 
     public static function index(array $query = []): void
@@ -28,3 +28,4 @@ class RadiologyController extends BaseApiController
         }
     }
 }
+

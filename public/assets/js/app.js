@@ -8,6 +8,18 @@ function hideLoadingOverlay(){
   if (el) el.style.display='none';
 }
 
+// Unified custom print entrypoint used by DataTables and page buttons.
+window.triggerCustomPrint = function(resource, filters = {}) {
+  if (!resource) return;
+  const params = new URLSearchParams({ resource: String(resource) });
+  Object.entries(filters || {}).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && String(value) !== '') {
+      params.set(key, String(value));
+    }
+  });
+  window.open('/print.php?' + params.toString(), '_blank');
+};
+
 document.addEventListener('DOMContentLoaded', function(){
   // i18n helper and debug
   const t = window.i18n_t || ((k,vars)=> (typeof k === 'string' ? k : ''));

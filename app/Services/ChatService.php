@@ -2,13 +2,13 @@
 
 namespace App\Services;
 
-use App\Models\ChatModel;
+use App\Repositories\ChatRepository;
 
 class ChatService
 {
-    private ChatModel $repository;
+    private ChatRepository $repository;
 
-    public function __construct(ChatModel $repository)
+    public function __construct(ChatRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -23,3 +23,4 @@ class ChatService
         return $this->repository->addMessage($userId, $username, $message, $recipientId);
     }
 }
+

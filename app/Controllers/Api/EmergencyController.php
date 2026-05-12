@@ -3,14 +3,14 @@
 namespace App\Controllers\Api;
 
 use App\Services\EmergencyService;
-use App\Models\EmergencyEncounterModel;
+use App\Repositories\EmergencyEncounterRepository;
 use Exception;
 
 class EmergencyController extends BaseApiController
 {
     private static function service(): EmergencyService
     {
-        return new EmergencyService(new EmergencyEncounterModel());
+        return new EmergencyService(new EmergencyEncounterRepository());
     }
 
     public static function index(array $query = []): void
@@ -28,3 +28,4 @@ class EmergencyController extends BaseApiController
         }
     }
 }
+

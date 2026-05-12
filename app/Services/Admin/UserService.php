@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Services\Admin;
 
-use App\Models\UserModel;
-use App\Models\UserRoleModel;
+use App\Repositories\UserRepository;
+use App\Repositories\UserRoleRepository;
 use Exception;
 
 class UserService
 {
-    private UserModel $repository;
-    private UserRoleModel $roleRepository;
+    private UserRepository $repository;
+    private UserRoleRepository $roleRepository;
 
-    public function __construct(UserModel $repository, UserRoleModel $roleRepository)
+    public function __construct(UserRepository $repository, UserRoleRepository $roleRepository)
     {
         $this->repository = $repository;
         $this->roleRepository = $roleRepository;
@@ -125,3 +125,4 @@ class UserService
         $this->repository->delete($id);
     }
 }
+

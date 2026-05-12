@@ -4,39 +4,43 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Models\DiagnosticoModel;
-use App\Models\PatientModel;
-use App\Models\UserModel;
-use App\Models\EncounterModel;
+use App\Repositories\DiagnosticoRepository;
+use App\Repositories\PatientRepository;
+use App\Repositories\UserRepository;
+use App\Repositories\EncounterRepository;
+use App\Repositories\TestRepository;
 use Exception;
 
 class PrintService
 {
-    private DiagnosticoModel $diagnosticoModel;
-    private PatientModel $patientModel;
-    private UserModel $userModel;
-    private EncounterModel $encounterModel;
+    private DiagnosticoRepository $DiagnosticoRepository;
+    private PatientRepository $PatientRepository;
+    private UserRepository $UserRepository;
+    private EncounterRepository $EncounterRepository;
+    private TestRepository $TestRepository;
 
     public function __construct(
-        DiagnosticoModel $diagnosticoModel,
-        PatientModel $patientModel,
-        UserModel $userModel,
-        EncounterModel $encounterModel
+        DiagnosticoRepository $DiagnosticoRepository,
+        PatientRepository $PatientRepository,
+        UserRepository $UserRepository,
+        EncounterRepository $EncounterRepository,
+        TestRepository $TestRepository
     ) {
-        $this->diagnosticoModel = $diagnosticoModel;
-        $this->patientModel = $patientModel;
-        $this->userModel = $userModel;
-        $this->encounterModel = $encounterModel;
+        $this->DiagnosticoRepository = $DiagnosticoRepository;
+        $this->PatientRepository = $PatientRepository;
+        $this->UserRepository = $UserRepository;
+        $this->EncounterRepository = $EncounterRepository;
+        $this->TestRepository = $TestRepository;
     }
 
     public function patient(int $patientId): array
     {
-        $patient = $this->patientModel->find($patientId);
+        $patient = $this->PatientRepository->find($patientId);
         if ($patient === null) {
             throw new Exception('Patient not found');
         }
 
-        $diagnostics = $this->diagnosticoModel->all(['patient_id' => $patientId]);
+        $diagnostics = $this->DiagnosticoRepository->all(['patient_id' => $patientId]);
 
         return [
             'patient' => $patient,
@@ -44,13 +48,13 @@ class PrintService
         ];
     }
 
-    public function datatable(string $resource): array
+    public function datatable(string $resource, array $filters = []): array
     {
         $resource = trim(strtolower($resource));
 
         switch ($resource) {
             case 'users':
-                $rows = $this->userModel->listAdminUsers();
+                $rows = $this->UserRepository->listAdminUsers();
                 $title = 'Users';
                 $columns = [
                     ['label' => 'ID', 'field' => 'id'],
@@ -65,7 +69,7 @@ class PrintService
                 break;
 
             case 'patients':
-                $rows = $this->patientModel->all();
+                $rows = $this->PatientRepository->all();
                 $title = 'Patients';
                 $columns = [
                     ['label' => 'ID', 'field' => 'id'],
@@ -83,7 +87,7 @@ class PrintService
                 break;
 
             case 'encounters':
-                $rows = $this->encounterModel->all();
+                $rows = $this->EncounterRepository->all($filters);
                 $title = 'Encounters';
                 $columns = [
                     ['label' => 'ID', 'field' => 'id'],
@@ -99,6 +103,35 @@ class PrintService
                 ];
                 break;
 
+            case 'diagnostics':
+                $rows = $this->DiagnosticoRepository->all($filters);
+                $title = 'Diagnostics';
+                $columns = [
+                    ['label' => 'ID', 'field' => 'id'],
+                    ['label' => 'Patient first name', 'field' => 'patient_first_name'],
+                    ['label' => 'Patient last name', 'field' => 'patient_last_name'],
+                    ['label' => 'Type', 'field' => 'type'],
+                    ['label' => 'Description', 'field' => 'description'],
+                    ['label' => 'Date', 'field' => 'date'],
+                    ['label' => 'Status', 'field' => 'status'],
+                    ['label' => 'Created by', 'field' => 'created_by_name'],
+                ];
+                break;
+
+            case 'tests':
+                $rows = $this->TestRepository->all($filters);
+                $title = 'Tests';
+                $columns = [
+                    ['label' => 'ID', 'field' => 'id'],
+                    ['label' => 'Test type', 'field' => 'test_type'],
+                    ['label' => 'Patient first name', 'field' => 'patient_first_name'],
+                    ['label' => 'Patient last name', 'field' => 'patient_last_name'],
+                    ['label' => 'Result', 'field' => 'result'],
+                    ['label' => 'Test date', 'field' => 'test_date'],
+                    ['label' => 'Created by', 'field' => 'created_by_name'],
+                ];
+                break;
+
             default:
                 throw new Exception('Unsupported print resource');
         }
@@ -110,3 +143,4 @@ class PrintService
         ];
     }
 }
+

@@ -5,3 +5,4 @@ require_once __DIR__ . '/../../app/bootstrap.php';
 use App\Controllers\Api\TestsController;
 
 TestsController::index($_GET);
+

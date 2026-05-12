@@ -2,13 +2,13 @@
 
 namespace App\Services;
 
-use App\Models\UserModel;
+use App\Repositories\UserRepository;
 
 class UserService
 {
-    private UserModel $repository;
+    private UserRepository $repository;
 
-    public function __construct(UserModel $repository)
+    public function __construct(UserRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -23,3 +23,4 @@ class UserService
         return $this->repository->existsById($id);
     }
 }
+

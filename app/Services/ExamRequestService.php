@@ -2,12 +2,13 @@
 
 namespace App\Services;
 
-use App\Models\ExamRequestModel;
+use App\Repositories\ExamRequestRepository;
 
 class ExamRequestService extends BaseService
 {
-    public function __construct(ExamRequestModel $repository)
+    public function __construct(ExamRequestRepository $repository)
     {
         parent::__construct($repository);
     }
 }
+

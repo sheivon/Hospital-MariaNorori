@@ -8,42 +8,46 @@ include __DIR__ . '/../templates/header.php';
 ?>
 <div class="container mt-4" id="adolescentHistoryPage">
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="mb-0" data-i18n="adolescent_history_title">Adolescent History</h2>
-    <p class="text-muted mb-0" data-i18n="adolescent_history_description">Capture adolescent clinical history and social context.</p>
+    <div>
+      <h2 class="mb-0" data-i18n="adolescent_history_title">Adolescent History</h2>
+      <p class="text-muted mb-0" data-i18n="adolescent_history_description">Capture adolescent clinical history and social context.</p>
+    </div>
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#adolescentHistoryModal">
+      <i class="fa-solid fa-plus me-1"></i><span data-i18n="add_adolescent_history">Add Clinical History</span>
+    </button>
   </div>
 
-  <div class="row">
-    <div class="col-lg-7">
-      <div class="card mb-4">
-        <div class="card-header">
-          <h5 class="mb-0" data-i18n="adolescent_history_list_title">Adolescent History Records</h5>
-        </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table id="adolescentHistoryTable" class="table table-sm table-bordered table-striped">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th data-i18n="patient">Patient</th>
-                  <th data-i18n="cedula">Cédula</th>
-                  <th data-i18n="visit_date">Visit Date</th>
-                  <th data-i18n="reason_for_consultation">Reason</th>
-                  <th data-i18n="created_at">Created</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
+  <div class="card mb-4">
+    <div class="card-header">
+      <h5 class="mb-0" data-i18n="adolescent_history_list_title">Adolescent History Records</h5>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table id="adolescentHistoryTable" class="table table-sm table-bordered table-striped w-100">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th data-i18n="patient">Patient</th>
+              <th data-i18n="cedula">Cédula</th>
+              <th data-i18n="visit_date">Visit Date</th>
+              <th data-i18n="reason_for_consultation">Reason</th>
+              <th data-i18n="created_at">Created</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
       </div>
     </div>
+  </div>
 
-    <div class="col-lg-5">
-      <div class="card mb-4">
-        <div class="card-header">
-          <h5 class="mb-0" data-i18n="add_adolescent_history">Add Clinical History</h5>
+  <div class="modal fade" id="adolescentHistoryModal" tabindex="-1" aria-labelledby="adolescentHistoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="adolescentHistoryModalLabel" data-i18n="add_adolescent_history">Add Clinical History</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="card-body">
+        <div class="modal-body">
           <div id="adolescentHistoryError" class="d-none mb-3"></div>
           <form id="adolescentHistoryForm">
             <div class="mb-3">
@@ -244,7 +248,10 @@ include __DIR__ . '/../templates/header.php';
               <label for="notes" class="form-label" data-i18n="notes">Notes</label>
               <textarea id="notes" name="notes" class="form-control" rows="3"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary" data-i18n="save">Save</button>
+            <div class="d-flex justify-content-end gap-2">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="cancel">Cancel</button>
+              <button type="submit" class="btn btn-primary" data-i18n="save">Save</button>
+            </div>
           </form>
         </div>
       </div>

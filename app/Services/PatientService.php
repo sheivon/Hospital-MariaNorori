@@ -7,18 +7,16 @@ namespace App\Services;
 use App\Interfaces\PatientRepositoryInterface;
 use Exception;
 
-class PatientService
+class PatientService extends BaseService
 {
-    private PatientRepositoryInterface $repository;
-
     public function __construct(PatientRepositoryInterface $repository)
     {
-        $this->repository = $repository;
+        parent::__construct($repository);
     }
 
-    public function getAllPatients(): array
+    public function getAllPatients(array $filters = []): array
     {
-        return $this->repository->all();
+        return $this->repository->all($filters);
     }
 
     public function getPatient(int $id): ?array
@@ -34,20 +32,14 @@ class PatientService
 
     public function updatePatient(int $id, array $data): bool
     {
-        if ($id <= 0) {
-            throw new Exception('Invalid patient id');
-        }
-
+        $this->ensureValidId($id, 'patient id');
         $this->validatePayload($data, $id);
         return $this->repository->update($id, $data);
     }
 
     public function deletePatient(int $id): bool
     {
-        if ($id <= 0) {
-            throw new Exception('Invalid patient id');
-        }
-
+        $this->ensureValidId($id, 'patient id');
         return $this->repository->delete($id);
     }
 

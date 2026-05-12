@@ -148,7 +148,7 @@ include __DIR__ . '/../templates/header.php';
 
   async function loadPatients(){
     try {
-      const res = await fetch('/api/patients_list.php', { credentials: 'same-origin' });
+      const res = await fetch('/api/patients_list.php?encountered=1', { credentials: 'same-origin' });
       const json = await res.json();
       if (!json.success) return [];
       const patients = Array.isArray(json.data) ? json.data : [];

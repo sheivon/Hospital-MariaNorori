@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Controllers\Api;
 
 use App\Core\Auth;
-use App\Models\AdolescentHistoryModel;
+use App\Repositories\AdolescentHistoryRepository;
 use App\Services\AdolescentHistoryService;
 
 class AdolescentHistoriesController extends BaseApiController
 {
     private static function service(): AdolescentHistoryService
     {
-        return new AdolescentHistoryService(new AdolescentHistoryModel());
+        return new AdolescentHistoryService(new AdolescentHistoryRepository());
     }
 
     public static function index(array $query = []): void
@@ -34,3 +34,4 @@ class AdolescentHistoriesController extends BaseApiController
         }
     }
 }
+

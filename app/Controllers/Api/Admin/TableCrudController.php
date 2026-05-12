@@ -7,14 +7,14 @@ namespace App\Controllers\Api\Admin;
 use App\Core\Auth;
 use App\Controllers\Api\BaseApiController;
 use App\Services\Admin\TableCrudService;
-use App\Models\TableCrudModel;
+use App\Repositories\TableCrudRepository;
 use Throwable;
 
 class TableCrudController extends BaseApiController
 {
     private static function service(): TableCrudService
     {
-        return new TableCrudService(new TableCrudModel());
+        return new TableCrudService(new TableCrudRepository());
     }
 
     public static function meta(): void
@@ -94,3 +94,4 @@ class TableCrudController extends BaseApiController
         }
     }
 }
+

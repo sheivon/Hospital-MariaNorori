@@ -2,16 +2,16 @@
 
 namespace App\Helpers;
 
-use App\Models\PatientModel;
+use App\Repositories\PatientRepository;
 
 class PatientHelper
 {
-    private static ?PatientModel $model = null;
+    private static ?PatientRepository $model = null;
 
-    private static function model(): PatientModel
+    private static function model(): PatientRepository
     {
         if (self::$model === null) {
-            self::$model = new PatientModel();
+            self::$model = new PatientRepository();
         }
         return self::$model;
     }
@@ -41,3 +41,4 @@ class PatientHelper
         return self::model()->delete($id);
     }
 }
+

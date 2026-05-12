@@ -7,15 +7,15 @@ namespace App\Controllers\Api\Admin;
 use App\Core\Auth;
 use App\Controllers\Api\BaseApiController;
 use App\Services\Admin\UserService;
-use App\Models\UserModel;
-use App\Models\UserRoleModel;
+use App\Repositories\UserRepository;
+use App\Repositories\UserRoleRepository;
 use Throwable;
 
 class UsersController extends BaseApiController
 {
     private static function service(): UserService
     {
-        return new UserService(new UserModel(), new UserRoleModel());
+        return new UserService(new UserRepository(), new UserRoleRepository());
     }
 
     public static function roles(): void
@@ -86,3 +86,4 @@ class UsersController extends BaseApiController
         }
     }
 }
+

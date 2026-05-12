@@ -234,7 +234,9 @@ include __DIR__ . '/../templates/header.php';
         <td>${escapeHtml(patient.dob || '')}</td>
         <td>${escapeHtml(patient.email || '')}</td>
         <td class="text-end">
-          <button type="button" class="btn btn-sm btn-primary select-patient-btn" data-patient='${encodeURIComponent(JSON.stringify(patient))}'>Seleccionar</button>
+          <button type="button" class="btn btn-sm btn-primary select-patient-btn table-action-btn" data-patient='${encodeURIComponent(JSON.stringify(patient))}' title="Seleccionar">
+            <i class="fa-solid fa-check"></i><span class="btn-label">Seleccionar</span>
+          </button>
         </td>
       </tr>`;
   }
@@ -258,7 +260,7 @@ include __DIR__ . '/../templates/header.php';
     clearModalMessage();
 
     try {
-      const res = await fetch('/api/patients_list.php', { credentials: 'same-origin' });
+      const res = await fetch('/api/patients_list.php?encountered=1', { credentials: 'same-origin' });
       const json = await res.json();
       if (!json.success || !Array.isArray(json.data)) {
         setModalMessage('No se pudo cargar la lista de pacientes.', 'danger');

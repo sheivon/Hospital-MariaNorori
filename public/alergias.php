@@ -1,5 +1,10 @@
 <?php
-include('../templates/header.php');
+require_once __DIR__ . '/../app/bootstrap.php';
+
+use App\Core\Auth;
+
+Auth::requireLogin();
+include(__DIR__ . '/../templates/header.php');
 ?>
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
@@ -127,8 +132,12 @@ include('../templates/header.php');
           render: function(data) {
             return `
             <div class="btn-group" role="group">
-              <button type="button" class="btn btn-sm btn-primary me-1" onclick="editAllergy(${data.id})">Editar</button>
-              <button type="button" class="btn btn-sm btn-danger" onclick="deleteAllergy(${data.id})">Eliminar</button>
+              <button type="button" class="btn btn-sm btn-primary table-action-btn me-1" onclick="editAllergy(${data.id})" title="Editar">
+                <i class="fa-solid fa-pen-to-square"></i><span class="btn-label">Editar</span>
+              </button>
+              <button type="button" class="btn btn-sm btn-danger table-action-btn" onclick="deleteAllergy(${data.id})" title="Eliminar">
+                <i class="fa-solid fa-trash"></i><span class="btn-label">Eliminar</span>
+              </button>
             </div>
             `;
           }

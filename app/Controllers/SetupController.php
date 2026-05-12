@@ -2,14 +2,19 @@
 
 namespace App\Controllers;
 
-use App\Models\SetupModel;
+use App\Repositories\SetupRepository;
 use Throwable;
 
 class SetupController
 {
     public static function handle(array $post): string
     {
-        $setup = new SetupModel();
+        return implode(PHP_EOL, self::processAction($post)['messages']);
+    }
+
+    public static function processAction(array $post): array
+    {
+        $setup = new SetupRepository();
         $config = $setup->loadConfig();
         $schemaFile = APP_ROOT . '/migrations/init.sql';
 
@@ -28,6 +33,7 @@ class SetupController
         }
 
         $messages = [];
+        $success = true;
 
         try {
             if (isset($post['test_connection'])) {
@@ -51,6 +57,7 @@ class SetupController
                 $messages[] = 'Database initialization completed.';
             }
         } catch (Throwable $e) {
+            $success = false;
             $messages[] = 'Error: ' . $e->getMessage();
             $messages[] = sprintf(
                 'DB config in use -> host: %s, port: %s, db: %s, user: %s',
@@ -61,6 +68,10 @@ class SetupController
             );
         }
 
-        return implode(PHP_EOL, $messages);
+        return [
+            'success' => $success,
+            'messages' => $messages,
+        ];
     }
 }
+

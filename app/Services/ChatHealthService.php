@@ -3,20 +3,20 @@
 namespace App\Services;
 
 use App\Core\Database;
-use App\Models\ChatModel;
-use App\Models\UserModel;
+use App\Repositories\ChatRepository;
+use App\Repositories\UserRepository;
 use PDO;
 
 class ChatHealthService
 {
-    private ChatModel $chatModel;
-    private UserModel $userModel;
+    private ChatRepository $ChatRepository;
+    private UserRepository $UserRepository;
     private PDO $pdo;
 
-    public function __construct(ChatModel $chatModel, UserModel $userModel)
+    public function __construct(ChatRepository $ChatRepository, UserRepository $UserRepository)
     {
-        $this->chatModel = $chatModel;
-        $this->userModel = $userModel;
+        $this->ChatRepository = $ChatRepository;
+        $this->UserRepository = $UserRepository;
         $this->pdo = Database::pdo();
     }
 
@@ -55,12 +55,12 @@ class ChatHealthService
 
     public function sendHealthMessage(int $userId, string $username, int $recipient): int
     {
-        return $this->chatModel->addMessage($userId, $username, '[health-check] ' . date('c'), $recipient);
+        return $this->ChatRepository->addMessage($userId, $username, '[health-check] ' . date('c'), $recipient);
     }
 
     public function verifyMessageRead(int $messageId, int $userId, int $recipient): bool
     {
-        $messages = $this->chatModel->getMessages(max(0, $messageId - 1), 50, $userId, $recipient);
+        $messages = $this->ChatRepository->getMessages(max(0, $messageId - 1), 50, $userId, $recipient);
         foreach ($messages as $message) {
             if ((int)($message['id'] ?? 0) === $messageId) {
                 return true;
@@ -77,3 +77,4 @@ class ChatHealthService
         return $stmt->rowCount() >= 0;
     }
 }
+
