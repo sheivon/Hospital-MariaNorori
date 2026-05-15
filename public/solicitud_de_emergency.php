@@ -6,7 +6,7 @@ use App\Core\Auth;
 Auth::requireLogin();
 include __DIR__ . '/../templates/header.php';
 ?>
-<div class="container mt-4">
+<div class=" mt-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
       <h2 data-i18n="emergency_form_title">Emergency Admissions / Discharges</h2>
@@ -39,7 +39,7 @@ include __DIR__ . '/../templates/header.php';
     <div class="col-12">
       <h5 data-i18n="emergency_basic_info">Basic information</h5>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <label for="sex" class="form-label" data-i18n="gender">Sex</label>
       <select id="sex" name="sex" class="form-select">
         <option value="" data-i18n="select_gender">Select</option>
@@ -47,7 +47,7 @@ include __DIR__ . '/../templates/header.php';
         <option value="F" data-i18n="gender_female">F</option>
       </select>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <label for="civilStatus" class="form-label" data-i18n="marital_status">Marital status</label>
       <select id="civilStatus" name="civil_status" class="form-select">
         <option value="" data-i18n="select_marital_status">Select</option>
@@ -57,7 +57,7 @@ include __DIR__ . '/../templates/header.php';
         <option value="Divorciado" data-i18n="marital_divorced">Divorced</option>
       </select>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <label for="education" class="form-label" data-i18n="education_level">Education</label>
       <select id="education" name="education" class="form-select">
         <option value="" data-i18n="select_education">Select</option>
@@ -68,28 +68,29 @@ include __DIR__ . '/../templates/header.php';
       </select>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-3">
       <label for="patientCategory" class="form-label" data-i18n="emergency_field_patient_category">Patient category</label>
       <input type="text" id="patientCategory" name="patient_category" class="form-control" data-i18n-placeholder="emergency_placeholder_patient_category" placeholder="e.g. Active insured">
     </div>
-    <div class="col-md-4">
+
+    <div class="col-md-3">
       <label for="inssNumber" class="form-label" data-i18n="insurance_policy_no">INSS number</label>
       <input type="text" id="inssNumber" name="inss_number" class="form-control" data-i18n-placeholder="emergency_placeholder_inss_number" placeholder="INSS number">
     </div>
-    <div class="col-md-4">
+    <div class="col-md-2">
       <label for="address" class="form-label" data-i18n="address">Address</label>
       <input type="text" id="address" name="address" class="form-control" data-i18n-placeholder="emergency_placeholder_address" placeholder="Full patient address">
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-2">
       <label for="locality" class="form-label" data-i18n="emergency_field_locality">Locality</label>
       <input type="text" id="locality" name="locality" class="form-control" data-i18n-placeholder="emergency_placeholder_locality" placeholder="Locality / Municipality">
     </div>
-    <div class="col-md-4">
+    <div class="col-md-2">
       <label for="district" class="form-label" data-i18n="emergency_field_district">Municipality / District</label>
       <input type="text" id="district" name="district" class="form-control" data-i18n-placeholder="emergency_placeholder_district" placeholder="Municipality or District">
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <label for="healthUnit" class="form-label" data-i18n="emergency_field_health_unit">Health unit / Neighborhood</label>
       <input type="text" id="healthUnit" name="health_unit" class="form-control" data-i18n-placeholder="emergency_placeholder_health_unit" placeholder="Health unit / Neighborhood">
     </div>
@@ -97,24 +98,24 @@ include __DIR__ . '/../templates/header.php';
     <div class="col-12">
       <h5 data-i18n="emergency_admission_heading">Admission</h5>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
       <label for="admissionDate" class="form-label" data-i18n="emergency_field_admission_date">Admission date</label>
       <input type="date" id="admissionDate" name="admission_date" class="form-control">
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
       <label for="admissionTime" class="form-label" data-i18n="emergency_field_admission_time">Admission time</label>
       <input type="time" id="admissionTime" name="admission_time" class="form-control">
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
       <label for="admissionService" class="form-label" data-i18n="emergency_field_service">Service</label>
       <input type="text" id="admissionService" name="admission_service" class="form-control" data-i18n-placeholder="emergency_placeholder_service" placeholder="Service">
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
       <label for="admissionDiagnosis" class="form-label" data-i18n="emergency_field_admission_diagnosis">Admission diagnosis</label>
       <input type="text" id="admissionDiagnosis" name="admission_diagnosis" class="form-control" data-i18n-placeholder="emergency_placeholder_admission_diagnosis" placeholder="Admission diagnosis">
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-3">
       <label class="form-label" data-i18n="emergency_field_admission_source">Admission source</label>
       <select id="admissionSource" name="admission_source" class="form-select">
         <option value="" data-i18n="select_option">Select</option>
@@ -135,15 +136,15 @@ include __DIR__ . '/../templates/header.php';
     <div class="col-12">
       <h5 data-i18n="emergency_discharge_heading">Discharge</h5>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
       <label for="dischargeDate" class="form-label" data-i18n="emergency_field_discharge_date">Discharge date</label>
       <input type="date" id="dischargeDate" name="discharge_date" class="form-control">
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
       <label for="dischargeTime" class="form-label" data-i18n="emergency_field_discharge_time">Discharge time</label>
       <input type="time" id="dischargeTime" name="discharge_time" class="form-control">
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
       <label for="dischargeService" class="form-label" data-i18n="emergency_field_discharge_service">Discharge service</label>
       <input type="text" id="dischargeService" name="discharge_service" class="form-control" data-i18n-placeholder="emergency_placeholder_discharge_service" placeholder="Discharge service">
     </div>
@@ -152,24 +153,24 @@ include __DIR__ . '/../templates/header.php';
       <input type="text" id="dischargeDiagnosis" name="discharge_diagnosis" class="form-control" data-i18n-placeholder="emergency_placeholder_discharge_diagnosis" placeholder="Discharge diagnosis">
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-2">
       <label for="daysOfStay" class="form-label" data-i18n="emergency_field_days_of_stay">Days of stay</label>
       <input type="number" id="daysOfStay" name="days_of_stay" class="form-control" min="0" data-i18n-placeholder="emergency_placeholder_days_of_stay" placeholder="Days of stay">
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <label for="principalDiagnosis" class="form-label" data-i18n="emergency_field_principal_diagnosis">Principal diagnosis</label>
       <input type="text" id="principalDiagnosis" name="principal_diagnosis" class="form-control" data-i18n-placeholder="emergency_placeholder_principal_diagnosis" placeholder="Principal diagnosis">
     </div>
-    <div class="col-md-4">
+    <div class="col-md-2">
       <label for="complementary" class="form-label" data-i18n="emergency_field_complementary">Complementary</label>
       <input type="text" id="complementary" name="complementary" class="form-control" data-i18n-placeholder="emergency_placeholder_complementary" placeholder="Complementary">
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-3">
       <label for="surgeries" class="form-label" data-i18n="emergency_field_surgeries">Surgeries performed</label>
       <textarea id="surgeries" name="surgeries" class="form-control" rows="2" data-i18n-placeholder="emergency_placeholder_surgeries" placeholder="Surgeries performed"></textarea>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
       <label class="form-label" data-i18n="emergency_field_work_accident">Work accident</label>
       <select id="workAccident" name="work_accident" class="form-select">
         <option value="" data-i18n="select_option">Select</option>
@@ -177,7 +178,7 @@ include __DIR__ . '/../templates/header.php';
         <option value="No">No</option>
       </select>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
       <label class="form-label" data-i18n="emergency_field_occupational_disease">Occupational disease</label>
       <select id="occupationalDisease" name="occupational_disease" class="form-select">
         <option value="" data-i18n="select_option">Select</option>
