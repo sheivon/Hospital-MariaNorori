@@ -40,9 +40,9 @@ class PatientsModule extends BaseModule
             ['path' => '/seguimiento_integral_ninez_adolescencia.php', 'label' => 'Seguimiento Infantíl', 'labelKey' => 'child_followups'],
             ['path' => '/alergias.php', 'label' => 'Alergias', 'labelKey' => 'allergies'],
             ['path' => '/diagnostics.php', 'label' => 'Diagnostics', 'labelKey' => 'diagnostics_title'],
-            ['path' => '/examen.php', 'label' => 'Exámenes'],
-            ['path' => '/solicitud_de_examen.php', 'label' => 'Solicitud de examen'],
-            ['path' => '/radiologia.php', 'label' => 'Radiología'],
+            ['path' => '/examen.php', 'label' => 'Exámenes', 'labelKey' => 'exams_title'],
+            ['path' => '/solicitud_de_examen.php', 'label' => 'Solicitud de examen', 'labelKey' => 'exam_request'],
+            ['path' => '/radiologia.php', 'label' => 'Radiología', 'labelKey' => 'radiology'],
 
         ];
     }

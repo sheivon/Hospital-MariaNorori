@@ -17,7 +17,7 @@ include __DIR__ . '/../templates/header.php';
   <form id="examRequestForm" class="row g-3">
     <input type="hidden" id="patientId" name="patient_id">
 
-    <div class="col-md-6">
+    <div class="col-md-4">
       <label for="patientDisplay" class="form-label">Paciente</label>
       <div class="input-group">
         <input type="text" id="patientDisplay" class="form-control" readonly placeholder="Seleccione un paciente">
@@ -25,7 +25,7 @@ include __DIR__ . '/../templates/header.php';
       </div>
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-2">
       <label for="patientCedula" class="form-label">Cédula</label>
       <input type="text" id="patientCedula" class="form-control" readonly>
     </div>
@@ -44,7 +44,7 @@ include __DIR__ . '/../templates/header.php';
       <label class="form-label">Exámenes solicitados</label>
       <div class="card card-body bg-light">
         <div class="row gy-3">
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-3">
             <h6 class="mb-2">Química sanguínea</h6>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Glucosa" id="examGlucosa"><label class="form-check-label" for="examGlucosa">Glucosa</label></div>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Urea" id="examUrea"><label class="form-check-label" for="examUrea">Urea</label></div>
@@ -54,7 +54,7 @@ include __DIR__ . '/../templates/header.php';
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Hemoglobina Glicosilada" id="examHemoglobina"><label class="form-check-label" for="examHemoglobina">Hemoglobina Glicosilada</label></div>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Glucosa Post-Prandial" id="examPostPrandial"><label class="form-check-label" for="examPostPrandial">Glucosa Post-Prandial</label></div>
           </div>
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-3">
             <h6 class="mb-2">Tolerancia a la glucosa</h6>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Ayunas" id="examAyunas"><label class="form-check-label" for="examAyunas">Ayunas</label></div>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="30 minutos" id="exam30Min"><label class="form-check-label" for="exam30Min">30 minutos</label></div>
@@ -62,7 +62,7 @@ include __DIR__ . '/../templates/header.php';
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="120 minutos" id="exam120Min"><label class="form-check-label" for="exam120Min">120 minutos</label></div>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="180 minutos" id="exam180Min"><label class="form-check-label" for="exam180Min">180 minutos</label></div>
           </div>
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-3">
             <h6 class="mb-2">Lípidos y electrolitos</h6>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Colesterol" id="examColesterol"><label class="form-check-label" for="examColesterol">Colesterol</label></div>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Triglicéridos" id="examTrigliceridos"><label class="form-check-label" for="examTrigliceridos">Triglicéridos</label></div>
@@ -70,10 +70,7 @@ include __DIR__ . '/../templates/header.php';
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="LDL-Colesterol" id="examLDL"><label class="form-check-label" for="examLDL">LDL-Colesterol</label></div>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="VLDL-Colesterol" id="examVLDL"><label class="form-check-label" for="examVLDL">VLDL-Colesterol</label></div>
           </div>
-        </div>
-
-        <div class="row gy-3 mt-3">
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-3">
             <h6 class="mb-2">Proteínas y bilirrubinas</h6>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Proteínas Totales" id="examProteinas"><label class="form-check-label" for="examProteinas">Proteínas Totales</label></div>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Albúminas" id="examAlbuminas"><label class="form-check-label" for="examAlbuminas">Albúminas</label></div>
@@ -81,7 +78,10 @@ include __DIR__ . '/../templates/header.php';
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Relación A/G" id="examAG"><label class="form-check-label" for="examAG">Relación A/G</label></div>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Fosfatasa Alcalina" id="examFosfatasa"><label class="form-check-label" for="examFosfatasa">Fosfatasa Alcalina</label></div>
           </div>
-          <div class="col-12 col-md-4">
+        </div>
+
+        <div class="row gy-3 mt-3"> 
+          <div class="col-12 col-md-3">
             <h6 class="mb-2">Enzimas</h6>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="T.G. Pirúvica" id="examTGPiruvica"><label class="form-check-label" for="examTGPiruvica">T.G. Pirúvica</label></div>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="T.G. Oxalacética" id="examTGOxalacetica"><label class="form-check-label" for="examTGOxalacetica">T.G. Oxalacética</label></div>
@@ -89,25 +89,22 @@ include __DIR__ . '/../templates/header.php';
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="CPK - Total" id="examCPKTotal"><label class="form-check-label" for="examCPKTotal">CPK - Total</label></div>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="CPK - MB" id="examCPKMB"><label class="form-check-label" for="examCPKMB">CPK - MB</label></div>
           </div>
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-3">
             <h6 class="mb-2">Otros</h6>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Amilasa Total" id="examAmilasaTotal"><label class="form-check-label" for="examAmilasaTotal">Amilasa Total</label></div>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Amilasa Pancreática" id="examAmilasaPancreatica"><label class="form-check-label" for="examAmilasaPancreatica">Amilasa Pancreática</label></div>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Lipasa" id="examLipasa"><label class="form-check-label" for="examLipasa">Lipasa</label></div>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Sodio" id="examSodio"><label class="form-check-label" for="examSodio">Sodio</label></div>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Potasio" id="examPotasio"><label class="form-check-label" for="examPotasio">Potasio</label></div>
-          </div>
-        </div>
-
-        <div class="row gy-3 mt-3">
-          <div class="col-12 col-md-4">
+          </div> 
+          <div class="col-12 col-md-3">
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Cloro" id="examCloro"><label class="form-check-label" for="examCloro">Cloro</label></div>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Fósforo" id="examFosforo"><label class="form-check-label" for="examFosforo">Fósforo</label></div>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Magnesio" id="examMagnesio"><label class="form-check-label" for="examMagnesio">Magnesio</label></div>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Hierro sérico" id="examHierro"><label class="form-check-label" for="examHierro">Hierro sérico</label></div>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Fijación de Hierro" id="examFijacion"><label class="form-check-label" for="examFijacion">Fijación de Hierro</label></div>
           </div>
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-3">
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Calcio" id="examCalcio"><label class="form-check-label" for="examCalcio">Calcio</label></div>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Troponina I Cualitativa" id="examTroponina"><label class="form-check-label" for="examTroponina">Troponina I Cualitativa</label></div>
             <div class="form-check"><input class="form-check-input" type="checkbox" name="exam_types[]" value="Dímero D Cualitativa" id="examDimero"><label class="form-check-label" for="examDimero">Dímero D Cualitativa</label></div>

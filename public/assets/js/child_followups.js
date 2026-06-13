@@ -42,6 +42,10 @@ class ChildFollowupsView {
   static dataTable = null;
   static currentId = null;
 
+  static t(key, fallback = key) {
+    return window.i18n_t ? window.i18n_t(key) : fallback;
+  }
+
   static escapeHtml(value) {
     return String(value || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
@@ -81,7 +85,7 @@ class ChildFollowupsView {
   static async loadPatients() {
     const select = document.getElementById('patient_id');
     if (!select) return;
-    select.innerHTML = '<option value="">Loading...</option>';
+    select.innerHTML = `<option value="">${this.t('loading', 'Loading...')}</option>`;
 
     try {
       const response = await fetch('/api/patients_list.php?encountered=1', { credentials: 'same-origin' });
@@ -90,12 +94,12 @@ class ChildFollowupsView {
       }
       const json = await response.json();
       const patients = Array.isArray(json.data) ? json.data : [];
-      select.innerHTML = '<option value="">Seleccione un paciente</option>' + patients.map((p) => {
+      select.innerHTML = `<option value="">${this.t('select_patient', 'Select a patient')}</option>` + patients.map((p) => {
         const name = `${p.first_name || ''} ${p.last_name || ''}`.trim();
         return `<option value="${this.escapeHtml(p.id)}">${this.escapeHtml(name)}${p.cedula ? ' (' + this.escapeHtml(p.cedula) + ')' : ''}</option>`;
       }).join('');
     } catch (error) {
-      select.innerHTML = '<option value="">No se pudo cargar pacientes</option>';
+      select.innerHTML = `<option value="">${this.t('patient_load_failed', 'Unable to load patients')}</option>`;
       console.error('Error loading patients:', error);
     }
   }
@@ -107,22 +111,26 @@ class ChildFollowupsView {
     try {
       const result = await ChildFollowupDataLayer.list();
       const rows = Array.isArray(result.data) ? result.data : [];
-      tableBody.innerHTML = rows.length ? rows.map((row) => `
-        <tr>
-          <td>${this.escapeHtml(row.id)}</td>
-          <td>${this.escapeHtml((row.patient_first_name || '') + ' ' + (row.patient_last_name || ''))}</td>
-          <td>${this.escapeHtml(row.cedula || '')}</td>
-          <td>${this.escapeHtml(row.visit_date || '')}</td>
-          <td>${this.escapeHtml(row.notas || '').slice(0, 120)}</td>
-          <td>${this.escapeHtml(row.note_count || 0)}</td>
-          <td>
-            <button type="button" class="btn btn-sm btn-outline-primary me-1" data-action="add-note" data-id="${this.escapeHtml(row.id)}">Nota</button>
-            <button type="button" class="btn btn-sm btn-outline-success me-1" data-action="print" data-id="${this.escapeHtml(row.id)}">Imprimir</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary me-1" data-action="edit" data-id="${this.escapeHtml(row.id)}">Editar</button>
-            <button type="button" class="btn btn-sm btn-outline-danger" data-action="delete" data-id="${this.escapeHtml(row.id)}">Eliminar</button>
-          </td>
-        </tr>
-      `).join('') : '<tr><td colspan="7" class="text-center">No hay registros.</td></tr>';
+      if (!rows.length) {
+        tableBody.innerHTML = '';
+      } else {
+        tableBody.innerHTML = rows.map((row) => `
+          <tr>
+            <td>${this.escapeHtml(row.id)}</td>
+            <td>${this.escapeHtml((row.patient_first_name || '') + ' ' + (row.patient_last_name || ''))}</td>
+            <td>${this.escapeHtml(row.cedula || '')}</td>
+            <td>${this.escapeHtml(row.visit_date || '')}</td>
+            <td>${this.escapeHtml(row.notas || '').slice(0, 120)}</td>
+            <td>${this.escapeHtml(row.note_count || 0)}</td>
+            <td>
+              <button type="button" class="btn btn-sm btn-outline-primary me-1" data-action="add-note" data-id="${this.escapeHtml(row.id)}">${this.t('note', 'Note')}</button>
+              <button type="button" class="btn btn-sm btn-outline-success me-1" data-action="print" data-id="${this.escapeHtml(row.id)}">${this.t('print', 'Print')}</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary me-1" data-action="edit" data-id="${this.escapeHtml(row.id)}">${this.t('edit', 'Edit')}</button>
+              <button type="button" class="btn btn-sm btn-outline-danger" data-action="delete" data-id="${this.escapeHtml(row.id)}">${this.t('delete', 'Delete')}</button>
+            </td>
+          </tr>
+        `).join('');
+      }
 
       this.initDataTable();
       this.bindActionButtons();
@@ -142,7 +150,10 @@ class ChildFollowupsView {
       responsive: true,
       lengthMenu: [10, 25, 50],
       order: [[0, 'desc']],
-      columnDefs: [{ orderable: false, targets: [4, 5, 6] }]
+      columnDefs: [{ orderable: false, targets: [4, 5, 6] }],
+      language: {
+        emptyTable: this.t('child_followups_no_records', 'No child follow-ups found.')
+      }
     });
   }
 
@@ -176,12 +187,12 @@ class ChildFollowupsView {
       const json = await response.json();
 
       if (!json.success) {
-        throw new Error(json.error || 'Unable to load record');
+        throw new Error(json.error || this.t('followup_load_failed', 'Unable to load record'));
       }
 
       const record = (Array.isArray(json.data) ? json.data[0] : null);
       if (!record) {
-        throw new Error('Registro no encontrado');
+        throw new Error(this.t('followup_not_found', 'Follow-up record not found'));
       }
 
       this.currentId = id;
@@ -205,12 +216,12 @@ class ChildFollowupsView {
 
       if (this.followupModalInstance) {
         if (this.followupModalTitle) {
-          this.followupModalTitle.textContent = `Editar seguimiento #${id}`;
+          this.followupModalTitle.textContent = this.t('edit_child_followup_title', 'Edit follow-up');
         }
         this.followupModalInstance.show();
       }
     } catch (error) {
-      this.setError(error.message || 'Unable to load record');
+      this.setError(error.message || this.t('followup_load_failed', 'Unable to load record'));
     }
   }
 
@@ -218,19 +229,19 @@ class ChildFollowupsView {
     const notesList = document.getElementById('childFollowupNotesList');
     if (!notesList || !this.notesFollowupId) return;
 
-    notesList.innerHTML = '<li class="list-group-item text-center">Cargando notas...</li>';
+    notesList.innerHTML = `<li class="list-group-item text-center">${this.t('loading', 'Loading...')}</li>`;
     try {
       const result = await ChildFollowupDataLayer.listNotes(this.notesFollowupId);
       const notes = Array.isArray(result.data) ? result.data : [];
       if (!notes.length) {
-        notesList.innerHTML = '<li class="list-group-item text-center">Aún no hay notas.</li>';
+        notesList.innerHTML = `<li class="list-group-item text-center">${this.t('child_followup_no_notes', 'No notes yet.')}</li>`;
         return;
       }
 
       notesList.innerHTML = notes.map((note) => `
         <li class="list-group-item">
           <div class="d-flex justify-content-between align-items-start">
-            <strong>${this.escapeHtml(note.tipo || 'Nota')}</strong>
+            <strong>${this.escapeHtml(note.tipo || this.t('note', 'Note'))}</strong>
             <small class="text-muted">${this.escapeHtml(note.created_at || '')}</small>
           </div>
           <div class="mt-2">${this.escapeHtml(note.contenido || '')}</div>
@@ -251,18 +262,18 @@ class ChildFollowupsView {
     const contenido = (formData.get('contenido') || '').toString().trim();
 
     if (!contenido) {
-      this.setNotesError('El contenido de la nota es obligatorio');
+      this.setNotesError(this.t('note_content_required', 'Note content is required'));
       return;
     }
 
     try {
       await ChildFollowupDataLayer.createNote(formData);
-      this.setNotesError('Nota guardada correctamente', false);
+      this.setNotesError(this.t('note_saved', 'Note saved successfully'), false);
       await this.loadNotes();
       await this.loadList();
       this.notesForm.reset();
     } catch (error) {
-      this.setNotesError(error.message || 'No se pudo guardar la nota');
+      this.setNotesError(error.message || this.t('note_save_failed', 'Unable to save the note'));
     }
   }
 
@@ -279,7 +290,7 @@ class ChildFollowupsView {
   }
 
   static async deleteRecord(id) {
-    if (!id || !confirm('¿Eliminar este registro?')) {
+    if (!id || !confirm(this.t('confirm_delete_followup', 'Delete this follow-up?'))) {
       return;
     }
 
@@ -287,9 +298,9 @@ class ChildFollowupsView {
       await ChildFollowupDataLayer.delete(id);
       this.resetForm();
       await this.loadList();
-      this.setError('Registro eliminado correctamente', false);
+      this.setError(this.t('followup_deleted', 'Follow-up deleted successfully'), false);
     } catch (error) {
-      this.setError(error.message || 'Unable to delete record');
+      this.setError(error.message || this.t('followup_delete_failed', 'Unable to delete record'));
     }
   }
 
@@ -305,7 +316,7 @@ class ChildFollowupsView {
     this.setNotesError('');
     const title = document.getElementById('childFollowupNotesModalTitle');
     if (title) {
-      title.textContent = `Notas del seguimiento #${id}`;
+      title.textContent = `${this.t('child_followup_notes_title', 'Follow-up Notes')} #${id}`;
     }
 
     await this.loadNotes();
@@ -318,7 +329,7 @@ class ChildFollowupsView {
 
     const formData = new FormData(this.form);
     if (!formData.get('patient_id')) {
-      this.setError('Seleccione un paciente');
+      this.setError(this.t('patient_required', 'Please select a patient'));
       return;
     }
 
@@ -334,9 +345,9 @@ class ChildFollowupsView {
       if (this.followupModalInstance) {
         this.followupModalInstance.hide();
       }
-      this.setError('Registro guardado correctamente', false);
+      this.setError(this.t('followup_saved', 'Follow-up saved successfully'), false);
     } catch (error) {
-      this.setError(error.message || 'No se pudo guardar el registro');
+      this.setError(error.message || this.t('followup_save_failed', 'Unable to save the follow-up'));
     }
   }
 
@@ -346,7 +357,7 @@ class ChildFollowupsView {
     this.form.reset();
     document.getElementById('followup_id').value = '';
     if (this.followupModalTitle) {
-      this.followupModalTitle.textContent = 'Agregar seguimiento';
+      this.followupModalTitle.textContent = this.t('add_child_followup', 'Add follow-up');
     }
     this.setError('');
   }

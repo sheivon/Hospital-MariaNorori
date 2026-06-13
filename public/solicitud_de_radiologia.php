@@ -15,165 +15,485 @@ include __DIR__ . '/../templates/header.php';
     <a href="/radiologia.php" class="btn btn-secondary"><i class="fa-solid fa-arrow-left me-1"></i>Volver a radiología</a>
   </div>
 
-  <div id="radiologyAlert" class="alert alert-danger d-none" role="alert"></div>
+  <div id="radiologyAlert" 
+    class="alert alert-danger d-none" 
+    role="alert">
+  </div>
+ 
+  <form id="radiologyForm">
+    <!-- Tabs Navigation -->
+    <ul class="nav nav-tabs mb-4" id="radiologyTabs" role="tablist">
 
-  <form id="radiologyForm" class="row g-3">
-    <input type="hidden" id="patientId" name="patient_id">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active"
+                    id="patient-tab-btn"
+                    data-bs-toggle="tab"
+                    data-bs-target="#patient-tab"
+                    type="button">
+                Paciente
+            </button>
+        </li>
 
-    <div class="col-md-6">
-      <label for="patientDisplay" class="form-label">Paciente</label>
-      <div class="input-group">
-        <input type="text" id="patientDisplay" class="form-control" readonly placeholder="Seleccione un paciente">
-        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#patientsListModal">Buscar paciente</button>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <label for="patientCedula" class="form-label">Cédula</label>
-      <input type="text" id="patientCedula" class="form-control" readonly>
-    </div>
-    <div class="col-md-3">
-      <label for="patientExpediente" class="form-label">Expediente</label>
-      <input type="text" id="patientExpediente" class="form-control" readonly>
-    </div>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link"
+                    id="request-tab-btn"
+                    data-bs-toggle="tab"
+                    data-bs-target="#request-tab"
+                    type="button">
+                Solicitud
+            </button>
+        </li>
 
-    <div class="col-md-4">
-      <label for="unit" class="form-label">Unidad</label>
-      <input type="text" id="unit" name="unit" class="form-control" placeholder="Unidad" required>
-    </div>
-    <div class="col-md-4">
-      <label for="firstLastName" class="form-label">1er Apellido</label>
-      <input type="text" id="firstLastName" name="first_last_name" class="form-control" placeholder="1er Apellido" required>
-    </div>
-    <div class="col-md-4">
-      <label for="secondLastName" class="form-label">2do Apellido</label>
-      <input type="text" id="secondLastName" name="second_last_name" class="form-control" placeholder="2do Apellido">
-    </div>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link"
+                    id="clinical-tab-btn"
+                    data-bs-toggle="tab"
+                    data-bs-target="#clinical-tab"
+                    type="button">
+                Datos Clínicos
+            </button>
+        </li>
+  
+        <li class="nav-item" role="presentation">
+            <button class="nav-link"
+                    id="radiology-tab-btn"
+                    data-bs-toggle="tab"
+                    data-bs-target="#radiology-tab"
+                    type="button">
+                Radiología
+            </button>
+        </li> 
+    </ul>
 
-    <div class="col-md-6">
-      <label for="names" class="form-label">Nombres</label>
-      <input type="text" id="names" name="names" class="form-control" placeholder="Nombres" required>
-    </div>
-    <div class="col-md-6">
-      <label for="age" class="form-label">Edad</label>
-      <input type="text" id="age" name="age" class="form-control" placeholder="Edad" required>
-    </div>
+    <!-- Tab Content -->
+    <div class="tab-content"> 
+        <!-- ===================================== -->
+        <!-- PACIENTE -->
+        <!-- ===================================== -->
+        <div class="tab-pane fade show active"
+            id="patient-tab"
+            role="tabpanel">
 
-    <div class="col-md-4">
-      <label class="form-label">Asegurado</label>
-      <div class="d-flex gap-3 align-items-center">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="insured" id="insuredYes" value="SI" checked>
-          <label class="form-check-label" for="insuredYes">SI</label>
+            <div class="card">
+                <div class="card-header">
+                    Información del Paciente
+                </div>
+
+                <div class="card-body">  
+                    <div class="row g-3">
+                        <!-- Paciente -->
+                        <input type="hidden" id="patientId" name="patient_id">
+                        <div class="col-md-6">
+                            <label for="patientDisplay" class="form-label">Paciente</label>
+                            <div class="input-group">
+                                <input type="text"
+                                      id="patientDisplay"
+                                      class="form-control"
+                                      readonly
+                                      placeholder="Seleccione un paciente">
+
+                                <button type="button"
+                                        class="btn btn-outline-secondary"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#patientsListModal">
+                                    Buscar paciente
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Cédula -->
+                        <div class="col-md-3">
+                            <label for="patientCedula" class="form-label">Cédula</label>
+                            <input type="text"
+                                  id="patientCedula"
+                                  class="form-control"
+                                  readonly>
+                        </div>
+
+                        <!-- Expediente -->
+                        <div class="col-md-3">
+                            <label for="patientExpediente" class="form-label">Expediente</label>
+                            <input type="text"
+                                  id="patientExpediente"
+                                  class="form-control"
+                                  readonly>
+                        </div>
+
+                        <!-- Unidad -->
+                        <div class="col-md-4">
+                            <label for="unit" class="form-label">Unidad</label>
+                            <input type="text"
+                                  id="unit"
+                                  name="unit"
+                                  class="form-control"
+                                  required>
+                        </div>
+
+                        <!-- 1er Apellido -->
+                        <div class="col-md-4">
+                            <label for="firstLastName" class="form-label">1er Apellido</label>
+                            <input type="text"
+                                  id="firstLastName"
+                                  name="first_last_name"
+                                  class="form-control"
+                                  required>
+                        </div>
+
+                        <!-- 2do Apellido --> 
+                        <div class="col-md-4">
+                            <label for="secondLastName" class="form-label">2do Apellido</label>
+                            <input type="text"
+                                  id="secondLastName"
+                                  name="second_last_name"
+                                  class="form-control">
+                        </div>
+
+                        <!-- Nombres -->
+                        <div class="col-md-4">
+                            <label for="names" class="form-label">Nombres</label>
+                            <input type="text"
+                                  id="names"
+                                  name="names"
+                                  class="form-control"
+                                  required>
+                        </div>
+
+                        <!-- Edad -->
+                        <div class="col-md-2">
+                            <label for="age" class="form-label">Edad</label>
+                            <input type="text"
+                                  id="age"
+                                  name="age"
+                                  class="form-control"
+                                  required>
+                        </div>
+
+                        <!-- Asegurado -->
+                        <div class="col-md-3">
+                            <label class="form-label">Asegurado</label>
+
+                            <div class="d-flex gap-3 align-items-center mt-2">
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                          type="radio"
+                                          name="insured"
+                                          id="insuredYes"
+                                          value="SI"
+                                          checked>
+
+                                    <label class="form-check-label" for="insuredYes">SI</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                          type="radio"
+                                          name="insured"
+                                          id="insuredNo"
+                                          value="NO">
+
+                                    <label class="form-check-label" for="insuredNo">NO</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sexo -->
+                        <div class="col-md-3">
+                            <label class="form-label">Sexo</label> 
+                            <div class="d-flex gap-3 align-items-center mt-2">
+                              <div class="form-check">
+                                  <input class="form-check-input"
+                                        type="radio"
+                                        name="gender"
+                                        id="genderM"
+                                        value="M"
+                                        checked>
+
+                                  <label class="form-check-label" for="genderM">M</label>
+                              </div>
+                              <div class="form-check">
+                                  <input class="form-check-input"
+                                        type="radio"
+                                        name="gender"
+                                        id="genderF"
+                                        value="F">
+
+                                  <label class="form-check-label" for="genderF">F</label>
+                              </div>
+                          </div>
+                      </div> 
+                    </div> 
+                </div>
+            </div>
         </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="insured" id="insuredNo" value="NO">
-          <label class="form-check-label" for="insuredNo">NO</label>
+
+        <!-- ===================================== -->
+        <!-- SOLICITUD -->
+        <!-- ===================================== -->
+        <div class="tab-pane fade"
+            id="request-tab"
+            role="tabpanel">
+
+            <div class="card">
+                <div class="card-header">
+                    Información de la Solicitud
+                </div>
+
+                <div class="card-body">
+                  <div class="row g-3"> 
+                    <!-- Fecha de solicitud --> 
+                    <div class="col-md-3">
+                        <label for="requestDate" class="form-label">Fecha de solicitud</label>
+                        <input type="date"
+                              id="requestDate"
+                              name="request_date"
+                              class="form-control"
+                              required>
+                    </div>
+
+                    <!-- Clínica o cama No. -->
+                    <div class="col-md-3">
+                        <label for="clinicBed" class="form-label">Clínica o cama No.</label>
+                        <input type="text"
+                              id="clinicBed"
+                              name="clinic_bed"
+                              class="form-control">
+                    </div>
+
+                    <!-- Servicio -->
+                    <div class="col-md-4">
+                        <label for="service" class="form-label">Servicio</label>
+                        <input type="text"
+                              id="service"
+                              name="service"
+                              class="form-control"
+                              required>
+                    </div>
+
+                    <!-- Código -->
+                    <div class="col-md-2">
+                        <label for="code" class="form-label">Código</label>
+                        <input type="text"
+                              id="code"
+                              name="code"
+                              class="form-control">
+                    </div>
+    
+                    <!-- Tiene radiografía anterior -->
+                    <div class="col-md-4">
+                        <label for="priorRadiograph" class="form-label">Tiene radiografía anterior</label>
+                        <input type="text"
+                              id="priorRadiograph"
+                              name="prior_radiograph"
+                              class="form-control">
+                    </div>
+
+                    <!-- Código anterior -->
+                    <div class="col-md-4">
+                        <label for="priorRadiographCode" class="form-label">Código anterior</label>
+                        <input type="text"
+                              id="priorRadiographCode"
+                              name="prior_radiograph_code"
+                              class="form-control">
+                    </div>
+
+                    <!-- Examen solicitado --> 
+                    <div class="col-md-4">
+                        <label for="examRequested" class="form-label">Examen solicitado</label>
+                        <input type="text"
+                              id="examRequested"
+                              name="exam_requested"
+                              class="form-control"
+                              required>
+                    </div>  
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-    <div class="col-md-4">
-      <label class="form-label">Sexo</label>
-      <div class="d-flex gap-3 align-items-center">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="gender" id="genderM" value="M" checked>
-          <label class="form-check-label" for="genderM">M</label>
+
+    <!-- ===================================== -->
+    <!-- DATOS CLINICOS -->
+    <!-- ===================================== -->
+        <div class="tab-pane fade"
+            id="clinical-tab"
+            role="tabpanel">
+
+            <div class="card">
+                <div class="card-header">
+                    Información Clínica
+                </div>
+
+                <div class="card-body">  
+                    <div class="row g-3"> 
+                      <!-- Datos clínicos -->
+                      <div class="col-12">
+                          <label for="clinicalData" class="form-label">Datos clínicos</label>
+                          <textarea id="clinicalData"
+                                    name="clinical_data"
+                                    rows="4"
+                                    class="form-control"></textarea>
+                      </div>
+
+                      <!-- Tiempo de evolución -->
+                      <div class="col-md-6">
+                          <label for="evolutionTime" class="form-label">Tiempo de evolución</label>
+                          <input type="text"
+                                id="evolutionTime"
+                                name="evolution_time"
+                                class="form-control">
+                      </div>
+
+                      <!-- Diagnóstico de presunción -->
+                      <div class="col-md-6">
+                          <label for="presumptiveDiagnosis" class="form-label">Diagnóstico de presunción</label>
+                          <input type="text"
+                                id="presumptiveDiagnosis"
+                                name="presumptive_diagnosis"
+                                class="form-control">
+                      </div>
+
+                      <!-- Observaciones --> 
+                      <div class="col-12"> 
+                          <label for="observations" class="form-label">Observaciones</label>
+                          <textarea id="observations"
+                                    name="observations"
+                                    rows="4"
+                                    class="form-control"></textarea>
+                      </div> 
+
+                      
+                  </div>
+                </div>
+            </div>
         </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="gender" id="genderF" value="F">
-          <label class="form-check-label" for="genderF">F</label>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <label for="requestDate" class="form-label">Fecha de solicitud</label>
-      <input type="date" id="requestDate" name="request_date" class="form-control" required>
-    </div>
 
-    <div class="col-md-4">
-      <label for="clinicBed" class="form-label">Clínica o cama No.</label>
-      <input type="text" id="clinicBed" name="clinic_bed" class="form-control" placeholder="Clínica o cama No.">
-    </div>
-    <div class="col-md-4">
-      <label for="service" class="form-label">Servicio</label>
-      <input type="text" id="service" name="service" class="form-control" placeholder="Servicio" required>
-    </div>
-    <div class="col-md-4">
-      <label for="code" class="form-label">Código</label>
-      <input type="text" id="code" name="code" class="form-control" placeholder="Código">
-    </div>
+        <!-- ===================================== -->
+        <!-- PERSONAL MEDICO --> 
+        <!-- Y -->
+        <!-- RADIOLOGIA -->
+        <!-- ===================================== -->
+        <div class="tab-pane fade"
+            id="radiology-tab"
+            role="tabpanel">
 
-    <div class="col-12">
-      <h5>Solicitud de examen radiológico</h5>
-    </div>
-    <div class="col-md-4">
-      <label for="priorRadiograph" class="form-label">Tiene radiografía anterior</label>
-      <input type="text" id="priorRadiograph" name="prior_radiograph" class="form-control" placeholder="SI / NO">
-    </div>
-    <div class="col-md-4">
-      <label for="priorRadiographCode" class="form-label">Código anterior</label>
-      <input type="text" id="priorRadiographCode" name="prior_radiograph_code" class="form-control" placeholder="Código anterior">
-    </div>
-    <div class="col-md-4">
-      <label for="examRequested" class="form-label">Examen solicitado</label>
-      <input type="text" id="examRequested" name="exam_requested" class="form-control" placeholder="Ej. Radiografía de tórax" required>
-    </div>
+            <div class="card">
 
-    <div class="col-12">
-      <label for="clinicalData" class="form-label">Datos clínicos</label>
-      <textarea id="clinicalData" name="clinical_data" rows="3" class="form-control" placeholder="Datos clínicos"></textarea>
-    </div>
-    <div class="col-md-6">
-      <label for="evolutionTime" class="form-label">Tiempo de evolución</label>
-      <input type="text" id="evolutionTime" name="evolution_time" class="form-control" placeholder="Tiempo de evolución">
-    </div>
-    <div class="col-md-6">
-      <label for="presumptiveDiagnosis" class="form-label">Diagnóstico de presunción</label>
-      <input type="text" id="presumptiveDiagnosis" name="presumptive_diagnosis" class="form-control" placeholder="Diagnóstico de presunción">
-    </div>
-    <div class="col-12">
-      <label for="observations" class="form-label">Observaciones</label>
-      <textarea id="observations" name="observations" rows="3" class="form-control" placeholder="Observaciones"></textarea>
-    </div>
+                <div class="card-header">
+                    Uso del Servicio de Radiología
+                </div>
 
-    <div class="col-md-6">
-      <label for="doctorCode" class="form-label">Firma y código médico solicitante</label>
-      <input type="text" id="doctorCode" name="doctor_code" class="form-control" placeholder="Firma y código médico">
-    </div>
-    <div class="col-md-6">
-      <label for="technician" class="form-label">Técnico R.X.</label>
-      <input type="text" id="technician" name="technician" class="form-control" placeholder="Técnico R.X.">
-    </div>
+                <div class="card-body">  
+                  <div class="row g-3">
+                    <!-- Cantidad de placas usadas -->
+                    <div class="col-md-3">
+                        <label for="platesUsed" class="form-label">
+                            Cantidad de placas usadas
+                        </label>
 
-    <div class="col-12">
-      <h5>Para uso del servicio de radiología</h5>
-    </div>
-    <div class="col-md-3">
-      <label for="platesUsed" class="form-label">Cantidad de placas usadas</label>
-      <input type="text" id="platesUsed" name="plates_used" class="form-control" placeholder="Cantidad de placas">
-    </div>
-    <div class="col-md-3">
-      <label for="radiologyDate" class="form-label">Fecha</label>
-      <input type="date" id="radiologyDate" name="radiology_date" class="form-control">
-    </div>
-    <div class="col-md-3">
-      <label for="radiographsArchived" class="form-label">Radiografías archivadas</label>
-      <input type="text" id="radiographsArchived" name="radiographs_archived" class="form-control" placeholder="Radiografías archivadas">
-    </div>
-    <div class="col-md-3">
-      <label for="radiographCount" class="form-label">Número de radiografías</label>
-      <input type="text" id="radiographCount" name="radiograph_count" class="form-control" placeholder="Número de radiografías">
-    </div>
+                        <input type="text"
+                              id="platesUsed"
+                              name="plates_used"
+                              class="form-control">
+                    </div> 
 
-    <div class="col-12">
-      <label for="dictatingDoctorCode" class="form-label">Firma y código del médico que dictaminó</label>
-      <input type="text" id="dictatingDoctorCode" name="dictating_doctor_code" class="form-control" placeholder="Firma y código del médico que dictaminó">
-    </div>
+                    <!-- Fecha -->
+                    <div class="col-md-3">
+                        <label for="radiologyDate" class="form-label">Fecha</label> 
+                        <input type="date"
+                              id="radiologyDate"
+                              name="radiology_date"
+                              class="form-control">
+                    </div>
 
-    <div class="col-12 d-flex justify-content-end gap-2">
-      <a href="/radiologia.php" class="btn btn-secondary">Cancelar</a>
-      <button id="submitRadiology" class="btn btn-primary" type="submit"><i class="fa-solid fa-paper-plane me-1"></i>Enviar solicitud</button>
-    </div>
+                    <!-- Radiografías archivadas -->
+                    <div class="col-md-3">
+                        <label for="radiographsArchived" class="form-label">
+                            Radiografías archivadas
+                        </label> 
+                        <input type="text"
+                              id="radiographsArchived"
+                              name="radiographs_archived"
+                              class="form-control">
+                    </div>
+
+                    <!-- Número de radiografías -->
+                    <div class="col-md-3">
+                        <label for="radiographCount" class="form-label">
+                            Número de radiografías
+                        </label> 
+                        <input type="text"
+                              id="radiographCount"
+                              name="radiograph_count"
+                              class="form-control">
+                    </div>
+    
+                    <!-- Firma y código del médico que dictaminó --> 
+                    <div class="col-12">
+                        <label for="dictatingDoctorCode" class="form-label">
+                            Firma y código del médico que dictaminó
+                        </label> 
+                        <input type="text"
+                              id="dictatingDoctorCode"
+                              name="dictating_doctor_code"
+                              class="form-control">
+                    </div> 
+
+                  </div>
+                </div> 
+            </div>
+            
+            <div class="card mt-3">
+                <div class="card-header">
+                    Personal Médico
+                </div>
+
+                <div class="card-body"> 
+                  <div class="row g-3"> 
+                  <!-- Firma y código médico solicitante -->
+                  <div class="col-md-6">
+                      <label for="doctorCode" class="form-label">
+                          Firma y código médico solicitante
+                      </label>
+
+                      <input type="text"
+                            id="doctorCode"
+                            name="doctor_code"
+                            class="form-control">
+                  </div>
+
+                  <!-- Técnico R.X. -->
+                  <div class="col-md-6">
+                      <label for="technician" class="form-label">
+                          Técnico R.X.
+                      </label>
+
+                      <input type="text"
+                            id="technician"
+                            name="technician"
+                            class="form-control">
+                  </div>
+
+              </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-4">
+                <a href="/radiologia.php"
+                  class="btn btn-secondary">
+                    Cancelar
+                </a> 
+                <button id="submitRadiology"
+                        class="btn btn-primary"
+                        type="submit">
+                    <i class="fa-solid fa-paper-plane me-1"></i>
+                    Enviar solicitud
+                </button>
+            </div>
+
+        </div> 
+    </div>  
+
   </form>
+
 </div>
 
 <?php include __DIR__ . '/modal/patients_list_modal.php'; ?>
@@ -327,8 +647,8 @@ include __DIR__ . '/../templates/header.php';
 
     const submitButton = document.getElementById('submitRadiology');
     submitButton.disabled = true;
-    submitButton.textContent = 'Guardando...';
-
+    submitButton.textContent = 'Guardando...'; 
+    
     const payload = {
       patient_id: Number(patientId),
       unit,
@@ -352,8 +672,8 @@ include __DIR__ . '/../templates/header.php';
       doctor_code: document.getElementById('doctorCode').value.trim(),
       technician: document.getElementById('technician').value.trim(),
       plates_used: document.getElementById('platesUsed').value.trim(),
-      findings: document.getElementById('findings').value.trim(),
-      conclusions: document.getElementById('conclusions').value.trim(),
+      findings: document.getElementById('findings')?.value?.trim() || '',
+      conclusions: document.getElementById('conclusions')?.value?.trim() || '',
       radiology_date: document.getElementById('radiologyDate').value,
       radiographs_archived: document.getElementById('radiographsArchived').value.trim(),
       radiograph_count: document.getElementById('radiographCount').value.trim(),
@@ -392,6 +712,7 @@ include __DIR__ . '/../templates/header.php';
     });
   });
 })();
+
 </script>
 
 <?php include __DIR__ . '/../templates/footer.php'; ?>

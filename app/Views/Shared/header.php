@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 ?>
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -36,7 +36,7 @@ if (session_status() === PHP_SESSION_NONE) {
     }
     .floating-lang-select .form-select {
       min-width: 4rem;
-      padding-right: 0.5rem;
+      padding-right: 0.4rem;
     }
     @media (max-width: 992px) {
       .floating-lang-select {
