@@ -10,6 +10,7 @@ use App\Repositories\PatientRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\EncounterRepository;
 use App\Repositories\TestRepository;
+use App\Repositories\EmergencyEncounterRepository;
 use Exception;
 
 class PrintController
@@ -21,7 +22,8 @@ class PrintController
             new PatientRepository(),
             new UserRepository(),
             new EncounterRepository(),
-            new TestRepository()
+            new TestRepository(),
+            new EmergencyEncounterRepository()
         );
     }
 

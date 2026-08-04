@@ -31,7 +31,8 @@
       patients: 'patients',
       encounters: 'encounters',
       diagnostics: 'diagnostics',
-      tests: 'tests'
+      tests: 'tests',
+        emergency:'emergency'
     };
 
     const key = mapping[resource] || 'data';

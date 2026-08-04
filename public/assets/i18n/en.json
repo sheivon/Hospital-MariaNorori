@@ -193,8 +193,8 @@
   "check_partial_warn": "Some checks failed or are incomplete",
   "edit": "Edit",
   "delete": "Delete",
-    "Close":"Close",
-    "print":"Print",
+  "Close":"Close",
+  "print":"Print",
   "already_logged_in":"You are already logged in as",
   "diagnostics_title": "Diagnostics",
   "diagnostics_type": "Type",
@@ -399,8 +399,7 @@
   "select_gender": "Select gender",
   "select_marital_status": "Select marital status",
   "select_education": "Select education",
-  "education_primary": "Primary",
-  "education_secondary": "Secondary",
-  "education_university": "University",
-  "education_other": "Other"
+  "education_other": "Other",
+  "Citas": "Apointments",
+  "cita_request_button": "Apointment Request"
 }

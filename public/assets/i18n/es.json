@@ -1,7 +1,6 @@
 {
   "hospital": "Centro Salud María Norori",
   "welcome_message": "Bienvenido al sistema de registros del Centro Salud.",
-
   "brand": "Centro Salud",
   "patients": "Pacientes",
   "view_patients": "Ver Pacientes",
@@ -404,5 +403,7 @@
   "select_gender": "Seleccione género",
   "select_marital_status": "Seleccione estado civil",
   "select_education": "Seleccione escolaridad", 
-  "education_other": "Otra"
+  "education_other": "Otra",
+  "Citas": "Citas",
+  "cita_request_button": "Solicitar Cita"
 }

@@ -9,6 +9,7 @@ use App\Repositories\PatientRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\EncounterRepository;
 use App\Repositories\TestRepository;
+use App\Repositories\EmergencyEncounterRepository;
 use Exception;
 
 class PrintService
@@ -19,18 +20,21 @@ class PrintService
     private EncounterRepository $EncounterRepository;
     private TestRepository $TestRepository;
 
+    private EmergencyEncounterRepository $EmergencyEncounterRepository;
     public function __construct(
         DiagnosticoRepository $DiagnosticoRepository,
         PatientRepository $PatientRepository,
         UserRepository $UserRepository,
         EncounterRepository $EncounterRepository,
-        TestRepository $TestRepository
+        TestRepository $TestRepository,
+        EmergencyEncounterRepository $EmergencyEncounterRepository
     ) {
         $this->DiagnosticoRepository = $DiagnosticoRepository;
         $this->PatientRepository = $PatientRepository;
         $this->UserRepository = $UserRepository;
         $this->EncounterRepository = $EncounterRepository;
         $this->TestRepository = $TestRepository;
+        $this->EmergencyEncounterRepository = $EmergencyEncounterRepository;
     }
 
     public function patient(int $patientId): array
@@ -129,6 +133,33 @@ class PrintService
                     ['label' => 'Result', 'field' => 'result'],
                     ['label' => 'Test date', 'field' => 'test_date'],
                     ['label' => 'Created by', 'field' => 'created_by_name'],
+                ];
+                break;
+
+            case 'emergency':
+                $rows = $this->EmergencyEncounterRepository->all($filters);
+
+                foreach ($rows as &$row) {
+                    $row['patient'] = trim(
+                        ($row['patient_first_name'] ?? '') . ' ' .
+                        ($row['patient_last_name'] ?? '')
+                    );
+
+                    $row['admission_date'] = $row['form_data']['admission_date'] ?? '';
+                    $row['service'] = $row['form_data']['admission_service'] ?? '';
+                    $row['diagnosis'] = $row['form_data']['admission_diagnosis'] ?? '';
+                }
+
+                $title = 'Emergency';
+
+                $columns = [
+                    ['label' => 'ID', 'field' => 'id'],
+                    ['label' => 'Patient', 'field' => 'patient'],
+                    ['label' => 'Cédula', 'field' => 'cedula'],
+                    ['label' => 'Admission', 'field' => 'admission_date'],
+                    ['label' => 'Service', 'field' => 'service'],
+                    ['label' => 'Diagnosis', 'field' => 'diagnosis'],
+                    ['label' => 'Status', 'field' => 'status'],
                 ];
                 break;
 

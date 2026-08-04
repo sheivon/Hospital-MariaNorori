@@ -9,6 +9,9 @@ if (session_status() === PHP_SESSION_NONE) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title data-i18n="hospital">Centro Salud</title>
+    <!-- FavIco -->
+    <link href="/assets/images/favicon.ico" rel="icon">
+
   <link href="/assets/css/bootstrap.min.css" rel="stylesheet"> 
   <link rel="stylesheet" href="/assets/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="/assets/vendor/datatables/buttons.dataTables.min.css">

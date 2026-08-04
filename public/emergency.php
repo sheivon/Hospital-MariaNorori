@@ -12,7 +12,9 @@ include __DIR__ . '/../templates/header.php';
       <h2 data-i18n="emergency_title">Emergency</h2>
       <p class="text-muted mb-0" data-i18n="emergency_description">Emergency request records grouped by patient.</p>
     </div>
-    <div class="d-flex gap-2">
+      <div>
+          <button id="btnPrintEmergency" class="btn btn-secondary me-2"><i class="fa-solid fa-print me-1"></i><span data-i18n="print">Print</span></button>
+
       <a href="/solicitud_de_emergency.php" class="btn btn-success"><i class="fa-solid fa-plus me-1"></i><span data-i18n="emergency_new_request">New request</span></a>
     </div>
   </div>
@@ -133,6 +135,10 @@ include __DIR__ . '/../templates/header.php';
   }
 
   document.addEventListener('DOMContentLoaded', loadEmergencyEntries);
+
+    document.getElementById('btnPrintEmergency').addEventListener('click', function () {
+        window.open('/print.php?resource=emergency', '_blank');
+    });
 })();
 </script>
 
