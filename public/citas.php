@@ -12,9 +12,9 @@ include __DIR__ . '/../templates/header.php';
 		<div>
 			<h2 data-i18n="Citas">Citas</h2>
 		</div>
-		<div class="d-flex gap-2">
-			<a href="/solicitud_de_examen.php" class="btn btn-success"><i class="fa-solid fa-plus me-1"></i><span data-i18n="cita_request_button">Solicitud de examen</span></a>
-		</div>
+        <button type="button" class="btn btn-success" id="diagCrudModalCitas" data-bs-toggle="modal" data-bs-target="#diagCrudModalCitas">
+            <i class="fa-solid fa-plus me-1"></i><span data-i18n="cita_request_button">Add Citas</span>
+        </button>
 	</div>
 
 	<div id="examListAlert" class="alert alert-danger d-none" role="alert"></div>
@@ -39,3 +39,10 @@ include __DIR__ . '/../templates/header.php';
 		</table>
 	</div>
 </div>
+
+
+
+
+<?php include __DIR__ . '/modal/citas_modal.php'; ?>
+
+<?php include __DIR__ . '/../templates/footer.php'; ?>
