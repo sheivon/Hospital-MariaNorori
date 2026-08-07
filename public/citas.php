@@ -13,7 +13,7 @@ include __DIR__ . '/../templates/header.php';
 			<h2 data-i18n="Citas">Citas</h2>
 		</div>
         <button type="button" class="btn btn-success" id="diagCrudModalCitas" data-bs-toggle="modal" data-bs-target="#diagCrudModalCitas">
-            <i class="fa-solid fa-plus me-1"></i><span data-i18n="cita_request_button">Add Citas</span>
+            <i class="fa-solid fa-plus me-1"></i><span data-i18n="citas_add_btn">Add Citas</span>
         </button>
 	</div>
 

@@ -405,5 +405,5 @@
   "select_education": "Seleccione escolaridad", 
   "education_other": "Otra",
   "Citas": "Citas",
-  "cita_request_button": "Solicitar Cita"
+  "citas_add_btn": "Solicitar Cita"
 }

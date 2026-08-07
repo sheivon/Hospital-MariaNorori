@@ -4,7 +4,7 @@
         <div class="modal-content">
             <form id="diagCrudForm">
                 <div class="modal-header">
-                    <h5 class="modal-title" data-i18n="diagnostics_add_btn">Add Citas</h5>
+                    <h5 class="modal-title" data-i18n="citas_add_btn">Add Citas</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
