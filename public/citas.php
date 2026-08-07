@@ -16,27 +16,30 @@ include __DIR__ . '/../templates/header.php';
             <i class="fa-solid fa-plus me-1"></i><span data-i18n="citas_add_btn">Add Citas</span>
         </button>
 	</div>
+<div id="appointmentListAlert" class="alert alert-danger d-none" role="alert"></div>
 
-	<div id="examListAlert" class="alert alert-danger d-none" role="alert"></div>
-
-	<div class="table-responsive">
-		<table id="examsTable" class="table table-bordered table-striped align-middle">
-			<thead>
-			<tr>
-				<th style="width:10%;" data-i18n="table_index">#</th>
-				<th data-i18n="exam_table_patient">Paciente</th>
-				<th data-i18n="exam_table_cedula">Cédula</th>
-				<th data-i18n="exam_table_date">Fecha</th>
-				<th data-i18n="exam_table_type">Examen</th>
-				<th data-i18n="exam_table_notes">Notas</th>
-				<th data-i18n="exam_table_status">Estado</th>
-				<th data-i18n="actions">Actions</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr><td colspan="7" class="text-center">Cargando...</td></tr>
-			</tbody>
-		</table>
+<div class="table-responsive">
+    <table id="appointmentsTable" class="table table-bordered table-striped align-middle">
+        <thead>
+            <tr>
+                <th style="width:5%;" data-i18n="table_index">#</th>
+                <th data-i18n="appointment_table_patient">Patient</th>
+                <th data-i18n="appointment_table_provider">Provider</th>
+                <th data-i18n="appointment_table_datetime">Date & Time</th>
+                <th data-i18n="appointment_table_reason">Reason</th>
+                <th data-i18n="appointment_table_status">Status</th>
+                <th style="width:12%;" data-i18n="actions">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="7" class="text-center" data-i18n="loading">
+                    Loading...
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>le>
 	</div>
 </div>
 

@@ -172,8 +172,8 @@
   "profile_role": "Role",
   "label_new_password": "New password (leave empty to keep)",
   "btn_save": "Save",
-  "error": "Error"
-  ,"chat_title":"Chat",
+  "error": "Error",
+  "chat_title":"Chat",
   "type_message":"Type a message...",
   "send":"Send",
   "loading": "Loading...",
