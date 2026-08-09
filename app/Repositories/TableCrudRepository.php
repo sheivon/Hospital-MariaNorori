@@ -11,7 +11,6 @@ class TableCrudRepository extends \App\Repositories\BaseRepository
         'users' => ['pk' => 'id', 'label' => 'Users'],
         'user_roles' => ['pk' => 'role_id', 'label' => 'User Roles', 'read_only' => true],
         'patients' => ['pk' => 'id', 'label' => 'Patients'],
-        'patient_contacts' => ['pk' => 'id', 'label' => 'Patient Contacts'],
         'encounters' => ['pk' => 'id', 'label' => 'Encounters'],
         'encounter_doctors' => ['pk' => 'id', 'label' => 'Encounter Doctors'],
         'patient_conditions' => ['pk' => 'id', 'label' => 'Patient Conditions'],
@@ -27,8 +26,6 @@ class TableCrudRepository extends \App\Repositories\BaseRepository
         'treatment_administration' => ['pk' => 'id', 'label' => 'Treatment Administration'],
         'immunizations' => ['pk' => 'id', 'label' => 'Immunizations'],
         'appointments' => ['pk' => 'id', 'label' => 'Appointments'],
-        'admissions' => ['pk' => 'id', 'label' => 'Admissions'],
-        'bed_movements' => ['pk' => 'id', 'label' => 'Bed Movements'],
         'chat_messages' => ['pk' => 'id', 'label' => 'Chat Messages'],
         'audit_logs' => ['pk' => 'id', 'label' => 'Audit Logs'],
     ];

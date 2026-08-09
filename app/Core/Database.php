@@ -36,7 +36,7 @@ class Database
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             ]);
-            self::applySchemaPatches(self::$pdo);
+            self::applySchemaPatches(self::$pdo); // not needed if you are sure the schema is already set up
         } catch (PDOException $e) {
             $message = 'DB Connection failed: ' . $e->getMessage();
             if (stripos($e->getMessage(), 'could not find driver') !== false) {
@@ -61,11 +61,11 @@ class Database
     private static function loadConfig(): array
     {
         $config = [
-            'DB_HOST' => getenv('DB_HOST') ?: '192.168.1.204', //dev ip 192.168.1.204 wsl mysql
+           /* 'DB_HOST' => getenv('DB_HOST') ?: '192.168.1.204', //dev ip 192.168.1.204 wsl mysql
             'DB_NAME' => getenv('DB_NAME') ?: 'hospital',   //DB
             'DB_USER' => getenv('DB_USER') ?: 'Marianorori',   //dev user
             'DB_PORT' => getenv('DB_PORT') ?: '3307',   //dev port
-            'DB_PASS' => getenv('DB_PASS') ?: 'SuperNoror!26*', //dev pass SuperNoror!26*
+            'DB_PASS' => getenv('DB_PASS') ?: 'SuperNoror!26*', //dev pass SuperNoror!26**/
             'DB_HOST' => getenv('DB_HOST') ?: '127.0.0.1',
             'DB_NAME' => getenv('DB_NAME') ?: 'hospital',
             'DB_USER' => getenv('DB_USER') ?: 'root',

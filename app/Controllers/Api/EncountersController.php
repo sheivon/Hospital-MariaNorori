@@ -15,6 +15,11 @@ class EncountersController extends BaseApiController
 
     public static function index(array $query = []): void
     {
+        // Accept ?type=emergency to filter to emergency encounters only
+        // (replaces the old dedicated /api/emergency_list.php endpoint).
+        if (!empty($query['type'])) {
+            $query['encounter_type'] = (string)$query['type'];
+        }
         self::success(['data' => self::service()->all($query)]);
     }
 

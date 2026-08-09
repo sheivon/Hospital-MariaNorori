@@ -10,7 +10,7 @@ class EncounterRepository extends \App\Repositories\BaseRepository implements Re
     public function all(array $filters = []): array
     {
         $hasDeletedAt = $this->hasDeletedAtForTable('encounters');
-        $sql = 'SELECT e.*, p.first_name AS patient_first_name, p.last_name AS patient_last_name, u.fullname AS attending_name
+        $sql = 'SELECT e.*, p.first_name AS patient_first_name, p.last_name AS patient_last_name, p.cedula, u.fullname AS attending_name
              FROM encounters e
              LEFT JOIN patients p ON p.id = e.patient_id
              LEFT JOIN users u ON u.id = e.attending_user_id
@@ -31,6 +31,11 @@ class EncounterRepository extends \App\Repositories\BaseRepository implements Re
             $params[':attending_user_id'] = (int)$filters['attending_user_id'];
         }
 
+        if (!empty($filters['encounter_type'])) {
+            $sql .= ' AND e.encounter_type = :encounter_type';
+            $params[':encounter_type'] = (string)$filters['encounter_type'];
+        }
+
         if (!empty($filters['encounter_date'])) {
             $encounterDate = substr((string)$filters['encounter_date'], 0, 10);
             if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $encounterDate) === 1) {
@@ -43,7 +48,20 @@ class EncounterRepository extends \App\Repositories\BaseRepository implements Re
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Decode form_data JSON for emergency rows (back-compat with
+        // the old emergency_encounters table shape).
+        foreach ($rows as &$row) {
+            if (!empty($row['form_data'])) {
+                $decoded = json_decode($row['form_data'], true);
+                if (is_array($decoded)) {
+                    $row['form_data_decoded'] = $decoded;
+                }
+            }
+        }
+
+        return $rows;
     }
 
     public function find(int $id): ?array
@@ -104,8 +122,8 @@ class EncounterRepository extends \App\Repositories\BaseRepository implements Re
         $this->pdo->beginTransaction();
         try {
             $stmt = $this->pdo->prepare(
-                'INSERT INTO encounters (patient_id, encounter_date, encounter_type, reason_for_visit, triage_level, status, attending_user_id, notes, created_by)
-                 VALUES (:patient_id, :encounter_date, :encounter_type, :reason_for_visit, :triage_level, :status, :attending_user_id, :notes, :created_by)'
+                'INSERT INTO encounters (patient_id, encounter_date, encounter_type, reason_for_visit, triage_level, status, attending_user_id, notes, admission_date, discharge_date, emergency_status, form_data, created_by)
+                 VALUES (:patient_id, :encounter_date, :encounter_type, :reason_for_visit, :triage_level, :status, :attending_user_id, :notes, :admission_date, :discharge_date, :emergency_status, :form_data, :created_by)'
             );
             $stmt->execute([
                 ':patient_id' => $patientId,
@@ -116,6 +134,10 @@ class EncounterRepository extends \App\Repositories\BaseRepository implements Re
                 ':status' => $data['status'] ?? 'open',
                 ':attending_user_id' => isset($data['attending_user_id']) && $data['attending_user_id'] === 'null' ? null : ($data['attending_user_id'] ?? null),
                 ':notes' => $data['notes'] ?? null,
+                ':admission_date' => $data['admission_date'] ?? null,
+                ':discharge_date' => $data['discharge_date'] ?? null,
+                ':emergency_status' => $data['emergency_status'] ?? null,
+                ':form_data' => $data['form_data'] ?? null,
                 ':created_by' => $data['created_by'] ?? null,
             ]);
             $encounterId = (int)$this->pdo->lastInsertId();
@@ -141,7 +163,8 @@ class EncounterRepository extends \App\Repositories\BaseRepository implements Re
 
         $stmt = $this->pdo->prepare(
             'UPDATE encounters SET patient_id=:patient_id, encounter_date=:encounter_date, encounter_type=:encounter_type,
-             reason_for_visit=:reason_for_visit, triage_level=:triage_level, status=:status, attending_user_id=:attending_user_id, notes=:notes
+             reason_for_visit=:reason_for_visit, triage_level=:triage_level, status=:status, attending_user_id=:attending_user_id, notes=:notes,
+             admission_date=:admission_date, discharge_date=:discharge_date, emergency_status=:emergency_status, form_data=:form_data
              WHERE id=:id'
         );
         return $stmt->execute([
@@ -153,6 +176,10 @@ class EncounterRepository extends \App\Repositories\BaseRepository implements Re
             ':status' => $data['status'] ?? 'open',
             ':attending_user_id' => isset($data['attending_user_id']) && $data['attending_user_id'] === 'null' ? null : ($data['attending_user_id'] ?? null),
             ':notes' => $data['notes'] ?? null,
+            ':admission_date' => $data['admission_date'] ?? null,
+            ':discharge_date' => $data['discharge_date'] ?? null,
+            ':emergency_status' => $data['emergency_status'] ?? null,
+            ':form_data' => $data['form_data'] ?? null,
             ':id' => $id,
         ]);
     }

@@ -40,7 +40,6 @@ class EncountersModule extends BaseModule
     {
         return [
             ['path' => '/encounters.php',  'label' => 'Encounters',  'labelKey' => 'encounters'],
-            ['path' => '/emergency.php',    'label' => 'Emergency',   'labelKey' => 'emergency'],
         ];
     }
 }

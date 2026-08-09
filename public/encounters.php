@@ -18,6 +18,14 @@ include __DIR__ . '/../templates/header.php';
         <div class="col-12 col-md-auto">
           <button type="button" id="btnClearEncDate" class="btn btn-outline-secondary btn-sm" data-i18n="clear">Clear</button>
         </div>
+        <div class="col-12 col-md-auto">
+          <div class="btn-group btn-group-sm" role="group" aria-label="Encounter type filter">
+            <button type="button" class="btn btn-outline-primary enc-type-filter active" data-type="" data-i18n="encounters_all">All</button>
+            <button type="button" class="btn btn-outline-primary enc-type-filter" data-type="outpatient" data-i18n="encounters_outpatient">Outpatient</button>
+            <button type="button" class="btn btn-outline-primary enc-type-filter" data-type="inpatient" data-i18n="encounters_inpatient">Inpatient</button>
+            <button type="button" class="btn btn-outline-warning enc-type-filter" data-type="emergency" data-i18n="emergency">Emergency</button>
+          </div>
+        </div>
       </div>
     <div>
       <button id="btnPrintEncounters" class="btn btn-secondary me-2"><i class="fa-solid fa-print me-1"></i><span data-i18n="print">Print</span></button>
@@ -198,6 +206,24 @@ document.addEventListener('DOMContentLoaded', function(){
     $('#encountersTable tbody').off('click');
   }
 
+  let currentTypeFilter = '';
+
+  function setActiveTypeFilter(type){
+    currentTypeFilter = type || '';
+    document.querySelectorAll('.enc-type-filter').forEach(btn => {
+      btn.classList.toggle('active', (btn.dataset.type || '') === currentTypeFilter);
+    });
+    if (typeof table !== 'undefined' && table.ajax) {
+      table.ajax.reload();
+    }
+  }
+
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('.enc-type-filter');
+    if (!btn) return;
+    setActiveTypeFilter(btn.dataset.type || '');
+  });
+
   const table = $('#encountersTable').DataTable({
     buttons: [
       { extend: 'copy', exportOptions: { columns: ':not(:last-child)' } },
@@ -211,6 +237,9 @@ document.addEventListener('DOMContentLoaded', function(){
       data: function(d){
         if (encDateFromInput && encDateFromInput.value) {
           d.encounter_date = encDateFromInput.value;
+        }
+        if (currentTypeFilter) {
+          d.type = currentTypeFilter;
         }
       },
       dataSrc: function(json){
@@ -293,6 +322,18 @@ document.addEventListener('DOMContentLoaded', function(){
       resetEncounterForm();
       await Promise.all([loadPatients(), loadDoctors()]);
     });
+
+    // Show/hide the emergency-only fields panel based on encounter_type
+    const typeSelect = document.getElementById('encAddType');
+    const emergencyFields = document.getElementById('emergencyFields');
+    if (typeSelect && emergencyFields) {
+      const toggle = () => {
+        emergencyFields.style.display = (typeSelect.value === 'emergency') ? '' : 'none';
+      };
+      typeSelect.addEventListener('change', toggle);
+      // Initial state (in case the modal opens with a value already set)
+      toggle();
+    }
   }
 
   if (patientsModal) {
@@ -333,6 +374,18 @@ document.addEventListener('DOMContentLoaded', function(){
 
       const notesValue = (document.getElementById('encAddNotes')?.value || '').trim();
       if (notesValue) payload.append('notes', notesValue);
+
+      // Emergency-only fields (only when type=emergency)
+      if (type === 'emergency') {
+        const admissionDate = document.getElementById('encAddAdmissionDate')?.value || '';
+        if (admissionDate) payload.append('admission_date', admissionDate);
+        const dischargeDate = document.getElementById('encAddDischargeDate')?.value || '';
+        if (dischargeDate) payload.append('discharge_date', dischargeDate);
+        const emergencyStatus = document.getElementById('encAddEmergencyStatus')?.value || '';
+        if (emergencyStatus) payload.append('emergency_status', emergencyStatus);
+        const formDataRaw = (document.getElementById('encAddFormData')?.value || '').trim();
+        if (formDataRaw) payload.append('form_data', formDataRaw);
+      }
 
       try {
         const res = await fetch('/api/encounters_create.php', {

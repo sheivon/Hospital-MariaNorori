@@ -6,7 +6,9 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS audit_logs;
 DROP TABLE IF EXISTS bed_movements;
 DROP TABLE IF EXISTS admissions;
+DROP TABLE IF EXISTS patient_contacts;
 DROP TABLE IF EXISTS appointments;
+DROP TABLE IF EXISTS emergency_encounters;
 DROP TABLE IF EXISTS immunizations;
 DROP TABLE IF EXISTS treatment_administration;
 DROP TABLE IF EXISTS prescriptions;
@@ -21,7 +23,6 @@ DROP TABLE IF EXISTS diagnostics;
 DROP TABLE IF EXISTS patient_allergies;
 DROP TABLE IF EXISTS patient_conditions;
 DROP TABLE IF EXISTS encounters;
-DROP TABLE IF EXISTS patient_contacts;
 DROP TABLE IF EXISTS chat_messages;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS patients;
@@ -111,20 +112,6 @@ CREATE TABLE patients (
   INDEX idx_patients_encountered (encountered)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE patient_contacts (
-  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  patient_id INT UNSIGNED NOT NULL,
-  contact_name VARCHAR(150) NOT NULL,
-  relationship VARCHAR(80) DEFAULT NULL,
-  phone VARCHAR(50) DEFAULT NULL,
-  email VARCHAR(255) DEFAULT NULL,
-  address TEXT DEFAULT NULL,
-  is_primary TINYINT(1) NOT NULL DEFAULT 0,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT fk_patient_contacts_patient FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE,
-  INDEX idx_patient_contacts_patient (patient_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 CREATE TABLE encounters (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   patient_id INT UNSIGNED NOT NULL,
@@ -135,6 +122,11 @@ CREATE TABLE encounters (
   status VARCHAR(30) NOT NULL DEFAULT 'open',
   attending_user_id INT UNSIGNED DEFAULT NULL,
   notes TEXT DEFAULT NULL,
+  -- Emergency-only fields (NULL for outpatient/inpatient)
+  admission_date DATE DEFAULT NULL,
+  discharge_date DATE DEFAULT NULL,
+  emergency_status VARCHAR(50) DEFAULT NULL,
+  form_data TEXT DEFAULT NULL,
   created_by INT UNSIGNED DEFAULT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
@@ -143,7 +135,8 @@ CREATE TABLE encounters (
   CONSTRAINT fk_encounters_created_by FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL,
   INDEX idx_encounters_patient (patient_id),
   INDEX idx_encounters_date (encounter_date),
-  INDEX idx_encounters_status (status)
+  INDEX idx_encounters_status (status),
+  INDEX idx_encounters_type (encounter_type)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE patient_conditions (
@@ -494,59 +487,6 @@ CREATE TABLE appointments (
   INDEX idx_appointments_status (status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE admissions (
-  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  patient_id INT UNSIGNED NOT NULL,
-  encounter_id INT UNSIGNED DEFAULT NULL,
-  admitted_at DATETIME NOT NULL,
-  discharged_at DATETIME DEFAULT NULL,
-  department VARCHAR(120) DEFAULT NULL,
-  room VARCHAR(50) DEFAULT NULL,
-  bed VARCHAR(50) DEFAULT NULL,
-  admission_reason VARCHAR(255) DEFAULT NULL,
-  discharge_summary TEXT DEFAULT NULL,
-  status VARCHAR(30) NOT NULL DEFAULT 'admitted',
-  created_by INT UNSIGNED DEFAULT NULL,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT fk_admissions_patient FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE,
-  CONSTRAINT fk_admissions_encounter FOREIGN KEY (encounter_id) REFERENCES encounters(id) ON DELETE SET NULL,
-  CONSTRAINT fk_admissions_user FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL,
-  INDEX idx_admissions_patient (patient_id),
-  INDEX idx_admissions_status (status)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE emergency_encounters (
-  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  patient_id INT UNSIGNED NOT NULL,
-  encounter_id INT UNSIGNED DEFAULT NULL,
-  admission_date DATE NOT NULL,
-  discharge_date DATE DEFAULT NULL,
-  status VARCHAR(50) DEFAULT 'Activo',
-  form_data TEXT DEFAULT NULL,
-  created_by INT UNSIGNED DEFAULT NULL,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT fk_emergency_encounters_patient FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE,
-  CONSTRAINT fk_emergency_encounters_encounter FOREIGN KEY (encounter_id) REFERENCES encounters(id) ON DELETE SET NULL,
-  CONSTRAINT fk_emergency_encounters_user FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL,
-  INDEX idx_emergency_encounters_patient (patient_id),
-  INDEX idx_emergency_encounters_status (status)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE bed_movements (
-  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  admission_id INT UNSIGNED NOT NULL,
-  moved_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  from_room VARCHAR(50) DEFAULT NULL,
-  from_bed VARCHAR(50) DEFAULT NULL,
-  to_room VARCHAR(50) DEFAULT NULL,
-  to_bed VARCHAR(50) DEFAULT NULL,
-  reason VARCHAR(255) DEFAULT NULL,
-  moved_by INT UNSIGNED DEFAULT NULL,
-  CONSTRAINT fk_bed_movements_admission FOREIGN KEY (admission_id) REFERENCES admissions(id) ON DELETE CASCADE,
-  CONSTRAINT fk_bed_movements_user FOREIGN KEY (moved_by) REFERENCES users(id) ON DELETE SET NULL,
-  INDEX idx_bed_movements_admission (admission_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 CREATE TABLE chat_messages (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   user_id INT UNSIGNED DEFAULT NULL,
@@ -613,21 +553,34 @@ SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SC
     'SELECT 1');
 PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 
-SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'patient_contacts' AND COLUMN_NAME = 'deleted_at') = 0,
-    'ALTER TABLE patient_contacts ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
-    'SELECT 1');
-PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
-SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'patient_contacts' AND INDEX_NAME = 'idx_patient_contacts_deleted_at') = 0,
-    'CREATE INDEX idx_patient_contacts_deleted_at ON patient_contacts (deleted_at)',
-    'SELECT 1');
-PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
-
 SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'encounters' AND COLUMN_NAME = 'deleted_at') = 0,
     'ALTER TABLE encounters ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
     'SELECT 1');
 PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'encounters' AND INDEX_NAME = 'idx_encounters_deleted_at') = 0,
     'CREATE INDEX idx_encounters_deleted_at ON encounters (deleted_at)',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+-- Idempotent: add emergency columns to encounters (post-fold migration)
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'encounters' AND COLUMN_NAME = 'admission_date') = 0,
+    'ALTER TABLE encounters ADD COLUMN admission_date DATE NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'encounters' AND COLUMN_NAME = 'discharge_date') = 0,
+    'ALTER TABLE encounters ADD COLUMN discharge_date DATE NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'encounters' AND COLUMN_NAME = 'emergency_status') = 0,
+    'ALTER TABLE encounters ADD COLUMN emergency_status VARCHAR(50) NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'encounters' AND COLUMN_NAME = 'form_data') = 0,
+    'ALTER TABLE encounters ADD COLUMN form_data TEXT NULL DEFAULT NULL',
+    'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'encounters' AND INDEX_NAME = 'idx_encounters_type') = 0,
+    'CREATE INDEX idx_encounters_type ON encounters (encounter_type)',
     'SELECT 1');
 PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 
@@ -745,24 +698,6 @@ SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEM
 PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'appointments' AND INDEX_NAME = 'idx_appointments_deleted_at') = 0,
     'CREATE INDEX idx_appointments_deleted_at ON appointments (deleted_at)',
-    'SELECT 1');
-PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
-
-SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'admissions' AND COLUMN_NAME = 'deleted_at') = 0,
-    'ALTER TABLE admissions ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
-    'SELECT 1');
-PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
-SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'admissions' AND INDEX_NAME = 'idx_admissions_deleted_at') = 0,
-    'CREATE INDEX idx_admissions_deleted_at ON admissions (deleted_at)',
-    'SELECT 1');
-PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
-
-SET @sql = IF((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'bed_movements' AND COLUMN_NAME = 'deleted_at') = 0,
-    'ALTER TABLE bed_movements ADD COLUMN deleted_at DATETIME NULL DEFAULT NULL',
-    'SELECT 1');
-PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
-SET @sql = IF((SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'bed_movements' AND INDEX_NAME = 'idx_bed_movements_deleted_at') = 0,
-    'CREATE INDEX idx_bed_movements_deleted_at ON bed_movements (deleted_at)',
     'SELECT 1');
 PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 

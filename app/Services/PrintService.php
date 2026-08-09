@@ -9,7 +9,6 @@ use App\Repositories\PatientRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\EncounterRepository;
 use App\Repositories\TestRepository;
-use App\Repositories\EmergencyEncounterRepository;
 use App\Repositories\AppointmentRepository;
 use Exception;
 
@@ -21,7 +20,6 @@ class PrintService
     private EncounterRepository $EncounterRepository;
     private TestRepository $TestRepository;
 
-    private EmergencyEncounterRepository $EmergencyEncounterRepository;
     private AppointmentRepository $AppointmentRepository;
     public function __construct(
         DiagnosticoRepository $DiagnosticoRepository,
@@ -29,7 +27,6 @@ class PrintService
         UserRepository $UserRepository,
         EncounterRepository $EncounterRepository,
         TestRepository $TestRepository,
-        EmergencyEncounterRepository $EmergencyEncounterRepository,
         AppointmentRepository $AppointmentRepository
     ) {
         $this->DiagnosticoRepository = $DiagnosticoRepository;
@@ -37,7 +34,6 @@ class PrintService
         $this->UserRepository = $UserRepository;
         $this->EncounterRepository = $EncounterRepository;
         $this->TestRepository = $TestRepository;
-        $this->EmergencyEncounterRepository = $EmergencyEncounterRepository;
         $this->AppointmentRepository = $AppointmentRepository;
     }
 
@@ -153,7 +149,7 @@ class PrintService
                 break;
 
             case 'emergency':
-                $rows = $this->EmergencyEncounterRepository->all($filters);
+                $rows = $this->EncounterRepository->all(['encounter_type' => 'emergency']);
 
                 foreach ($rows as &$row) {
                     $row['patient'] = trim(
@@ -161,9 +157,10 @@ class PrintService
                         ($row['patient_last_name'] ?? '')
                     );
 
-                    $row['admission_date'] = $row['form_data']['admission_date'] ?? '';
-                    $row['service'] = $row['form_data']['admission_service'] ?? '';
-                    $row['diagnosis'] = $row['form_data']['admission_diagnosis'] ?? '';
+                    $row['admission_date'] = $row['admission_date'] ?? '';
+                    $formData = is_array($row['form_data_decoded'] ?? null) ? $row['form_data_decoded'] : [];
+                    $row['service'] = $formData['admission_service'] ?? '';
+                    $row['diagnosis'] = $formData['admission_diagnosis'] ?? '';
                 }
 
                 $title = 'Emergency';

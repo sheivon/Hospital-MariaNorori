@@ -66,6 +66,37 @@
             <textarea class="form-control" id="encAddNotes" name="notes" rows="3"></textarea>
           </div>
 
+          {{-- Emergency-only fields: shown when encounter_type=emergency --}}
+          <div class="col-12" id="emergencyFields" style="display:none;">
+            <hr>
+            <h6 class="mb-3" data-i18n="emergency_extra_fields">Emergency intake</h6>
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label for="encAddAdmissionDate" class="form-label" data-i18n="admission_date">Admission date</label>
+                <input type="date" class="form-control" id="encAddAdmissionDate" name="admission_date">
+              </div>
+              <div class="col-md-4">
+                <label for="encAddDischargeDate" class="form-label" data-i18n="discharge_date">Discharge date</label>
+                <input type="date" class="form-control" id="encAddDischargeDate" name="discharge_date">
+              </div>
+              <div class="col-md-4">
+                <label for="encAddEmergencyStatus" class="form-label" data-i18n="emergency_status">Emergency status</label>
+                <select id="encAddEmergencyStatus" name="emergency_status" class="form-select">
+                  <option value="" data-i18n="select">-- Select --</option>
+                  <option value="Activo" data-i18n="emergency_status_active">Active</option>
+                  <option value="Alta" data-i18n="emergency_status_discharged">Discharged</option>
+                  <option value="Traslado" data-i18n="emergency_status_transferred">Transferred</option>
+                  <option value="Fallecido" data-i18n="emergency_status_deceased">Deceased</option>
+                </select>
+              </div>
+              <div class="col-md-12">
+                <label for="encAddFormData" class="form-label" data-i18n="emergency_form_data">Additional emergency form data (JSON, optional)</label>
+                <textarea class="form-control" id="encAddFormData" name="form_data" rows="4" placeholder='{"admission_service":"…","admission_diagnosis":"…"}'></textarea>
+                <small class="form-text text-muted" data-i18n="emergency_form_data_help">Free-form JSON payload for any extra emergency fields (admission service, diagnosis, treating doctor, etc.).</small>
+              </div>
+            </div>
+          </div>
+
           <div class="col-12 d-flex justify-content-end gap-2">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="cancel">Cancel</button>
             <button id="btnSaveEncAdd" class="btn btn-primary" type="submit">
