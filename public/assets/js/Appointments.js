@@ -105,9 +105,36 @@ class AppointmentsView {
             const el = document.getElementById('appointmentCrudModal');
             if (el && typeof bootstrap !== 'undefined') {
                 this.modalInstance = new bootstrap.Modal(el);
+                // After the modal finishes closing (covers save→close,
+                // cancel→close, X-button close, and backdrop click):
+                //   1. Refresh the appointments table so the latest CRUD
+                //      changes are visible.
+                //   2. Defensively remove any leftover backdrop / body
+                //      lock — Bootstrap 5 sometimes leaves them behind
+                //      when an async submit handler fires `hide()`.
+                el.addEventListener('hidden.bs.modal', () => {
+                    this.refreshTable();
+
+                    document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
+                    if (document.body.classList.contains('modal-open')) {
+                        document.body.classList.remove('modal-open');
+                        document.body.style.removeProperty('overflow');
+                        document.body.style.removeProperty('padding-right');
+                    }
+                });
             }
         }
         return this.modalInstance;
+    }
+
+    /**
+     * Re-fetch the appointments list and re-render the DataTable.
+     * Safe to call repeatedly — destroys any existing DataTable first.
+     */
+    static async refreshTable() {
+        // Only refresh if the table is on this page
+        if (!document.querySelector("#appointmentsTable")) return;
+        await this.loadAppointments();
     }
 
     /**
@@ -478,9 +505,10 @@ class AppointmentsView {
                     await AppointmentsDataLayer.create(data);
                 }
 
-                // FIXED: Close modal and refresh table instead of page reload
+                // Close modal — the `hidden.bs.modal` listener attached in
+                // getModal() will refresh the DataTable and clean up any
+                // leftover backdrop once the modal finishes tearing down.
                 this.getModal()?.hide();
-                this.loadAppointments();
                 form.reset();
 
             } catch (err) {
