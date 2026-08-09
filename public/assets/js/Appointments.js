@@ -142,11 +142,19 @@ class AppointmentsView {
             tbody.innerHTML = "";
 
             if (!rows.length) {
+                // Render an empty state row that matches the 7-column structure
+                // so DataTables doesn't throw "Incorrect column count" (tn/18).
                 tbody.innerHTML = `
-                    <tr>
-                        <td colspan="7" class="text-center">
+                    <tr class="no-appointments-row">
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td class="text-center">
                             ${window.i18n_t ? window.i18n_t('no_appointments_found') : 'No appointments found'}
                         </td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
                     </tr>
                 `;
                 this.initDataTable();

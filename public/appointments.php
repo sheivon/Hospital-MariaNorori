@@ -33,10 +33,14 @@ include __DIR__ . '/../templates/header.php';
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td colspan="7" class="text-center" data-i18n="loading">
-                        Loading...
-                    </td>
+                <tr class="appointments-loading-row">
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td class="text-center" data-i18n="loading">Loading...</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
                 </tr>
             </tbody>
         </table>
