@@ -66,8 +66,8 @@ include __DIR__ . '/../templates/header.php';
           </div>
 
           <div class="col-md-3">
-            <label for="medForm" class="form-label" data-i18n="medications_catalog_form">Form</label>
-            <input type="text" class="form-control" id="medForm" name="form" maxlength="100" placeholder="tablet, syrup…">
+            <label for="medFormField" class="form-label" data-i18n="medications_catalog_form">Form</label>
+            <input type="text" class="form-control" id="medFormField" name="form" maxlength="100" placeholder="tablet, syrup…">
           </div>
 
           <div class="col-md-3">
@@ -203,7 +203,7 @@ include __DIR__ . '/../templates/header.php';
     document.getElementById('medId').value = row.id || '';
     document.getElementById('medName').value = row.medication_name || '';
     document.getElementById('medGeneric').value = row.generic_name || '';
-    document.getElementById('medForm').value = row.form || '';
+    document.getElementById('medFormField').value = row.form || '';
     document.getElementById('medStrength').value = row.strength || '';
     const title = document.getElementById('medicationModalTitle');
     if (title) {
@@ -230,7 +230,7 @@ include __DIR__ . '/../templates/header.php';
     const payload = {
       medication_name: name,
       generic_name: document.getElementById('medGeneric').value.trim(),
-      form: document.getElementById('medForm').value.trim(),
+      form: document.getElementById('medFormField').value.trim(),
       strength: document.getElementById('medStrength').value.trim(),
     };
     if (id) payload.id = Number(id);
