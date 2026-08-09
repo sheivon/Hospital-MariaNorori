@@ -1,19 +1,43 @@
 class AppointmentsDataLayer {
 
     static async request(url, options = {}) {
-        const response = await fetch(url, {
-            credentials: "same-origin",
-            ...options
-        });
-
-        if (!response.ok) {
-            throw new Error("Network error");
+        let response;
+        try {
+            response = await fetch(url, {
+                credentials: "same-origin",
+                ...options
+            });
+        } catch (networkErr) {
+            throw new Error("Network error: " + (networkErr.message || "unreachable"));
         }
 
-        const json = await response.json();
+        const contentType = response.headers.get("content-type") || "";
+        const rawText = await response.text();
 
-        if (!json.success) {
-            const err = new Error(json.error || "API error");
+        // If the response isn't JSON, surface the actual server text instead of letting
+        // response.json() throw a vague "unexpected character" parse error.
+        if (contentType.indexOf("application/json") === -1) {
+            const snippet = rawText.replace(/\s+/g, " ").slice(0, 200);
+            throw new Error(
+                (response.ok ? "" : "HTTP " + response.status + " ") +
+                "Expected JSON from " + url + " but got '" + (contentType || "unknown") +
+                "'. First bytes: " + snippet
+            );
+        }
+
+        let json;
+        try {
+            json = JSON.parse(rawText);
+        } catch (parseErr) {
+            throw new Error("Invalid JSON from " + url + ": " + parseErr.message);
+        }
+
+        if (!response.ok) {
+            throw new Error("HTTP " + response.status + (json && json.error ? ": " + json.error : ""));
+        }
+
+        if (!json || json.success === false) {
+            const err = new Error((json && json.error) || "API error");
             err.api = json;
             throw err;
         }
@@ -130,9 +154,10 @@ class AppointmentsView {
             }
 
             rows.forEach(a => {
+                if (!a || a.id == null) return; // skip malformed rows
                 const tr = document.createElement("tr");
                 tr.innerHTML = `
-                    <td>${a.id}</td>
+                    <td>${this.escapeHtml(a.id)}</td>
                     <td>${this.escapeHtml(a.patient_name || "")}</td>
                     <td>${this.escapeHtml(a.provider_name || "")}</td>
                     <td>${this.escapeHtml(a.appointment_at || "")}</td>
@@ -140,10 +165,10 @@ class AppointmentsView {
                     <td>${this.escapeHtml(a.status || "")}</td>
                     <td>
                         <div class="btn-group">
-                            <button class="btn btn-primary btn-sm btn-edit" data-id="${a.id}">
+                            <button class="btn btn-primary btn-sm btn-edit" data-id="${this.escapeHtml(a.id)}">
                                 <i class="fa fa-edit"></i>
                             </button>
-                            <button class="btn btn-danger btn-sm btn-delete" data-id="${a.id}">
+                            <button class="btn btn-danger btn-sm btn-delete" data-id="${this.escapeHtml(a.id)}">
                                 <i class="fa fa-trash"></i>
                             </button>
                         </div>
@@ -209,17 +234,22 @@ class AppointmentsView {
         try {
             if (typeof showLoadingOverlay === 'function') showLoadingOverlay();
             const result = await AppointmentsDataLayer.get(id);
+            if (!result || !result.appointment) return null;
             const a = result.appointment;
-            if (!a) return;
+            if (!a || a.id == null) return null;
 
             document.getElementById("appointmentCrudId").value = a.id;
-            document.getElementById("appointmentCrudPatient").value = a.patient_id;
+            document.getElementById("appointmentCrudPatient").value = a.patient_id || "";
             document.getElementById("appointmentCrudProvider").value = a.provider_user_id || "";
             document.getElementById("appointmentCrudEncounter").value = a.encounter_id || "";
-            document.getElementById("appointmentCrudDateTime").value = a.appointment_at;
+            document.getElementById("appointmentCrudDateTime").value = a.appointment_at || "";
             document.getElementById("appointmentCrudReason").value = a.reason || "";
-            document.getElementById("appointmentCrudStatus").value = a.status;
+            document.getElementById("appointmentCrudStatus").value = a.status || "scheduled";
             document.getElementById("appointmentCrudNotes").value = a.notes || "";
+            return a;
+        } catch (err) {
+            console.error(err);
+            return null;
         } finally {
             if (typeof hideLoadingOverlay === 'function') hideLoadingOverlay();
         }
@@ -246,29 +276,42 @@ class AppointmentsView {
     }
 
     static async openEditModal(id) {
+        const errorDiv = document.getElementById("appointmentCrudError");
         try {
             if (typeof showLoadingOverlay === 'function') showLoadingOverlay();
 
             const result = await AppointmentsDataLayer.get(id);
+            if (!result || !result.appointment) {
+                if (errorDiv) {
+                    errorDiv.textContent = window.i18n_t ? window.i18n_t('error') : 'Appointment not found';
+                    errorDiv.classList.remove("d-none");
+                }
+                return;
+            }
             const a = result.appointment;
-            if (!a) return;
+            if (!a || a.id == null) {
+                if (errorDiv) {
+                    errorDiv.textContent = window.i18n_t ? window.i18n_t('error') : 'Appointment not found';
+                    errorDiv.classList.remove("d-none");
+                }
+                return;
+            }
 
             const form = document.getElementById('appointmentCrudForm');
             if (form) form.reset();
 
             document.getElementById('appointmentCrudId').value = a.id;
-            document.getElementById('appointmentCrudPatient').value = a.patient_id;
+            document.getElementById('appointmentCrudPatient').value = a.patient_id || '';
             document.getElementById('appointmentCrudProvider').value = a.provider_user_id || '';
             document.getElementById('appointmentCrudEncounter').value = a.encounter_id || '';
-            document.getElementById('appointmentCrudDateTime').value = a.appointment_at;
+            document.getElementById('appointmentCrudDateTime').value = a.appointment_at || '';
             document.getElementById('appointmentCrudReason').value = a.reason || '';
-            document.getElementById('appointmentCrudStatus').value = a.status;
+            document.getElementById('appointmentCrudStatus').value = a.status || 'scheduled';
             document.getElementById('appointmentCrudNotes').value = a.notes || '';
 
             const title = document.querySelector('#appointmentCrudModal .modal-title');
             if (title) title.textContent = window.i18n_t ? window.i18n_t('edit_appointment') : 'Edit Appointment';
 
-            const errorDiv = document.getElementById("appointmentCrudError");
             if (errorDiv) {
                 errorDiv.classList.add("d-none");
                 errorDiv.textContent = "";
@@ -277,7 +320,12 @@ class AppointmentsView {
             this.getModal()?.show();
         } catch (err) {
             console.error(err);
-            alert(err.message);
+            if (errorDiv) {
+                errorDiv.textContent = err.message || (window.i18n_t ? window.i18n_t('error') : 'Error');
+                errorDiv.classList.remove("d-none");
+            } else {
+                alert(err.message);
+            }
         } finally {
             if (typeof hideLoadingOverlay === 'function') hideLoadingOverlay();
         }
@@ -337,6 +385,15 @@ window.addEventListener("DOMContentLoaded", () => {
 
     if (document.querySelector("#appointmentCrudForm")) {
         AppointmentsView.initForm();
+    }
+
+    const newBtn = document.getElementById("btnOpenAppointmentModal");
+    if (newBtn) {
+        newBtn.addEventListener("click", (e) => {
+            // Let Bootstrap open the modal via data-bs-toggle, but reset state first.
+            e.preventDefault();
+            AppointmentsView.openCreateModal();
+        });
     }
 
 });
