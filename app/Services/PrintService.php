@@ -10,6 +10,7 @@ use App\Repositories\UserRepository;
 use App\Repositories\EncounterRepository;
 use App\Repositories\TestRepository;
 use App\Repositories\EmergencyEncounterRepository;
+use App\Repositories\AppointmentRepository;
 use Exception;
 
 class PrintService
@@ -21,13 +22,15 @@ class PrintService
     private TestRepository $TestRepository;
 
     private EmergencyEncounterRepository $EmergencyEncounterRepository;
+    private AppointmentRepository $AppointmentRepository;
     public function __construct(
         DiagnosticoRepository $DiagnosticoRepository,
         PatientRepository $PatientRepository,
         UserRepository $UserRepository,
         EncounterRepository $EncounterRepository,
         TestRepository $TestRepository,
-        EmergencyEncounterRepository $EmergencyEncounterRepository
+        EmergencyEncounterRepository $EmergencyEncounterRepository,
+        AppointmentRepository $AppointmentRepository
     ) {
         $this->DiagnosticoRepository = $DiagnosticoRepository;
         $this->PatientRepository = $PatientRepository;
@@ -35,6 +38,19 @@ class PrintService
         $this->EncounterRepository = $EncounterRepository;
         $this->TestRepository = $TestRepository;
         $this->EmergencyEncounterRepository = $EmergencyEncounterRepository;
+        $this->AppointmentRepository = $AppointmentRepository;
+    }
+
+    /**
+     * Return a single appointment for the per-record print view.
+     */
+    public function appointment(int $id): array
+    {
+        $appointment = $this->AppointmentRepository->find($id);
+        if ($appointment === null) {
+            throw new Exception('Appointment not found');
+        }
+        return ['appointment' => $appointment];
     }
 
     public function patient(int $patientId): array
