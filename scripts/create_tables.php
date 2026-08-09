@@ -169,14 +169,16 @@ $tables = [
         'created_by INT',
         'created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP'
     ],
-    'Citas' => [
-        'IDCita INT AUTO_INCREMENT PRIMARY KEY',
-        'IDPaciente VARCHAR(20)',
-        'IDMedico INT',
-        'Fecha DATE',
-        'Hora TIME',
-        'MotivoCita TEXT',
-        'Estado VARCHAR(50)'
+    'appointments' => [
+        'id INT AUTO_INCREMENT PRIMARY KEY',
+        'patient_id INT',
+        'provider_user_id INT',
+        'encounter_id INT DEFAULT NULL',
+        'appointment_at DATETIME',
+        'reason VARCHAR(255)',
+        'status VARCHAR(50)',
+        'notes TEXT',
+        'created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP'
     ],
     'Anos' => [
         'IDAnos INT AUTO_INCREMENT PRIMARY KEY'

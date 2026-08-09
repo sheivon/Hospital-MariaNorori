@@ -78,8 +78,7 @@ class Auth
             if (self::isApiRequest()) {
                 ApiResponse::fail('Forbidden', 403);
             }
-            http_response_code(403);
-            echo '<div style="padding:2rem; font-family: system-ui, sans-serif;">Access denied</div>';
+            header('Location: /error.php?code=403');
             exit;
         }
     }
@@ -96,4 +95,3 @@ class Auth
         return strpos($uri, '/api/') === 0;
     }
 }
-

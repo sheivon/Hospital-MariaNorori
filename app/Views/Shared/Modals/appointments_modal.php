@@ -15,24 +15,24 @@
 
                     <div id="appointmentCrudError" class="alert alert-danger d-none"></div>
 
-                    <input type="hidden" id="appointmentCrudId">
+                    <input type="hidden" id="appointmentCrudId" name="id">
 
                     <div class="mb-3">
                         <label class="form-label" data-i18n="patient">Patient</label>
-                        <select id="appointmentCrudPatient" class="form-select" required></select>
+                        <select id="appointmentCrudPatient" name="patient_id" class="form-select" required></select>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" data-i18n="provider">Provider</label>
-                        <select id="appointmentCrudProvider" class="form-select">
-                            <option value="">-- Select Provider --</option>
+                        <select id="appointmentCrudProvider" name="provider_user_id" class="form-select">
+                            <option value="" data-i18n="select_provider">-- Select Provider --</option>
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" data-i18n="encounter">Encounter</label>
-                        <select id="appointmentCrudEncounter" class="form-select">
-                            <option value="">-- None --</option>
+                        <select id="appointmentCrudEncounter" name="encounter_id" class="form-select">
+                            <option value="" data-i18n="select_encounter">-- None --</option>
                         </select>
                     </div>
 
@@ -42,6 +42,7 @@
                         </label>
                         <input
                             id="appointmentCrudDateTime"
+                            name="appointment_at"
                             type="datetime-local"
                             class="form-control"
                             required>
@@ -53,6 +54,7 @@
                         </label>
                         <input
                             id="appointmentCrudReason"
+                            name="reason"
                             type="text"
                             class="form-control"
                             maxlength="255">
@@ -62,7 +64,7 @@
                         <label class="form-label" data-i18n="appointment_status">
                             Status
                         </label>
-                        <select id="appointmentCrudStatus" class="form-select">
+                        <select id="appointmentCrudStatus" name="status" class="form-select">
                             <option value="scheduled" data-i18n="status_scheduled">Scheduled</option>
                             <option value="confirmed" data-i18n="status_confirmed">Confirmed</option>
                             <option value="completed" data-i18n="status_completed">Completed</option>
@@ -77,6 +79,7 @@
                         </label>
                         <textarea
                             id="appointmentCrudNotes"
+                            name="notes"
                             class="form-control"
                             rows="4"></textarea>
                     </div>

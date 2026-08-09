@@ -40,6 +40,7 @@ if (!empty($_SESSION['user'])): ?>
 <script src="/assets/js/tests.js"></script>
 <script src="/assets/js/adolescent_history.js"></script>
 <script src="/assets/js/child_followups.js"></script>
+<script src="/assets/js/Appointments.js"></script>
 
 </body>
 </html>
