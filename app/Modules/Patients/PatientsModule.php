@@ -35,6 +35,7 @@ class PatientsModule extends BaseModule
     {
         return [
             ['path' => '/pacientes.php', 'label' => 'Ver pacientes', 'labelKey' => 'view_patients'],
+            ['path' => '/appointments.php', 'label' => 'Appointments', 'labelKey' => 'Appointments'],
             ['path' => '/tests.php', 'label' => 'Test Results', 'labelKey' => 'tests_results'],
             ['path' => '/adolescent_history.php', 'label' => 'Adolescent History', 'labelKey' => 'adolescent_history'],
             ['path' => '/seguimiento_integral_ninez_adolescencia.php', 'label' => 'Seguimiento Infantíl', 'labelKey' => 'child_followups'],
