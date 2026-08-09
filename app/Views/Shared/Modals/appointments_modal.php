@@ -19,7 +19,9 @@
 
                     <div class="mb-3">
                         <label class="form-label" data-i18n="patient">Patient</label>
-                        <select id="appointmentCrudPatient" name="patient_id" class="form-select" required></select>
+                        <select id="appointmentCrudPatient" name="patient_id" class="form-select" required>
+                            <option value="" data-i18n="select_patient">-- Select Patient --</option>
+                        </select>
                     </div>
 
                     <div class="mb-3">

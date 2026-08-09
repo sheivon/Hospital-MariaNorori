@@ -110,6 +110,56 @@ class AppointmentsView {
         return this.modalInstance;
     }
 
+    /**
+     * Populate the Patient <select> in the appointment modal with every available
+     * patient. Reuses PatientsDataLayer.list() (loaded from patients.js).
+     * Safe to call multiple times — re-renders the option list each time.
+     * Returns a promise that resolves when options are populated (or fails
+     * gracefully so the caller can still proceed).
+     */
+    static async loadPatientsForSelect() {
+        const select = document.getElementById('appointmentCrudPatient');
+        if (!select) return;
+
+        const placeholder = window.i18n_t
+            ? window.i18n_t('select_patient')
+            : '-- Select Patient --';
+
+        select.innerHTML = `<option value="" data-i18n="select_patient">${placeholder}</option>`;
+
+        try {
+            if (typeof PatientsDataLayer === 'undefined') {
+                throw new Error('PatientsDataLayer is not loaded');
+            }
+            const result = await PatientsDataLayer.list();
+            const patients = Array.isArray(result && result.data) ? result.data : [];
+
+            // Sort alphabetically by last name, then first name
+            patients.sort((a, b) => {
+                const an = `${a.last_name || ''} ${a.first_name || ''}`.toLowerCase();
+                const bn = `${b.last_name || ''} ${b.first_name || ''}`.toLowerCase();
+                return an.localeCompare(bn);
+            });
+
+            const optionsHtml = patients
+                .filter(p => p && p.id != null)
+                .map(p => {
+                    const name = `${p.first_name || ''} ${p.last_name || ''}`.trim() || ('#' + p.id);
+                    const cedula = p.cedula ? ` (${this.escapeHtml(p.cedula)})` : '';
+                    return `<option value="${this.escapeHtml(p.id)}">${this.escapeHtml(name)}${cedula}</option>`;
+                })
+                .join('');
+
+            select.innerHTML = `<option value="" data-i18n="select_patient">${placeholder}</option>${optionsHtml}`;
+        } catch (err) {
+            console.error('Failed to load patients for appointment select:', err);
+            const failedMsg = window.i18n_t
+                ? window.i18n_t('patient_load_failed')
+                : 'Failed to load patients';
+            select.innerHTML = `<option value="" data-i18n="select_patient">${failedMsg}</option>`;
+        }
+    }
+
     static initDataTable() {
         if (!window.jQuery || !$.fn.DataTable) return;
 
@@ -280,6 +330,9 @@ class AppointmentsView {
             errorDiv.textContent = "";
         }
 
+        // Refresh the patient list so newly added patients appear
+        this.loadPatientsForSelect();
+
         this.getModal()?.show();
     }
 
@@ -307,6 +360,9 @@ class AppointmentsView {
 
             const form = document.getElementById('appointmentCrudForm');
             if (form) form.reset();
+
+            // Ensure the patient <select> has options before assigning the value
+            await this.loadPatientsForSelect();
 
             document.getElementById('appointmentCrudId').value = a.id;
             document.getElementById('appointmentCrudPatient').value = a.patient_id || '';
@@ -393,6 +449,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
     if (document.querySelector("#appointmentCrudForm")) {
         AppointmentsView.initForm();
+        // Pre-populate the patient select on page load so the modal is ready instantly.
+        AppointmentsView.loadPatientsForSelect();
     }
 
     const newBtn = document.getElementById("btnOpenAppointmentModal");
