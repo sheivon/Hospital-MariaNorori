@@ -160,6 +160,63 @@ class AppointmentsView {
         }
     }
 
+    /**
+     * Populate the Provider <select> in the appointment modal with every available
+     * medic (user with role='doctor'). Fetches /api/users_list.php?role=doctor.
+     * Safe to call multiple times — re-renders the option list each time.
+     */
+    static async loadProvidersForSelect() {
+        const select = document.getElementById('appointmentCrudProvider');
+        if (!select) return;
+
+        const placeholder = window.i18n_t
+            ? window.i18n_t('select_provider')
+            : '-- Select Provider --';
+
+        select.innerHTML = `<option value="" data-i18n="select_provider">${placeholder}</option>`;
+
+        try {
+            const response = await fetch('/api/users_list.php?role=doctor', {
+                credentials: 'same-origin'
+            });
+            const rawText = await response.text();
+            const contentType = response.headers.get('content-type') || '';
+            if (contentType.indexOf('application/json') === -1) {
+                throw new Error('Expected JSON from users_list.php, got ' + (contentType || 'unknown'));
+            }
+            const json = JSON.parse(rawText);
+            if (!response.ok || !json || json.success === false) {
+                throw new Error((json && json.error) || ('HTTP ' + response.status));
+            }
+
+            const providers = Array.isArray(json.data) ? json.data : [];
+
+            // Sort alphabetically by fullname, then username
+            providers.sort((a, b) => {
+                const an = (a.fullname || a.username || '').toLowerCase();
+                const bn = (b.fullname || b.username || '').toLowerCase();
+                return an.localeCompare(bn);
+            });
+
+            const optionsHtml = providers
+                .filter(u => u && u.id != null)
+                .map(u => {
+                    const name = (u.fullname || u.username || ('#' + u.id)).trim();
+                    const roleSuffix = u.role ? ` — ${this.escapeHtml(u.role)}` : '';
+                    return `<option value="${this.escapeHtml(u.id)}">${this.escapeHtml(name)}${roleSuffix}</option>`;
+                })
+                .join('');
+
+            select.innerHTML = `<option value="" data-i18n="select_provider">${placeholder}</option>${optionsHtml}`;
+        } catch (err) {
+            console.error('Failed to load providers for appointment select:', err);
+            const failedMsg = window.i18n_t
+                ? window.i18n_t('patient_load_failed')
+                : 'Failed to load providers';
+            select.innerHTML = `<option value="" data-i18n="select_provider">${failedMsg}</option>`;
+        }
+    }
+
     static initDataTable() {
         if (!window.jQuery || !$.fn.DataTable) return;
 
@@ -330,8 +387,9 @@ class AppointmentsView {
             errorDiv.textContent = "";
         }
 
-        // Refresh the patient list so newly added patients appear
+        // Refresh the patient and provider lists so newly added entries appear
         this.loadPatientsForSelect();
+        this.loadProvidersForSelect();
 
         this.getModal()?.show();
     }
@@ -361,8 +419,9 @@ class AppointmentsView {
             const form = document.getElementById('appointmentCrudForm');
             if (form) form.reset();
 
-            // Ensure the patient <select> has options before assigning the value
+            // Ensure the patient and provider <select>s have options before assigning values
             await this.loadPatientsForSelect();
+            await this.loadProvidersForSelect();
 
             document.getElementById('appointmentCrudId').value = a.id;
             document.getElementById('appointmentCrudPatient').value = a.patient_id || '';
@@ -449,8 +508,9 @@ window.addEventListener("DOMContentLoaded", () => {
 
     if (document.querySelector("#appointmentCrudForm")) {
         AppointmentsView.initForm();
-        // Pre-populate the patient select on page load so the modal is ready instantly.
+        // Pre-populate the patient and provider selects on page load so the modal is ready instantly.
         AppointmentsView.loadPatientsForSelect();
+        AppointmentsView.loadProvidersForSelect();
     }
 
     const newBtn = document.getElementById("btnOpenAppointmentModal");

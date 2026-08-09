@@ -27,10 +27,17 @@ class UserRepository extends \App\Repositories\BaseRepository
         return (int)$stmt->fetchColumn();
     }
 
-    public function listPublicExcept(int $currentUserId): array
+    public function listPublicExcept(int $currentUserId, ?string $role = null): array
     {
-        $stmt = $this->pdo->prepare('SELECT id, username, fullname, cedula FROM users WHERE id != :me AND is_active = 1 ORDER BY username ASC');
-        $stmt->execute([':me' => $currentUserId]);
+        $sql = 'SELECT id, username, fullname, cedula, role FROM users WHERE id != :me AND is_active = 1';
+        $params = [':me' => $currentUserId];
+        if ($role !== null && $role !== '') {
+            $sql .= ' AND role = :role';
+            $params[':role'] = $role;
+        }
+        $sql .= ' ORDER BY username ASC';
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

@@ -17,7 +17,10 @@ class UsersController extends BaseApiController
     {
         Auth::requireLogin();
         $current = Auth::currentUser();
-        $rows = self::service()->listUsersForChat((int)$current['id']);
+        $role = isset($_GET['role']) && is_string($_GET['role']) && $_GET['role'] !== ''
+            ? trim($_GET['role'])
+            : null;
+        $rows = self::service()->listUsersForChat((int)$current['id'], $role);
         self::success(['data' => $rows]);
     }
 }

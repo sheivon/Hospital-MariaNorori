@@ -13,9 +13,9 @@ class UserService
         $this->repository = $repository;
     }
 
-    public function listUsersForChat(int $currentUserId): array
+    public function listUsersForChat(int $currentUserId, ?string $role = null): array
     {
-        return $this->repository->listPublicExcept($currentUserId);
+        return $this->repository->listPublicExcept($currentUserId, $role);
     }
 
     public function existsById(int $id): bool
