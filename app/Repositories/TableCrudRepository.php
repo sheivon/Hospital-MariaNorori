@@ -40,7 +40,7 @@ class TableCrudRepository extends \App\Repositories\BaseRepository
         $meta = $this->tableMeta($table);
         $pk = $meta['pk'];
         $limit = max(1, min(500, $limit));
-        $whereDeleted = $this->hasDeletedAt($table) ? ' WHERE deleted_at IS NULL' : '';
+        $whereDeleted = $this->hasDeletedAtForTable($table) ? ' WHERE deleted_at IS NULL' : '';
         $sql = sprintf('SELECT * FROM `%s`%s ORDER BY `%s` DESC LIMIT %d', $table, $whereDeleted, $pk, $limit);
         return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -104,7 +104,7 @@ class TableCrudRepository extends \App\Repositories\BaseRepository
         }
         $data['__id'] = $id;
 
-        $whereDeleted = $this->hasDeletedAt($table) ? ' AND deleted_at IS NULL' : '';
+        $whereDeleted = $this->hasDeletedAtForTable($table) ? ' AND deleted_at IS NULL' : '';
         $sql = sprintf(
             'UPDATE `%s` SET %s WHERE `%s` = :__id%s',
             $table,
@@ -122,7 +122,7 @@ class TableCrudRepository extends \App\Repositories\BaseRepository
         $this->ensureWritable($table);
         $meta = $this->tableMeta($table);
         $pk = $meta['pk'];
-        if ($this->hasDeletedAt($table)) {
+        if ($this->hasDeletedAtForTable($table)) {
             $sql = sprintf('UPDATE `%s` SET deleted_at = NOW() WHERE `%s` = :id AND deleted_at IS NULL', $table, $pk);
         } else {
             $sql = sprintf('DELETE FROM `%s` WHERE `%s` = :id', $table, $pk);

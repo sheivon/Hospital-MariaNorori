@@ -112,6 +112,7 @@ CREATE TABLE patients (
   INDEX idx_patients_encountered (encountered)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+// Encounters - Consulta	
 CREATE TABLE encounters (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   patient_id INT UNSIGNED NOT NULL,
@@ -860,12 +861,4 @@ CREATE TABLE seguimiento_notas (
   FOREIGN KEY (seguimiento_id) REFERENCES seguimiento_integral_ninez_adolescencia(id) ON DELETE CASCADE
 );
 
-
-
-
-
-
-
-
-
-
+ 
