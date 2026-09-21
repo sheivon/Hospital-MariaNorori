@@ -76,6 +76,10 @@ class PrintService
         switch ($resource) {
             case 'users':
                 $rows = $this->UserRepository->listAdminUsers();
+                foreach ($rows as &$row) {
+                    $row['status'] = !empty($row['is_active']) ? 'Active' : 'Inactive';
+                }
+                unset($row);
                 $title = 'Users';
                 $columns = [
                     ['label' => 'ID', 'field' => 'id'],
@@ -85,6 +89,7 @@ class PrintService
                     ['label' => 'Role', 'field' => 'role'],
                     ['label' => 'Specialty', 'field' => 'specialty'],
                     ['label' => 'Department', 'field' => 'department'],
+                    ['label' => 'Status', 'field' => 'status'],
                     ['label' => 'Created at', 'field' => 'created_at'],
                 ];
                 break;

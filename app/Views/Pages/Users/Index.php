@@ -15,12 +15,16 @@
       <div class="table-responsive">
         <table class="table table-striped table-sm dt-container" id="usersTable" cellpadding="0" width="100%">
           <thead>
-            <tr>
+<tr>
               <th>ID</th>
               <th data-i18n="label_username">Username</th>
               <th data-i18n="label_fullname">Full name</th>
-              <th data-i18n="label_cedula">CÃ©dula</th>
+              <th data-i18n="label_cedula">Cédula</th>
               <th data-i18n="role">Role</th>
+              <th data-i18n="label_specialty">Specialty</th>
+              <th data-i18n="label_department">Department</th>
+              <th data-i18n="table_status">Status</th>
+              <th data-i18n="created_at">Created At</th>
               <th data-i18n="actions" class="align-center content-center">Actions</th>
             </tr>
           </thead>

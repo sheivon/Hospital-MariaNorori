@@ -198,12 +198,25 @@ class UserView {
           return json.data;
         }
       },
-      columns: [
+columns: [
         { data: 'id' },
         { data: 'username', render: d => UserView.escapeHtml(d) },
         { data: 'fullname', render: d => UserView.escapeHtml(d || '') },
         { data: 'cedula', render: d => UserView.escapeHtml(d || '') },
         { data: 'role', render: d => UserView.escapeHtml(d || '') },
+        { data: 'specialty', render: d => UserView.escapeHtml(d || '') },
+        { data: 'department', render: d => UserView.escapeHtml(d || '') },
+        {
+          data: 'is_active',
+          className: 'text-center align-middle',
+          render: d => {
+            const active = String(d) === '1';
+            return active
+              ? `<span class="badge bg-success">${t('status_active') || 'Active'}</span>`
+              : `<span class="badge bg-danger">${t('status_inactive') || 'Inactive'}</span>`;
+          }
+        },
+        { data: 'created_at', render: d => UserView.escapeHtml(d || '') },
         {
           data: null,
           orderable: false,

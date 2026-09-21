@@ -43,7 +43,7 @@ class UserRepository extends \App\Repositories\BaseRepository
 
     public function listAdminUsers(): array
     {
-        $stmt = $this->pdo->query('SELECT id, username, fullname, cedula, role, specialty, department, created_at FROM users ORDER BY id ASC');
+        $stmt = $this->pdo->query('SELECT id, username, fullname, cedula, role, specialty, department, is_active, created_at FROM users ORDER BY id ASC');
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
