@@ -97,9 +97,17 @@ async function initTable() {
       },
       layout: {
         topStart: {
-          buttons: ['copy', 'excel', 'pdf', 'colvis']
+          buttons: ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis']
         }
       },
+      buttons: [
+        { extend: 'copy', exportOptions: { columns: ':not(:last-child)' } },
+        { extend: 'csv', exportOptions: { columns: ':not(:last-child)' } },
+        { extend: 'excel', exportOptions: { columns: ':not(:last-child)' } },
+        { extend: 'pdf', exportOptions: { columns: ':not(:last-child)' } },
+        { extend: 'print', exportOptions: { columns: ':not(:last-child)' }, autoPrint: true },
+        { extend: 'colvis' }
+      ],
       responsive: true,
       pageLength: 25,
       lengthMenu: [10, 25, 50, 100],
