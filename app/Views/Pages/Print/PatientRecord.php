@@ -2,14 +2,14 @@
   <div class="print-header d-flex align-items-center mb-3">
     <img src="/assets/images/Logo-01.png" alt="Logo" style="max-height: 70px; margin-right: 1rem;" />
     <div>
-      <h1 id="printPageTitle">Patient Complete Record</h1>
-      <p id="printPageSubtitle" class="text-muted">Loading patient data...</p>
+      <h1 id="printPageTitle" data-i18n="print_title">Patient Complete Record</h1>
+      <p id="printPageSubtitle" class="text-muted" data-i18n="print_loading">Loading patient data...</p>
     </div>
   </div>
 
   <div class="card mb-3" id="printStatus">
     <div class="card-body">
-      <p id="printStatusText">Loading...</p>
+      <p id="printStatusText" data-i18n="print_loading_status">Loading...</p>
     </div>
   </div>
 
@@ -18,42 +18,42 @@
     <!-- Patient Demographics -->
     <div class="card mb-3">
       <div class="card-body">
-        <h5 class="mb-3"><i class="fa-solid fa-user me-1"></i> Patient Information</h5>
+        <h5 class="mb-3"><i class="fa-solid fa-user me-1"></i><span data-i18n="print_patient_information">Patient Information</span></h5>
         <dl class="row mb-0">
-          <dt class="col-sm-3">Full Name</dt>
+          <dt class="col-sm-3"><span data-i18n="print_full_name">Full Name</span></dt>
           <dd class="col-sm-9" id="prFullName"></dd>
 
-          <dt class="col-sm-3">Cedula</dt>
+          <dt class="col-sm-3"><span data-i18n="cedula">Cedula</span></dt>
           <dd class="col-sm-9" id="prCedula"></dd>
 
-          <dt class="col-sm-3">Expediente No.</dt>
+          <dt class="col-sm-3"><span data-i18n="print_record_no">Record No.</span></dt>
           <dd class="col-sm-9" id="prExpediente"></dd>
 
-          <dt class="col-sm-3">Date of Birth</dt>
+          <dt class="col-sm-3"><span data-i18n="print_date_of_birth">Date of Birth</span></dt>
           <dd class="col-sm-9" id="prDob"></dd>
 
-          <dt class="col-sm-3">Gender</dt>
+          <dt class="col-sm-3"><span data-i18n="gender">Gender</span></dt>
           <dd class="col-sm-9" id="prGender"></dd>
 
-          <dt class="col-sm-3">Phone</dt>
+          <dt class="col-sm-3"><span data-i18n="phone">Phone</span></dt>
           <dd class="col-sm-9" id="prPhone"></dd>
 
-          <dt class="col-sm-3">Email</dt>
+          <dt class="col-sm-3"><span data-i18n="email">Email</span></dt>
           <dd class="col-sm-9" id="prEmail"></dd>
 
-          <dt class="col-sm-3">Address</dt>
+          <dt class="col-sm-3"><span data-i18n="address">Address</span></dt>
           <dd class="col-sm-9" id="prAddress"></dd>
 
-          <dt class="col-sm-3">Marital Status</dt>
+          <dt class="col-sm-3"><span data-i18n="marital_status">Marital Status</span></dt>
           <dd class="col-sm-9" id="prMarital"></dd>
 
-          <dt class="col-sm-3">Procedencia</dt>
+          <dt class="col-sm-3"><span data-i18n="procedencia">Procedencia</span></dt>
           <dd class="col-sm-9" id="prProcedencia"></dd>
 
-          <dt class="col-sm-3">Education Level</dt>
+          <dt class="col-sm-3"><span data-i18n="education_level">Education Level</span></dt>
           <dd class="col-sm-9" id="prEducation"></dd>
 
-          <dt class="col-sm-3">Employer</dt>
+          <dt class="col-sm-3"><span data-i18n="employer">Employer</span></dt>
           <dd class="col-sm-9" id="prEmployer"></dd>
         </dl>
       </div>
@@ -62,18 +62,18 @@
     <!-- Insurance & Family -->
     <div class="card mb-3">
       <div class="card-body">
-        <h5 class="mb-3"><i class="fa-solid fa-shield-halved me-1"></i> Insurance & Family</h5>
+        <h5 class="mb-3"><i class="fa-solid fa-shield-halved me-1"></i><span data-i18n="print_insurance_family">Insurance &amp; Family</span></h5>
         <dl class="row mb-0">
-          <dt class="col-sm-3">Insurance Provider</dt>
+          <dt class="col-sm-3"><span data-i18n="insurance_provider">Insurance Provider</span></dt>
           <dd class="col-sm-9" id="prInsurance"></dd>
 
-          <dt class="col-sm-3">Policy No.</dt>
+          <dt class="col-sm-3"><span data-i18n="print_policy_no">Policy No.</span></dt>
           <dd class="col-sm-9" id="prPolicy"></dd>
 
-          <dt class="col-sm-3">Father Name</dt>
+          <dt class="col-sm-3"><span data-i18n="father_name">Father Name</span></dt>
           <dd class="col-sm-9" id="prFather"></dd>
 
-          <dt class="col-sm-3">Mother Name</dt>
+          <dt class="col-sm-3"><span data-i18n="mother_name">Mother Name</span></dt>
           <dd class="col-sm-9" id="prMother"></dd>
         </dl>
       </div>
@@ -82,7 +82,7 @@
     <!-- Notes -->
     <div class="card mb-3" id="prNotesCard" style="display:none;">
       <div class="card-body">
-        <h5 class="mb-3"><i class="fa-solid fa-sticky-note me-1"></i> Notes</h5>
+        <h5 class="mb-3"><i class="fa-solid fa-sticky-note me-1"></i><span data-i18n="notes">Notes</span></h5>
         <p id="prNotes" class="mb-0"></p>
       </div>
     </div>
@@ -90,9 +90,9 @@
     <!-- Allergies -->
     <div class="card mb-3">
       <div class="card-body">
-        <h5 class="mb-3"><i class="fa-solid fa-triangle-exclamation me-1"></i> Allergies <span id="prAllergiesCount" class="badge bg-secondary"></span></h5>
+        <h5 class="mb-3"><i class="fa-solid fa-triangle-exclamation me-1"></i><span data-i18n="allergies">Allergies</span> <span id="prAllergiesCount" class="badge bg-secondary"></span></h5>
         <div id="prAllergiesSection">
-          <p class="text-muted">No allergies recorded.</p>
+          <p class="text-muted" data-i18n="print_no_allergies">No allergies recorded.</p>
         </div>
       </div>
     </div>
@@ -100,9 +100,9 @@
     <!-- Encounters -->
     <div class="card mb-3">
       <div class="card-body">
-        <h5 class="mb-3"><i class="fa-solid fa-stethoscope me-1"></i> Encounters <span id="prEncountersCount" class="badge bg-secondary"></span></h5>
+        <h5 class="mb-3"><i class="fa-solid fa-stethoscope me-1"></i><span data-i18n="encounters">Encounters</span> <span id="prEncountersCount" class="badge bg-secondary"></span></h5>
         <div id="prEncountersSection">
-          <p class="text-muted">No encounters recorded.</p>
+          <p class="text-muted" data-i18n="print_no_encounters">No encounters recorded.</p>
         </div>
       </div>
     </div>
@@ -110,9 +110,9 @@
     <!-- Diagnostics -->
     <div class="card mb-3">
       <div class="card-body">
-        <h5 class="mb-3"><i class="fa-solid fa-microscope me-1"></i> Diagnostics <span id="prDiagnosticsCount" class="badge bg-secondary"></span></h5>
+        <h5 class="mb-3"><i class="fa-solid fa-microscope me-1"></i><span data-i18n="diagnostics_title">Diagnostics</span> <span id="prDiagnosticsCount" class="badge bg-secondary"></span></h5>
         <div id="prDiagnosticsSection">
-          <p class="text-muted">No diagnostics recorded.</p>
+          <p class="text-muted" data-i18n="print_no_diagnostics">No diagnostics recorded.</p>
         </div>
       </div>
     </div>
@@ -120,9 +120,9 @@
     <!-- Appointments -->
     <div class="card mb-3">
       <div class="card-body">
-        <h5 class="mb-3"><i class="fa-solid fa-calendar-check me-1"></i> Appointments <span id="prAppointmentsCount" class="badge bg-secondary"></span></h5>
+        <h5 class="mb-3"><i class="fa-solid fa-calendar-check me-1"></i><span data-i18n="appointments">Appointments</span> <span id="prAppointmentsCount" class="badge bg-secondary"></span></h5>
         <div id="prAppointmentsSection">
-          <p class="text-muted">No appointments recorded.</p>
+          <p class="text-muted" data-i18n="print_no_appointments">No appointments recorded.</p>
         </div>
       </div>
     </div>
@@ -130,9 +130,9 @@
     <!-- Exam Requests -->
     <div class="card mb-3">
       <div class="card-body">
-        <h5 class="mb-3"><i class="fa-solid fa-x-ray me-1"></i> Exams / Lab Requests <span id="prExamsCount" class="badge bg-secondary"></span></h5>
+        <h5 class="mb-3"><i class="fa-solid fa-x-ray me-1"></i><span data-i18n="print_exams_title">Exams / Lab Requests</span> <span id="prExamsCount" class="badge bg-secondary"></span></h5>
         <div id="prExamsSection">
-          <p class="text-muted">No exam requests recorded.</p>
+          <p class="text-muted" data-i18n="print_no_exams">No exam requests recorded.</p>
         </div>
       </div>
     </div>
@@ -157,12 +157,22 @@
   const esc = (s) => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const val = (v) => esc(v) || '<span class="text-muted">-</span>';
 
+  const tr = (key, fallback) => {
+    let v = '';
+    if (window.i18n_t) { v = window.i18n_t(key); }
+    return (v && v !== key) ? v : fallback;
+  };
+
   const fill = (id, value) => {
     const el = document.getElementById(id);
     if (el) el.innerHTML = value;
   };
 
-  const genderMap = { M: 'Male', F: 'Female', O: 'Other' };
+  const genderMap = {
+    M: tr('gender_male', 'Masculino'),
+    F: tr('gender_female', 'Femenino'),
+    O: tr('gender_other', 'Otro')
+  };
   const statusBadge = (s) => {
     const map = { open: 'success', closed: 'secondary', active: 'primary', resolved: 'info', pending: 'warning', cancelled: 'danger' };
     const cls = map[String(s).toLowerCase()] || 'secondary';
@@ -185,7 +195,7 @@
   };
 
   if (!patientId) {
-    showError('No patient selected. Please select a patient from the Reports page.');
+    showError(tr('print_no_patient_selected', 'No se seleccionó paciente. Seleccione un paciente desde la página de Informes.'));
     return;
   }
 
@@ -200,7 +210,7 @@
     .then(r => r.json())
     .then(json => {
       if (!json.success) {
-        showError(json.error || 'Error loading patient data');
+        showError(json.error || tr('print_error_loading', 'Error al cargar los datos del paciente'));
         return;
       }
 
@@ -238,12 +248,12 @@
       document.getElementById('prAllergiesCount').textContent = allergies.length;
       if (allergies.length > 0) {
         const cols = [
-          { label: 'Allergen', field: 'allergen' },
-          { label: 'Reaction', field: 'reaction' },
-          { label: 'Severity', field: 'severity' },
-          { label: 'Status', field: 'status' },
-          { label: 'Noted Date', field: 'noted_date' },
-          { label: 'Notes', field: 'notes' },
+          { label: tr('allergen', 'Alérgeno'), field: 'allergen' },
+          { label: tr('reaction', 'Reacción'), field: 'reaction' },
+          { label: tr('severity', 'Severidad'), field: 'severity' },
+          { label: tr('table_status', 'Estado'), field: 'status' },
+          { label: tr('noted_date', 'Fecha de registro'), field: 'noted_date' },
+          { label: tr('notes', 'Notas'), field: 'notes' },
         ];
         fill('prAllergiesSection', renderTable(cols, allergies));
       }
@@ -254,13 +264,13 @@
       if (encounters.length > 0) {
         const cols = [
           { label: 'ID', field: 'id' },
-          { label: 'Date', field: 'encounter_date' },
-          { label: 'Type', field: 'encounter_type' },
-          { label: 'Triage', field: 'triage_level' },
-          { label: 'Status', field: 'status' },
-          { label: 'Doctor', field: 'attending_name' },
-          { label: 'Reason', field: 'reason_for_visit' },
-          { label: 'Notes', field: 'notes' },
+          { label: tr('encounters_date', 'Fecha'), field: 'encounter_date' },
+          { label: tr('encounters_type', 'Tipo'), field: 'encounter_type' },
+          { label: tr('encounters_triage', 'Triaje'), field: 'triage_level' },
+          { label: tr('table_status', 'Estado'), field: 'status' },
+          { label: tr('encounters_doctor', 'Médico'), field: 'attending_name' },
+          { label: tr('encounters_reason', 'Motivo'), field: 'reason_for_visit' },
+          { label: tr('notes', 'Notas'), field: 'notes' },
         ];
         fill('prEncountersSection', renderTable(cols, encounters));
       }
@@ -271,13 +281,13 @@
       if (diagnostics.length > 0) {
         const cols = [
           { label: 'ID', field: 'id' },
-          { label: 'Type', field: 'type' },
-          { label: 'ICD-10', field: 'icd10_code' },
-          { label: 'Description', field: 'description' },
-          { label: 'Status', field: 'status' },
-          { label: 'Severity', field: 'severity' },
-          { label: 'Date', field: 'date' },
-          { label: 'Doctor', field: 'created_by_name' },
+          { label: tr('diagnostics_type', 'Tipo'), field: 'type' },
+          { label: tr('diagnostics_icd10', 'Código ICD-10'), field: 'icd10_code' },
+          { label: tr('diagnostics_description', 'Descripción'), field: 'description' },
+          { label: tr('table_status', 'Estado'), field: 'status' },
+          { label: tr('severity', 'Severidad'), field: 'severity' },
+          { label: tr('diagnostics_date', 'Fecha'), field: 'date' },
+          { label: tr('print_created_by', 'Creado por'), field: 'created_by_name' },
         ];
         fill('prDiagnosticsSection', renderTable(cols, diagnostics));
       }
@@ -288,11 +298,11 @@
       if (appointments.length > 0) {
         const cols = [
           { label: 'ID', field: 'id' },
-          { label: 'Date & Time', field: 'appointment_at' },
-          { label: 'Provider', field: 'provider_name' },
-          { label: 'Reason', field: 'reason' },
-          { label: 'Status', field: 'status' },
-          { label: 'Notes', field: 'notes' },
+          { label: tr('appointment_table_datetime', 'Fecha y hora'), field: 'appointment_at' },
+          { label: tr('provider', 'Proveedor'), field: 'provider_name' },
+          { label: tr('appointments_reason', 'Motivo'), field: 'reason' },
+          { label: tr('table_status', 'Estado'), field: 'status' },
+          { label: tr('notes', 'Notas'), field: 'notes' },
         ];
         fill('prAppointmentsSection', renderTable(cols, appointments));
       }
@@ -303,12 +313,12 @@
       if (exams.length > 0) {
         const cols = [
           { label: 'ID', field: 'id' },
-          { label: 'Exam Type', field: 'exam_type_name' },
-          { label: 'Request Date', field: 'request_date' },
-          { label: 'Clinical Data', field: 'clinical_data' },
-          { label: 'Findings', field: 'findings' },
-          { label: 'Conclusions', field: 'conclusions' },
-          { label: 'Status', field: 'status' },
+          { label: tr('exam_type', 'Tipo de examen'), field: 'exam_type_name' },
+          { label: tr('exam_request_date', 'Fecha de solicitud'), field: 'request_date' },
+          { label: tr('exam_clinical_data', 'Datos clínicos'), field: 'clinical_data' },
+          { label: tr('exam_findings', 'Hallazgos'), field: 'findings' },
+          { label: tr('exam_conclusions', 'Conclusiones'), field: 'conclusions' },
+          { label: tr('table_status', 'Estado'), field: 'status' },
         ];
         fill('prExamsSection', renderTable(cols, exams));
       }
@@ -316,7 +326,7 @@
       // Update subtitle
       const subtitleEl = document.getElementById('printPageSubtitle');
       if (subtitleEl) {
-        let subtitle = `Complete medical record for ${p.first_name || ''} ${p.last_name || ''}`.trim();
+        let subtitle = tr('print_complete_record', 'Registro médico completo de {name}').replace('{name}', `${p.first_name || ''} ${p.last_name || ''}`.trim());
         if (dateFrom || dateTo) {
           const from = dateFrom || '...';
           const to = dateTo || '...';

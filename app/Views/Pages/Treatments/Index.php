@@ -7,7 +7,7 @@
     </h2>
     <div class="d-flex align-items-center gap-2">
       <button id="btnMedAdd" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#medicationModal">
-        <i class="fa-solid fa-plus me-1"></i><span data-i18n="Treatments_catalog_add">Add Medication</span>
+        <i class="fa-solid fa-plus me-1"></i><span data-i18n="medications_catalog_add">Add Medication</span>
       </button>
     </div>
   </div>
@@ -19,10 +19,10 @@
           <thead>
             <tr>
               <th>#</th>
-              <th data-i18n="Treatments_catalog_name">Medication name</th>
-              <th data-i18n="Treatments_catalog_generic">Generic name</th>
-              <th data-i18n="Treatments_catalog_form">Form</th>
-              <th data-i18n="Treatments_catalog_strength">Strength</th>
+              <th data-i18n="medications_catalog_name">Medication name</th>
+              <th data-i18n="medications_catalog_generic">Generic name</th>
+              <th data-i18n="medications_catalog_form">Form</th>
+              <th data-i18n="medications_catalog_strength">Strength</th>
               <th data-i18n="actions">Actions</th>
             </tr>
           </thead>
@@ -38,7 +38,7 @@
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="medicationModalTitle" data-i18n="Treatments_catalog_add">Add Medication</h5>
+        <h5 class="modal-title" id="medicationModalTitle" data-i18n="medications_catalog_add">Add Medication</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -47,23 +47,23 @@
           <input type="hidden" id="medId" name="id">
 
           <div class="col-12">
-            <label for="medName" class="form-label" data-i18n="Treatments_catalog_name">Medication name</label>
+            <label for="medName" class="form-label" data-i18n="medications_catalog_name">Medication name</label>
             <input type="text" class="form-control" id="medName" name="medication_name" required maxlength="200">
             <div class="invalid-feedback" id="medNameError"></div>
           </div>
 
           <div class="col-md-6">
-            <label for="medGeneric" class="form-label" data-i18n="Treatments_catalog_generic">Generic name</label>
+            <label for="medGeneric" class="form-label" data-i18n="medications_catalog_generic">Generic name</label>
             <input type="text" class="form-control" id="medGeneric" name="generic_name" maxlength="200">
           </div>
 
           <div class="col-md-3">
-            <label for="medFormField" class="form-label" data-i18n="Treatments_catalog_form">Form</label>
+            <label for="medFormField" class="form-label" data-i18n="medications_catalog_form">Form</label>
             <input type="text" class="form-control" id="medFormField" name="form" maxlength="100" placeholder="tablet, syrupâ€¦">
           </div>
 
           <div class="col-md-3">
-            <label for="medStrength" class="form-label" data-i18n="Treatments_catalog_strength">Strength</label>
+            <label for="medStrength" class="form-label" data-i18n="medications_catalog_strength">Strength</label>
             <input type="text" class="form-control" id="medStrength" name="strength" maxlength="100" placeholder="500 mg">
           </div>
         </form>
@@ -114,15 +114,15 @@
     setAlert('');
     const title = document.getElementById('medicationModalTitle');
     if (title) {
-      title.setAttribute('data-i18n', 'Treatments_catalog_add');
-      title.textContent = t('Treatments_catalog_add') || 'Add Medication';
+      title.setAttribute('data-i18n', 'medications_catalog_add');
+      title.textContent = t('medications_catalog_add') || 'Add Medication';
     }
   }
 
   function renderRows(rows){
     if (!tblBody) return;
     if (!rows.length){
-      tblBody.innerHTML = `<tr><td colspan="6" class="text-center text-muted">${escapeHtml(t('Treatments_catalog_empty') || 'No Treatments in the catalog yet')}</td></tr>`;
+      tblBody.innerHTML = `<tr><td colspan="6" class="text-center text-muted">${escapeHtml(t('medications_catalog_empty') || 'No Treatments in the catalog yet')}</td></tr>`;
       return;
     }
     tblBody.innerHTML = rows.map((r, i) => `
@@ -210,8 +210,8 @@
     document.getElementById('medStrength').value = row.strength || '';
     const title = document.getElementById('medicationModalTitle');
     if (title) {
-      title.setAttribute('data-i18n', 'Treatments_catalog_edit');
-      title.textContent = t('Treatments_catalog_edit') || 'Edit Medication';
+      title.setAttribute('data-i18n', 'medications_catalog_edit');
+      title.textContent = t('medications_catalog_edit') || 'Edit Medication';
     }
     if (modalEl && window.bootstrap) {
       bootstrap.Modal.getOrCreateInstance(modalEl).show();
@@ -225,8 +225,8 @@
     const id = document.getElementById('medId').value;
     const name = document.getElementById('medName').value.trim();
     if (!name) {
-      setFieldError('medName', t('Treatments_catalog_required') || 'Medication name is required');
-      setAlert(t('Treatments_catalog_required') || 'Medication name is required');
+      setFieldError('medName', t('medications_catalog_required') || 'Medication name is required');
+      setAlert(t('medications_catalog_required') || 'Medication name is required');
       return;
     }
 
@@ -256,7 +256,7 @@
         bootstrap.Modal.getOrCreateInstance(modalEl).hide();
       }
       resetForm();
-      swal({ title: '', text: t('Treatments_catalog_saved') || 'Medication saved', icon: 'success' });
+      swal({ title: '', text: t('medications_catalog_saved') || 'Medication saved', icon: 'success' });
       loadTreatments();
     } catch (e) {
       setAlert(t('error') || 'Error');
@@ -283,7 +283,7 @@
         swal({ title: '', text: json.error || t('error') || 'Error', icon: 'error' });
         return;
       }
-      swal({ title: '', text: t('Treatments_catalog_deleted') || 'Medication deleted', icon: 'success' });
+      swal({ title: '', text: t('medications_catalog_deleted') || 'Medication deleted', icon: 'success' });
       loadTreatments();
     } catch (e) {
       swal({ title: '', text: e.message || t('error') || 'Error', icon: 'error' });
