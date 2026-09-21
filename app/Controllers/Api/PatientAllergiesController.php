@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers\Api;
 
 use App\Core\ApiResponse;
+use App\Core\Auth;
 use App\Repositories\PatientAllergyRepository;
 use App\Services\PatientAllergyService;
 
@@ -15,6 +16,19 @@ class PatientAllergiesController
     public function __construct(PatientAllergyService $service)
     {
         $this->service = $service;
+    }
+
+    public static function index(array $params): void
+    {
+        Auth::requireLogin();
+        try {
+            $patientId = isset($params['patient_id']) ? (int)$params['patient_id'] : null;
+            $service = new PatientAllergyService(new PatientAllergyRepository());
+            $rows = $service->list($patientId ?: null);
+            ApiResponse::success(['data' => $rows]);
+        } catch (\Exception $e) {
+            ApiResponse::fail('Error loading allergies: ' . $e->getMessage(), 500);
+        }
     }
 
     public function list(): void

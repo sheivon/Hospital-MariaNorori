@@ -92,6 +92,6 @@ class Auth
     private static function isApiRequest(): bool
     {
         $uri = $_SERVER['REQUEST_URI'] ?? '';
-        return strpos($uri, '/api/') === 0;
+        return strpos($uri, '/api/') === 0 || strpos($uri, '/backend/') === 0;
     }
 }

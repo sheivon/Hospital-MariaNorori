@@ -16,7 +16,7 @@
         <table id="allergiesTable" class="table table-striped table-bordered align-middle w-100 mb-0 dt-container">
           <thead>
             <tr>
-              <th>ID</th><th>Paciente</th><th>AlÃ©rgeno</th><th>ReacciÃ³n</th><th>Severidad</th><th>Estado</th><th>Fecha</th><th>Acciones</th>
+              <th>ID</th><th data-i18n="patient">Paciente</th><th data-i18n="allergen">Alérgeno</th><th data-i18n="reaction">Reacción</th><th data-i18n="severity">Severidad</th><th data-i18n="table_status">Estado</th><th data-i18n="noted_date">Fecha</th><th data-i18n="actions">Acciones</th>
             </tr>
           </thead>
         </table>
@@ -148,7 +148,7 @@
   };
 
   window.deleteAllergy = async function(id) {
-    if (!confirm('Â¿Eliminar esta alergia?')) return;
+    if (!confirm('¿Eliminar esta alergia?')) return;
     hideAlert();
     try {
       const response = await fetch('/backend/patient_allergies_delete.php', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: `id=${encodeURIComponent(id)}` });
