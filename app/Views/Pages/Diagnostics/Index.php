@@ -293,12 +293,31 @@
       diagnosticsTable.destroy();
       diagnosticsTable = null;
     }
-    diagnosticsTable = $('#diagnosticsTable').DataTable({
-            layout: {
+diagnosticsTable = $('#diagnosticsTable').DataTable({
+      layout: {
         topStart: {
-            buttons: ['copy', 'excel', 'pdf', 'colvis']
+          buttons: [
+            { extend: 'copy', exportOptions: { columns: ':not(:last-child)' } },
+            { extend: 'csv', exportOptions: { columns: ':not(:last-child)' } },
+            { extend: 'excel', exportOptions: { columns: ':not(:last-child)' } },
+            { extend: 'pdf', exportOptions: { columns: ':not(:last-child)' } },
+            {
+              extend: 'print',
+              exportOptions: { columns: ':not(:last-child)' },
+              action: function () {
+                const params = filter && filter.value ? { patient_id: filter.value } : {};
+                if (typeof window.triggerCustomPrint === 'function') {
+                  window.triggerCustomPrint('diagnostics', params);
+                  return;
+                }
+                const qs = new URLSearchParams({ resource: 'diagnostics', ...params });
+                window.open('/print.php?' + qs.toString(), '_blank');
+              }
+            },
+            { extend: 'colvis' }
+          ]
         }
-    },
+      },
       responsive: true,
       autoWidth: false,
       scrollX: false
