@@ -87,8 +87,7 @@ fi
 if [[ $FORCE -eq 1 || $SKIP_PULL -eq 1 ]]; then
   echo "Skipping pull (--force or --no-pull)."
 else
-  echo "Pulling latest from $REMOTE/$BRANCH..."
-  git pull --rebase "$REMOTE" "$BRANCH" || { echo "Pull failed. Run with --no-pull or resolve conflicts." >&2; exit 1; }
+  echo "Pull will happen after committing so local changes are safe."
 fi
 
 # ----- identity fallback (repo-local, never touches global config) ----------
@@ -108,6 +107,14 @@ if [[ -n "$(git status --porcelain)" ]]; then
   git commit -m "$MESSAGE"
 else
   echo "No local changes to commit. Continuing to push..."
+fi
+
+# ----- pull (after commit so working tree is clean) -------------------------
+if [[ $FORCE -eq 1 || $SKIP_PULL -eq 1 ]]; then
+  echo "Skipping pull (--force or --no-pull)."
+else
+  echo "Pulling latest from $REMOTE/$BRANCH..."
+  git pull --rebase "$REMOTE" "$BRANCH" || { echo "Pull failed. Resolve conflicts or run with --no-pull." >&2; exit 1; }
 fi
 
 # ----- push ------------------------------------------------------------------

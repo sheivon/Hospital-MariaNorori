@@ -37,11 +37,44 @@ Alternativa:
 run.cmd
 ```
 
+Linux/macOS:
+
+```bash
+./run.sh
+```
+
+`run.sh` busca automáticamente un puerto libre (por defecto 8000), arranca el servidor
+PHP en segundo plano, guarda el PID en `.run.sh.pid` y abre el navegador.
+
+Opciones:
+
+```bash
+./run.sh -p 8080      # puerto específico
+./run.sh --no-open    # no abrir el navegador
+./run.sh stop         # detener el servidor iniciado por el script
+```
+
 Luego abre:
 
 - `http://localhost:8000/setup.php`
 
 Usa setup para inicializar el esquema y los datos semilla.
+
+> Nota: si alguna página falla por un error de conexión a la base de datos
+> (por ejemplo, `Unknown database`), la aplicación redirige automáticamente a
+> `setup.php` para que puedas crear/configurar la base de datos.
+
+### Desplegar a GitHub (push)
+
+```bash
+./push.sh -m "mensaje del commit"       # commit y push a origin/main
+./push.sh --force                       # fuerza el push reemplazando el historial remoto
+./push.sh --no-pull                     # no hacer pull antes de push
+```
+
+Si `.git` está roto o ausente (p. ej. en discos exFAT), `push.sh` lo re-inicializa,
+mueve el `.git` previo a `.git.broken` y configura el remoto por defecto. También
+verifica que `.env` esté ignorado antes de pushear. Equivalente en PowerShell: `.\push.ps1`.
 
 ## Qué Editar (Regla General)
 
@@ -94,9 +127,12 @@ hospital/
 |- docs/
 |- config/
 |  `- db.php
-|- run.ps1 / run.cmd
+|- src/                       (helpers PHP legados: auth, chat, patient)
+|- package.json               (dependencias frontend: Bootstrap, DataTables, etc.)
+|- .env.example               (plantilla de configuración; copiar a .env para personalizar)
+|- run.ps1 / run.cmd / run.sh
 |- build.ps1
-`- push.ps1
+`- push.ps1 / push.sh
 ```
 
 ## Flujo de Petición (Versión Simple)
