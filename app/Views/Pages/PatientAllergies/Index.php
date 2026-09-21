@@ -13,7 +13,7 @@
   <div class="card">
     <div class="card-body">
       <div class="table-responsive">
-        <table id="allergiesTable" class="table table-striped table-bordered align-middle w-100 mb-0 dt-container">
+        <table id="allergiesTable" class="table table-sm table-striped dt-container">
           <thead>
             <tr>
               <th>ID</th><th data-i18n="patient">Paciente</th><th data-i18n="allergen">Alérgeno</th><th data-i18n="reaction">Reacción</th><th data-i18n="severity">Severidad</th><th data-i18n="table_status">Estado</th><th data-i18n="noted_date">Fecha</th><th data-i18n="actions">Acciones</th>
@@ -92,10 +92,16 @@
             buttons: ['copy', 'excel', 'pdf', 'colvis']
         }
     },
-      ajax: {
+ajax: {
         url: '/backend/patient_allergies_fetch.php' + (preselectedPatientId ? '?patient_id=' + encodeURIComponent(preselectedPatientId) : ''),
         dataSrc: 'data'
       },
+      responsive: true,
+      pageLength: 25,
+      lengthMenu: [10, 25, 50, 100],
+      columnDefs: [
+        { orderable: false, searchable: false, targets: [0, 7] }
+      ],
       columns: [
         { data: 'id' }, { data: 'patient_name', defaultContent: '' }, { data: 'allergen' }, { data: 'reaction', defaultContent: '' },
         { data: 'severity', defaultContent: '' }, { data: 'status' }, { data: 'noted_date', defaultContent: '' },
