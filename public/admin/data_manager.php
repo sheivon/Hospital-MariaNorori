@@ -1,0 +1,387 @@
+<?php
+require_once __DIR__ . '/../../app/bootstrap.php';
+
+use App\Core\Auth;
+
+Auth::requireLogin();
+Auth::requireRole('admin');
+include __DIR__ . '/../../templates/header.php';
+?>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0" data-i18n="data_manager_title">Data Manager</h3>
+    <div class="d-flex gap-2">
+      <button id="btnCreateRow" class="btn btn-success"><i class="fa-solid fa-plus me-1"></i><span data-i18n="data_manager_new">New</span></button>
+      <button id="btnRefreshRows" class="btn btn-secondary"><i class="fa-solid fa-rotate me-1"></i><span data-i18n="data_manager_refresh">Refresh</span></button>
+    </div>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-body d-flex align-items-center gap-3">
+      <label for="tableSelector" class="mb-0" data-i18n="data_manager_table">Table</label>
+      <select id="tableSelector" class="form-select" style="max-width: 360px"></select>
+      <small class="text-muted" data-i18n="data_manager_softdelete_hint">Deletes are soft delete (sets deleted_at).</small>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body p-2">
+      <div id="dmError" class="alert alert-danger d-none mb-2"></div>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm" id="dmTable">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="dmModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form id="dmForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="dmModalTitle" data-i18n="data_manager_edit_row">Edit Row</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="dmFormError" class="alert alert-danger d-none"></div>
+          <input type="hidden" id="dmRowId">
+          <div id="dmFormFields" class="row g-3"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><span data-i18n="cancel">Cancel</span></button>
+          <button class="btn btn-primary"><span data-i18n="save">Save</span></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<?php $GLOBALS['PAGE_SCRIPTS'][] = 'datatables';
+include __DIR__ . '/../../templates/footer.php'; ?>
+<script>
+(function(){
+  const t = window.i18n_t || ((k)=>k);
+  const tr = (key, fallback) => {
+    const value = t(key);
+    return value === key ? fallback : value;
+  };
+
+  const tableSelector = document.getElementById('tableSelector');
+  const dmError = document.getElementById('dmError');
+  const dmTableHead = document.querySelector('#dmTable thead');
+  const dmTableBody = document.querySelector('#dmTable tbody');
+  const btnCreateRow = document.getElementById('btnCreateRow');
+  const btnRefreshRows = document.getElementById('btnRefreshRows');
+  const modal = new bootstrap.Modal(document.getElementById('dmModal'));
+  const dmForm = document.getElementById('dmForm');
+  const dmFormFields = document.getElementById('dmFormFields');
+  const dmFormError = document.getElementById('dmFormError');
+  const dmRowId = document.getElementById('dmRowId');
+  const dmModalTitle = document.getElementById('dmModalTitle');
+
+  let currentColumns = [];
+  let currentRows = [];
+  let currentTable = '';
+  let currentPk = 'id';
+  let dmDataTable = null;
+
+  const readOnlyTables = new Set(['user_roles']);
+
+  function isReadOnlyTable(){
+    return readOnlyTables.has(currentTable);
+  }
+
+  function ensureDataTable() {
+    if (!window.jQuery || !window.jQuery.fn.DataTable) return;
+
+    if (dmDataTable && $.fn.dataTable.isDataTable('#dmTable')) {
+      dmDataTable.destroy();
+      $('#dmTable').find('thead').empty();
+      $('#dmTable').find('tbody').empty();
+    }
+
+    dmDataTable = $('#dmTable').DataTable({
+      dom: 'Bfrtip',
+      buttons: [
+        { extend: 'copy' },
+        { extend: 'csv' },
+        { extend: 'excel' },
+        { extend: 'pdf' },
+        {
+          extend: 'print',
+          action: function () {
+            const resourceMap = { users: 'users', patients: 'patients', diagnostics: 'diagnostics' };
+            const resource = resourceMap[currentTable];
+            if (resource && typeof window.triggerCustomPrint === 'function') {
+              window.triggerCustomPrint(resource);
+              return;
+            }
+            $.fn.dataTable.ext.buttons.print.action.apply(this, arguments);
+          }
+        }
+      ],
+      responsive: true,
+      lengthMenu: [10, 25, 50, 100],
+      columnDefs: [{ orderable: false, targets: -1 }]
+    });
+  }
+
+  function showError(message){
+    if (!message){ dmError.classList.add('d-none'); dmError.textContent = ''; return; }
+    dmError.textContent = message;
+    dmError.classList.remove('d-none');
+  }
+
+  function showFormError(message){
+    if (!message){ dmFormError.classList.add('d-none'); dmFormError.textContent = ''; return; }
+    dmFormError.textContent = message;
+    dmFormError.classList.remove('d-none');
+  }
+
+  function labelFor(name){
+    return name.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  }
+
+  function editableColumns(){
+    return currentColumns
+      .map(c => c.Field)
+      .filter(name => !['created_at','updated_at','deleted_at'].includes(name));
+  }
+
+  function renderTable(){
+    const columns = currentColumns.map(c => c.Field).filter(f => f !== 'deleted_at');
+    dmTableHead.innerHTML = '<tr>' + columns.map(c => `<th>${c}</th>`).join('') + `<th>${tr('actions','Actions')}</th></tr>`;
+
+    if (!Array.isArray(currentRows) || currentRows.length === 0){
+      dmTableBody.innerHTML = `<tr><td colspan="${columns.length + 1}" class="text-center text-muted">${tr('no_data','No data')}</td></tr>`;
+      ensureDataTable();
+      return;
+    }
+
+    dmTableBody.innerHTML = '';
+    const readonly = isReadOnlyTable();
+
+    currentRows.forEach(row => {
+      const tr = document.createElement('tr');
+      const actionButtons = readonly
+        ? `<span class="text-muted">${tr('read_only','Read-only')}</span>`
+          : `<button class="btn btn-sm btn-primary me-1 btn-edit" data-id="${row[currentPk]}" title="${tr('edit', 'Edit')}" aria-label="${tr('edit', 'Edit')}"><i class="fa-solid fa-pen"></i></button>
+            <button class="btn btn-sm btn-danger btn-del" data-id="${row[currentPk]}" title="${tr('delete', 'Delete')}" aria-label="${tr('delete', 'Delete')}"><i class="fa-solid fa-trash"></i></button>`;
+
+      tr.innerHTML = columns.map(c => `<td>${escapeHtml(row[c])}</td>`).join('') +
+        `<td>${actionButtons}</td>`;
+      dmTableBody.appendChild(tr);
+    });
+
+    ensureDataTable();
+  }
+
+  function escapeHtml(value){
+    return String(value ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  async function fetchJson(url, options = {}) {
+    const res = await fetch(url, options);
+    const text = await res.text();
+    if (!res.ok) {
+      try {
+        const parsed = JSON.parse(text);
+        throw new Error(parsed.error || parsed.message || res.statusText);
+      } catch {
+        throw new Error(text || res.statusText);
+      }
+    }
+    try {
+      return JSON.parse(text);
+    } catch {
+      throw new Error(tr('data_manager_invalid_response', 'Invalid server response'));
+    }
+  }
+
+  async function loadTables(){
+    showError('');
+    const j = await fetchJson('/api/admin/tables_meta.php');
+    if (!j.success){ throw new Error(j.error || tr('data_manager_failed_tables', 'Failed loading tables')); }
+
+    const entries = Object.entries(j.tables || {});
+    tableSelector.innerHTML = entries.map(([name, meta]) => `<option value="${name}">${meta.label || name}</option>`).join('');
+    if (entries.length > 0){
+      currentTable = entries[0][0];
+      tableSelector.value = currentTable;
+      currentPk = entries[0][1].pk || 'id';
+      btnCreateRow.disabled = isReadOnlyTable();
+    }
+  }
+
+  async function loadRows(){
+    if (!currentTable){ return; }
+    showError('');
+    const j = await fetchJson('/api/admin/table_rows.php?table=' + encodeURIComponent(currentTable));
+    if (!j.success){ throw new Error(j.error || tr('data_manager_failed_rows', 'Failed loading rows')); }
+    currentColumns = j.columns || [];
+    currentRows = j.rows || [];
+    renderTable();
+  }
+
+  function openCreate(){
+    if (isReadOnlyTable()) {
+      showError(tr('data_manager_read_only', 'This table is read-only. Create is disabled.'));
+      return;
+    }
+
+    showFormError('');
+    dmRowId.value = '';
+    dmModalTitle.textContent = tr('data_manager_create_row', 'Create Row');
+    buildFormFields({});
+    modal.show();
+  }
+
+  function openEdit(id){
+    if (isReadOnlyTable()) {
+      showError(tr('data_manager_read_only', 'This table is read-only. Edit is disabled.'));
+      return;
+    }
+
+    const row = currentRows.find(r => String(r[currentPk]) === String(id));
+    if (!row){ return; }
+    showFormError('');
+    dmRowId.value = String(id);
+    dmModalTitle.textContent = tr('data_manager_update_row', 'Update Row');
+    buildFormFields(row);
+    modal.show();
+  }
+
+  function buildFormFields(row){
+    const fields = editableColumns().filter(name => name !== currentPk);
+    dmFormFields.innerHTML = '';
+
+    fields.forEach(name => {
+      const col = document.createElement('div');
+      col.className = 'col-md-6';
+
+      const value = row[name] ?? '';
+      const isLong = name.includes('notes') || name.includes('description') || name.includes('message') || String(value).length > 120;
+      const input = isLong
+        ? `<textarea class="form-control" id="f_${name}" rows="3">${escapeHtml(value)}</textarea>`
+        : `<input class="form-control" id="f_${name}" value="${escapeHtml(value)}">`;
+
+      col.innerHTML = `<label class="form-label" for="f_${name}">${labelFor(name)}</label>${input}`;
+      dmFormFields.appendChild(col);
+    });
+  }
+
+  function gatherPayload(){
+    const data = {};
+    const fields = editableColumns().filter(name => name !== currentPk);
+    fields.forEach(name => {
+      const el = document.getElementById('f_' + name);
+      if (!el) return;
+      data[name] = el.value;
+    });
+    return data;
+  }
+
+  async function createRow(data){
+    return fetchJson('/api/admin/table_create.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ table: currentTable, data })
+    });
+  }
+
+  async function updateRow(id, data){
+    return fetchJson('/api/admin/table_update.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ table: currentTable, id, data })
+    });
+  }
+
+  async function deleteRow(id){
+    return fetchJson('/api/admin/table_delete.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ table: currentTable, id })
+    });
+  }
+
+  tableSelector.addEventListener('change', async () => {
+    currentTable = tableSelector.value;
+    try {
+      const metaJson = await fetchJson('/api/admin/tables_meta.php');
+      currentPk = (metaJson.tables?.[currentTable]?.pk) || 'id';
+      btnCreateRow.disabled = isReadOnlyTable();
+      await loadRows();
+    } catch (e) {
+      showError(e.message || 'Error');
+    }
+  });
+
+  btnCreateRow.addEventListener('click', openCreate);
+  btnRefreshRows.addEventListener('click', () => loadRows().catch(e => showError(e.message || 'Error')));
+
+  dmTableBody.addEventListener('click', async (e) => {
+    if (isReadOnlyTable()) {
+      return;
+    }
+
+    const editBtn = e.target.closest('.btn-edit');
+    const delBtn = e.target.closest('.btn-del');
+
+    if (editBtn){
+      openEdit(editBtn.dataset.id);
+      return;
+    }
+
+    if (delBtn){
+      const id = delBtn.dataset.id;
+      const ok = confirm(tr('data_manager_soft_delete_confirm', 'Soft delete this row?'));
+      if (!ok) return;
+
+      try {
+        const j = await deleteRow(id);
+        if (!j.success){ showError(j.error || tr('data_manager_delete_failed', 'Delete failed')); return; }
+        await loadRows();
+      } catch (e) {
+        showError(e.message || tr('data_manager_delete_failed', 'Delete failed'));
+      }
+    }
+  });
+
+  dmForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    showFormError('');
+    const id = dmRowId.value;
+    const payload = gatherPayload();
+
+    try {
+      const j = id ? await updateRow(id, payload) : await createRow(payload);
+      if (!j.success){
+        showFormError(j.error || tr('data_manager_save_failed', 'Save failed'));
+        return;
+      }
+
+      modal.hide();
+      await loadRows();
+    } catch (e) {
+      showFormError(e.message || tr('data_manager_save_failed', 'Save failed'));
+    }
+  });
+
+  (async function init(){
+    try {
+      await loadTables();
+      await loadRows();
+    } catch (e) {
+      showError(e.message || tr('data_manager_init_failed', 'Initialization error'));
+    }
+  })();
+})();
+</script>

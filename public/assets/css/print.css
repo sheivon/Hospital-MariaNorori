@@ -1,0 +1,370 @@
+/* ============================================================
+   Print Stylesheet — Hospital Management System
+   ============================================================
+   - Text reduced by 1 step for compact printing
+   - Dynamic rotation: landscape for wide tables, portrait for forms
+   - Supports Letter, Legal, and A4 paper sizes
+   ============================================================ */
+
+/* ---------- Base: hide non-print elements ---------- */
+@media print {
+  .no-print,
+  .sidebar,
+  .floating-lang-select,
+  .app-shell > .sidebar,
+  #privateChatWidget,
+  #privateChatOpenBtn,
+  .dt-container .dt-buttons,
+  .dt-container .dt-search,
+  .dt-container .dt-length,
+  .dt-container .dt-info,
+  .dt-container .dt-paging,
+  .card-header .btn,
+  #printStatus,
+  #loading-overlay,
+  .btn,
+  button {
+    display: none !important;
+  }
+
+  /* Show elements that should appear only in print */
+  .only-print {
+    display: block !important;
+  }
+}
+
+/* ---------- Screen: preview helper ---------- */
+@media screen {
+  .only-print {
+    display: none;
+  }
+}
+
+/* ---------- Page setup & dynamic rotation ---------- */
+@page {
+  margin: 12mm 10mm;
+  size: auto;
+}
+
+/* Wide tables → landscape */
+@media print and (orientation: portrait) {
+  .print-table {
+    page-break-inside: auto;
+  }
+  .print-table thead {
+    display: table-header-group;
+  }
+  .print-table tbody tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+}
+
+/* Legal paper dynamic rotation: landscape for wide content */
+@media print and (min-width: 215.9mm) {
+  @page {
+    size: landscape;
+    margin: 10mm 8mm;
+  }
+}
+
+/* Default portrait for narrow content (forms, followups) */
+@media print and (max-width: 215.8mm) {
+  @page {
+    size: portrait;
+    margin: 12mm 10mm;
+  }
+}
+
+/* ---------- Typography: 1 step smaller ---------- */
+@media print {
+  html {
+    font-size: 14px; /* reduced from browser default ~16px */
+  }
+
+  body {
+    font-size: 0.875rem; /* 14px — 1 step smaller */
+    line-height: 1.4;
+    color: #000 !important;
+    background: #fff !important;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1, .h1 { font-size: 1.4rem; }
+  h2, .h2 { font-size: 1.2rem; }
+  h3, .h3 { font-size: 1.05rem; }
+  h4, .h4 { font-size: 0.95rem; }
+  h5, .h5 { font-size: 0.88rem; }
+  h6, .h6 { font-size: 0.82rem; }
+
+  small, .text-muted {
+    font-size: 0.78rem !important;
+    color: #555 !important;
+  }
+}
+
+/* ---------- Layout adjustments ---------- */
+@media print {
+  .app-shell {
+    display: block !important;
+    min-height: auto;
+  }
+
+  .main-content {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: none !important;
+    overflow: visible !important;
+  }
+
+  .container,
+  .container-fluid {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}
+
+/* ---------- Print header (logo + title) ---------- */
+@media print {
+  .print-header {
+    display: flex !important;
+    align-items: center;
+    margin-bottom: 0.6rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .print-header img {
+    max-height: 50px;
+    margin-right: 0.75rem;
+  }
+
+  .print-header h1,
+  .print-header h2 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #000;
+  }
+
+  .print-header p {
+    margin: 0;
+    font-size: 0.75rem;
+    color: #555;
+  }
+}
+
+/* ---------- Print container ---------- */
+@media print {
+  .print-container {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+  }
+}
+
+/* ---------- Table styling ---------- */
+@media print {
+  .print-table,
+  table.table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 0.78rem !important;
+    margin-top: 0.5rem;
+  }
+
+  .print-table th,
+  .print-table td,
+  table.table th,
+  table.table td {
+    padding: 0.25rem 0.4rem !important;
+    border: 1px solid #999 !important;
+    vertical-align: top;
+    white-space: nowrap;
+  }
+
+  .print-table th,
+  table.table thead th {
+    background: #e9ecef !important;
+    color: #000 !important;
+    font-weight: 700;
+    font-size: 0.75rem !important;
+    text-transform: none;
+  }
+
+  .print-table tbody tr:nth-child(odd),
+  table.table-striped tbody tr:nth-child(odd) {
+    background-color: #f8f8f8 !important;
+  }
+
+  .print-table tbody tr:nth-child(even),
+  table.table-striped tbody tr:nth-child(even) {
+    background-color: #fff !important;
+  }
+
+  /* Force all rows to avoid page breaks inside */
+  .print-table tr,
+  table.table tr {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .print-table thead,
+  table.table thead {
+    display: table-header-group !important;
+  }
+
+  .print-table tbody,
+  table.table tbody {
+    display: table-row-group !important;
+  }
+}
+
+/* ---------- Cards in print (followup, forms) ---------- */
+@media print {
+  .card {
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    margin-bottom: 0.5rem !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .card-body {
+    padding: 0.4rem 0.6rem !important;
+  }
+
+  .card-body h5 {
+    font-size: 0.88rem !important;
+    margin-bottom: 0.3rem !important;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.2rem;
+  }
+
+  dl.row {
+    margin-bottom: 0.2rem;
+  }
+
+  dl.row dt {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #333;
+  }
+
+  dl.row dd {
+    font-size: 0.78rem;
+    margin-bottom: 0.15rem;
+  }
+}
+
+/* ---------- Links ---------- */
+@media print {
+  a[href]::after {
+    content: none !important;
+  }
+
+  a[href^="http"]::after {
+    content: none !important;
+  }
+}
+
+/* ---------- Background colors for Bootstrap table-striped ---------- */
+@media print {
+  .table > :not(caption) > * > * {
+    background-color: transparent !important;
+  }
+
+  .table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: rgba(0, 0, 0, 0.02) !important;
+  }
+}
+
+/* ---------- List group items (followup notes list) ---------- */
+@media print {
+  .list-group-item {
+    border: 1px solid #ccc !important;
+    padding: 0.3rem 0.5rem !important;
+    font-size: 0.78rem;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
+
+/* ---------- Boolean indicator boxes (followup) ---------- */
+@media print {
+  .border.rounded-2.p-2.bg-light {
+    background-color: #f5f5f5 !important;
+    border: 1px solid #ccc !important;
+    padding: 0.25rem 0.4rem !important;
+    font-size: 0.78rem;
+  }
+}
+
+/* ---------- Print status / loading ---------- */
+@media print {
+  #printStatus,
+  .print-loading {
+    display: none !important;
+  }
+}
+
+/* ---------- Page breaks ---------- */
+@media print {
+  .page-break-before {
+    page-break-before: always;
+  }
+
+  .page-break-after {
+    page-break-after: always;
+  }
+
+  .no-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
+
+/* ---------- Footer / page numbers ---------- */
+@media print {
+  @page {
+    @bottom-center {
+      content: counter(page) " / " counter(pages);
+      font-size: 0.7rem;
+      color: #888;
+    }
+  }
+}
+
+/* ---------- Utility classes for print ---------- */
+@media print {
+  .d-print-none {
+    display: none !important;
+  }
+
+  .d-print-block {
+    display: block !important;
+  }
+
+  .d-print-flex {
+    display: flex !important;
+  }
+
+  .d-print-inline {
+    display: inline !important;
+  }
+
+  .d-print-inline-block {
+    display: inline-block !important;
+  }
+
+  .text-print-dark {
+    color: #000 !important;
+  }
+
+  .bg-print-white {
+    background-color: #fff !important;
+  }
+}

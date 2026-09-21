@@ -1,0 +1,93 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Controllers\Api;
+
+use App\Core\ApiResponse;
+use App\Repositories\PatientAllergyRepository;
+use App\Services\PatientAllergyService;
+
+class PatientAllergiesController
+{
+    private PatientAllergyService $service;
+
+    public function __construct(PatientAllergyService $service)
+    {
+        $this->service = $service;
+    }
+
+    public function list(): void
+    {
+        try {
+            $patientId = isset($_GET['patient_id']) ? (int)$_GET['patient_id'] : null;
+            $rows = $this->service->list($patientId ?: null);
+            ApiResponse::success(['rows' => $rows]);
+        } catch (\Exception $e) {
+            ApiResponse::fail('Error loading allergies: ' . $e->getMessage(), 500);
+        }
+    }
+
+    public function get(): void
+    {
+        try {
+            $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+            $row = $this->service->get($id);
+            if (!$row) {
+                ApiResponse::fail('Allergy not found', 404);
+                return;
+            }
+            ApiResponse::success(['row' => $row]);
+        } catch (\Exception $e) {
+            ApiResponse::fail('Error fetching allergy: ' . $e->getMessage(), 500);
+        }
+    }
+
+    public function create(): void
+    {
+        try {
+            $data = json_decode(file_get_contents('php://input'), true) ?: [];
+            if (empty($data['patient_id']) || trim((string)($data['allergen'] ?? '')) === '') {
+                ApiResponse::fail('Invalid data. Patient ID and allergen are required.');
+                return;
+            }
+            $id = $this->service->create($data);
+            ApiResponse::success(['id' => $id], 201);
+        } catch (\Exception $e) {
+            ApiResponse::fail('Failed to create allergy: ' . $e->getMessage(), 500);
+        }
+    }
+
+    public function update(): void
+    {
+        try {
+            $data = json_decode(file_get_contents('php://input'), true) ?: [];
+            if (empty($data['id'])) {
+                ApiResponse::fail('Invalid data. ID is required.');
+                return;
+            }
+            $id = (int)$data['id'];
+            unset($data['id']);
+            $this->service->update($id, $data);
+            ApiResponse::success();
+        } catch (\Exception $e) {
+            ApiResponse::fail('Failed to update allergy: ' . $e->getMessage(), 500);
+        }
+    }
+
+    public function delete(): void
+    {
+        try {
+            $data = json_decode(file_get_contents('php://input'), true) ?: [];
+            $id = isset($data['id']) ? (int)$data['id'] : (isset($_GET['id']) ? (int)$_GET['id'] : 0);
+            if (!$id) {
+                ApiResponse::fail('Invalid data. ID is required.');
+                return;
+            }
+            $this->service->delete($id);
+            ApiResponse::success();
+        } catch (\Exception $e) {
+            ApiResponse::fail('Failed to delete allergy: ' . $e->getMessage(), 500);
+        }
+    }
+}

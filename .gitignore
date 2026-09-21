@@ -1,0 +1,22 @@
+.env
+/vendor
+/node_modules
+/.vscode
+/.idea
+/.DS_Store
+/public/assets/node_modules
+~$ciente Medico Consulta.docx
+Paciente Medico Consulta.docx
+.agent.md
+%T%
+.venv/
+.vs/
+.claude/
+.agent-cache/
+/.run.sh.log
+/.run.sh.pid
+/.git.broken/
+.office-space/
+.step/
+state.log
+
