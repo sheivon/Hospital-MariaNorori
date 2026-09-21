@@ -143,17 +143,18 @@ async function initTable() {
   window.editAllergy = async function(id) {
     hideAlert();
     try {
-      const response = await fetch(`/backend/patient_allergies_get.php?id=${encodeURIComponent(id)}`, { credentials: 'same-origin' });
+const response = await fetch(`/backend/patient_allergies_get.php?id=${encodeURIComponent(id)}`, { credentials: 'same-origin' });
       const allergy = await response.json();
       if (!response.ok || !allergy.success) throw new Error(allergy.error || 'Error al cargar');
-      document.getElementById('allergyId').value = allergy.id || '';
-      document.getElementById('patient_id').value = allergy.patient_id || '';
-      document.getElementById('allergen').value = allergy.allergen || '';
-      document.getElementById('reaction').value = allergy.reaction || '';
-      document.getElementById('severity').value = allergy.severity || '';
-      document.getElementById('status').value = allergy.status || 'active';
-      document.getElementById('noted_date').value = allergy.noted_date || '';
-      document.getElementById('notes').value = allergy.notes || '';
+      const d = allergy.data || allergy;
+      document.getElementById('allergyId').value = d.id || '';
+      document.getElementById('patient_id').value = d.patient_id || '';
+      document.getElementById('allergen').value = d.allergen || '';
+      document.getElementById('reaction').value = d.reaction || '';
+      document.getElementById('severity').value = d.severity || '';
+      document.getElementById('status').value = d.status || 'active';
+      document.getElementById('noted_date').value = d.noted_date || '';
+      document.getElementById('notes').value = d.notes || '';
       document.getElementById('allergyModalLabel').textContent = 'Editar alergia';
       allergyModal.show();
     } catch (error) {
