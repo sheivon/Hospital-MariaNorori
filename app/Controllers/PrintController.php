@@ -59,9 +59,9 @@ class PrintController
      * @param string $resource
      * @return array{title:string,columns:array<array<string,string>>,rows:array<array<string,mixed>>}
      */
-    public static function datatable(string $resource, array $filters = []): array
+    public static function datatable(string $resource, array $filters = [], string $lang = 'en'): array
     {
-        return self::service()->datatable($resource, $filters);
+        return self::service()->datatable($resource, $filters, $lang);
     }
 }
 

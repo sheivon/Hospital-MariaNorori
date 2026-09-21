@@ -26,28 +26,11 @@
   const renderPrintPage = () => {
     const params = new URLSearchParams(window.location.search);
     const resource = params.get('resource') || 'users';
-    const mapping = {
-      users: 'users',
-      patients: 'patients',
-      encounters: 'encounters',
-      diagnostics: 'diagnostics',
-        emergency:'emergency',
-      patient_history: 'patient_history',
-      allergies: 'allergies'
-    };
+    const lang = (localStorage.getItem('lang') || document.documentElement.lang || 'en') === 'es' ? 'es' : 'en';
+    const t = window.i18n_t || (key => key);
 
-    const key = mapping[resource] || 'data';
-    const baseTitle = window.i18n_t ? window.i18n_t(key) : key;
     const titleEl = document.getElementById('printPageTitle');
     const subtitleEl = document.getElementById('printPageSubtitle');
-    if (titleEl) {
-      titleEl.setAttribute('data-i18n-resource', baseTitle);
-      titleEl.textContent = window.i18n_t ? window.i18n_t('print_view_title', { resource: baseTitle }) : baseTitle + ' Print View';
-    }
-    if (subtitleEl) {
-      subtitleEl.setAttribute('data-i18n-resource', baseTitle);
-      subtitleEl.textContent = window.i18n_t ? window.i18n_t('printing_full_dataset_for', { resource: baseTitle }) : `Printing full dataset for ${baseTitle}`;
-    }
 
     const status = document.getElementById('printStatus');
     const statusText = document.getElementById('printStatusText');
@@ -57,6 +40,7 @@
     const body = document.getElementById('printBody');
 
     const query = new URLSearchParams({ resource });
+    query.set('lang', lang);
     if (params.get('patient_id')) {
       query.set('patient_id', params.get('patient_id'));
     }
@@ -74,16 +58,24 @@
       .then(r => r.json())
       .then(json => {
         if (!json.success) {
-          statusText.textContent = json.error || (window.i18n_t ? window.i18n_t('error') : 'Error loading data');
+          statusText.textContent = json.error || t('error');
           return;
         }
 
         const data = json.data || {};
         const cols = Array.isArray(data.columns) ? data.columns : [];
         const rows = Array.isArray(data.rows) ? data.rows : [];
+        const metaTitle = data.title || resource;
+
+        if (titleEl) {
+          titleEl.textContent = t('print_view_title', { resource: metaTitle });
+        }
+        if (subtitleEl) {
+          subtitleEl.textContent = t('printing_full_dataset_for', { resource: metaTitle });
+        }
 
         if (!cols.length) {
-          statusText.textContent = window.i18n_t ? window.i18n_t('no_columns_to_print') : 'No columns to print';
+          statusText.textContent = t('no_columns_to_print');
           return;
         }
 
@@ -100,24 +92,10 @@
         setTimeout(() => { window.print(); }, 300);
       })
       .catch(e => {
-        statusText.textContent = window.i18n_t ? window.i18n_t('unable_load_print_data', { error: e.message || e }) : 'Unable to load print data: ' + (e.message || e);
+        statusText.textContent = t('unable_load_print_data', { error: e.message || e });
       });
   };
 
   document.addEventListener('DOMContentLoaded', renderPrintPage);
-})();
-</script>
-<script>
-(function(){
-  const previousLang = localStorage.getItem('lang');
-  localStorage.setItem('lang', 'es');
-
-  window.addEventListener('pagehide', () => {
-    if (previousLang === null) {
-      localStorage.removeItem('lang');
-    } else {
-      localStorage.setItem('lang', previousLang);
-    }
-  });
 })();
 </script>

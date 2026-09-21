@@ -26,8 +26,10 @@ foreach (['date_from', 'date_to'] as $dateFilter) {
     }
 }
 
+$lang = isset($_GET['lang']) && $_GET['lang'] === 'es' ? 'es' : 'en';
+
 try {
-    $payload = PrintController::datatable($resource, $filters);
+    $payload = PrintController::datatable($resource, $filters, $lang);
     ApiResponse::success(['data' => $payload]);
 } catch (Exception $e) {
     ApiResponse::fail($e->getMessage());

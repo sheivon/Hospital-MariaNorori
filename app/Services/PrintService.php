@@ -69,7 +69,7 @@ class PrintService
         ];
     }
 
-    public function datatable(string $resource, array $filters = []): array
+    public function datatable(string $resource, array $filters = [], string $lang = 'en'): array
     {
         $resource = trim(strtolower($resource));
 
@@ -272,11 +272,86 @@ class PrintService
                 throw new Exception('Unsupported print resource');
         }
 
+        foreach ($columns as &$column) {
+            $column['label'] = $this->localize($column['label'], $lang);
+        }
+        unset($column);
+        $title = $this->localize($title, $lang);
+
         return [
             'title' => $title,
             'columns' => $columns,
             'rows' => $rows,
         ];
+    }
+
+    private function localize(string $text, string $lang): string
+    {
+        if ($lang !== 'es') {
+            return $text;
+        }
+        $map = [
+            'ID' => 'ID',
+            'Username' => 'Usuario',
+            'Full name' => 'Nombre completo',
+            'Cédula' => 'Cédula',
+            'Role' => 'Rol',
+            'Specialty' => 'Especialidad',
+            'Department' => 'Departamento',
+            'Status' => 'Estado',
+            'Created at' => 'Creado el',
+            'Active' => 'Activo',
+            'Inactive' => 'Inactivo',
+            'First name' => 'Nombre',
+            'Last name' => 'Apellido',
+            'Expediente' => 'Expediente',
+            'DOB' => 'Fecha de nacimiento',
+            'Address' => 'Dirección',
+            'Phone' => 'Teléfono',
+            'Email' => 'Correo',
+            'Insurance' => 'Aseguradora',
+            'Patient' => 'Paciente',
+            'Patient Last' => 'Apellido del paciente',
+            'Patient first name' => 'Nombre del paciente',
+            'Patient last name' => 'Apellido del paciente',
+            'Date' => 'Fecha',
+            'Date & time' => 'Fecha y hora',
+            'Type' => 'Tipo',
+            'Triage' => 'Triaje',
+            'Doctor' => 'Médico',
+            'Provider' => 'Proveedor',
+            'Reason' => 'Motivo',
+            'Reason for visit' => 'Motivo de visita',
+            'Notes' => 'Notas',
+            'Allergen' => 'Alérgeno',
+            'Reaction' => 'Reacción',
+            'Severity' => 'Gravedad',
+            'Noted date' => 'Fecha de registro',
+            'Description' => 'Descripción',
+            'Created by' => 'Creado por',
+            'Admission' => 'Ingreso',
+            'Service' => 'Servicio',
+            'Diagnosis' => 'Diagnóstico',
+            'Encounter date' => 'Fecha de consulta',
+            'Diagnostics' => 'Diagnósticos',
+            'Tests' => 'Pruebas',
+            'Vitals' => 'Signos vitales',
+            'Medication name' => 'Nombre del medicamento',
+            'Generic name' => 'Nombre genérico',
+            'Form' => 'Forma',
+            'Strength' => 'Dosis',
+            'Visit date' => 'Fecha de visita',
+            'Users' => 'Usuarios',
+            'Patients' => 'Pacientes',
+            'Encounters' => 'Consultas',
+            'Appointments' => 'Citas',
+            'Allergies' => 'Alergias',
+            'Emergency' => 'Emergencia',
+            'Patient History' => 'Historial del paciente',
+            'Treatments' => 'Tratamientos',
+            'Pediatric Follow-up' => 'Seguimiento pediátrico',
+        ];
+        return $map[$text] ?? $text;
     }
 
     /**
