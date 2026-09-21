@@ -48,3 +48,14 @@ button:active, .btn:active { background-color: #004494; transform: scale(0.98); 
   .app-shell > .sidebar { width: 100%; min-width: auto; max-width: none; height: auto; position: relative; box-shadow: none; flex-shrink: 1; }
   .app-shell > .main-content { padding-top: 0; }
 }
+/* DataTables: let the table stretch across its layout row so columns fill the area */
+.dt-container .dt-layout-row.dt-layout-table {
+  width: 100%;
+}
+.dt-container .dt-layout-row.dt-layout-table > .dt-layout-cell {
+  flex: 1 1 auto;
+  width: 100%;
+}
+.dt-container table.dataTable {
+  width: 100% !important;
+}
