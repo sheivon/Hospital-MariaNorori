@@ -16,7 +16,7 @@
         <table id="allergiesTable" class="table table-sm table-striped dt-container">
           <thead>
             <tr>
-              <th>ID</th><th data-i18n="patient">Paciente</th><th data-i18n="allergen">Alérgeno</th><th data-i18n="reaction">Reacción</th><th data-i18n="severity">Severidad</th><th data-i18n="table_status">Estado</th><th data-i18n="noted_date">Fecha</th><th data-i18n="actions">Acciones</th>
+              <th>#</th><th data-i18n="patient">Paciente</th><th data-i18n="allergen">Alérgeno</th><th data-i18n="reaction">Reacción</th><th data-i18n="severity">Severidad</th><th data-i18n="table_status">Estado</th><th data-i18n="noted_date">Fecha</th><th data-i18n="actions">Acciones</th>
             </tr>
           </thead>
         </table>
@@ -99,13 +99,16 @@ ajax: {
       responsive: true,
       pageLength: 25,
       lengthMenu: [10, 25, 50, 100],
-      columnDefs: [
-        { orderable: false, searchable: false, targets: [0, 7] }
-      ],
+      order: [[6, 'desc']],
       columns: [
-        { data: 'id' }, { data: 'patient_name', defaultContent: '' }, { data: 'allergen' }, { data: 'reaction', defaultContent: '' },
-        { data: 'severity', defaultContent: '' }, { data: 'status' }, { data: 'noted_date', defaultContent: '' },
-{ data: null, orderable: false, searchable: false, render: data => `<div class="btn-group" role="group"><button type="button" class="btn btn-sm btn-primary table-action-btn me-1" onclick="editAllergy(${data.id})" title="Editar"><i class="fa-solid fa-pen-to-square"></i><span class="btn-label">Editar</span></button><button type="button" class="btn btn-sm btn-danger table-action-btn" onclick="deleteAllergy(${data.id})" title="Eliminar"><i class="fa-solid fa-trash"></i><span class="btn-label">Eliminar</span></button></div>` }
+        { data: null, orderable: false, searchable: false, render: (data, type, row, meta) => meta.row + 1 },
+        { data: 'patient_name', defaultContent: '', render: d => escapeHtml(d || '') },
+        { data: 'allergen', render: d => escapeHtml(d || '') },
+        { data: 'reaction', defaultContent: '', render: d => escapeHtml(d || '') },
+        { data: 'severity', defaultContent: '', render: d => escapeHtml(d || '') },
+        { data: 'status', render: d => escapeHtml(d || '') },
+        { data: 'noted_date', defaultContent: '', render: d => escapeHtml(d || '') },
+        { data: 'id', orderable: false, searchable: false, className: 'text-center', render: id => `<div class="btn-group" role="group"><button type="button" class="btn btn-sm btn-primary table-action-btn me-1" onclick="editAllergy(${id})" title="Editar"><i class="fa-solid fa-pen-to-square"></i><span class="btn-label">Editar</span></button><button type="button" class="btn btn-sm btn-danger table-action-btn" onclick="deleteAllergy(${id})" title="Eliminar"><i class="fa-solid fa-trash"></i><span class="btn-label">Eliminar</span></button></div>` }
       ],
       autoWidth: false,
       scrollX: false
