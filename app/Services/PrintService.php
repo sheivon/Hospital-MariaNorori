@@ -11,6 +11,7 @@ use App\Repositories\EncounterRepository;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\PatientAllergyRepository;
 use App\Repositories\ExamRequestRepository;
+use App\Repositories\TableCrudRepository;
 use Exception;
 
 class PrintService
@@ -173,6 +174,18 @@ class PrintService
                     ['label' => 'Date', 'field' => 'date'],
                     ['label' => 'Status', 'field' => 'status'],
                     ['label' => 'Created by', 'field' => 'created_by_name'],
+                ];
+                break;
+
+            case 'treatments':
+                $rows = (new TableCrudRepository())->listRows('medications_catalog', 500);
+                $title = 'Treatments';
+                $columns = [
+                    ['label' => 'ID', 'field' => 'id'],
+                    ['label' => 'Medication name', 'field' => 'medication_name'],
+                    ['label' => 'Generic name', 'field' => 'generic_name'],
+                    ['label' => 'Form', 'field' => 'form'],
+                    ['label' => 'Strength', 'field' => 'strength'],
                 ];
                 break;
 

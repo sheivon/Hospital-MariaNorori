@@ -158,12 +158,29 @@
       window.addEventListener('load', initDataTable, { once: true });
       return;
     }
-    dataTable = $('#TreatmentsTable').DataTable({
-            layout: {
+dataTable = $('#TreatmentsTable').DataTable({
+      layout: {
         topStart: {
-            buttons: ['copy', 'excel', 'pdf', 'colvis']
+          buttons: [
+            { extend: 'copy', exportOptions: { columns: ':not(:last-child)' } },
+            { extend: 'csv', exportOptions: { columns: ':not(:last-child)' } },
+            { extend: 'excel', exportOptions: { columns: ':not(:last-child)' } },
+            { extend: 'pdf', exportOptions: { columns: ':not(:last-child)' } },
+            {
+              extend: 'print',
+              exportOptions: { columns: ':not(:last-child)' },
+              action: function () {
+                if (typeof window.triggerCustomPrint === 'function') {
+                  window.triggerCustomPrint('treatments');
+                  return;
+                }
+                window.open('/print.php?resource=treatments', '_blank');
+              }
+            },
+            { extend: 'colvis' }
+          ]
         }
-    },
+      },
       responsive: true,
       pageLength: 25,
       lengthMenu: [10, 25, 50, 100],
