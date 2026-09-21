@@ -12,6 +12,7 @@ use App\Repositories\AppointmentRepository;
 use App\Repositories\PatientAllergyRepository;
 use App\Repositories\ExamRequestRepository;
 use App\Repositories\TableCrudRepository;
+use App\Repositories\SeguimientoPediatricRepository;
 use Exception;
 
 class PrintService
@@ -186,6 +187,16 @@ class PrintService
                     ['label' => 'Generic name', 'field' => 'generic_name'],
                     ['label' => 'Form', 'field' => 'form'],
                     ['label' => 'Strength', 'field' => 'strength'],
+                ];
+                break;
+
+            case 'seguimiento_pediatric':
+                $rows = (new SeguimientoPediatricRepository())->getList(500);
+                $title = 'Pediatric Follow-up';
+                $columns = [
+                    ['label' => 'ID', 'field' => 'id'],
+                    ['label' => 'Patient', 'field' => 'patient_name'],
+                    ['label' => 'Visit date', 'field' => 'visit_date'],
                 ];
                 break;
 

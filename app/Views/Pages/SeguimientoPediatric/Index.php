@@ -1,7 +1,7 @@
-﻿<?php $GLOBALS['PAGE_SCRIPTS'][] = 'datatables'; ?>
+<?php $GLOBALS['PAGE_SCRIPTS'][] = 'datatables'; ?>
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2><i class="fa-solid fa-child me-2"></i>Seguimiento PediÃ¡trico V2</h2>
+    <h2><i class="fa-solid fa-child me-2"></i>Seguimiento Pediátrico V2</h2>
     <button class="btn btn-success" id="btnAddPediatricVisit">
       <i class="fa-solid fa-plus me-1"></i>Nuevo
     </button>
@@ -10,13 +10,13 @@
   <div class="card">
     <div class="card-body">
       <div class="table-responsive">
-        <table class="table table-striped dt-container" id="pediatricTable">
+<table class="table table-sm table-striped dt-container" id="pediatricTable">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Paciente</th>
-              <th>Fecha de Visita</th>
-              <th>Acciones</th>
+              <th>#</th>
+              <th data-i18n="patient">Paciente</th>
+              <th data-i18n="seguimiento_visit_date">Fecha de Visita</th>
+              <th data-i18n="actions">Acciones</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -35,7 +35,7 @@
     </style>
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="pediatricModalTitle">Visita PediÃ¡trica</h5>
+        <h5 class="modal-title" id="pediatricModalTitle">Visita Pediátrica</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -63,21 +63,21 @@
           <!-- Tabs for Sections -->
           <ul class="nav nav-tabs" id="pediatricTabs" role="tablist">
             <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="historia-tab" data-bs-toggle="tab" data-bs-target="#historia" type="button" role="tab" aria-controls="historia" aria-selected="true">Historia ClÃ­nica</button>
+              <button class="nav-link active" id="historia-tab" data-bs-toggle="tab" data-bs-target="#historia" type="button" role="tab" aria-controls="historia" aria-selected="true">Historia Clínica</button>
             </li>
             <li class="nav-item" role="presentation">
               <button class="nav-link" id="signos-tab" data-bs-toggle="tab" data-bs-target="#signos" type="button" role="tab" aria-controls="signos" aria-selected="false">Signos de Alarma</button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link" id="fisico-tab" data-bs-toggle="tab" data-bs-target="#fisico" type="button" role="tab" aria-controls="fisico" aria-selected="false">Examen FÃ­sico/NutriciÃ³n</button>
+              <button class="nav-link" id="fisico-tab" data-bs-toggle="tab" data-bs-target="#fisico" type="button" role="tab" aria-controls="fisico" aria-selected="false">Examen Físico/Nutrición</button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link" id="alimentacion-tab" data-bs-toggle="tab" data-bs-target="#alimentacion" type="button" role="tab" aria-controls="alimentacion" aria-selected="false">AlimentaciÃ³n y Vacunas</button>
+              <button class="nav-link" id="alimentacion-tab" data-bs-toggle="tab" data-bs-target="#alimentacion" type="button" role="tab" aria-controls="alimentacion" aria-selected="false">Alimentación y Vacunas</button>
             </li>
           </ul>
 
           <div class="tab-content border border-top-0 p-3" id="pediatricTabsContent">
-            <!-- Historia ClÃ­nica -->
+            <!-- Historia Clínica -->
             <div class="tab-pane fade show active" id="historia" role="tabpanel" aria-labelledby="historia-tab">
               <div class="row g-3">
                   <div class="col-md-12">
@@ -85,7 +85,7 @@
                       <textarea class="form-control" id="pReason" name="reason_for_consultation" rows="2"></textarea>
                   </div>
                   <div class="col-md-6">
-                      <label class="form-label">Antecedentes Personales PatolÃ³gicos</label>
+                      <label class="form-label">Antecedentes Personales Patológicos</label>
                       <textarea class="form-control" id="pPersonalPathological" name="personal_pathological_history" rows="2"></textarea>
                   </div>
                   <div class="col-md-6">
@@ -93,7 +93,7 @@
                       <textarea class="form-control" id="pRiskFactors" name="risk_factors" rows="2"></textarea>
                   </div>
                   <div class="col-md-6">
-                      <label class="form-label">Antecedentes Familiares PatolÃ³gicos</label>
+                      <label class="form-label">Antecedentes Familiares Patológicos</label>
                       <textarea class="form-control" id="pFamilyPathological" name="family_pathological_history" rows="2"></textarea>
                   </div>
                   <div class="col-md-6">
@@ -101,7 +101,7 @@
                       <textarea class="form-control" id="pFamilyEnvironment" name="family_environment" rows="2"></textarea>
                   </div>
                   <div class="col-md-4">
-                      <label class="form-label">EducaciÃ³n/Trabajo/Vivienda</label>
+                      <label class="form-label">Educación/Trabajo/Vivienda</label>
                       <textarea class="form-control" id="pEducation" name="education_work_living" rows="2"></textarea>
                   </div>
                   <div class="col-md-4">
@@ -109,7 +109,7 @@
                       <textarea class="form-control" id="pActivitiesSocial" name="activities_social" rows="2"></textarea>
                   </div>
                   <div class="col-md-4">
-                      <label class="form-label">Actividad FÃ­sica</label>
+                      <label class="form-label">Actividad Física</label>
                       <textarea class="form-control" id="pPhysicalActivity" name="physical_activity" rows="2"></textarea>
                   </div>
               </div>
@@ -118,27 +118,27 @@
             <!-- Signos de Alarma -->
             <div class="tab-pane fade" id="signos" role="tabpanel" aria-labelledby="signos-tab">
               <div class="row g-3">
-                  <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pRespiraRapida" name="respira_rapida"><label class="form-check-label" for="pRespiraRapida">Respira rÃ¡pida</label></div></div>
+                  <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pRespiraRapida" name="respira_rapida"><label class="form-check-label" for="pRespiraRapida">Respira rápida</label></div></div>
                   <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pDificultadAlimentarse" name="dificultad_alimentarse"><label class="form-check-label" for="pDificultadAlimentarse">Dificultad alimentarse</label></div></div>
                   <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pDificultadRespirar" name="dificultad_respirar"><label class="form-check-label" for="pDificultadRespirar">Dificultad respirar</label></div></div>
                   <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pConvulsiones" name="convulsiones"><label class="form-check-label" for="pConvulsiones">Convulsiones</label></div></div>
                   <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pLetargia" name="letargia"><label class="form-check-label" for="pLetargia">Letargia</label></div></div>
                   <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pInconciencia" name="inconciencia"><label class="form-check-label" for="pInconciencia">Inconciencia</label></div></div>
                   <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pFlacidez" name="flacidez"><label class="form-check-label" for="pFlacidez">Flacidez</label></div></div>
-                  <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pVomitos" name="vomitos"><label class="form-check-label" for="pVomitos">VÃ³mitos</label></div></div>
+                  <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pVomitos" name="vomitos"><label class="form-check-label" for="pVomitos">Vómitos</label></div></div>
                   
                   <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pDiarrea" name="diarrea"><label class="form-check-label" for="pDiarrea">Diarrea</label></div></div>
-                  <div class="col-md-3"><label class="form-label mb-0"><small>DÃ­as de diarrea</small></label><input type="number" class="form-control form-control-sm" id="pDiasDiarrea" name="dias_diarrea" min="0"></div>
+                  <div class="col-md-3"><label class="form-label mb-0"><small>Días de diarrea</small></label><input type="number" class="form-control form-control-sm" id="pDiasDiarrea" name="dias_diarrea" min="0"></div>
                   
                   <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pFiebre" name="fiebre"><label class="form-check-label" for="pFiebre">Fiebre</label></div></div>
-                  <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pFiebreMas7" name="fiebre_mas_7_dias"><label class="form-check-label" for="pFiebreMas7">Fiebre >7 dÃ­as</label></div></div>
+                  <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pFiebreMas7" name="fiebre_mas_7_dias"><label class="form-check-label" for="pFiebreMas7">Fiebre >7 días</label></div></div>
                   
                   <!-- Other Signs -->
                   <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pCianosis" name="cianosis_central"><label class="form-check-label" for="pCianosis">Cianosis central</label></div></div>
                   <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pOmbligoRo" name="ombligo_rojizo"><label class="form-check-label" for="pOmbligoRo">Ombligo rojizo</label></div></div>
                   <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pOmbligoSu" name="ombligo_supurando"><label class="form-check-label" for="pOmbligoSu">Ombligo supurando</label></div></div>
-                  <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pPustulasEx" name="pustulas_extensas"><label class="form-check-label" for="pPustulasEx">PÃºstulas extensas</label></div></div>
-                  <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pPustulasEs" name="pustulas_escasas"><label class="form-check-label" for="pPustulasEs">PÃºstulas escasas</label></div></div>
+                  <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pPustulasEx" name="pustulas_extensas"><label class="form-check-label" for="pPustulasEx">Pústulas extensas</label></div></div>
+                  <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pPustulasEs" name="pustulas_escasas"><label class="form-check-label" for="pPustulasEs">Pústulas escasas</label></div></div>
                   <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pTiraje" name="tiraje_subcostal"><label class="form-check-label" for="pTiraje">Tiraje subcostal</label></div></div>
                   <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pPlacas" name="placas_blancas_bucales"><label class="form-check-label" for="pPlacas">Placas blancas buc</label></div></div>
                   <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pHipotermia" name="hipotermia"><label class="form-check-label" for="pHipotermia">Hipotermia</label></div></div>
@@ -146,7 +146,7 @@
                   <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pSupOido" name="supuracion_oido"><label class="form-check-label" for="pSupOido">Supuracion oido</label></div></div>
                   <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pSupOjos" name="supuracion_ojos"><label class="form-check-label" for="pSupOjos">Supuracion ojos</label></div></div>
                   <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pManifSangrado" name="manifestacion_sangrado"><label class="form-check-label" for="pManifSangrado">Manif sangrado</label></div></div>
-                  <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pDistension" name="distension_abdominal"><label class="form-check-label" for="pDistension">DistensiÃ³n abd</label></div></div>
+                  <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pDistension" name="distension_abdominal"><label class="form-check-label" for="pDistension">Distensión abd</label></div></div>
                   <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pApnea" name="apnea"><label class="form-check-label" for="pApnea">Apnea</label></div></div>
                   <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pQuejido" name="quejido"><label class="form-check-label" for="pQuejido">Quejido</label></div></div>
                   <div class="col-md-3"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pAleteo" name="aleteo_nasal"><label class="form-check-label" for="pAleteo">Aleteo nasal</label></div></div>
@@ -160,7 +160,7 @@
               </div>
             </div>
 
-            <!-- FÃ­sico / NutriciÃ³n -->
+            <!-- Físico / Nutrición -->
             <div class="tab-pane fade" id="fisico" role="tabpanel" aria-labelledby="fisico-tab">
               <div class="row g-3">
                   <div class="col-md-3">
@@ -172,7 +172,7 @@
                     <input type="number" step="0.01" class="form-control mx-attr" id="pTalla" name="talla_cm">
                   </div>
                   <div class="col-md-3">
-                    <label class="form-label mb-0">PerÃ­metro CefÃ¡lico (cm)</label>
+                    <label class="form-label mb-0">Perímetro Cefálico (cm)</label>
                     <input type="number" step="0.01" class="form-control mx-attr" id="pPerimetro" name="perimetro_cefalico_cm">
                   </div>
                   <div class="col-md-3">
@@ -205,25 +205,25 @@
                     </select>
                   </div>
 
-                  <div class="col-12 mt-4"><h5>Signos FÃ­sicos Adicionales</h5></div>
+                  <div class="col-12 mt-4"><h5>Signos Físicos Adicionales</h5></div>
                   <div class="col-md-4"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pEdemaPies" name="edema_pies"><label class="form-check-label" for="pEdemaPies">Edema de pies</label></div></div>
-                  <div class="col-md-4"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pEmaciacion" name="emaciacion"><label class="form-check-label" for="pEmaciacion">EmaciaciÃ³n visible grave</label></div></div>
-                  <div class="col-md-4"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pMalnutricion" name="malnutricion"><label class="form-check-label" for="pMalnutricion">MalnutriciÃ³n severa</label></div></div>
+                  <div class="col-md-4"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pEmaciacion" name="emaciacion"><label class="form-check-label" for="pEmaciacion">Emaciación visible grave</label></div></div>
+                  <div class="col-md-4"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pMalnutricion" name="malnutricion"><label class="form-check-label" for="pMalnutricion">Malnutrición severa</label></div></div>
               </div>
             </div>
 
-            <!-- AlimentaciÃ³n y Vacunas -->
+            <!-- Alimentación y Vacunas -->
             <div class="tab-pane fade" id="alimentacion" role="tabpanel" aria-labelledby="alimentacion-tab">
               <div class="row g-3">
-                  <div class="col-12"><h5>Lactancia y AlimentaciÃ³n</h5></div>
+                  <div class="col-12"><h5>Lactancia y Alimentación</h5></div>
                   <div class="col-md-4"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pLactanciaMat" name="lactancia_materna"><label class="form-check-label" for="pLactanciaMat">Lactancia Materna Exclusiva</label></div></div>
                   <div class="col-md-4"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pLactanciaNoc" name="lactancia_nocturna"><label class="form-check-label" for="pLactanciaNoc">Lactancia nocturna</label></div></div>
-                  <div class="col-md-4"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pLactanciaMas8" name="lactancia_mas_8_veces"><label class="form-check-label" for="pLactanciaMas8">Lactancia >8 veces al dÃ­a</label></div></div>
-                  <div class="col-md-4"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pOtrosLiq" name="otros_liquidos"><label class="form-check-label" for="pOtrosLiq">Recibe otros lÃ­quidos/alimentos</label></div></div>
-                  <div class="col-md-4"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pBiberon" name="uso_biberon"><label class="form-check-label" for="pBiberon">Usa biberÃ³n/pepe</label></div></div>
-                  <div class="col-md-4"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pPosicion" name="problemas_posicion"><label class="form-check-label" for="pPosicion">Problemas de posiciÃ³n al amamantar</label></div></div>
+                  <div class="col-md-4"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pLactanciaMas8" name="lactancia_mas_8_veces"><label class="form-check-label" for="pLactanciaMas8">Lactancia >8 veces al día</label></div></div>
+                  <div class="col-md-4"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pOtrosLiq" name="otros_liquidos"><label class="form-check-label" for="pOtrosLiq">Recibe otros líquidos/alimentos</label></div></div>
+                  <div class="col-md-4"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pBiberon" name="uso_biberon"><label class="form-check-label" for="pBiberon">Usa biberón/pepe</label></div></div>
+                  <div class="col-md-4"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pPosicion" name="problemas_posicion"><label class="form-check-label" for="pPosicion">Problemas de posición al amamantar</label></div></div>
                   <div class="col-md-4"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pAgarre" name="problemas_agarre"><label class="form-check-label" for="pAgarre">Problemas de agarre</label></div></div>
-                  <div class="col-md-4"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pSuccion" name="problemas_succion"><label class="form-check-label" for="pSuccion">Problemas de succiÃ³n</label></div></div>
+                  <div class="col-md-4"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pSuccion" name="problemas_succion"><label class="form-check-label" for="pSuccion">Problemas de succión</label></div></div>
 
                   <div class="col-12 mt-4"><h5>Vacunas</h5></div>
                   <div class="col-md-4"><div class="form-check"><input class="form-check-input p-chk" type="checkbox" id="pVacuna" name="vacuna"><label class="form-check-label" for="pVacuna">Tiene tarjeta de vacunas</label></div></div>
@@ -262,28 +262,50 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   }
 
+function escapeHtml(s){ return (s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
   function renderTable(rows) {
       if (datatable) {
         $('#pediatricTable').DataTable().destroy();
       }
-      tblBody.innerHTML = rows.map(r => `
+      tblBody.innerHTML = rows.map((r, i) => `
         <tr>
-            <td>${r.id}</td>
-            <td>${r.patient_name || 'Desconocido'}</td>
-            <td>${r.visit_date || ''}</td>
-            <td>
-                <button class="btn btn-sm btn-primary btn-edit" data-id="${r.id}"><i class="fa fa-pen"></i></button>
-                <button class="btn btn-sm btn-danger btn-del" data-id="${r.id}"><i class="fa fa-trash"></i></button>
+            <td>${i + 1}</td>
+            <td>${escapeHtml(r.patient_name || t('unknown') || 'Desconocido')}</td>
+            <td>${escapeHtml(r.visit_date || '')}</td>
+            <td class="text-center">
+                <button class="btn btn-sm btn-primary btn-edit table-action-btn" data-id="${escapeHtml(r.id)}" title="${escapeHtml(t('edit') || 'Edit')}"><i class="fa-solid fa-pen-to-square"></i><span class="btn-label">${escapeHtml(t('edit') || 'Edit')}</span></button>
+                <button class="btn btn-sm btn-danger btn-del table-action-btn" data-id="${escapeHtml(r.id)}" title="${escapeHtml(t('delete') || 'Delete')}"><i class="fa-solid fa-trash"></i><span class="btn-label">${escapeHtml(t('delete') || 'Delete')}</span></button>
             </td>
         </tr>
       `).join('');
 
       datatable = $('#pediatricTable').DataTable({
-            layout: {
+      layout: {
         topStart: {
-            buttons: ['copy', 'excel', 'pdf', 'colvis']
+          buttons: [
+            { extend: 'copy', exportOptions: { columns: ':not(:last-child)' } },
+            { extend: 'csv', exportOptions: { columns: ':not(:last-child)' } },
+            { extend: 'excel', exportOptions: { columns: ':not(:last-child)' } },
+            { extend: 'pdf', exportOptions: { columns: ':not(:last-child)' } },
+            {
+              extend: 'print',
+              exportOptions: { columns: ':not(:last-child)' },
+              action: function () {
+                if (typeof window.triggerCustomPrint === 'function') {
+                  window.triggerCustomPrint('seguimiento_pediatric');
+                  return;
+                }
+                window.open('/print.php?resource=seguimiento_pediatric', '_blank');
+              }
+            },
+            { extend: 'colvis' }
+          ]
         }
-    }, responsive: true, autoWidth: false, scrollX: false });
+      },
+      responsive: true,
+      autoWidth: false,
+      scrollX: false });
   }
 
   window.selectPatientFromModal = function(id, name) {
@@ -398,7 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (delBtn) {
-          if (confirm('Â¿Eliminar registro?')) {
+          if (confirm('¿Eliminar registro?')) {
               await SeguimientoPediatricDataLayer.delete(delBtn.dataset.id);
               loadData();
           }
