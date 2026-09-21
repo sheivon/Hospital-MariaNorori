@@ -13,12 +13,13 @@
   <div class="card">
     <div class="card-body">
       <div class="table-responsive">
-        <table id="allergiesTable" class="table table-sm table-striped dt-container">
+<table id="allergiesTable" class="table table-sm table-striped dt-container" width="100%">
           <thead>
             <tr>
               <th>#</th><th data-i18n="patient">Paciente</th><th data-i18n="allergen">Alérgeno</th><th data-i18n="reaction">Reacción</th><th data-i18n="severity">Severidad</th><th data-i18n="table_status">Estado</th><th data-i18n="noted_date">Fecha</th><th data-i18n="actions">Acciones</th>
             </tr>
           </thead>
+          <tbody></tbody>
         </table>
       </div>
     </div>
@@ -85,21 +86,25 @@
     document.getElementById('allergyModalLabel').textContent = 'Agregar alergia';
   }
 
-  async function initTable() {
+async function initTable() {
+    if ($.fn.dataTable.isDataTable('#allergiesTable')) {
+      $('#allergiesTable').DataTable().destroy();
+    }
     allergiesTable = $('#allergiesTable').DataTable({
-            layout: {
-        topStart: {
-            buttons: ['copy', 'excel', 'pdf', 'colvis']
-        }
-    },
-ajax: {
+      ajax: {
         url: '/backend/patient_allergies_fetch.php' + (preselectedPatientId ? '?patient_id=' + encodeURIComponent(preselectedPatientId) : ''),
         dataSrc: 'data'
+      },
+      layout: {
+        topStart: {
+          buttons: ['copy', 'excel', 'pdf', 'colvis']
+        }
       },
       responsive: true,
       pageLength: 25,
       lengthMenu: [10, 25, 50, 100],
       order: [[6, 'desc']],
+      stateSave: false,
       columns: [
         { data: null, orderable: false, searchable: false, render: (data, type, row, meta) => meta.row + 1 },
         { data: 'patient_name', defaultContent: '', render: d => escapeHtml(d || '') },
