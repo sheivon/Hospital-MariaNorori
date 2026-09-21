@@ -134,7 +134,7 @@ async function initTable() {
         { data: 'noted_date', defaultContent: '', render: d => escapeHtml(d || '') },
         { data: 'id', orderable: false, searchable: false, className: 'text-center', render: id => `<div class="btn-group" role="group"><button type="button" class="btn btn-sm btn-primary table-action-btn me-1" onclick="editAllergy(${id})" title="Editar"><i class="fa-solid fa-pen-to-square"></i><span class="btn-label">Editar</span></button><button type="button" class="btn btn-sm btn-danger table-action-btn" onclick="deleteAllergy(${id})" title="Eliminar"><i class="fa-solid fa-trash"></i><span class="btn-label">Eliminar</span></button></div>` }
       ],
-      autoWidth: false,
+      autoWidth: true,
       scrollX: false
     });
   }
