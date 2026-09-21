@@ -32,7 +32,8 @@
       encounters: 'encounters',
       diagnostics: 'diagnostics',
         emergency:'emergency',
-      patient_history: 'patient_history'
+      patient_history: 'patient_history',
+      allergies: 'allergies'
     };
 
     const key = mapping[resource] || 'data';

@@ -142,8 +142,24 @@ class PrintService
                 ];
                 break;
 
+            case 'allergies':
+                $rows = $this->PatientAllergyRepository->all(
+                    isset($filters['patient_id']) && (int)$filters['patient_id'] > 0 ? (int)$filters['patient_id'] : null
+                );
+                $title = 'Allergies';
+                $columns = [
+                    ['label' => 'ID', 'field' => 'id'],
+                    ['label' => 'Patient', 'field' => 'patient_name'],
+                    ['label' => 'Allergen', 'field' => 'allergen'],
+                    ['label' => 'Reaction', 'field' => 'reaction'],
+                    ['label' => 'Severity', 'field' => 'severity'],
+                    ['label' => 'Status', 'field' => 'status'],
+                    ['label' => 'Noted date', 'field' => 'noted_date'],
+                    ['label' => 'Notes', 'field' => 'notes'],
+                ];
+                break;
+
             case 'diagnostics':
-                $rows = $this->DiagnosticoRepository->all($filters);
                 if (!empty($filters['date_from']) || !empty($filters['date_to'])) {
                     $rows = $this->filterByDateRange($rows, 'date', $filters['date_from'] ?? null, $filters['date_to'] ?? null);
                 }

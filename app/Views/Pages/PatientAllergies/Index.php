@@ -105,7 +105,18 @@ async function initTable() {
         { extend: 'csv', exportOptions: { columns: ':not(:last-child)' } },
         { extend: 'excel', exportOptions: { columns: ':not(:last-child)' } },
         { extend: 'pdf', exportOptions: { columns: ':not(:last-child)' } },
-        { extend: 'print', exportOptions: { columns: ':not(:last-child)' }, autoPrint: true },
+        {
+          extend: 'print',
+          exportOptions: { columns: ':not(:last-child)' },
+          action: function () {
+            if (typeof window.triggerCustomPrint === 'function') {
+              window.triggerCustomPrint('allergies', preselectedPatientId ? { patient_id: preselectedPatientId } : {});
+              return;
+            }
+            const url = '/print.php?resource=allergies' + (preselectedPatientId ? '&patient_id=' + encodeURIComponent(preselectedPatientId) : '');
+            window.open(url, '_blank');
+          }
+        },
         { extend: 'colvis' }
       ],
       responsive: true,
