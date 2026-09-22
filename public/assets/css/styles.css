@@ -48,14 +48,14 @@ button:active, .btn:active { background-color: #004494; transform: scale(0.98); 
     flex: 1 1 auto;
     min-height: 0;
     max-height: none;
-    display: flex;
+    display: flex !important;
     flex-direction: column;
   }
   .app-shell > .sidebar > #sidebarNav > .nav {
     display: flex;
     flex-direction: column;
     flex: 1 1 auto;
-    height: auto;
+    min-height: 0;
   }
   .app-shell > .sidebar > #sidebarNav > .nav > .nav-item:last-child {
     margin-top: auto;
