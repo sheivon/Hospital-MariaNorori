@@ -116,7 +116,7 @@ if (session_status() === PHP_SESSION_NONE) {
               </li>
             <?php endif; ?>
           <?php endforeach; ?>
-          <li class="nav-item dropdown mt-2">
+          <li class="nav-item dropdown dropup mt-2">
             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="fa-solid fa-user me-2"></i>
               <span class="username"><?= htmlspecialchars($_SESSION['user']['username'], ENT_QUOTES) ?></span>
