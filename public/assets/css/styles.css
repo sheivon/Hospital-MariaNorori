@@ -41,6 +41,26 @@ button:active, .btn:active { background-color: #004494; transform: scale(0.98); 
 .sidebar .collapse::-webkit-scrollbar { width: 0; height: 0; }
 .sidebar .sidebar-footer { margin-top: auto; border-top: 1px solid rgba(255,255,255,0.16); }
 .sidebar .sidebar-footer select { background: rgba(255,255,255,0.12); color: #111; }
+
+/* Desktop: let the nav fill the sidebar and pin the last item (profile/user) to the bottom */
+@media (min-width: 992px) {
+  .app-shell > .sidebar > #sidebarNav {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    display: flex;
+    flex-direction: column;
+  }
+  .app-shell > .sidebar > #sidebarNav > .nav {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    height: auto;
+  }
+  .app-shell > .sidebar > #sidebarNav > .nav > .nav-item:last-child {
+    margin-top: auto;
+  }
+}
 .app-shell > .main-content { flex: 1; min-width: 0; padding: 1.25rem; overflow-x: hidden; }
 
 @media (max-width: 991.98px) {
