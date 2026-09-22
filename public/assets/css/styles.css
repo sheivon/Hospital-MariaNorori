@@ -58,7 +58,7 @@ button:active, .btn:active { background-color: #004494; transform: scale(0.98); 
     min-height: 0;
   }
   .app-shell > .sidebar > #sidebarNav > .nav > .nav-item:last-child {
-    margin-top: auto;
+    margin-top: auto !important;
   }
 }
 .app-shell > .main-content { flex: 1; min-width: 0; padding: 1.25rem; overflow-x: hidden; }
