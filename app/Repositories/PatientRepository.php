@@ -64,7 +64,7 @@ if (isset($filters['encountered']) && $filters['encountered'] !== '') {
             )";
         }
 
-        $sql = 'SELECT id, first_name, last_name, email, cedula, dob, gender, phone, address, marital_status, insurance_provider, insurance_policy_no, father_name, mother_name, expediente_no, procedencia, education_level, employer, notes, created_at, updated_at FROM patients';
+        $sql = 'SELECT id, first_name, last_name, email, cedula, dob, gender, phone, address, marital_status, insurance_provider, insurance_policy_no, father_name, mother_name, expediente_no, procedencia, education_level, employer, notes, photo_path, created_at, updated_at FROM patients';
         if (!empty($where)) {
             $sql .= ' WHERE ' . implode(' AND ', $where);
         }
@@ -78,7 +78,7 @@ if (isset($filters['encountered']) && $filters['encountered'] !== '') {
     public function find(int $id): ?array
     {
         $deletedWhere = $this->hasDeletedAt() ? ' AND deleted_at IS NULL' : '';
-        $stmt = $this->pdo->prepare('SELECT id, first_name, last_name, email, cedula, dob, gender, phone, address, marital_status, insurance_provider, insurance_policy_no, father_name, mother_name, expediente_no, procedencia, education_level, employer, notes, created_at, updated_at FROM patients WHERE id = :id' . $deletedWhere . ' LIMIT 1');
+        $stmt = $this->pdo->prepare('SELECT id, first_name, last_name, email, cedula, dob, gender, phone, address, marital_status, insurance_provider, insurance_policy_no, father_name, mother_name, expediente_no, procedencia, education_level, employer, notes, photo_path, created_at, updated_at FROM patients WHERE id = :id' . $deletedWhere . ' LIMIT 1');
         $stmt->execute([':id' => $id]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row ?: null;
@@ -86,7 +86,7 @@ if (isset($filters['encountered']) && $filters['encountered'] !== '') {
 
     public function create(array $data): int
     {
-        $stmt = $this->pdo->prepare('INSERT INTO patients (first_name,last_name,email,cedula,dob,gender,phone,address,marital_status,insurance_provider,insurance_policy_no,father_name,mother_name,expediente_no,procedencia,education_level,employer,notes) VALUES (:fn,:ln,:email,:cedula,:dob,:gender,:phone,:address,:marital_status,:insurance_provider,:insurance_policy_no,:father_name,:mother_name,:expediente_no,:procedencia,:education_level,:employer,:notes)');
+        $stmt = $this->pdo->prepare('INSERT INTO patients (first_name,last_name,email,cedula,dob,gender,phone,address,marital_status,insurance_provider,insurance_policy_no,father_name,mother_name,expediente_no,procedencia,education_level,employer,notes,photo_path) VALUES (:fn,:ln,:email,:cedula,:dob,:gender,:phone,:address,:marital_status,:insurance_provider,:insurance_policy_no,:father_name,:mother_name,:expediente_no,:procedencia,:education_level,:employer,:notes,:photo_path)');
         $stmt->execute([
             ':fn' => $data['first_name'] ?? null,
             ':ln' => $data['last_name'] ?? null,
@@ -106,13 +106,14 @@ if (isset($filters['encountered']) && $filters['encountered'] !== '') {
             ':education_level' => $data['education_level'] ?? null,
             ':employer' => $data['employer'] ?? null,
             ':notes' => $data['notes'] ?? null,
+            ':photo_path' => $data['photo_path'] ?? null,
         ]);
         return (int)$this->pdo->lastInsertId();
     }
 
     public function update(int $id, array $data): bool
     {
-        $stmt = $this->pdo->prepare('UPDATE patients SET first_name=:fn,last_name=:ln,email=:email,cedula=:cedula,dob=:dob,gender=:gender,phone=:phone,address=:address,marital_status=:marital_status,insurance_provider=:insurance_provider,insurance_policy_no=:insurance_policy_no,father_name=:father_name,mother_name=:mother_name,expediente_no=:expediente_no,procedencia=:procedencia,education_level=:education_level,employer=:employer,notes=:notes WHERE id=:id');
+        $stmt = $this->pdo->prepare('UPDATE patients SET first_name=:fn,last_name=:ln,email=:email,cedula=:cedula,dob=:dob,gender=:gender,phone=:phone,address=:address,marital_status=:marital_status,insurance_provider=:insurance_provider,insurance_policy_no=:insurance_policy_no,father_name=:father_name,mother_name=:mother_name,expediente_no=:expediente_no,procedencia=:procedencia,education_level=:education_level,employer=:employer,notes=:notes,photo_path=:photo_path WHERE id=:id');
         return $stmt->execute([
             ':fn' => $data['first_name'] ?? null,
             ':ln' => $data['last_name'] ?? null,
@@ -132,6 +133,7 @@ if (isset($filters['encountered']) && $filters['encountered'] !== '') {
             ':education_level' => $data['education_level'] ?? null,
             ':employer' => $data['employer'] ?? null,
             ':notes' => $data['notes'] ?? null,
+            ':photo_path' => $data['photo_path'] ?? null,
             ':id' => $id,
         ]);
     }

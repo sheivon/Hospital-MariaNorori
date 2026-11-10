@@ -90,6 +90,52 @@ class PatientsView {
     this.setFieldError('email', /^\S+@\S+\.\S+$/.test(v) ? '' : (window.i18n_t ? window.i18n_t('email') : 'Email') + ' is invalid');
   }
 
+  static setPhotoPreview(path) {
+    const img = document.getElementById('patientPhotoPreview');
+    const placeholder = document.getElementById('patientPhotoPlaceholder');
+    const removeWrap = document.getElementById('removePhotoWrap');
+    const removeCheckbox = document.getElementById('remove_photo');
+    if (!img) return;
+
+    if (removeCheckbox) removeCheckbox.checked = false;
+
+    if (this._photoObjectUrl) {
+      URL.revokeObjectURL(this._photoObjectUrl);
+      this._photoObjectUrl = null;
+    }
+
+    if (path) {
+      img.src = path;
+      img.classList.remove('d-none');
+      if (placeholder) placeholder.classList.add('d-none');
+      if (removeWrap) removeWrap.classList.remove('d-none');
+    } else {
+      img.removeAttribute('src');
+      img.classList.add('d-none');
+      if (placeholder) placeholder.classList.remove('d-none');
+      if (removeWrap) removeWrap.classList.add('d-none');
+    }
+  }
+
+  static setPhotoFilePreview(file) {
+    if (file) {
+      if (this._photoObjectUrl) URL.revokeObjectURL(this._photoObjectUrl);
+      this._photoObjectUrl = URL.createObjectURL(file);
+      const img = document.getElementById('patientPhotoPreview');
+      const placeholder = document.getElementById('patientPhotoPlaceholder');
+      if (img) {
+        img.src = this._photoObjectUrl;
+        img.classList.remove('d-none');
+      }
+      if (placeholder) placeholder.classList.add('d-none');
+      const removeCheckbox = document.getElementById('remove_photo');
+      if (removeCheckbox) removeCheckbox.checked = false;
+      return;
+    }
+    // File selection cleared → fall back to the patient's saved photo.
+    this.setPhotoPreview(this.existingPhotoPath || '');
+  }
+
   static debounce(fn, delay = 300) {
     let timer;
     return (...args) => {
@@ -238,14 +284,18 @@ class PatientsView {
       console.log('[PatientsView] Got', rows.length, 'rows from API');
       tableBody.innerHTML = '';
       if (!rows.length) {
-        tableBody.innerHTML = `<tr><td colspan="8" class="text-center text-muted">${window.i18n_t ? window.i18n_t('no_data') : 'No data'}</td></tr>`;
+        tableBody.innerHTML = `<tr><td colspan="9" class="text-center text-muted">${window.i18n_t ? window.i18n_t('no_data') : 'No data'}</td></tr>`;
         this.initDataTable();
         return;
       }
 
       rows.forEach((p) => {
         const tr = document.createElement('tr');
+        const photoCell = p.photo_path
+          ? `<img src="${this.escapeAttr(p.photo_path)}" alt="" class="rounded-circle" style="width:32px;height:32px;object-fit:cover;">`
+          : `<span class="rounded-circle d-inline-flex align-items-center justify-content-center bg-secondary text-white" style="width:32px;height:32px;font-size:0.75rem;">${this.escapeHtml((p.first_name || '?').charAt(0).toUpperCase())}</span>`;
         tr.innerHTML = `
+          <td class="text-center">${photoCell}</td>
           <td>${p.id}</td>
           <td>${this.escapeHtml(p.first_name + ' ' + p.last_name)}</td>
           <td>${this.escapeHtml(p.cedula||'')}</td>
@@ -274,7 +324,7 @@ class PatientsView {
       this.initDataTable();
 
     } catch (err) {
-      tableBody.innerHTML = `<tr><td colspan="8" class="text-center text-muted">${window.i18n_t ? window.i18n_t('no_data') : 'No data'}</td></tr>`;
+      tableBody.innerHTML = `<tr><td colspan="9" class="text-center text-muted">${window.i18n_t ? window.i18n_t('no_data') : 'No data'}</td></tr>`;
       console.error(err);
     } finally {
       hideLoadingOverlay();
@@ -338,6 +388,8 @@ class PatientsView {
         const el = document.getElementById(f);
         if (el) el.value = p[f] || '';
       });
+      this.setPhotoPreview(p.photo_path || '');
+      this.existingPhotoPath = p.photo_path || '';
       const titleEl = document.getElementById('patientModalLabel');
       if (titleEl) titleEl.textContent = window.i18n_t ? window.i18n_t('edit_patient') : 'Edit Patient';
       bootstrap.Modal.getOrCreateInstance(modalEl).show();
@@ -376,6 +428,8 @@ class PatientsView {
     const form = document.getElementById('patientForm');
     if (!form) return;
     form.reset();
+    this.existingPhotoPath = '';
+    this.setPhotoPreview('');
     const idInput = document.getElementById('id');
     if (idInput) idInput.value = '';
     const titleEl = document.getElementById('patientModalLabel');
@@ -443,6 +497,13 @@ class PatientsView {
     document.getElementById('last_name').addEventListener('input', () => this.validateLastName());
     document.getElementById('email').addEventListener('input', () => this.validateEmail());
     document.getElementById('cedula').addEventListener('input', validateCedulaRemote);
+
+    const photoInput = document.getElementById('photo');
+    if (photoInput) {
+      photoInput.addEventListener('change', () => {
+        this.setPhotoFilePreview(photoInput.files && photoInput.files[0]);
+      });
+    }
   }
 }
 

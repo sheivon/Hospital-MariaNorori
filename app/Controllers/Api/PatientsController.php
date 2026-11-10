@@ -40,7 +40,7 @@ class PatientsController extends BaseApiController
         Auth::requireLogin();
         try {
             $service = self::service();
-            $id = $service->createPatient($payload);
+            $id = $service->createPatient($payload, $_FILES['photo'] ?? null);
             self::success(['id' => $id]);
         } catch (Exception $e) {
             self::fail($e->getMessage());
@@ -57,7 +57,7 @@ class PatientsController extends BaseApiController
 
         try {
             $service = self::service();
-            $service->updatePatient($id, $payload);
+            $service->updatePatient($id, $payload, $_FILES['photo'] ?? null);
             self::success();
         } catch (Exception $e) {
             self::fail($e->getMessage());

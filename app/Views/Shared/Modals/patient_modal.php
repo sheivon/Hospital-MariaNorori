@@ -10,9 +10,28 @@
         <div id="patientAlert" class="alert alert-danger d-none" role="alert"></div>
         <form id="patientForm" class="row g-3">
           <input type="hidden" id="id" name="id">
+          <!-- Photo Upload -->
+          <div class="col-12">
+            <label for="photo" class="form-label" data-i18n="photo">Foto</label>
+            <div class="d-flex align-items-center gap-3">
+              <img id="patientPhotoPreview" src="" alt="" class="rounded-circle d-none" style="width:72px;height:72px;object-fit:cover;">
+              <div id="patientPhotoPlaceholder" class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white flex-shrink-0" style="width:72px;height:72px;">
+                <i class="fa-solid fa-user"></i>
+              </div>
+              <div class="flex-grow-1">
+                <input type="file" class="form-control" id="photo" name="photo" accept="image/png,image/jpeg,image/webp,image/gif">
+                <div class="form-text" data-i18n="photo_help">JPG, PNG, WebP o GIF. Máx. 5 MB.</div>
+                <div class="form-check mt-1 d-none" id="removePhotoWrap">
+                  <input class="form-check-input" type="checkbox" id="remove_photo" name="remove_photo" value="1">
+                  <label class="form-check-label" for="remove_photo" data-i18n="remove_photo">Quitar foto</label>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="col-md-4"><label for="first_name" class="form-label" data-i18n="first_name">Nombre</label><input type="text" class="form-control" id="first_name" name="first_name" required data-i18n-placeholder="first_name"><div class="invalid-feedback" id="firstNameError"></div></div>
           <div class="col-md-4"><label for="last_name" class="form-label" data-i18n="last_name">Apellidos</label><input type="text" class="form-control" id="last_name" name="last_name" required data-i18n-placeholder="last_name"><div class="invalid-feedback" id="lastNameError"></div></div>
           <div class="col-md-4"><label for="cedula" class="form-label" data-i18n="cedula">Cédula</label><input type="text" class="form-control" id="cedula" name="cedula" data-i18n-placeholder="cedula"><div class="invalid-feedback" id="cedulaError"></div></div>
+          
           <div class="col-md-3"><label for="dob" class="form-label" data-i18n="dob">Fecha de nacimiento</label><input type="date" class="form-control" id="dob" name="dob"></div>
           <div class="col-md-3"><label for="gender" class="form-label" data-i18n="gender">Sexo</label><select class="form-select" id="gender" name="gender"><option value="O" data-i18n="gender_other">Otro</option><option value="M" data-i18n="gender_male">Masculino</option><option value="F" data-i18n="gender_female">Femenino</option></select></div>
           <div class="col-md-3"><label for="marital_status" class="form-label" data-i18n="marital_status">Estado civil</label><select class="form-select" id="marital_status" name="marital_status"><option value="" selected disabled data-i18n="select_marital_status">Seleccione</option><option value="Soltero" data-i18n="marital_single">Soltero</option><option value="Casado" data-i18n="marital_married">Casado</option><option value="Divorciado" data-i18n="marital_divorced">Divorciado</option><option value="Viudo" data-i18n="marital_widowed">Viudo</option></select></div>

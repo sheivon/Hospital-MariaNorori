@@ -332,6 +332,25 @@ class Database
                 // could not be repaired — never block app boot over this.
             }
         }
+
+        // ------------------------------------------------------------------
+        // patients.photo_path (patient photo)
+        // ------------------------------------------------------------------
+        // Source of truth: migrations/init.sql (and database/hospital_schema.sql).
+        // Safety net for databases created before the patient photo feature.
+        // Idempotent: gated on SHOW COLUMNS, safe to re-run.
+        $patientsTableExists = $pdo->query("SHOW TABLES LIKE 'patients'")->rowCount() > 0;
+
+        if ($patientsTableExists) {
+            $patientColumns = [];
+            foreach ($pdo->query("SHOW COLUMNS FROM patients") as $row) {
+                $patientColumns[$row['Field']] = true;
+            }
+
+            if (!isset($patientColumns['photo_path'])) {
+                $pdo->exec("ALTER TABLE patients ADD COLUMN photo_path VARCHAR(255) DEFAULT NULL AFTER notes");
+            }
+        }
     }
     
 }

@@ -23,7 +23,8 @@ class Patient
         public ?string $procedencia = null,
         public ?string $educationLevel = null,
         public ?string $employer = null,
-        public ?string $notes = null
+        public ?string $notes = null,
+        public ?string $photoPath = null
     ) {
     }
 
@@ -49,6 +50,7 @@ class Patient
             'education_level' => $this->educationLevel,
             'employer' => $this->employer,
             'notes' => $this->notes,
+            'photo_path' => $this->photoPath,
         ];
     }
 }

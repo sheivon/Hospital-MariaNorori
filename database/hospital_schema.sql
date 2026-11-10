@@ -159,6 +159,8 @@ CREATE TABLE patients (
 
   notes TEXT DEFAULT NULL,
 
+  photo_path VARCHAR(255) DEFAULT NULL,
+
   is_deceased TINYINT(1) NOT NULL DEFAULT 0,
 
   deleted_at DATETIME NULL DEFAULT NULL,

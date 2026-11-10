@@ -117,9 +117,11 @@ hospital/
 |  |- assets/                  (css, js, i18n)
 |  |- backend/                 (endpoints legados de alergias)
 |  |- modal/                   (wrappers de compatibilidad hacia app/Views/Shared/Modals)
+|  |- uploads/patients/        (fotos de pacientes; ignorada por git, solo se versiona .gitkeep)
 |  `- wwwroot/
 |- migrations/
-|  `- init.sql                 (esquema base consolidado)
+|  |- init.sql                 (esquema base consolidado)
+|  `- 2026-11-09_add_patients_photo_path.sql (migración con rollback)
 |- database/
 |  `- hospital_schema.sql      (volcado de esquema de referencia)
 |- scripts/                    (scripts de mantenimiento)

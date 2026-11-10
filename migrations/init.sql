@@ -156,6 +156,7 @@ CREATE TABLE patients (
   education_level VARCHAR(100) DEFAULT NULL,
   employer VARCHAR(255) DEFAULT NULL,
   notes TEXT DEFAULT NULL,
+  photo_path VARCHAR(255) DEFAULT NULL,
   is_deceased TINYINT(1) NOT NULL DEFAULT 0,
 
   deleted_at DATETIME DEFAULT NULL,

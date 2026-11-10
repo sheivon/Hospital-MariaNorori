@@ -19,4 +19,6 @@ Paciente Medico Consulta.docx
 .office-space/
 .step/
 state.log
+/public/uploads/patients/*
+!/public/uploads/patients/.gitkeep
 

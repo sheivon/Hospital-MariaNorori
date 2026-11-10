@@ -23,6 +23,7 @@
         <table id="patientsTable" class="table table-bordered table-striped align-middle w-100 dt-container">
           <thead>
             <tr>
+              <th style="width:5%;" data-i18n="photo">Foto</th>
               <th style="width:5%;">ID</th>
               <th data-i18n="label_fullname">Nombre completo</th>
               <th data-i18n="cedula">Cédula</th>
@@ -35,7 +36,7 @@
           </thead>
           <tbody>
             <tr>
-              <td colspan="8" class="text-center text-muted" data-i18n="loading">Cargando...</td>
+              <td colspan="9" class="text-center text-muted" data-i18n="loading">Cargando...</td>
             </tr>
           </tbody>
         </table>
